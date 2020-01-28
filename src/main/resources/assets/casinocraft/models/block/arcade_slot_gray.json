@@ -1,0 +1,6 @@
+{
+    "parent": "casinocraft:template/arcade_slot",
+    "textures": {
+        "box": "minecraft:block/gray_shulker_box"
+    }
+}

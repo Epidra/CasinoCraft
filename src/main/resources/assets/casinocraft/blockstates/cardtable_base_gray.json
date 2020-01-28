@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "casinocraft:block/cardtable_base_gray", "y": 180, "uvlock": true },
+        "facing=south": { "model": "casinocraft:block/cardtable_base_gray", "y":   0, "uvlock": true },
+        "facing=west":  { "model": "casinocraft:block/cardtable_base_gray", "y":  90, "uvlock": true },
+        "facing=east":  { "model": "casinocraft:block/cardtable_base_gray", "y": 270, "uvlock": true }
+    }
+}

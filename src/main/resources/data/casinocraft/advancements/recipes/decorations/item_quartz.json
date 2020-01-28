@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+        "casinocraft:arcade_base_black",
+        "casinocraft:arcade_base_blue",
+        "casinocraft:arcade_base_brown",
+        "casinocraft:arcade_base_cyan",
+        "casinocraft:arcade_base_gray",
+        "casinocraft:arcade_base_green",
+        "casinocraft:arcade_base_lightblue",
+        "casinocraft:arcade_base_lime",
+        "casinocraft:arcade_base_magenta",
+        "casinocraft:arcade_base_orange",
+        "casinocraft:arcade_base_pink",
+        "casinocraft:arcade_base_purple",
+        "casinocraft:arcade_base_red",
+        "casinocraft:arcade_base_silver",
+        "casinocraft:arcade_base_white",
+        "casinocraft:arcade_base_yellow"
+    ]
+  },
+  "criteria": {
+    "has_quartz": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:quartz"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_quartz"
+    ]
+  ]
+}

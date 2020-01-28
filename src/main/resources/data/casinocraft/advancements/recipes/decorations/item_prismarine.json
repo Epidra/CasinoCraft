@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+        "casinocraft:arcade_slot_black",
+        "casinocraft:arcade_slot_blue",
+        "casinocraft:arcade_slot_brown",
+        "casinocraft:arcade_slot_cyan",
+        "casinocraft:arcade_slot_gray",
+        "casinocraft:arcade_slot_green",
+        "casinocraft:arcade_slot_lightblue",
+        "casinocraft:arcade_slot_lime",
+        "casinocraft:arcade_slot_magenta",
+        "casinocraft:arcade_slot_orange",
+        "casinocraft:arcade_slot_pink",
+        "casinocraft:arcade_slot_purple",
+        "casinocraft:arcade_slot_red",
+        "casinocraft:arcade_slot_silver",
+        "casinocraft:arcade_slot_white",
+        "casinocraft:arcade_slot_yellow"
+    ]
+  },
+  "criteria": {
+    "has_prismarine": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:prismarine_shard"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_prismarine"
+    ]
+  ]
+}

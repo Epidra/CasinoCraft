@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "cardtable_wide",
+  "pattern": [
+	"XX"
+  ],
+  "key": {
+    "X": {
+      "item": "casinocraft:cardtable_base_lightblue"
+    }
+  },
+  "result": {
+    "item": "casinocraft:cardtable_wide_lightblue",
+    "count": 1
+  }
+}

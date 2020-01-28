@@ -1,0 +1,111 @@
+{
+    "__comment": "Model generated using MrCrayfish's Model Creator (https://mrcrayfish.com/tools?id=mc)",
+    "textures": {
+        "icon": "casinocraft:blocks/arcade_color_black",
+        "box": "casinocraft:blocks/arcade_color",
+        "particle": "casinocraft:blocks/arcade_color"
+    },
+    "display": {
+        "gui": {
+            "rotation": [ 30, 45, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.625, 0.625, 0.625 ]
+        },
+        "ground": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 3, 0 ],
+            "scale": [ 0.25, 0.25, 0.25 ]
+        },
+        "fixed": {
+            "rotation": [ 0, 180, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 1, 1, 1 ]
+        },
+        "head": {
+            "rotation": [ 0, 180, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 1, 1, 1 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 0, 315, 0 ],
+            "translation": [ 0, 2.5, 0 ],
+            "scale": [ 0.4, 0.4, 0.4 ]
+        },
+        "thirdperson_righthand": {
+            "rotation": [ 75, 315, 0 ],
+            "translation": [ 0, 2.5, 0 ],
+            "scale": [ 0.375, 0.375, 0.375 ]
+        }
+    },
+    "elements": [
+        {
+            "name": "Box",
+            "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "north": { "texture": "#box", "uv": [ 0, 0, 16, 16 ] },
+                "east": { "texture": "#box", "uv": [ 0, 0, 16, 16 ] },
+                "south": { "texture": "#icon", "uv": [ 0, 0, 16, 16 ] },
+                "west": { "texture": "#box", "uv": [ 0, 0, 16, 16 ] },
+                "up": { "texture": "#box", "uv": [ 0, 0, 16, 16 ] },
+                "down": { "texture": "#box", "uv": [ 0, 0, 16, 16 ] }
+            }
+        },
+        {
+            "name": "Bottom",
+            "from": [ 0, 16, 0 ],
+            "to": [ 16, 18, 12 ],
+            "faces": {
+                "north": { "texture": "#box", "uv": [ 0, 14, 16, 16 ] },
+                "east": { "texture": "#box", "uv": [ 4, 14, 16, 16 ] },
+                "south": { "texture": "#box", "uv": [ 0, 14, 16, 16 ] },
+                "west": { "texture": "#box", "uv": [ 0, 14, 12, 16 ] },
+                "up": { "texture": "#box", "uv": [ 0, 0, 16, 12 ] }
+            }
+        },
+        {
+            "name": "Back",
+            "from": [ 2, 18, 0 ],
+            "to": [ 14, 30, 2 ],
+            "faces": {
+                "north": { "texture": "#icon", "uv": [ 2, 2, 14, 14 ] },
+                "south": { "texture": "#icon", "uv": [ 2, 2, 14, 14 ] }
+            }
+        },
+        {
+            "name": "SideWest",
+            "from": [ 0, 18, 0 ],
+            "to": [ 2, 30, 12 ],
+            "faces": {
+                "north": { "texture": "#box", "uv": [ 14, 2, 16, 14 ] },
+                "east": { "texture": "#box", "uv": [ 4, 2, 16, 14 ] },
+                "south": { "texture": "#box", "uv": [ 0, 2, 2, 14 ] },
+                "west": { "texture": "#box", "uv": [ 0, 2, 12, 14 ] }
+            }
+        },
+        {
+            "name": "SideEast",
+            "from": [ 14, 18, 0 ],
+            "to": [ 16, 30, 12 ],
+            "faces": {
+                "north": { "texture": "#box", "uv": [ 0, 2, 2, 14 ] },
+                "east": { "texture": "#box", "uv": [ 4, 2, 16, 14 ] },
+                "south": { "texture": "#box", "uv": [ 14, 2, 16, 14 ] },
+                "west": { "texture": "#box", "uv": [ 0, 0, 12, 12 ] }
+            }
+        },
+        {
+            "name": "Top",
+            "from": [ 0, 30, 0 ],
+            "to": [ 16, 32, 14 ],
+            "faces": {
+                "north": { "texture": "#box", "uv": [ 0, 0, 16, 2 ] },
+                "east": { "texture": "#box", "uv": [ 0, 0, 14, 2 ] },
+                "south": { "texture": "#box", "uv": [ 0, 0, 16, 2 ] },
+                "west": { "texture": "#box", "uv": [ 0, 0, 14, 2 ] },
+                "up": { "texture": "#icon", "uv": [ 0, 0, 16, 14 ] },
+                "down": { "texture": "#box", "uv": [ 0, 0, 16, 14 ] }
+            }
+        }
+    ]
+}

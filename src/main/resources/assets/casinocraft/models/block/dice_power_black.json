@@ -1,0 +1,25 @@
+{   "parent": "block/block",
+    "textures": {
+        "particle": "casinocraft:blocks/dice_power_black_1",
+        "tex0": "casinocraft:blocks/dice_power_black_1",
+        "tex1": "casinocraft:blocks/dice_power_black_2",
+        "tex2": "casinocraft:blocks/dice_power_black_3",
+        "tex3": "casinocraft:blocks/dice_power_black_4",
+        "tex4": "casinocraft:blocks/dice_power_black_5",
+        "tex5": "casinocraft:blocks/dice_power_black_6"
+    },
+    "elements": [
+        {
+            "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#tex0" },
+                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#tex1" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#tex2" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#tex3" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#tex4" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#tex5" }
+            }
+        }
+    ]
+}

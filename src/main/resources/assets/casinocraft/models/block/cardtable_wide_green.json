@@ -1,0 +1,6 @@
+{
+    "parent": "casinocraft:template/cardtable_wide",
+    "textures": {
+        "wool": "minecraft:block/green_wool"
+    }
+}

@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+        "casinocraft:module_dust_black",
+        "casinocraft:module_dust_blue",
+        "casinocraft:module_dust_brown",
+        "casinocraft:module_dust_cyan",
+        "casinocraft:module_dust_gray",
+        "casinocraft:module_dust_green",
+        "casinocraft:module_dust_lightblue",
+        "casinocraft:module_dust_lime",
+        "casinocraft:module_dust_magenta",
+        "casinocraft:module_dust_orange",
+        "casinocraft:module_dust_pink",
+        "casinocraft:module_dust_purple",
+        "casinocraft:module_dust_red",
+        "casinocraft:module_dust_silver",
+        "casinocraft:module_dust_white",
+        "casinocraft:module_dust_yellow"
+    ]
+  },
+  "criteria": {
+    "has_redstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:redstone"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_redstone"
+    ]
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+        "casinocraft:module_clay_black",
+        "casinocraft:module_clay_blue",
+        "casinocraft:module_clay_brown",
+        "casinocraft:module_clay_cyan",
+        "casinocraft:module_clay_gray",
+        "casinocraft:module_clay_green",
+        "casinocraft:module_clay_lightblue",
+        "casinocraft:module_clay_lime",
+        "casinocraft:module_clay_magenta",
+        "casinocraft:module_clay_orange",
+        "casinocraft:module_clay_pink",
+        "casinocraft:module_clay_purple",
+        "casinocraft:module_clay_red",
+        "casinocraft:module_clay_silver",
+        "casinocraft:module_clay_white",
+        "casinocraft:module_clay_yellow"
+    ]
+  },
+  "criteria": {
+    "has_clay": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:clay_ball"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_clay"
+    ]
+  ]
+}

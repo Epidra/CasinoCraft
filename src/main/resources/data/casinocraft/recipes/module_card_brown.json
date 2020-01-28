@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "module_card",
+  "pattern": [
+    "XDX"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:paper"
+    },
+    "D": {
+      "item": "minecraft:brown_dye"
+    }
+  },
+  "result": {
+    "item": "casinocraft:module_card_brown",
+    "count": 1
+  }
+}
