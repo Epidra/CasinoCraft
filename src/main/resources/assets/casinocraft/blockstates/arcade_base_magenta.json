@@ -1,0 +1,43 @@
+{
+    "multipart": [
+        { "when": { "facing": "north", "primary": true }, "apply": { "model": "casinocraft:arcade_base_magenta", "y": 180, "uvlock": true } },
+        { "when": { "facing": "south", "primary": true }, "apply": { "model": "casinocraft:arcade_base_magenta", "y":   0, "uvlock": true } },
+        { "when": { "facing": "west" , "primary": true }, "apply": { "model": "casinocraft:arcade_base_magenta", "y":  90, "uvlock": true } },
+        { "when": { "facing": "east" , "primary": true }, "apply": { "model": "casinocraft:arcade_base_magenta", "y": 270, "uvlock": true } },
+        
+        { "when": { "facing": "north", "primary": true, "module": "empty" }, "apply": { "model": "casinocraft:arcade_game_empty", "y": 180, "uvlock": true } },
+        { "when": { "facing": "south", "primary": true, "module": "empty" }, "apply": { "model": "casinocraft:arcade_game_empty", "y":   0, "uvlock": true } },
+        { "when": { "facing": "west" , "primary": true, "module": "empty" }, "apply": { "model": "casinocraft:arcade_game_empty", "y":  90, "uvlock": true } },
+        { "when": { "facing": "east" , "primary": true, "module": "empty" }, "apply": { "model": "casinocraft:arcade_game_empty", "y": 270, "uvlock": true } },
+        
+        { "when": { "facing": "north", "primary": true, "module": "tetris" }, "apply": { "model": "casinocraft:arcade_game_tetris", "y": 180, "uvlock": true } },
+        { "when": { "facing": "south", "primary": true, "module": "tetris" }, "apply": { "model": "casinocraft:arcade_game_tetris", "y":   0, "uvlock": true } },
+        { "when": { "facing": "west" , "primary": true, "module": "tetris" }, "apply": { "model": "casinocraft:arcade_game_tetris", "y":  90, "uvlock": true } },
+        { "when": { "facing": "east" , "primary": true, "module": "tetris" }, "apply": { "model": "casinocraft:arcade_game_tetris", "y": 270, "uvlock": true } },
+        
+        { "when": { "facing": "north", "primary": true, "module": "columns" }, "apply": { "model": "casinocraft:arcade_game_columns", "y": 180, "uvlock": true } },
+        { "when": { "facing": "south", "primary": true, "module": "columns" }, "apply": { "model": "casinocraft:arcade_game_columns", "y":   0, "uvlock": true } },
+        { "when": { "facing": "west" , "primary": true, "module": "columns" }, "apply": { "model": "casinocraft:arcade_game_columns", "y":  90, "uvlock": true } },
+        { "when": { "facing": "east" , "primary": true, "module": "columns" }, "apply": { "model": "casinocraft:arcade_game_columns", "y": 270, "uvlock": true } },
+        
+        { "when": { "facing": "north", "primary": true, "module": "meanminos" }, "apply": { "model": "casinocraft:arcade_game_meanminos", "y": 180, "uvlock": true } },
+        { "when": { "facing": "south", "primary": true, "module": "meanminos" }, "apply": { "model": "casinocraft:arcade_game_meanminos", "y":   0, "uvlock": true } },
+        { "when": { "facing": "west" , "primary": true, "module": "meanminos" }, "apply": { "model": "casinocraft:arcade_game_meanminos", "y":  90, "uvlock": true } },
+        { "when": { "facing": "east" , "primary": true, "module": "meanminos" }, "apply": { "model": "casinocraft:arcade_game_meanminos", "y": 270, "uvlock": true } },
+        
+        { "when": { "facing": "north", "primary": true, "module": "snake" }, "apply": { "model": "casinocraft:arcade_game_snake", "y": 180, "uvlock": true } },
+        { "when": { "facing": "south", "primary": true, "module": "snake" }, "apply": { "model": "casinocraft:arcade_game_snake", "y":   0, "uvlock": true } },
+        { "when": { "facing": "west" , "primary": true, "module": "snake" }, "apply": { "model": "casinocraft:arcade_game_snake", "y":  90, "uvlock": true } },
+        { "when": { "facing": "east" , "primary": true, "module": "snake" }, "apply": { "model": "casinocraft:arcade_game_snake", "y": 270, "uvlock": true } },
+        
+        { "when": { "facing": "north", "primary": true, "module": "sokoban" }, "apply": { "model": "casinocraft:arcade_game_sokoban", "y": 180, "uvlock": true } },
+        { "when": { "facing": "south", "primary": true, "module": "sokoban" }, "apply": { "model": "casinocraft:arcade_game_sokoban", "y":   0, "uvlock": true } },
+        { "when": { "facing": "west" , "primary": true, "module": "sokoban" }, "apply": { "model": "casinocraft:arcade_game_sokoban", "y":  90, "uvlock": true } },
+        { "when": { "facing": "east" , "primary": true, "module": "sokoban" }, "apply": { "model": "casinocraft:arcade_game_sokoban", "y": 270, "uvlock": true } },
+        
+        { "when": { "facing": "north", "primary": true, "module": "_2048" }, "apply": { "model": "casinocraft:arcade_game_2048", "y": 180, "uvlock": true } },
+        { "when": { "facing": "south", "primary": true, "module": "_2048" }, "apply": { "model": "casinocraft:arcade_game_2048", "y":   0, "uvlock": true } },
+        { "when": { "facing": "west" , "primary": true, "module": "_2048" }, "apply": { "model": "casinocraft:arcade_game_2048", "y":  90, "uvlock": true } },
+        { "when": { "facing": "east" , "primary": true, "module": "_2048" }, "apply": { "model": "casinocraft:arcade_game_2048", "y": 270, "uvlock": true } }
+    ]
+}

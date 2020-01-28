@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "facing=north,primary=true":  { "model": "casinocraft:cardtable_wide_pink", "y": 180, "uvlock": true },
+        "facing=south,primary=true":  { "model": "casinocraft:cardtable_wide_pink", "y":   0, "uvlock": true },
+        "facing=west,primary=true":  { "model": "casinocraft:cardtable_wide_pink", "y":  90, "uvlock": true },
+        "facing=east,primary=true":  { "model": "casinocraft:cardtable_wide_pink", "y": 270, "uvlock": true },
+        "facing=north,primary=false": { "model": "casinocraft:dummy",                "y": 180, "uvlock": true },
+        "facing=south,primary=false": { "model": "casinocraft:dummy",                "y":   0, "uvlock": true },
+        "facing=west,primary=false": { "model": "casinocraft:dummy",                "y":  90, "uvlock": true },
+        "facing=east,primary=false": { "model": "casinocraft:dummy",                "y": 270, "uvlock": true }
+    }                                                                                  
+}

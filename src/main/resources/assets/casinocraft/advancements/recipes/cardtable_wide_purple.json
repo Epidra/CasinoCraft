@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "casinocraft:cardtable_wide_purple"
+    ]
+  },
+  "criteria": {
+    "has_cardtable_base_purple": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "casinocraft:cardtable_base_purple",
+            "data": 0
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "casinocraft:cardtable_wide_purple"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cardtable_base_purple",
+      "has_the_recipe"
+    ]
+  ]
+}

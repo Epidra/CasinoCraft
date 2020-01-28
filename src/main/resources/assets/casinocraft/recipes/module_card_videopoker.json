@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "module_card",
+  "pattern": [
+    "RXR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:paper",
+      "data": 0
+    },
+    "X": {
+      "item": "minecraft:dye",
+      "data": 8
+    }
+  },
+  "result": {
+    "item": "casinocraft:module_videopoker",
+    "count": 1,
+    "data": 0
+  }
+}

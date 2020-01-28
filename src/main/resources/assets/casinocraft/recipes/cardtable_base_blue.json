@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "cardtable_base",
+  "pattern": [
+    "WWW",
+    " X ",
+	"XXX"
+  ],
+  "key": {
+    "X": [
+      {
+        "item": "minecraft:planks",
+        "data": 0
+      },
+      {
+        "item": "minecraft:planks",
+        "data": 1
+      },
+      {
+        "item": "minecraft:planks",
+        "data": 2
+      },
+      {
+        "item": "minecraft:planks",
+        "data": 3
+      },
+      {
+        "item": "minecraft:planks",
+        "data": 4
+      },
+      {
+        "item": "minecraft:planks",
+        "data": 5
+      }
+    ],
+    "W": {
+      "item": "minecraft:wool",
+      "data": 11
+    }
+  },
+  "result": {
+    "item": "casinocraft:cardtable_base_blue",
+    "count": 1,
+    "data": 0
+  }
+}

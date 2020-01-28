@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "casinocraft:module_clay_sicbo"
+    ]
+  },
+  "criteria": {
+    "has_clay": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:clay_ball",
+            "data": 0
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "casinocraft:module_clay_sicbo"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_clay",
+      "has_the_recipe"
+    ]
+  ]
+}

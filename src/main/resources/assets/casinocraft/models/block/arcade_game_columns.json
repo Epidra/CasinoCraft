@@ -1,0 +1,23 @@
+{
+    "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
+    "textures": {
+        "2": "casinocraft:blocks/arcade_game_columns",
+        "particle": "casinocraft:blocks/arcade_color"
+    },
+    "elements": [
+        {
+            "name": "Window",
+            "from": [ 2.0, 13.0, 9.0 ], 
+            "to": [ 14.0, 28.0, 14.0 ], 
+            "rotation": { "origin": [ 8.0, 8.0, 8.0 ], "axis": "x", "angle": -22.5 },
+            "faces": {
+                "north": { "texture": "#2", "uv": [ 2.0, 1.0, 14.0, 16.0 ] },
+                "east": { "texture": "#2", "uv": [ 0.0, 1.0, 5.0, 16.0 ] },
+                "south": { "texture": "#2", "uv": [ 2.0, 1.0, 14.0, 16.0 ] },
+                "west": { "texture": "#2", "uv": [ 11.0, 0.0, 16.0, 15.0 ] },
+                "up": { "texture": "#2", "uv": [ 2.0, 0.0, 14.0, 5.0 ] },
+                "down": { "texture": "#2", "uv": [ 2.0, 0.0, 14.0, 5.0 ] }
+            }
+        }
+    ]
+}

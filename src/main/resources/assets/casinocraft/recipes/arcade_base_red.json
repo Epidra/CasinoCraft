@@ -1,0 +1,32 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "arcade_base",
+  "pattern": [
+    "XDX",
+    "XQX",
+	"XRX"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:iron_ingot",
+      "data": 0
+    },
+    "D": {
+      "item": "minecraft:dye",
+      "data": 1
+    },
+    "Q": {
+      "item": "minecraft:quartz",
+      "data": 0
+    },
+    "R": {
+      "item": "minecraft:redstone",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "casinocraft:arcade_base_red",
+    "count": 1,
+    "data": 0
+  }
+}

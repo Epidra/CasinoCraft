@@ -1,0 +1,70 @@
+[
+{
+  "modid": "acecraft",
+  "name": "AceCraft",
+  "version": "Version 1",
+  "mcversion": "1.12.2",
+  "description": "The most random shit you've ever seen",
+  "credits": "Created by Me",
+  "logoFile": "assets/logo/acecraft.png",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [ "Epidra" ],
+  "parent": "",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+},
+{
+  "modid": "casinocraft",
+  "name": "CasinoCraft",
+  "version": "Version 6",
+  "mcversion": "1.12.2",
+  "description": "Test Your Luck",
+  "credits": "Created by Me",
+  "logoFile": "assets/logo/casinocraft.png",
+  "url": "http://minecraft.curseforge.com/projects/casinocraft",
+  "updateUrl": "",
+  "authorList": [ "Epidra" ],
+  "parent": "",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+},
+{
+  "modid": "uncharted",
+  "name": "Uncharted",
+  "version": "Version 4",
+  "mcversion": "1.12.2",
+  "description": "Your favourite Biome Panel",
+  "credits": "Created by Me",
+  "logoFile": "assets/logo/uncharted.png",
+  "url": "http://minecraft.curseforge.com/projects/uncharted",
+  "updateUrl": "",
+  "authorList": [ "Epidra" ],
+  "parent": "",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+},
+{
+  "modid": "stairway",
+  "name": "Stairway to Aether",
+  "version": "Version 9",
+  "mcversion": "1.12.2",
+  "description": "The Road to Aether is paved with Slabs",
+  "credits": "Created by Me",
+  "logoFile": "assets/logo/stairway.png",
+  "url": "http://minecraft.curseforge.com/projects/stairway-to-aether",
+  "updateUrl": "",
+  "authorList": [ "Epidra" ],
+  "parent": "",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+}
+]
