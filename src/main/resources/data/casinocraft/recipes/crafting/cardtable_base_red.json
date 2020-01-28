@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "cardtable_base",
+  "pattern": [
+    "WWW",
+    " X ",
+	"XXX"
+  ],
+  "key": {
+    "X": {
+      "tag": "minecraft:planks"
+    },
+    "W": {
+      "item": "minecraft:red_wool"
+    }
+  },
+  "result": {
+    "item": "casinocraft:cardtable_base_red",
+    "count": 1
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "casinocraft:cardtable_wide_gray"
+    ]
+  },
+  "criteria": {
+    "has_cardtable_base_gray": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "casinocraft:cardtable_base_gray"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "casinocraft:cardtable_wide_gray"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cardtable_base_gray",
+      "has_the_recipe"
+    ]
+  ]
+}

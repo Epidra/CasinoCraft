@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "module_clay",
+  "pattern": [
+    "CXC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:clay_ball"
+    },
+    "X": {
+      "item": "minecraft:cactus_green"
+    }
+  },
+  "result": {
+    "item": "casinocraft:module_mysticsquare",
+    "count": 1
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "casinocraft:cardtable_wide_cyan"
+    ]
+  },
+  "criteria": {
+    "has_cardtable_base_cyan": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "casinocraft:cardtable_base_cyan"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "casinocraft:cardtable_wide_cyan"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cardtable_base_cyan",
+      "has_the_recipe"
+    ]
+  ]
+}

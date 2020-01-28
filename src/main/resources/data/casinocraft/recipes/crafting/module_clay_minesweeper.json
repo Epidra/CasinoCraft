@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "module_clay",
+  "pattern": [
+    "RXR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:clay_ball"
+    },
+    "X": {
+      "item": "minecraft:ink_sac"
+    }
+  },
+  "result": {
+    "item": "casinocraft:module_minesweeper",
+    "count": 1
+  }
+}

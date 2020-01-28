@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "module_stone",
+  "pattern": [
+    "RXR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "X": {
+      "item": "minecraft:cyan_dye"
+    }
+  },
+  "result": {
+    "item": "casinocraft:module_columns",
+    "count": 1
+  }
+}

@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "casinocraft:block/arcade_slot_magenta", "y": 180, "uvlock": true },
+        "facing=south": { "model": "casinocraft:block/arcade_slot_magenta", "y":   0, "uvlock": true },
+        "facing=west":  { "model": "casinocraft:block/arcade_slot_magenta", "y":  90, "uvlock": true },
+        "facing=east":  { "model": "casinocraft:block/arcade_slot_magenta", "y": 270, "uvlock": true }
+    }
+}

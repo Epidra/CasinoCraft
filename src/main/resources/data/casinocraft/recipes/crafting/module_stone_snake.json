@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "module_stone",
+  "pattern": [
+    "RXR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "X": {
+      "item": "minecraft:dandelion_yellow"
+    }
+  },
+  "result": {
+    "item": "casinocraft:module_snake",
+    "count": 1
+  }
+}
