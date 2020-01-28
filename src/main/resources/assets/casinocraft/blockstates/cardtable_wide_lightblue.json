@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "facing=north,attached=true":  { "model": "casinocraft:block/cardtable_wide_lightblue", "y": 180, "uvlock": true },
+        "facing=south,attached=true":  { "model": "casinocraft:block/cardtable_wide_lightblue", "y":   0, "uvlock": true },
+        "facing=west,attached=true":  { "model": "casinocraft:block/cardtable_wide_lightblue", "y":  90, "uvlock": true },
+        "facing=east,attached=true":  { "model": "casinocraft:block/cardtable_wide_lightblue", "y": 270, "uvlock": true },
+        "facing=north,attached=false": { "model": "casinocraft:block/dummy",                "y": 180, "uvlock": true },
+        "facing=south,attached=false": { "model": "casinocraft:block/dummy",                "y":   0, "uvlock": true },
+        "facing=west,attached=false": { "model": "casinocraft:block/dummy",                "y":  90, "uvlock": true },
+        "facing=east,attached=false": { "model": "casinocraft:block/dummy",                "y": 270, "uvlock": true }
+    }                                                                                  
+}
