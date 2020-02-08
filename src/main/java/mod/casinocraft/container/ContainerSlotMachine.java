@@ -19,6 +19,7 @@ public class ContainerSlotMachine extends ContainerMachine {
         super(TYPE, windowID, playerInventory, board);
     }
 
+    // For Forge Registry
     public ContainerSlotMachine(int windowID, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
         super(TYPE, windowID, playerInventory, packetBuffer);
     }
@@ -26,5 +27,10 @@ public class ContainerSlotMachine extends ContainerMachine {
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return "slotmachine";
     }
 }

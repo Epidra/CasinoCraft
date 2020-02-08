@@ -28,6 +28,6 @@ public class ContainerMeanMinos extends ContainerCasino {
     }
 
     public String getName(){
-        return "c_acey_deucey";
+        return "a_mean_minos";
     }
 }

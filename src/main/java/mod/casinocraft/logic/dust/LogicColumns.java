@@ -31,7 +31,7 @@ public class LogicColumns extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicColumns(){
-        super(true, "columns");
+        super(true, "a_columns");
     }
 
 

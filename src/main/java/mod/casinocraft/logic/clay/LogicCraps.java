@@ -19,7 +19,7 @@ public class LogicCraps extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicCraps(int table){
-        super(false, table, "craps");
+        super(false, table, "c_craps");
     }
 
 

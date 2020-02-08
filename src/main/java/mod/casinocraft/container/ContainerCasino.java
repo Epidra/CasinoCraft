@@ -44,6 +44,7 @@ public abstract class ContainerCasino extends ContainerBase {
     protected final BoardDataArray boardData;
     private BlockPos pos = new BlockPos(0, 0, 0);
     public DyeColor color;
+    public int tableID;
 
   //  private final List<IContainerListener> listeners = Lists.newArrayList();
 //
@@ -65,8 +66,13 @@ public abstract class ContainerCasino extends ContainerBase {
 
 
     public ContainerCasino(ContainerType<?> type, int windowID, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
-        this(type, windowID, playerInventory, (TileEntityBoard) playerInventory.player.getEntityWorld().getTileEntity(BlockPos.fromLong(packetBuffer.readLong())));
-        this.pos = BlockPos.fromLong(packetBuffer.readLong());
+        this(type, windowID, playerInventory, BlockPos.fromLong(packetBuffer.readLong()));
+        //this.pos = BlockPos.fromLong(packetBuffer.readLong());
+    }
+
+    public ContainerCasino(ContainerType<?> type, int windowID, PlayerInventory playerInventory, BlockPos pos) {
+        this(type, windowID, playerInventory, (TileEntityBoard) playerInventory.player.getEntityWorld().getTileEntity(pos));
+        this.pos = pos;
     }
 
     public ContainerCasino(ContainerType<?> type, int windowID, PlayerInventory playerInventory, TileEntityBoard board) {
@@ -80,6 +86,7 @@ public abstract class ContainerCasino extends ContainerBase {
         this.casinoData = board.casinoData;
         this.boardData = board.boardData;
         color = board.color;
+        tableID = board.tableID;
     }
 
    // protected void trackIntArray(IIntArray arrayIn) {
@@ -247,16 +254,28 @@ public abstract class ContainerCasino extends ContainerBase {
         casinoData.set(2, value);
     }
 
+    public void addBetStorage(int value){
+        casinoData.set(0, casinoData.get(0) + value);
+    }
+
+    public void addBetLow(int value){
+        casinoData.set(1, casinoData.get(1) + value);
+    }
+
+    public void addBetHigh(int value){
+        casinoData.set(2, casinoData.get(2) + value);
+    }
+
     public void setTransferIn(boolean value){
-        casinoData.set(3, value ? 0 : 1);
+        casinoData.set(3, value ? 1 : 0);
     }
 
     public void setTransferOut(boolean value){
-        casinoData.set(4, value ? 0 : 1);
+        casinoData.set(4, value ? 1 : 0);
     }
 
     public void setIsCreative(boolean value){
-        casinoData.set(5, value ? 0 : 1);
+        casinoData.set(5, value ? 1 : 0);
     }
 
     public World world(){

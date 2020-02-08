@@ -20,7 +20,7 @@ public class LogicTriPeak extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicTriPeak(int table){
-        super(true, table, "tripeak");
+        super(true, table, "c_tripeak");
     }
 
 

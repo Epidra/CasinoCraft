@@ -1,9 +1,7 @@
 package mod.casinocraft.blocks;
 
 import mod.casinocraft.container.ContainerProvider;
-import mod.casinocraft.tileentities.TileEntityArcade;
 import mod.casinocraft.tileentities.TileEntityBoard;
-import mod.casinocraft.tileentities.TileEntityCardTable;
 import mod.casinocraft.tileentities.TileEntitySlotMachine;
 import mod.shared.blocks.MachinaDoubleTall;
 import net.minecraft.block.Block;
@@ -45,7 +43,7 @@ public class BlockSlotMachine extends MachinaDoubleTall {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         if(state.get(OFFSET)){
-            return new TileEntitySlotMachine(color);
+            return new TileEntitySlotMachine(color, 3);
         }
         return null;
     }
@@ -61,7 +59,7 @@ public class BlockSlotMachine extends MachinaDoubleTall {
                 Item item = Items.FLINT;
                 TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos2);
                 if (tileEntity instanceof TileEntitySlotMachine) {
-                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntitySlotMachine) tileEntity), buf -> buf.writeBlockPos(pos));
+                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntitySlotMachine) tileEntity), buf -> buf.writeBlockPos(pos2));
                 }
             }
             return true;

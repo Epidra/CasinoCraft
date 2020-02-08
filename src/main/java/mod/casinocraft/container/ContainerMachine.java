@@ -1,14 +1,18 @@
 package mod.casinocraft.container;
 
+import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.tileentities.TileEntityBoard;
+import mod.casinocraft.util.BoardDataArray;
 import mod.shared.container.ContainerBase;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -16,23 +20,38 @@ public abstract class ContainerMachine extends ContainerBase {
 
     //public static final ContainerType<ContainerCasino> TYPE = (ContainerType<ContainerCasino>) IForgeContainerType.create(ContainerCasino::new).setRegistryName(CasinoCraft.MODID, "casino");
 
-    private final IInventory tileCasino;
+    public final IInventory inventory;
     private final World world;
+    protected final IIntArray casinoData;
+    protected final BoardDataArray boardData;
+    private BlockPos pos = new BlockPos(0, 0, 0);
+    public DyeColor color;
 
 
     public ContainerMachine(ContainerType<?> type, int windowID, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
-        this(type, windowID, playerInventory, (TileEntityBoard) playerInventory.player.getEntityWorld().getTileEntity(BlockPos.fromLong(packetBuffer.readLong())));
+        this(type, windowID, playerInventory, BlockPos.fromLong(packetBuffer.readLong()));
+        //this.pos = BlockPos.fromLong(packetBuffer.readLong());
     }
+
+    public ContainerMachine(ContainerType<?> type, int windowID, PlayerInventory playerInventory, BlockPos pos) {
+        this(type, windowID, playerInventory, (TileEntityBoard) playerInventory.player.getEntityWorld().getTileEntity(pos));
+        this.pos = pos;
+    }
+
 
     public ContainerMachine(ContainerType<?> type, int windowID, PlayerInventory playerInventory, TileEntityBoard board) {
         super(type, windowID);
-        this.tileCasino = board;
+        this.inventory = board;
         this.world = playerInventory.player.world;
-        this.addSlot(new Slot(board, 0, 256, -4)); // Key Card
-        this.addSlot(new Slot(board, 1, 256, -4)); // Game Module
-        this.addSlot(new Slot(board, 2, 256, -4)); // Token IN
-        this.addSlot(new Slot(board, 3, 256, -4)); // Token OUT
+        this.addSlot(new Slot(board, 0,   8, 62)); // Key Card
+        this.addSlot(new Slot(board, 1, 152, 62)); // Game Module
+        this.addSlot(new Slot(board, 2,  28, 16)); // Token IN
+        this.addSlot(new Slot(board, 3, 132, 16)); // Token OUT
         addPlayerSlots(playerInventory);
+
+        this.casinoData = board.casinoData;
+        this.boardData = board.boardData;
+        color = board.color;
     }
 
     /**
@@ -40,7 +59,7 @@ public abstract class ContainerMachine extends ContainerBase {
      */
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
-        return tileCasino.isUsableByPlayer(playerIn);
+        return inventory.isUsableByPlayer(playerIn);
     }
 
     /**
@@ -100,4 +119,109 @@ public abstract class ContainerMachine extends ContainerBase {
     //    public void addListener(IContainerListener listener);
     //    public void detectAndSendChanges();
     //    public ItemStack transferStackInSlot(EntityPlayer player, int index);
+
+
+    public void logic(int index, int value){
+        boardData.set(index, value);
+    }
+
+    public LogicBase logic(){
+        return boardData.get();
+    }
+
+    public int turnstate(){
+        return boardData.get().turnstate;
+    }
+
+    public void turnstate(int i){
+        boardData.set(0, i);
+    }
+
+    public boolean hasToken() {
+        return casinoData.get(0) > 0;
+    }
+
+    public int getBetStorage(){
+        return casinoData.get(0);
+    }
+
+    public int getBetLow(){
+        return casinoData.get(1);
+    }
+
+    public int getBetHigh(){
+        return casinoData.get(2);
+    }
+
+    public boolean isCreative(){ return casinoData.get(5) == 1; }
+
+    public boolean getTransferIn(){
+        return casinoData.get(3) == 1;
+    }
+
+    public boolean getTransferOut(){
+        return casinoData.get(4) == 1;
+    }
+
+    public boolean getIsCreative(){
+        return casinoData.get(5) == 1;
+    }
+
+    public void setBetStorage(int value){
+        casinoData.set(0, value);
+    }
+
+    public void setBetLow(int value){
+        casinoData.set(1, value);
+    }
+
+    public void setBetHigh(int value){
+        casinoData.set(2, value);
+    }
+
+    public void addBetStorage(int value){
+        casinoData.set(0, casinoData.get(0) + value);
+    }
+
+    public void addBetLow(int value){
+        casinoData.set(1, casinoData.get(1) + value);
+    }
+
+    public void addBetHigh(int value){
+        casinoData.set(2, casinoData.get(2) + value);
+    }
+
+    public void setTransferIn(boolean value){
+        casinoData.set(3, value ? 1 : 0);
+    }
+
+    public void setTransferOut(boolean value){
+        casinoData.set(4, value ? 1 : 0);
+    }
+
+    public void setIsCreative(boolean value){
+        casinoData.set(5, value ? 1 : 0);
+    }
+
+    public World world(){
+        return this.world;
+    }
+
+    public ItemStack getToken(){
+        return this.inventory.getStackInSlot(4);
+    }
+
+    public BlockPos getPos(){
+        return pos;
+    }
+
+    public ItemStack getScoreToken(){
+        return this.inventory.getStackInSlot(5);
+    }
+
+    public void setToken(ItemStack itemStack){
+        this.inventory.setInventorySlotContents(4, itemStack);
+    }
+
+    public abstract String getName();
 }

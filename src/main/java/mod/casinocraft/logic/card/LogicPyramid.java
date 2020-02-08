@@ -22,7 +22,7 @@ public class LogicPyramid extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicPyramid(int table){
-        super(true, table, "pyramid");
+        super(true, table, "c_pyramid");
     }
 
 

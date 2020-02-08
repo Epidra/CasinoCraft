@@ -26,7 +26,7 @@ public class LogicTetris extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicTetris(){
-        super(true, "tetris");
+        super(true, "a_tetris");
     }
 
 

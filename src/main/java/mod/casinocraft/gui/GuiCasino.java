@@ -5,6 +5,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.blocks.BlockArcade;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.network.ServerBlockMessage;
 import mod.casinocraft.network.ServerPlayerMessage;
 import mod.casinocraft.network.ServerScoreMessage;
@@ -24,9 +25,10 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
+import java.util.Random;
 import java.util.function.Predicate;
 
-public abstract class GuiCasino extends ContainerScreen<ContainerBase> {
+public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
 
     /** The player inventory bound to this GUI. */
     private   final PlayerInventory PLAYER;
@@ -77,7 +79,7 @@ public abstract class GuiCasino extends ContainerScreen<ContainerBase> {
         this.xSize = 256;
         this.ySize = 256;
         //BOARD.setupHighscore(BOARD.getModule());
-        //        this.tableID = tableID;
+        this.tableID = CONTAINER.tableID;
         //container.addListener(new IContainerListener() {
         //    @Override
         //    public void sendAllContents(Container container, NonNullList<ItemStack> nonNullList) {
@@ -234,7 +236,10 @@ public abstract class GuiCasino extends ContainerScreen<ContainerBase> {
         if(this.minecraft.gameSettings.advancedItemTooltips){
             this.font.drawString("turnstate:     " + logic().turnstate,                           tableID == 2 ? 355 : 260, 15, 16777215);
             this.font.drawString("table:         " + logic().table,                                 tableID == 2 ? 355 : 260, 25, 16777215);
-            this.font.drawString("points:        " + logic().scorePoint,                          tableID == 2 ? 355 : 260, 35, 16777215);
+            //this.font.drawString("points:        " + logic().scorePoint,                          tableID == 2 ? 355 : 260, 35, 16777215);
+            this.font.drawString("points:        " +
+                            ((ContainerCasino)this.container).getBetHigh(),
+                    tableID == 2 ? 355 : 260, 35, 16777215);
             this.font.drawString("level:         " + logic().scoreLevel,                          tableID == 2 ? 355 : 260, 45, 16777215);
             this.font.drawString("lives:         " + logic().scoreLives,                          tableID == 2 ? 355 : 260, 55, 16777215);
             this.font.drawString("hand:          " + logic().hand,                                tableID == 2 ? 355 : 260, 65, 16777215);
@@ -253,6 +258,8 @@ public abstract class GuiCasino extends ContainerScreen<ContainerBase> {
             this.font.drawString("has token:     " + CONTAINER.hasToken(),                          tableID == 2 ? 355 : 260, 195, 16777215);
             this.font.drawString("board:         " + CONTAINER.toString().substring(33),            tableID == 2 ? 355 : 260, 205, 16777215);
         }
+
+        if(logic() instanceof LogicDummy) return;
 
         // Search for tokens in PlayerInventory
         if(playerToken == -1) ValidateBet();
@@ -358,11 +365,21 @@ public abstract class GuiCasino extends ContainerScreen<ContainerBase> {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY){
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         if(tableID == 0) { // Arcade Background
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_STARFIELD1);
-            this.blit(guiLeft, guiTop, 0, shift == 0 ? 0 : camera1, 256, 256);
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_STARFIELD0);
-            this.blit(guiLeft, guiTop, 0, shift == 0 ? 0 : camera0, 256, 256);
-        } else { // Card Table Background
+            if(logic() instanceof LogicDummy){
+                this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_STATIC);
+                Random r = new Random();
+                for(int y = 0; y < 8; y++){
+                    for(int x = 0; x < 8; x++){
+                        this.blit(guiLeft + 16 + 28*x, guiTop + 32*y, 28*r.nextInt(8), 32*r.nextInt(8), 28, 32);
+                    }
+                }
+            } else {
+                this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_STARFIELD1);
+                this.blit(guiLeft, guiTop, 0, shift == 0 ? 0 : camera1, 256, 256);
+                this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_STARFIELD0);
+                this.blit(guiLeft, guiTop, 0, shift == 0 ? 0 : camera0, 256, 256);
+            }
+        } else if(tableID < 3){ // Card Table Background
             this.minecraft.getTextureManager().bindTexture(tableID == 0 ? CasinoKeeper.TEXTURE_GROUND_ARCADE : getBackground());
             if(tableID == 2){
                 this.blit(guiLeft-128+32, guiTop,  0, 0, this.xSize-32, this.ySize); // Background Left
@@ -370,6 +387,9 @@ public abstract class GuiCasino extends ContainerScreen<ContainerBase> {
             } else {
                 this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
             }
+        } else { // Slot Machine Background
+            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_ARCADE);
+            this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
         }
 
         // Draws Logo from ItemModule
@@ -389,7 +409,7 @@ public abstract class GuiCasino extends ContainerScreen<ContainerBase> {
         if(CONTAINER.turnstate() >= 1 && CONTAINER.turnstate() < 6) drawGuiContainerBackgroundLayer2(partialTicks, mouseX, mouseY);
 
         // If NOT Ingame
-        if((CONTAINER.turnstate() == 5 || CONTAINER.turnstate() == 0 || CONTAINER.turnstate() == 7) && tableID > 0){
+        if((CONTAINER.turnstate() == 5 || CONTAINER.turnstate() == 0 || CONTAINER.turnstate() == 7) && tableID > 0 && !(logic() instanceof LogicDummy)){
             if(CONTAINER.turnstate() == 5 && logic().hasHighscore()){
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_OCTAGAMES);
                 blit(guiLeft+89, guiTop+206, 0, 22, 78, 22); // Button Highcore
@@ -626,16 +646,18 @@ public abstract class GuiCasino extends ContainerScreen<ContainerBase> {
 
         String s = CONTAINER.getName();
         String logo[] = s.split("_");
-        if(logo[0].charAt(0) == 'a'){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
-        } else if(logo[0].charAt(0) == 'c'){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-            vanish = 0;
-        }
+        if(logo[0].charAt(0) != 'x'){
+            if(logo[0].charAt(0) == 'a'){
+                this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
+            } else if(logo[0].charAt(0) == 'c'){
+                this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
+                vanish = 0;
+            }
 
-        for(int i = 1; i < logo.length; i++){
-            for(int k = 0; k < logo[i].length(); k++){
-                drawLetter(logo[i].charAt(k), guiLeft + 128 - logo[i].length()*16 + 32*k, guiTop + 32*i - move + vanish, 32, 32 - vanish, vanish);
+            for(int i = 1; i < logo.length; i++){
+                for(int k = 0; k < logo[i].length(); k++){
+                    drawLetter(logo[i].charAt(k), guiLeft + 128 - logo[i].length()*16 + 32*k, guiTop + 32*i - move + vanish, 32, 32 - vanish, vanish);
+                }
             }
         }
     }

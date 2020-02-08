@@ -28,6 +28,6 @@ public class ContainerRoulette extends ContainerCasino {
     }
 
     public String getName(){
-        return "c_acey_deucey";
+        return "c_roulette";
     }
 }

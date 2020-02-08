@@ -19,7 +19,7 @@ public class LogicRougeEtNoir extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicRougeEtNoir(int table){
-        super(false, table, "rougeetnoir");
+        super(false, table, "c_rouge_et_noir");
     }
 
 

@@ -19,7 +19,7 @@ public class LogicRoulette extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicRoulette(int table){
-        super(false, table, "roulette");
+        super(false, table, "c_roulette");
     }
 
 

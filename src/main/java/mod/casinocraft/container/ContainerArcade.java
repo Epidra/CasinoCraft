@@ -19,6 +19,7 @@ public class ContainerArcade extends ContainerMachine {
         super(TYPE, windowID, playerInventory, board);
     }
 
+    // For Forge Registry
     public ContainerArcade(int windowID, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
         super(TYPE, windowID, playerInventory, packetBuffer);
     }
@@ -28,5 +29,10 @@ public class ContainerArcade extends ContainerMachine {
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return "arcade";
     }
 }

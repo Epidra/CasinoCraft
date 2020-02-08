@@ -20,7 +20,7 @@ public class LogicSpider extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicSpider(int table){
-        super(false, table, "spider");
+        super(false, table, "c_spider");
     }
 
 

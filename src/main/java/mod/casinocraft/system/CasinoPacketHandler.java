@@ -4,6 +4,7 @@ import mod.casinocraft.CasinoCraft;
 import mod.casinocraft.network.*;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
@@ -11,48 +12,63 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
+import java.util.function.Supplier;
+
 public class CasinoPacketHandler {
 
     private static final String PROTOCOL_VERSION = Integer.toString(1);
 
-    private static final SimpleChannel HANDLER = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(CasinoCraft.MODID, "main_channel"))
-            .clientAcceptedVersions(PROTOCOL_VERSION::equals)
-            .serverAcceptedVersions(PROTOCOL_VERSION::equals)
-            .networkProtocolVersion(() -> PROTOCOL_VERSION)
-            .simpleChannel();
+    //private static final SimpleChannel INSTANCE = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(CasinoCraft.MODID, "main_channel"))
+    //        .clientAcceptedVersions(PROTOCOL_VERSION::equals)
+    //        .serverAcceptedVersions(PROTOCOL_VERSION::equals)
+    //        .networkProtocolVersion(() -> PROTOCOL_VERSION)
+    //        .simpleChannel();
+
+    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
+            new ResourceLocation("casinocraft", "main"),
+            () -> PROTOCOL_VERSION,
+            PROTOCOL_VERSION::equals,
+            PROTOCOL_VERSION::equals
+    );
 
     public static void register(){
         int disc = 0;
-        HANDLER.registerMessage(disc++, PacketClientBlockMessage.class, PacketClientBlockMessage::encode, PacketClientBlockMessage::decode, PacketClientBlockMessage.Handler::handle);
-        HANDLER.registerMessage(disc++, PacketClientBoardMessage.class, PacketClientBoardMessage::encode, PacketClientBoardMessage::decode, PacketClientBoardMessage.Handler::handle);
-        HANDLER.registerMessage(disc++, PacketClientPlayerMessage.class, PacketClientPlayerMessage::encode, PacketClientPlayerMessage::decode, PacketClientPlayerMessage.Handler::handle);
-        HANDLER.registerMessage(disc++, PacketClientPowerMessage.class, PacketClientPowerMessage::encode, PacketClientPowerMessage::decode, PacketClientPowerMessage.Handler::handle);
-        HANDLER.registerMessage(disc++, PacketClientScoreMessage.class, PacketClientScoreMessage::encode, PacketClientScoreMessage::decode, PacketClientScoreMessage.Handler::handle);
-        HANDLER.registerMessage(disc++, ServerBlockMessage.class, ServerBlockMessage::encode, ServerBlockMessage::decode, ServerBlockMessage.Handler::handle);
-        HANDLER.registerMessage(disc++, ServerBoardMessage.class, ServerBoardMessage::encode, ServerBoardMessage::decode, ServerBoardMessage.Handler::handle);
-        HANDLER.registerMessage(disc++, ServerPlayerMessage.class, ServerPlayerMessage::encode, ServerPlayerMessage::decode, ServerPlayerMessage.Handler::handle);
-        HANDLER.registerMessage(disc++, ServerPowerMessage.class, ServerPowerMessage::encode, ServerPowerMessage::decode, ServerPowerMessage.Handler::handle);
-        HANDLER.registerMessage(disc++, ServerScoreMessage.class, ServerScoreMessage::encode, ServerScoreMessage::decode, ServerScoreMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, PacketClientBlockMessage.class, PacketClientBlockMessage::encode, PacketClientBlockMessage::decode, PacketClientBlockMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, PacketClientBoardMessage.class, PacketClientBoardMessage::encode, PacketClientBoardMessage::decode, PacketClientBoardMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, PacketClientPlayerMessage.class, PacketClientPlayerMessage::encode, PacketClientPlayerMessage::decode, PacketClientPlayerMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, PacketClientPowerMessage.class, PacketClientPowerMessage::encode, PacketClientPowerMessage::decode, PacketClientPowerMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, PacketClientScoreMessage.class, PacketClientScoreMessage::encode, PacketClientScoreMessage::decode, PacketClientScoreMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, ServerBlockMessage.class, ServerBlockMessage::encode, ServerBlockMessage::decode, ServerBlockMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, ServerBoardMessage.class, ServerBoardMessage::encode, ServerBoardMessage::decode, ServerBoardMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, ServerPlayerMessage.class, ServerPlayerMessage::encode, ServerPlayerMessage::decode, ServerPlayerMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, ServerPowerMessage.class, ServerPowerMessage::encode, ServerPowerMessage::decode, ServerPowerMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, ServerScoreMessage.class, ServerScoreMessage::encode, ServerScoreMessage::decode, ServerScoreMessage.Handler::handle);
     }
 
     public static <MSG> void send(PacketDistributor.PacketTarget target, MSG message){
-        HANDLER.send(target, message);
+        INSTANCE.send(target, message);
     }
 
     public static void sendToServer(Object message){
-        HANDLER.sendToServer(message);
+        INSTANCE.sendToServer(message);
     }
 
     public static <MSG> void sendTo(MSG msg, ServerPlayerEntity player) {
-        if (!(player instanceof FakePlayer)) {
-            HANDLER.sendTo(msg, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
-        }
+        INSTANCE.send(PacketDistributor.PLAYER.with((Supplier<ServerPlayerEntity>) player), msg);
+        //if (!(player instanceof FakePlayer)) {
+        //    INSTANCE.sendTo(msg, player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+        //}
     }
 
-    public static <MSG> void sendToAll(MSG packet) {
-        for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
-            sendTo(packet, player);
-        }
+    public static <MSG> void sendToChunk(MSG msg, Chunk chunk) {
+        INSTANCE.send(PacketDistributor.TRACKING_CHUNK.with((Supplier<Chunk>) chunk), msg);
+    }
+
+    public static <MSG> void sendToAll(MSG msg) {
+        //for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
+        //    sendTo(packet, player);
+        //}
+        INSTANCE.send(PacketDistributor.ALL.noArg(), msg);
     }
 
 }

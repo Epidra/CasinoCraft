@@ -2,7 +2,8 @@ package mod.casinocraft.blocks;
 
 import mod.casinocraft.container.ContainerProvider;
 import mod.casinocraft.tileentities.TileEntityBoard;
-import mod.casinocraft.tileentities.TileEntityCardTable;
+import mod.casinocraft.tileentities.TileEntityCardTableBase;
+import mod.casinocraft.tileentities.TileEntityCardTableWide;
 import mod.shared.blocks.MachinaDoubleWide;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -12,6 +13,7 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -20,8 +22,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
-
-import static mod.shared.blocks.MachinaDoubleWide.OFFSET;
 
 public class BlockCardTableWide extends MachinaDoubleWide {
 
@@ -45,7 +45,7 @@ public class BlockCardTableWide extends MachinaDoubleWide {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         if(state.get(OFFSET)){
-            return new TileEntityCardTable(color);
+            return new TileEntityCardTableWide(color, 2);
         }
         return null;
     }
@@ -57,15 +57,24 @@ public class BlockCardTableWide extends MachinaDoubleWide {
         } else {
             if (!world.isRemote() && player instanceof ServerPlayerEntity) {
                 boolean isPrimary = world.getBlockState(pos).get(OFFSET);
-                final BlockPos pos2 = isPrimary ? pos : pos.down();
+                final BlockPos pos2 = offset(state.get(FACING), isPrimary, pos);
                 Item item = Items.FLINT;
                 TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos2);
-                if (tileEntity instanceof TileEntityCardTable) {
-                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityCardTable) tileEntity), buf -> buf.writeBlockPos(pos));
+                if (tileEntity instanceof TileEntityCardTableWide) {
+                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityCardTableWide) tileEntity), buf -> buf.writeBlockPos(pos2));
                 }
             }
             return true;
         }
+    }
+
+    private BlockPos offset(Direction facing, boolean isPrimary, BlockPos pos){
+        if(isPrimary) return pos;
+        if(facing == Direction.NORTH) return pos.east();
+        if(facing == Direction.SOUTH) return pos.west();
+        if(facing == Direction.EAST ) return pos.south();
+        if(facing == Direction.WEST ) return pos.north();
+        return pos;
     }
 
 }

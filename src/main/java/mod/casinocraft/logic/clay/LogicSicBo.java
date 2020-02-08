@@ -15,7 +15,7 @@ public class LogicSicBo extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicSicBo(int table){
-        super(false, table, "sicbo");
+        super(false, table, "c_sicbo");
     }
 
 

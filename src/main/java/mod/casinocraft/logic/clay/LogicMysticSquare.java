@@ -10,7 +10,7 @@ public class LogicMysticSquare extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicMysticSquare(int table){
-        super(false, table, "mysticsquare");
+        super(false, table, "c_mystic_square");
     }
 
 

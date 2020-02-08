@@ -7,10 +7,7 @@ import mod.casinocraft.container.dust.Container2048;
 import mod.casinocraft.container.other.ContainerField;
 import mod.casinocraft.container.other.ContainerNoise;
 import mod.casinocraft.container.other.ContainerSlotGame;
-import mod.casinocraft.tileentities.TileEntityArcade;
-import mod.casinocraft.tileentities.TileEntityBoard;
-import mod.casinocraft.tileentities.TileEntityCardTable;
-import mod.casinocraft.tileentities.TileEntitySlotMachine;
+import mod.casinocraft.tileentities.*;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -57,7 +54,7 @@ public class ContainerProvider implements INamedContainerProvider {
             if(module == CasinoKeeper.MODULE_DUST_WHITE)     return new Container2048(windowId, playerInventory, this.board);
             return new ContainerNoise(windowId, playerInventory, this.board);
         }
-        else if(this.board instanceof TileEntityCardTable){
+        else if(this.board instanceof TileEntityCardTableBase || this.board instanceof TileEntityCardTableWide){
             if(heldItem == key) return new ContainerCardTable(windowId, playerInventory, this.board);
             if(key == Blocks.AIR.asItem()) return new ContainerCardTable(windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CARD_BLACK)     return new ContainerBaccarat(windowId, playerInventory, this.board);

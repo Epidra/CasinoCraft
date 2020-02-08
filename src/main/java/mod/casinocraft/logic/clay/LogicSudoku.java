@@ -14,7 +14,7 @@ public class LogicSudoku extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicSudoku(int table){
-        super(false, table, "sudoku");
+        super(false, table, "c_sudoku");
     }
 
 

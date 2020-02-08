@@ -1,7 +1,5 @@
 package mod.shared.blocks;
 
-import mod.acecraft.ShopKeeper;
-import mod.acecraft.tileentities.TileBlastFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;

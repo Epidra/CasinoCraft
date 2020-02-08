@@ -16,7 +16,7 @@ public class LogicAceyDeucey extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicAceyDeucey(int table){
-        super(false, table, "aceydeucey");
+        super(false, table, "c_acey_deucey");
     }
 
 

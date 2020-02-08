@@ -1,25 +1,8 @@
-{   "parent": "block/block",
-    "textures": {
-        "particle": "casinocraft:blocks/dice_basic_cyan_1",
-        "tex0": "casinocraft:blocks/dice_basic_cyan_1",
-        "tex1": "casinocraft:blocks/dice_basic_cyan_2",
-        "tex2": "casinocraft:blocks/dice_basic_cyan_3",
-        "tex3": "casinocraft:blocks/dice_basic_cyan_4",
-        "tex4": "casinocraft:blocks/dice_basic_cyan_5",
-        "tex5": "casinocraft:blocks/dice_basic_cyan_6"
-    },
-    "elements": [
-        {
-            "from": [ 0, 0, 0 ],
-            "to": [ 16, 16, 16 ],
-            "faces": {
-                "down":  { "uv": [ 16, 0, 0, 16 ], "texture": "#tex3" },
-                "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#tex2" },
-                "north": { "uv": [ 0, 16, 16, 0 ], "texture": "#tex5" },
-                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#tex0" },
-                "west":  { "uv": [ 16, 16, 0, 0 ], "texture": "#tex4" },
-                "east":  { "uv": [ 16, 0, 0, 16 ], "texture": "#tex1" }
-            }
-        }
-    ]
+{
+  "parent": "casinocraft:template/dice_base",
+  "textures": {
+    "inner":    "minecraft:block/black_terracotta",
+    "outer":    "minecraft:block/cyan_terracotta",
+    "particle": "minecraft:block/cyan_terracotta"
+  }
 }

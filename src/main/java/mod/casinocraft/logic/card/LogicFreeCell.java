@@ -23,7 +23,7 @@ public class LogicFreeCell extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicFreeCell(int table){
-        super(false, table, "freecell");
+        super(false, table, "c_freecell");
     }
 
 

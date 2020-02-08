@@ -26,7 +26,7 @@ public class LogicSokoban extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicSokoban(){
-        super(false, "sokoban");
+        super(false, "a_sokoban");
     }
 
 

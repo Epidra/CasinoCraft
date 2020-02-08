@@ -22,7 +22,7 @@ public class LogicBlackJack extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicBlackJack(int table){
-        super(false, table, "blackjack");
+        super(false, table, "c_black_jack");
     }
 
 

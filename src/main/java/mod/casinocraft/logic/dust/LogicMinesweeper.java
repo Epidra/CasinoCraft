@@ -26,7 +26,7 @@ public class LogicMinesweeper extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicMinesweeper(){
-        super(true, "minesweeper");
+        super(true, "a_minesweeper");
     }
 
 

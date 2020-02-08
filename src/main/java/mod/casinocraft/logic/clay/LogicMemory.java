@@ -20,7 +20,7 @@ public class LogicMemory extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicMemory(int table){
-        super(true, table, "memory");
+        super(true, table, "c_memory");
     }
 
 

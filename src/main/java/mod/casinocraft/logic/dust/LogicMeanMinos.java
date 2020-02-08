@@ -31,7 +31,7 @@ public class LogicMeanMinos extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicMeanMinos(){
-        super(true, "meanminos");
+        super(true, "a_meanminos");
     }
 
 

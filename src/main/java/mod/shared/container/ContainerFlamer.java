@@ -1,6 +1,5 @@
 package mod.shared.container;
 
-import mod.acecraft.util.FoundryContent;
 import mod.shared.tileentity.TileEntityFlamer;
 import mod.shared.util.BurnTimes;
 import mod.shared.util.ContainerContent;
@@ -28,10 +27,6 @@ public abstract class ContainerFlamer extends Container {
     protected final IIntArray trackingData;
     protected final ContainerContent trackingExtraData;
     protected final World world;
-
-   protected ContainerFlamer(ContainerType<?> containerTypeIn, int id, PlayerInventory playerInventoryIn){
-       this(containerTypeIn, id, playerInventoryIn, new Inventory(3), null, new FoundryContent());
-   }
 
     protected ContainerFlamer(ContainerType<?> containerTypeIn, int id, PlayerInventory playerInventoryIn, IIntArray data, ContainerContent extraData) {
         this(containerTypeIn, id, playerInventoryIn, new Inventory(3), data, extraData);

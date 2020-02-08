@@ -9,7 +9,7 @@ public class LogicHalma extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicHalma(int table){
-        super(true, table, "halma");
+        super(true, table, "c_halma");
     }
 
 

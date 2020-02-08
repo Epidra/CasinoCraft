@@ -58,7 +58,7 @@ public class BlockArcade extends MachinaDoubleTall {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         if(state.get(OFFSET)){
-            return new TileEntityArcade(color);
+            return new TileEntityArcade(color, 0);
         }
         return null;
     }
@@ -74,7 +74,7 @@ public class BlockArcade extends MachinaDoubleTall {
                 Item item = Items.FLINT;
                 TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos2);
                 if (tileEntity instanceof TileEntityArcade) {
-                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityArcade) tileEntity), buf -> buf.writeBlockPos(pos));
+                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityArcade) tileEntity), buf -> buf.writeBlockPos(pos2));
                 }
                 if (player.isSneaking()) {
                     setPowerState(tileEntity.inventory.get(1).getItem(), pos2);

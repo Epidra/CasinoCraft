@@ -21,7 +21,7 @@ public class LogicVideoPoker extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicVideoPoker(int table){
-        super(false, table, "videopoker");
+        super(false, table, "c_video_poker");
     }
 
 

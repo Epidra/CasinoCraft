@@ -28,6 +28,6 @@ public class ContainerHalma extends ContainerCasino {
     }
 
     public String getName(){
-        return "c_acey_deucey";
+        return "c_halma";
     }
 }

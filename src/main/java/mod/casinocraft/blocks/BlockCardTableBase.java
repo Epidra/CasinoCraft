@@ -1,9 +1,8 @@
 package mod.casinocraft.blocks;
 
 import mod.casinocraft.container.ContainerProvider;
-import mod.casinocraft.tileentities.TileEntityArcade;
 import mod.casinocraft.tileentities.TileEntityBoard;
-import mod.casinocraft.tileentities.TileEntityCardTable;
+import mod.casinocraft.tileentities.TileEntityCardTableBase;
 import mod.shared.blocks.MachinaBasic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -40,7 +39,7 @@ public class BlockCardTableBase extends MachinaBasic {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new TileEntityCardTable(color);
+        return new TileEntityCardTableBase(color, 1);
     }
 
     @Override
@@ -53,8 +52,8 @@ public class BlockCardTableBase extends MachinaBasic {
                 //final BlockPos pos2 = isPrimary ? pos : pos.down();
                 Item item = Items.FLINT;
                 TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos);
-                if (tileEntity instanceof TileEntityCardTable) {
-                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityCardTable) tileEntity), buf -> buf.writeBlockPos(pos));
+                if (tileEntity instanceof TileEntityCardTableBase) {
+                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityCardTableBase) tileEntity), buf -> buf.writeBlockPos(pos));
                 }
             }
             return true;

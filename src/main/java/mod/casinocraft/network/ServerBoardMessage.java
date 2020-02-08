@@ -2,6 +2,7 @@ package mod.casinocraft.network;
 
 import mod.casinocraft.system.CasinoPacketHandler;
 import mod.casinocraft.tileentities.TileEntityBoard;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -58,8 +59,20 @@ public class ServerBoardMessage {
             // This is the player the packet was sent to the server from
             //EntityPlayerMP serverPlayer = context.get().getSender();
             // The value that was sent
+
+            context.get().enqueueWork(() ->{
+                ServerPlayerEntity serverPlayer = context.get().getSender();
+                BlockPos pos = new BlockPos(message.x, message.y, message.z);
+                TileEntityBoard te = (TileEntityBoard) context.get().getSender().world.getTileEntity(pos);
+                te.bet_low  = message.betLow;
+                te.bet_high = message.betHigh;
+                te.transfer_in  = message.transferIn;
+                te.transfer_out = message.transferOut;
+                te.isCreative = message.isCreative;
+            });
+
             BlockPos pos = new BlockPos(message.x, message.y, message.z);
-            TileEntityBoard te = (TileEntityBoard) context.get().getSender().world.getTileEntity(pos);
+            //TileEntityBoard te = (TileEntityBoard) context.get().getSender().world.getTileEntity(pos);
             //ontext.get().getSender().getServerWorld().addScheduledTask(() -> {
             //   te.bet_low  = message.betLow;
             //   te.bet_high = message.betHigh;

@@ -5,7 +5,7 @@ import mod.casinocraft.logic.LogicBase;
 public class LogicSlotGame extends LogicBase {
 
     public LogicSlotGame() {
-        super(false, "slotgame");
+        super(false, "x_slotgame");
     }
 
     @Override

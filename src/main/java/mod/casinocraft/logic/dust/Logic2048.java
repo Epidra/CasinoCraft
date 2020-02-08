@@ -18,7 +18,7 @@ public class Logic2048 extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public Logic2048(){
-        super(false, "2048");
+        super(false, "a_2048");
     }
 
 

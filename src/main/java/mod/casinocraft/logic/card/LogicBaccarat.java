@@ -21,9 +21,8 @@ public class LogicBaccarat extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicBaccarat(int table){
-        super(false, table, "baccarat");
+        super(false, table, "c_baccarat");
     }
-
 
 
     //--------------------BASIC--------------------

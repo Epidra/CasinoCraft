@@ -28,6 +28,6 @@ public class ContainerNoise extends ContainerCasino {
     }
 
     public String getName(){
-        return "c_acey_deucey";
+        return "x_dummy";
     }
 }

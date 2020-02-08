@@ -26,7 +26,7 @@ public class LogicSnake extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicSnake(){
-        super(true, "snake");
+        super(true, "a_snake");
     }
 
 

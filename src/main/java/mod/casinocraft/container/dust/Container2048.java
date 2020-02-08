@@ -28,6 +28,6 @@ public class Container2048 extends ContainerCasino {
     }
 
     public String getName(){
-        return "c_acey_deucey";
+        return "a_2048";
     }
 }

@@ -22,7 +22,7 @@ public class LogicKlondike extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicKlondike(int table){
-        super(true, table, "klondike");
+        super(true, table, "c_klondike");
     }
 
 
