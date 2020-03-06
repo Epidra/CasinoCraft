@@ -2,6 +2,7 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicAceyDeucey extends LogicBase {
 
@@ -107,6 +108,19 @@ public class LogicAceyDeucey extends LogicBase {
                 }
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards = loadCard(compound, 0);
+        spread = compound.getInt("spread");
+        doublebet = compound.getBoolean("doublebet");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCards(compound, 0, cards);
+        compound.putInt("spread", spread);
+        compound.putBoolean("doublebet", doublebet);
+        return compound;
     }
 
 

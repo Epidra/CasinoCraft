@@ -3,8 +3,10 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LogicTriPeak extends LogicBase {
@@ -143,6 +145,19 @@ public class LogicTriPeak extends LogicBase {
 
     public void updateLogic(){
 
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_field = loadCard(compound, 0);
+        cards_stack.addAll(Arrays.asList(loadCard(compound, 1)));
+        cards_reserve.addAll(Arrays.asList(loadCard(compound, 2)));
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCards(compound, 0, cards_field);
+        saveCards(compound, 0, (Card[]) cards_stack.toArray());
+        saveCards(compound, 0, (Card[]) cards_reserve.toArray());
+        return compound;
     }
 
 

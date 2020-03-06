@@ -1,6 +1,7 @@
 package mod.casinocraft.logic.clay;
 
 import mod.casinocraft.logic.LogicBase;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicMysticSquare extends LogicBase {
 
@@ -45,6 +46,17 @@ public class LogicMysticSquare extends LogicBase {
 
     public void updateLogic(){
 
+    }
+
+    public void load2(CompoundNBT compound){
+        gridI = loadGrid(compound, 4, 4);
+        gridB = loadGridB(compound, 4, 4);
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveGrid(compound, 4, 4, gridI);
+        saveGridB(compound, 4, 4, gridB);
+        return compound;
     }
 
 

@@ -2,8 +2,10 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LogicBlackJack extends LogicBase {
@@ -112,6 +114,27 @@ public class LogicBlackJack extends LogicBase {
                 }
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_player1.addAll(Arrays.asList(loadCard(compound, 0)));
+        cards_player2.addAll(Arrays.asList(loadCard(compound, 1)));
+        cards_dealer.addAll(Arrays.asList(loadCard(compound, 2)));
+        value_player1 = compound.getInt("valueplayer1");
+        value_player2 = compound.getInt("valueplayer2");
+        value_dealer = compound.getInt("valuedealer");
+        split = compound.getInt("split");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCards(compound, 0, (Card[]) cards_player1.toArray());
+        saveCards(compound, 0, (Card[]) cards_player2.toArray());
+        saveCards(compound, 0, (Card[]) cards_dealer.toArray());
+        compound.putInt("valueplayer1", value_player1);
+        compound.putInt("valueplayer2", value_player2);
+        compound.putInt("valuedealer", value_dealer);
+        compound.putInt("split", split);
+        return compound;
     }
 
 

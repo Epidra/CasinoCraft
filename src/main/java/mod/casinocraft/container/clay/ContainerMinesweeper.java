@@ -1,9 +1,8 @@
-package mod.casinocraft.container.dust;
+package mod.casinocraft.container.clay;
 
 import mod.casinocraft.CasinoCraft;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.tileentities.TileEntityBoard;
-import mod.shared.container.ContainerBase;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;

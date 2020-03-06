@@ -1,6 +1,7 @@
 package mod.casinocraft.logic.clay;
 
 import mod.casinocraft.logic.LogicBase;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicHalma extends LogicBase {
 
@@ -52,6 +53,15 @@ public class LogicHalma extends LogicBase {
 
     public void updateLogic(){
 
+    }
+
+    public void load2(CompoundNBT compound){
+        grid = loadGrid(compound, 17, 9);
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveGrid(compound, 17, 9, grid);
+        return compound;
     }
 
 

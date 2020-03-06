@@ -3,6 +3,7 @@ package mod.casinocraft.logic.clay;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Dice;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicSicBo extends LogicBase {
 
@@ -71,6 +72,19 @@ public class LogicSicBo extends LogicBase {
 
     public void updateMotion(){
 
+    }
+
+    public void load2(CompoundNBT compound){
+
+        grid = loadGrid(compound, 12, 6);
+        dice = loadDice(compound);
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+
+        saveGrid(compound, 12, 6, grid);
+        saveDice(compound, dice);
+        return compound;
     }
 
 

@@ -3,8 +3,10 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LogicSpider extends LogicBase {
@@ -79,6 +81,51 @@ public class LogicSpider extends LogicBase {
             scorePoint = 100;
             turnstate = 4;
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_field[0].addAll(Arrays.asList(loadCard(compound, 0)));
+        cards_field[1].addAll(Arrays.asList(loadCard(compound, 1)));
+        cards_field[2].addAll(Arrays.asList(loadCard(compound, 2)));
+        cards_field[3].addAll(Arrays.asList(loadCard(compound, 3)));
+        cards_field[4].addAll(Arrays.asList(loadCard(compound, 4)));
+        cards_field[5].addAll(Arrays.asList(loadCard(compound, 5)));
+        cards_field[6].addAll(Arrays.asList(loadCard(compound, 6)));
+        cards_field[7].addAll(Arrays.asList(loadCard(compound, 7)));
+        cards_field[8].addAll(Arrays.asList(loadCard(compound, 8)));
+        cards_field[9].addAll(Arrays.asList(loadCard(compound, 9)));
+
+        cards_reserve[0].addAll(Arrays.asList(loadCard(compound, 10)));
+        cards_reserve[1].addAll(Arrays.asList(loadCard(compound, 11)));
+        cards_reserve[2].addAll(Arrays.asList(loadCard(compound, 12)));
+        cards_reserve[3].addAll(Arrays.asList(loadCard(compound, 13)));
+        cards_reserve[4].addAll(Arrays.asList(loadCard(compound, 14)));
+
+        cards_finish.addAll(Arrays.asList(loadCard(compound, 15)));
+        compress = compound.getInt("compress");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCards(compound, 0, (Card[]) cards_field[0].toArray());
+        saveCards(compound, 1, (Card[]) cards_field[1].toArray());
+        saveCards(compound, 2, (Card[]) cards_field[2].toArray());
+        saveCards(compound, 3, (Card[]) cards_field[3].toArray());
+        saveCards(compound, 4, (Card[]) cards_field[4].toArray());
+        saveCards(compound, 5, (Card[]) cards_field[5].toArray());
+        saveCards(compound, 6, (Card[]) cards_field[6].toArray());
+        saveCards(compound, 7, (Card[]) cards_field[7].toArray());
+        saveCards(compound, 8, (Card[]) cards_field[8].toArray());
+        saveCards(compound, 9, (Card[]) cards_field[9].toArray());
+
+        saveCards(compound, 10, (Card[]) cards_reserve[0].toArray());
+        saveCards(compound, 11, (Card[]) cards_reserve[1].toArray());
+        saveCards(compound, 12, (Card[]) cards_reserve[2].toArray());
+        saveCards(compound, 13, (Card[]) cards_reserve[3].toArray());
+        saveCards(compound, 14, (Card[]) cards_reserve[4].toArray());
+
+        saveCards(compound, 15, (Card[]) cards_finish.toArray());
+        compound.putInt("compress", compress);
+        return compound;
     }
 
 

@@ -108,13 +108,13 @@ public class GuiArcade extends ContainerScreen<ContainerMachine> {
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat events
      */
-    public void onGuiClosed(){
+    public void removed() {
         if(CONTAINER.world().getBlockState(CONTAINER.getPos()).getBlock() instanceof BlockArcade) {
             BlockArcade block = (BlockArcade) CONTAINER.world().getBlockState(CONTAINER.getPos()).getBlock();
             block.setPowerState(CONTAINER.inventory.getStackInSlot(1).getItem(), CONTAINER.getPos());
         }
-        if (this.minecraft.player != null){
-            this.CONTAINER.onContainerClosed(this.minecraft.player);
+        if (this.minecraft.player != null) {
+            this.container.onContainerClosed(this.minecraft.player);
         }
     }
 

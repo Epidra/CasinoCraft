@@ -2,6 +2,7 @@ package mod.casinocraft.logic.dust;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +94,53 @@ public class LogicMeanMinos extends LogicBase {
                 Command_Collapse();
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+
+        grid = loadGrid(compound, 6, 15);
+        active_hold = compound.getBoolean("activehold");
+        container_next[0] = compound.getInt("containernext0");
+        container_next[1] = compound.getInt("containernext1");
+
+        container_hold[0] = compound.getInt("containerhold0");
+        container_hold[1] = compound.getInt("containerhold1");
+
+        container_current[0] = compound.getInt("containercurrent0");
+        container_current[1] = compound.getInt("containercurrent1");
+
+        time_last = compound.getDouble("timelast");
+        time_break = compound.getDouble("timebreak");
+        timer = compound.getInt("timer");
+
+        domino[0].set(compound.getInt("domino0x"), compound.getInt("domino0y"));
+        domino[1].set(compound.getInt("domino1x"), compound.getInt("domino1y"));
+
+        alpha = compound.getInt("alpha");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+
+        saveGrid(compound, 6, 15, grid);
+        compound.putBoolean("activehold", active_hold);
+        compound.putInt("container_next0", container_next[0]);
+        compound.putInt("container_next1", container_next[1]);
+
+        compound.putInt("container_hold0", container_hold[0]);
+        compound.putInt("container_hold1", container_hold[1]);
+
+        compound.putInt("container_current0", container_current[0]);
+        compound.putInt("container_current1", container_current[1]);
+
+        compound.putDouble("timelast", time_last);
+        compound.putDouble("timebreak", time_break);
+        compound.putInt("timer", timer);
+        compound.putInt("domino0x", domino[0].X);
+        compound.putInt("domino0y", domino[0].Y);
+        compound.putInt("domino1x", domino[1].X);
+        compound.putInt("domino1y", domino[1].Y);
+        compound.putInt("alpha", alpha);
+        return compound;
     }
 
 

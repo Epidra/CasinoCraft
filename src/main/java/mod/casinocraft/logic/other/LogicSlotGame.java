@@ -1,6 +1,7 @@
 package mod.casinocraft.logic.other;
 
 import mod.casinocraft.logic.LogicBase;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicSlotGame extends LogicBase {
 
@@ -26,6 +27,16 @@ public class LogicSlotGame extends LogicBase {
     @Override
     public void start2() {
 
+    }
+
+    @Override
+    public void load2(CompoundNBT compound){
+
+    }
+
+    @Override
+    public CompoundNBT save2(CompoundNBT compound){
+        return compound;
     }
 }
 

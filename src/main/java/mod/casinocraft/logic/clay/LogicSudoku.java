@@ -1,6 +1,7 @@
 package mod.casinocraft.logic.clay;
 
 import mod.casinocraft.logic.LogicBase;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicSudoku extends LogicBase {
 
@@ -61,6 +62,19 @@ public class LogicSudoku extends LogicBase {
         if(match && turnstate < 4) {
             turnstate = 4;
         }
+    }
+
+    public void load2(CompoundNBT compound){
+
+        gridI = loadGrid(compound, 9, 9);
+        gridB = loadGridB(compound, 9, 9);
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+
+        saveGrid(compound, 9, 9, gridI);
+        saveGridB(compound, 9, 9, gridB);
+        return compound;
     }
 
 

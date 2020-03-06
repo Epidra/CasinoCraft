@@ -1,10 +1,15 @@
 package mod.casinocraft.logic;
 
+import mod.casinocraft.util.Card;
+import mod.casinocraft.util.Dice;
+import mod.casinocraft.util.Entity;
 import mod.shared.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public abstract class LogicBase {
@@ -81,24 +86,27 @@ public abstract class LogicBase {
 
     //--------------------BASIC--------------------
 
-    public void start(int diff){ // Why ???
+    public void start(int seed){ // Why ???
+        RANDOM.setSeed(seed);
         //difficulty = diff;
         if(turnstate == 0) {
-            turnstate = 2;
-            start();
+            if(table == 0){
+                turnstate = 1;
+            } else {
+                turnstate = 2;
+            }
+            //turnstate = 2;
+            //start();
         } else {
             if(turnstate >= 5){
                 turnstate = 1;
-                start();
+                //start();
             } else {
                 turnstate = 0;
             }
         }
-        start();
-    }
-
-    public void start(){
-        turnstate = 2;
+        //start();
+        //turnstate = 2;
         scorePoint = 0;
         scoreLevel  = 0;
         scoreLives  = 0;
@@ -108,9 +116,22 @@ public abstract class LogicBase {
         start2();
     }
 
+    //public void start(){ // ???
+    //    //turnstate = 2;
+    //    scorePoint = 0;
+    //    scoreLevel  = 0;
+    //    scoreLives  = 0;
+    //    hand   = "empty";
+    //    reward = 0;
+    //    selector.set(0,0);
+    //    start2();
+    //}
+
     public void update(){
-        updateMotion();
-        updateLogic();
+        if(!pause){
+            updateMotion();
+            updateLogic();
+        }
     }
 
     public void load(CompoundNBT compound){
@@ -131,79 +152,12 @@ public abstract class LogicBase {
                 }
             }
         }
-        //{ // Cards
-        //    if(nbtHasCards){
-        //        for(int pos = 0; pos < cardSize; pos++){
-        //            int cardSize = compound.getInt("cardsize" + pos + "stack");
-        //            for(int i = 0; i < cardSize; i++){
-        //                if(listCARD[pos].size() < i + 1){
-        //                    listCARD[pos].add(
-        //                            new Card(compound.getInt("card" + pos + "#" + i + "x"),
-        //                                    compound.getInt("card" + pos + "#" + i + "y"),
-        //                                    compound.getBoolean("card" + pos + "#" + i + "z")));
-        //                } else {
-        //                    listCARD[pos].set(i,
-        //                            new Card(compound.getInt("card" + pos + "#" + i + "x"),
-        //                                    compound.getInt("card" + pos + "#" + i + "y"),
-        //                                    compound.getBoolean("card" + pos + "#" + i + "z")));
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-        //{ // Dice
-        //    int diceSize = compound.getInt("dicesize");
-        //    for(int i = 0; i < diceSize; i++){
-        //        if(listDICE.size() < i + 1){
-        //            listDICE.add(
-        //                    new Dice(
-        //                            compound.getInt("dice" + i + "x"),
-        //                            compound.getInt("dice" + i + "y")));
-        //        } else {
-        //            listDICE.set(i,
-        //                    new Dice(
-        //                            compound.getInt("dice" + i + "x"),
-        //                            compound.getInt("dice" + i + "y")));
-        //        }
-        //    }
-        //}
-        //{ // Grid
-        //    if(nbtHasGrid){
-        //        for(int y = 0; y < gridSize.Y; y++){
-        //            for(int x = 0; x < gridSize.X; x++){
-        //                grid[x][y] = compound.getInt("grid" + x + "#" + y + "z");
-        //            }
-        //        }
-        //    }
+
+        load2(compound);
+
 //
         //}
-        //{ // Entity
-        //    int entitySize = compound.getInt("entitysize");
-        //    int intcounter = 0;
-        //    for(int i = 0; i < entitySize; i++){
-        //        if(listENTITY.size() < i + 1){
-        //            listENTITY.add(
-        //                    new Entity(
-        //                            compound.getInt("entity" + i + "a"),
-        //                            new Vector2(
-        //                                    compound.getInt("entity" + i + "x"),
-        //                                    compound.getInt("entity" + i + "y")),
-        //                            new Vector2(
-        //                                    compound.getInt("entity" + i + "u"),
-        //                                    compound.getInt("entity" + i + "v"))));
-        //        } else {
-        //            listENTITY.add(
-        //                    new Entity(
-        //                            compound.getInt("entity" + i + "a"),
-        //                            new Vector2(
-        //                                    compound.getInt("entity" + i + "x"),
-        //                                    compound.getInt("entity" + i + "y")),
-        //                            new Vector2(
-        //                                    compound.getInt("entity" + i + "u"),
-        //                                    compound.getInt("entity" + i + "v"))));
-        //        }
-        //    }
-        //}
+
     }
 
     public CompoundNBT save(CompoundNBT compound){
@@ -216,6 +170,7 @@ public abstract class LogicBase {
             compound.putInt("reward", reward);
             compound.putInt("selectorx", selector.X);
             compound.putInt("selectory", selector.Y);
+            compound.putBoolean("pause", pause);
         }
         { // Highscore
             if(hasHighscore){
@@ -225,58 +180,121 @@ public abstract class LogicBase {
                 }
             }
         }
-        //{ // Cards
-        //    if(nbtHasCards){
-        //        for(int pos = 0; pos < cardSize; pos++){
-        //            int cardcounter = 0;
-        //            compound.setInt("cardsize" + pos + "stack", listCARD[pos].size());
-        //            if(listCARD[pos].size() > 0){
-        //                for (Card c : listCARD[pos]) {
-        //                    compound.setInt("card" + pos + "#" + cardcounter + "x", c.number);
-        //                    compound.setInt("card" + pos + "#" + cardcounter + "y", c.suit);
-        //                    compound.setBoolean("card" + pos + "#" + cardcounter + "z", c.hidden);
-        //                    cardcounter++;
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-        //{ // Dice
-        //    compound.setInt("dicesize",listDICE.size());
-        //    int dicecounter = 0;
-        //    if(listDICE.size() > 0){
-        //        for (Dice d : listDICE) {
-        //            compound.setInt("dice" + dicecounter + "x", d.number);
-        //            compound.setInt("dice" + dicecounter + "y", d.color);
-        //            dicecounter++;
-        //        }
-        //    }
-        //}
-        //{ // Grid
-        //    if(nbtHasGrid){
-        //        for(int y = 0; y < gridSize.Y; y++){
-        //            for(int x = 0; x < gridSize.X; x++){
-        //                compound.setInt("grid" + x + "#" + y + "z", grid[x][y]);
-        //            }
-        //        }
-        //    }
+
+        save2(compound);
+
+
+
 //
         //}
-        //{ // Entity
-        //    compound.setInt("entitysize", listENTITY.size());
-        //    int entitySize = compound.getInt("entitysize");
-        //    int entitycounter = 0;
-        //    if(listENTITY.size() > 0){
-        //        for(Entity e : listENTITY){
-        //            compound.setInt("entity" + entitycounter + "a", e.ai);
-        //            compound.setInt("entity" + entitycounter + "x", e.Get_Pos().X);
-        //            compound.setInt("entity" + entitycounter + "y", e.Get_Pos().Y);
-        //            compound.setInt("entity" + entitycounter + "u", e.Get_Vel().X);
-        //            compound.setInt("entity" + entitycounter + "v", e.Get_Vel().Y);
-        //            entitycounter++;
-        //        }
-        //    }
-        //}
+
+        return compound;
+    }
+
+    public Card[] loadCard(CompoundNBT compound, int index){
+        int size = compound.getInt("cardsize" + index + "stack");
+        Card[] array = new Card[size];
+        for(int pos = 0; pos < size; pos++){
+            array[pos] = new Card(compound.getInt("card" + index + "#" + pos + "x"),
+                    compound.getInt("card" + index + "#" + pos + "y"),
+                    compound.getBoolean("card" + index + "#" + pos + "z"));
+        }
+        return array;
+    }
+
+    public Dice[] loadDice(CompoundNBT compound){
+        int size = compound.getInt("dicesize");
+        Dice[] array = new Dice[size];
+        for(int pos = 0; pos < size; pos++){
+            array[pos] = new Dice(
+                    compound.getInt("dice" + pos + "x"),
+                    compound.getInt("dice" + pos + "y"));
+        }
+        return array;
+    }
+
+    public int[][] loadGrid(CompoundNBT compound, int sizeX, int sizeY){
+        int[][] array = new int[sizeX][sizeY];
+        for(int y = 0; y < sizeY; y++){
+            for(int x = 0; x < sizeX; x++){
+                array[x][y] = compound.getInt("grid" + x + "#" + y + "z");
+            }
+        }
+        return array;
+    }
+
+    public boolean[][] loadGridB(CompoundNBT compound, int sizeX, int sizeY){
+        boolean[][] array = new boolean[sizeX][sizeY];
+        for(int y = 0; y < sizeY; y++){
+            for(int x = 0; x < sizeX; x++){
+                array[x][y] = compound.getBoolean("gridb" + x + "#" + y + "z");
+            }
+        }
+        return array;
+    }
+
+    public Entity[] loadEntity(CompoundNBT compound, int index){
+        int size = compound.getInt("entitysize" + index);
+        Entity[] array = new Entity[size];
+        for(int pos = 0; pos < size; pos++){
+            array[pos] = new Entity(
+                    compound.getInt("entity" + index + "#" + pos + "a"),
+                    new Vector2(
+                            compound.getInt("entity" + index + "#" + pos + "x"),
+                            compound.getInt("entity" + index + "#" + pos + "y")),
+                    new Vector2(
+                            compound.getInt("entity" + index + "#" + pos + "u"),
+                            compound.getInt("entity" + index + "#" + pos + "v")));
+        }
+        return array;
+    }
+
+    public CompoundNBT saveCards(CompoundNBT compound, int index, Card[] array){
+        compound.putInt("cardsize" + index + "stack", array.length);
+        for(int pos = 0; pos < array.length; pos++){
+            compound.putInt("card" + index + "#" + pos + "x", array[pos].number);
+            compound.putInt("card" + index + "#" + pos + "y", array[pos].suit);
+            compound.putBoolean("card" + index + "#" + pos + "z", array[pos].hidden);
+        }
+        return compound;
+    }
+
+    public CompoundNBT saveDice(CompoundNBT compound, Dice[] array){
+        compound.putInt("dicesize", array.length);
+        for(int pos = 0; pos < array.length; pos++){
+            compound.putInt("dice" + pos + "x", array[pos].number);
+            compound.putInt("dice" + pos + "y", array[pos].color);
+        }
+        return compound;
+    }
+
+    public CompoundNBT saveGrid(CompoundNBT compound, int sizeX, int sizeY, int[][] array){
+        for(int y = 0; y < sizeY; y++){
+            for(int x = 0; x < sizeX; x++){
+                compound.putInt("grid" + x + "#" + y + "z", array[x][y]);
+            }
+        }
+        return compound;
+    }
+
+    public CompoundNBT saveGridB(CompoundNBT compound, int sizeX, int sizeY, boolean[][] array){
+        for(int y = 0; y < sizeY; y++){
+            for(int x = 0; x < sizeX; x++){
+                compound.putBoolean("gridb" + x + "#" + y + "z", array[x][y]);
+            }
+        }
+        return compound;
+    }
+
+    public CompoundNBT saveEntity(CompoundNBT compound, int index, Entity[] array){
+        compound.putInt("entitysize" + index, array.length);
+        for(int pos = 0; pos < array.length; pos++){
+            compound.putInt("entity" + index + "#" + pos + "a", array[pos].ai);
+            compound.putInt("entity" + index + "#" + pos + "x", array[pos].Get_Pos().X);
+            compound.putInt("entity" + index + "#" + pos + "y", array[pos].Get_Pos().Y);
+            compound.putInt("entity" + index + "#" + pos + "u", array[pos].Get_Vel().X);
+            compound.putInt("entity" + index + "#" + pos + "v", array[pos].Get_Vel().Y);
+        }
         return compound;
     }
 
@@ -346,11 +364,19 @@ public abstract class LogicBase {
 
 
 
+    public void actionPause(){
+        pause = !pause;
+    }
+
+
+
     //--------------------OVERRIDES--------------------
 
     public abstract void updateMotion();
     public abstract void updateLogic();
     public abstract void start2();
+    public abstract void load2(CompoundNBT compound);
+    public abstract CompoundNBT save2(CompoundNBT compound);
 
     public boolean hasHighscore(){
         return hasHighscore;

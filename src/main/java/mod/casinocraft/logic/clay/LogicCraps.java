@@ -3,6 +3,7 @@ package mod.casinocraft.logic.clay;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Dice;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicCraps extends LogicBase {
 
@@ -79,6 +80,23 @@ public class LogicCraps extends LogicBase {
 
     public void updateLogic(){
 
+    }
+
+    public void load2(CompoundNBT compound){
+        dice = loadDice(compound);
+        grid = loadGrid(compound, 21, 5);
+        result = compound.getInt("result");
+        point = compound.getInt("point");
+        comepoint = compound.getInt("comepoint");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveDice(compound, dice);
+        saveGrid(compound, 21, 5, grid);
+        compound.putInt("result", result);
+        compound.putInt("point", point);
+        compound.putInt("comepoint", comepoint);
+        return compound;
     }
 
 

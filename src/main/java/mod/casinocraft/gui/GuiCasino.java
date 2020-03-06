@@ -6,9 +6,7 @@ import mod.casinocraft.blocks.BlockArcade;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.logic.other.LogicDummy;
-import mod.casinocraft.network.ServerBlockMessage;
-import mod.casinocraft.network.ServerPlayerMessage;
-import mod.casinocraft.network.ServerScoreMessage;
+import mod.casinocraft.network.*;
 import mod.casinocraft.system.CasinoPacketHandler;
 import mod.casinocraft.util.Card;
 import mod.shared.container.ContainerBase;
@@ -132,11 +130,10 @@ public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
         if(CONTAINER.turnstate() == 0 && tableID == 0 && keyCode == KEY_ENTER) {
             if(!CONTAINER.hasToken() || playerToken >= CONTAINER.getBetLow()) {
                 if(CONTAINER.hasToken()) CollectBet();
-                logic().start(2);
+                start();
                 shift = 2;
-                logic().turnstate = 1;
             }
-        } else
+        } else {
             // Collect Token and start game (Arcade Version) / FROM: Highscore Screen
             if(CONTAINER.turnstate() == 7 && tableID == 0 && keyCode == KEY_ENTER) {
                 if(CONTAINER.hasToken()) {
@@ -146,13 +143,13 @@ public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
                     intro = 256;
                     logic().turnstate = 0;
                 } else {
-                    logic().start(2);
+                    start();
                     if(CONTAINER.turnstate() == 0) {
                         intro = 256;
                         shift = 1;
                     }
                 }
-            } else
+            } else {
                 // Collect Token and start game (Arcade Version) / FROM: GameOver Screen
                 if(CONTAINER.turnstate() == 5 && tableID == 0 && keyCode == KEY_ENTER) {
                     if(logic().hasHighscore()) { // Show Highscore Screen
@@ -164,12 +161,19 @@ public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
                             camera0 = 0;
                             shift = 1;
                             intro = 256;
-                            logic().turnstate = 0;
+                            reset();
                         } else {
-                            logic().start(2);
+                            start();
                         }
                     }
                 }
+            }
+        }
+
+        // Toggle Pause Mode
+        if(CONTAINER.turnstate() == 2 && tableID == 0 && keyCode == KEY_SPACE){
+            CasinoPacketHandler.sendToServer(new ServerPauseMessage(CONTAINER.getPos()));
+        }
 
         // Close Screen Command
         if (keyCode == KEY_ESCAPE){
@@ -191,12 +195,12 @@ public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
                 if(mouseRect(82, 204, 92, 26, mouseX, mouseY)) {
                     // Start Game
                     if(!CONTAINER.hasToken()){
-                        logic().start(tableID);
+                        start();
                     } else {
                         if(playerToken >= bet){
                             CollectBet();
                             playerToken = -1;
-                            logic().start(tableID);
+                            start();
                         }
                     }
                 }
@@ -204,12 +208,12 @@ public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
             if(CONTAINER.turnstate() == 5) { // GameOver Screen
                 if(mouseRect(82, 204, 92, 26, mouseX, mouseY)){
                     if(logic().hasHighscore()) { // Show Highscore
-                        logic().turnstate = 7;
+                        turnstate(7);
                     } else { // Reset Game
                         if(CONTAINER.hasToken()){
-                            logic().start(tableID+1);
+                            start();
                         } else {
-                            logic().turnstate = 0;
+                            reset();
                         }
                     }
                 }
@@ -217,9 +221,9 @@ public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
             if(CONTAINER.turnstate() == 7) { // Highscore Screen
                 if(mouseRect(82, 204, 92, 26, mouseX, mouseY)){
                     if(CONTAINER.hasToken()){ // Reset Game
-                        logic().start(tableID+1);
+                        start();
                     } else {
-                        logic().turnstate = 0;
+                        reset();
                     }
                 }
             } else {
@@ -351,9 +355,7 @@ public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
             drawGuiContainerForegroundLayer2(mouseX, mouseY);
 
             if(logic().turnstate == 4){ // ???
-                logic().turnstate = 5;
                 gameOver();
-                playerToken = -1;
             }
         }
         if(!CONTAINER.getName().matches(logic().getName())){
@@ -401,12 +403,16 @@ public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
         if(CONTAINER.turnstate() == 1) {
             intro--;
             if(intro == 0) {
-                logic().turnstate = 2;
+                turnstate(2);
             }
         }
 
         // MiniGame BackgroundDrawer
-        if(CONTAINER.turnstate() >= 1 && CONTAINER.turnstate() < 6) drawGuiContainerBackgroundLayer2(partialTicks, mouseX, mouseY);
+        if(CONTAINER.turnstate() >= 1 && CONTAINER.turnstate() < 6){
+            if(logic().pause) GlStateManager.color4f(0.35F, 0.35F, 0.35F, 1.0F);
+            drawGuiContainerBackgroundLayer2(partialTicks, mouseX, mouseY);
+            if(logic().pause) GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        }
 
         // If NOT Ingame
         if((CONTAINER.turnstate() == 5 || CONTAINER.turnstate() == 0 || CONTAINER.turnstate() == 7) && tableID > 0 && !(logic() instanceof LogicDummy)){
@@ -444,11 +450,13 @@ public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
     }
 
     protected void gameOver(){ // ???
+        turnstate(5);
         payBet(logic().reward);
         if(logic().hasHighscore()) {
             logic().addScore(PLAYER.player.getName().getString(), logic().scorePoint);
             CasinoPacketHandler.sendToServer(new ServerScoreMessage(CONTAINER.getScoreToken().getItem(), logic().scoreName, logic().scoreHigh, CONTAINER.getPos()));
         }
+        playerToken = -1;
     }
 
 
@@ -644,26 +652,43 @@ public abstract class GuiCasino extends ContainerScreen<ContainerCasino> {
             int i = 0;
         }
 
+        int sizeX = 0;
         String s = CONTAINER.getName();
         String logo[] = s.split("_");
         if(logo[0].charAt(0) != 'x'){
             if(logo[0].charAt(0) == 'a'){
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
+                sizeX = 16;
             } else if(logo[0].charAt(0) == 'c'){
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
+                sizeX = 32;
                 vanish = 0;
             }
 
             for(int i = 1; i < logo.length; i++){
                 for(int k = 0; k < logo[i].length(); k++){
-                    drawLetter(logo[i].charAt(k), guiLeft + 128 - logo[i].length()*16 + 32*k, guiTop + 32*i - move + vanish, 32, 32 - vanish, vanish);
+                    drawLetter(logo[i].charAt(k), guiLeft + 128 - logo[i].length()*16 + sizeX*k, guiTop + 32*i - move + vanish, 32, 32 - vanish, vanish);
                 }
             }
         }
     }
 
     protected void action(int action){
-        CONTAINER.logic().actionTouch(action);
+        CasinoPacketHandler.sendToServer(new ServerActionMessage(action, CONTAINER.getPos()));
+        //CONTAINER.logic().actionTouch(action);
+    }
+
+    protected void start(){
+        Random r = new Random();
+        CasinoPacketHandler.sendToServer(new ServerActionMessage(r.nextInt(), CONTAINER.getPos()));
+    }
+
+    protected void reset(){
+        CasinoPacketHandler.sendToServer(new ServerTurnstateMessage(0, CONTAINER.getPos()));
+    }
+
+    protected void turnstate(int state){
+        CasinoPacketHandler.sendToServer(new ServerTurnstateMessage(state, CONTAINER.getPos()));
     }
 
     protected void drawString(String text, int posX, int posY){

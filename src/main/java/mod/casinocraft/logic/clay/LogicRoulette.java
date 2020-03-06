@@ -2,6 +2,7 @@ package mod.casinocraft.logic.clay;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicRoulette extends LogicBase {
 
@@ -76,6 +77,29 @@ public class LogicRoulette extends LogicBase {
             selector = new Vector2(-1, -1);
             //GameOver();
         }
+    }
+
+    public void load2(CompoundNBT compound){
+
+        grid = loadGrid(compound, 25, 7);
+        rotation_wheel = compound.getFloat("rotationwheel");
+        rotation_ball = compound.getFloat("rotation_ball");
+        spinning = compound.getBoolean("spinning");
+        result = compound.getInt("result");
+        timer = compound.getInt("timer");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+
+        saveGrid(compound, 25, 7, grid);
+
+        compound.putFloat("rotationwheel", rotation_wheel);
+        compound.putFloat("rotationball", rotation_ball);
+        compound.putBoolean("spinning", spinning);
+        compound.putInt("result", result);
+        compound.putInt("timer", timer);
+
+        return compound;
     }
 
 

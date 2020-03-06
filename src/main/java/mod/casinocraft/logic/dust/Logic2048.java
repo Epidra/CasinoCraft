@@ -1,6 +1,7 @@
 package mod.casinocraft.logic.dust;
 
 import mod.casinocraft.logic.LogicBase;
+import net.minecraft.nbt.CompoundNBT;
 
 public class Logic2048 extends LogicBase {
 
@@ -69,6 +70,32 @@ public class Logic2048 extends LogicBase {
 
     public void updateMotion() {
 
+    }
+
+    public void load2(CompoundNBT compound){
+
+        gridI = loadGrid(compound, 4, 4);
+        gridB = loadGridB(compound, 4, 4);
+
+        placing = compound.getBoolean("placing");
+        timerActive = compound.getBoolean("timeractive");
+
+        timer = compound.getInt("timer");
+        direction = compound.getInt("direction");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+
+        saveGrid(compound, 4, 4, gridI);
+        saveGridB(compound, 4, 4, gridB);
+
+        compound.putBoolean("placing", placing);
+        compound.putBoolean("timeractive", timerActive);
+
+        compound.putInt("timer", timer);
+        compound.putInt("direction", direction);
+
+        return compound;
     }
 
 

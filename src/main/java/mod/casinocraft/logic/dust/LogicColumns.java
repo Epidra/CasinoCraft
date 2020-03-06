@@ -2,6 +2,7 @@ package mod.casinocraft.logic.dust;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +97,62 @@ public class LogicColumns extends LogicBase {
                 Command_Collapse();
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+
+        grid = loadGrid(compound, 6, 15);
+        active_hold = compound.getBoolean("activehold");
+        container_next[0] = compound.getInt("containernext0");
+        container_next[1] = compound.getInt("containernext1");
+        container_next[2] = compound.getInt("containernext2");
+
+        container_hold[0] = compound.getInt("containerhold0");
+        container_hold[1] = compound.getInt("containerhold1");
+        container_hold[2] = compound.getInt("containerhold2");
+
+        container_current[0] = compound.getInt("containercurrent0");
+        container_current[1] = compound.getInt("containercurrent1");
+        container_current[2] = compound.getInt("containercurrent2");
+
+        time_last = compound.getDouble("timelast");
+        time_break = compound.getDouble("timebreak");
+        timer = compound.getInt("timer");
+
+        tromino[0].set(compound.getInt("tromino0x"), compound.getInt("tromino0y"));
+        tromino[1].set(compound.getInt("tromino1x"), compound.getInt("tromino1y"));
+        tromino[2].set(compound.getInt("tromino2x"), compound.getInt("tromino2y"));
+
+        alpha = compound.getInt("alpha");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+
+        saveGrid(compound, 6, 15, grid);
+        compound.putBoolean("activehold", active_hold);
+        compound.putInt("container_next0", container_next[0]);
+        compound.putInt("container_next1", container_next[1]);
+        compound.putInt("container_next2", container_next[2]);
+
+        compound.putInt("container_hold0", container_hold[0]);
+        compound.putInt("container_hold1", container_hold[1]);
+        compound.putInt("container_hold2", container_hold[2]);
+
+        compound.putInt("container_current0", container_current[0]);
+        compound.putInt("container_current1", container_current[1]);
+        compound.putInt("container_current2", container_current[2]);
+
+        compound.putDouble("timelast", time_last);
+        compound.putDouble("timebreak", time_break);
+        compound.putInt("timer", timer);
+        compound.putInt("tromino0x", tromino[0].X);
+        compound.putInt("tromino0y", tromino[0].Y);
+        compound.putInt("tromino1x", tromino[1].X);
+        compound.putInt("tromino1y", tromino[1].Y);
+        compound.putInt("tromino2x", tromino[2].X);
+        compound.putInt("tromino2y", tromino[2].Y);
+        compound.putInt("alpha", alpha);
+        return compound;
     }
 
 

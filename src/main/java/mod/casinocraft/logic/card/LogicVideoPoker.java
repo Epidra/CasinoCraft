@@ -2,6 +2,9 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import net.minecraft.nbt.CompoundNBT;
+
+import java.util.Arrays;
 
 public class LogicVideoPoker extends LogicBase {
 
@@ -110,6 +113,29 @@ public class LogicVideoPoker extends LogicBase {
                 }
                 break;
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_field = loadCard(compound, 0);
+        hold[0] = compound.getBoolean("hold0");
+        hold[1] = compound.getBoolean("hold1");
+        hold[2] = compound.getBoolean("hold2");
+        hold[3] = compound.getBoolean("hold3");
+        hold[4] = compound.getBoolean("hold4");
+        ticker = compound.getInt("ticker");
+        movestate = compound.getInt("movestate");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCards(compound, 0, cards_field);
+        compound.putBoolean("hold0", hold[0]);
+        compound.putBoolean("hold1", hold[1]);
+        compound.putBoolean("hold2", hold[2]);
+        compound.putBoolean("hold3", hold[3]);
+        compound.putBoolean("hold4", hold[4]);
+        compound.putInt("ticker", ticker);
+        compound.putInt("movestate", movestate);
+        return compound;
     }
 
 

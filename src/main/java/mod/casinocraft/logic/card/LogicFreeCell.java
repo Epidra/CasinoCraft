@@ -3,8 +3,10 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LogicFreeCell extends LogicBase {
@@ -144,6 +146,46 @@ public class LogicFreeCell extends LogicBase {
             }
             cards_freecell[x].update();
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_field[0].addAll(Arrays.asList(loadCard(compound, 0)));
+        cards_field[1].addAll(Arrays.asList(loadCard(compound, 1)));
+        cards_field[2].addAll(Arrays.asList(loadCard(compound, 2)));
+        cards_field[3].addAll(Arrays.asList(loadCard(compound, 3)));
+        cards_field[4].addAll(Arrays.asList(loadCard(compound, 4)));
+        cards_field[5].addAll(Arrays.asList(loadCard(compound, 5)));
+        cards_field[6].addAll(Arrays.asList(loadCard(compound, 6)));
+        cards_field[7].addAll(Arrays.asList(loadCard(compound, 7)));
+
+        cards_finish[0].addAll(Arrays.asList(loadCard(compound, 8)));
+        cards_finish[1].addAll(Arrays.asList(loadCard(compound, 9)));
+        cards_finish[2].addAll(Arrays.asList(loadCard(compound, 10)));
+        cards_finish[3].addAll(Arrays.asList(loadCard(compound, 11)));
+        cards_freecell = loadCard(compound, 12);
+        compress = compound.getInt("compress");
+        timer = compound.getInt("timer");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCards(compound, 0, (Card[]) cards_field[0].toArray());
+        saveCards(compound, 1, (Card[]) cards_field[1].toArray());
+        saveCards(compound, 2, (Card[]) cards_field[2].toArray());
+        saveCards(compound, 3, (Card[]) cards_field[3].toArray());
+        saveCards(compound, 4, (Card[]) cards_field[4].toArray());
+        saveCards(compound, 5, (Card[]) cards_field[5].toArray());
+        saveCards(compound, 6, (Card[]) cards_field[6].toArray());
+        saveCards(compound, 7, (Card[]) cards_field[7].toArray());
+
+        saveCards(compound, 8, (Card[]) cards_finish[0].toArray());
+        saveCards(compound, 9, (Card[]) cards_finish[1].toArray());
+        saveCards(compound, 10, (Card[]) cards_finish[2].toArray());
+        saveCards(compound, 11, (Card[]) cards_finish[3].toArray());
+
+        saveCards(compound, 0, cards_freecell);
+        compound.putInt("compress", compress);
+        compound.putInt("timer", timer);
+        return compound;
     }
 
 

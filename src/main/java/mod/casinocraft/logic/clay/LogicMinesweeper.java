@@ -1,7 +1,8 @@
-package mod.casinocraft.logic.dust;
+package mod.casinocraft.logic.clay;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,22 @@ public class LogicMinesweeper extends LogicBase {
 
     public void updateLogic(){
 
+    }
+
+    public void load2(CompoundNBT compound){
+
+        gridI = loadGrid(compound, 26, 14);
+        gridB = loadGridB(compound, 26, 14);
+        bombs = compound.getInt("bombs");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+
+        saveGrid(compound, 26, 14, gridI);
+        saveGridB(compound, 26, 14, gridB);
+        compound.putInt("bombs", bombs);
+
+        return compound;
     }
 
 

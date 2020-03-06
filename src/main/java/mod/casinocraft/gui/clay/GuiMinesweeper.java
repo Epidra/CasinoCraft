@@ -1,10 +1,10 @@
-package mod.casinocraft.gui.dust;
+package mod.casinocraft.gui.clay;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.gui.GuiCasino;
-import mod.casinocraft.logic.dust.LogicMinesweeper;
+import mod.casinocraft.logic.clay.LogicMinesweeper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 

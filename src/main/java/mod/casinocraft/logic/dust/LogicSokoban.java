@@ -4,8 +4,10 @@ import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Entity;
 import mod.casinocraft.util.MapRoom;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LogicSokoban extends LogicBase {
@@ -88,6 +90,32 @@ public class LogicSokoban extends LogicBase {
             }
             //Command_Move();
         }
+    }
+
+    public void load2(CompoundNBT compound){
+
+        gridI = loadGrid(compound, 16, 12);
+        gridB = loadGridB(compound, 16, 12);
+
+        octanom = loadEntity(compound, 0)[0];
+        crate = Arrays.asList(loadEntity(compound, 1));
+        cross = Arrays.asList(loadEntity(compound, 1));
+
+        moving = compound.getBoolean("moving");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+
+        saveGrid(compound, 16, 12, gridI);
+        saveGridB(compound, 16, 12, gridB);
+
+        saveEntity(compound, 0, new Entity[]{octanom});
+        saveEntity(compound, 1, (Entity[]) crate.toArray());
+        saveEntity(compound, 1, (Entity[]) cross.toArray());
+
+        compound.putBoolean("moving", moving);
+
+        return compound;
     }
 
 
