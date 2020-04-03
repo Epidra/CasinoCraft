@@ -225,14 +225,18 @@ public class CasinoKeeper {
     public static ResourceLocation TEXTURE_OCTAGAMES         = new ResourceLocation(MODID, "textures/gui/octagames.png");
     public static ResourceLocation TEXTURE_CASINO            = new ResourceLocation(MODID, "textures/gui/casino.png");
     public static ResourceLocation TEXTURE_SLOTMACHINE       = new ResourceLocation(MODID, "textures/gui/slotmachine.png");
-    public static ResourceLocation TEXTURE_SLOTWHEEL         = new ResourceLocation(MODID, "textures/gui/slotwheel.png");
+    public static ResourceLocation TEXTURE_SLOTGAME          = new ResourceLocation(MODID, "textures/gui/slotgame.png");
     public static ResourceLocation TEXTURE_ROULETTE_LEFT     = new ResourceLocation(MODID, "textures/gui/roulette_left.png");
     public static ResourceLocation TEXTURE_ROULETTE_RIGHT    = new ResourceLocation(MODID, "textures/gui/roulette_right.png");
+    public static ResourceLocation TEXTURE_ROULETTE_MIDDLE   = new ResourceLocation(MODID, "textures/gui/roulette_middle.png");
     public static ResourceLocation TEXTURE_ROULETTE_WHEEL    = new ResourceLocation(MODID, "textures/gui/roulette_wheel.png");
     public static ResourceLocation TEXTURE_SICBO_LEFT        = new ResourceLocation(MODID, "textures/gui/sicbo_left.png");
     public static ResourceLocation TEXTURE_SICBO_RIGHT       = new ResourceLocation(MODID, "textures/gui/sicbo_right.png");
+    public static ResourceLocation TEXTURE_SICBO_MIDDLE      = new ResourceLocation(MODID, "textures/gui/sicbo_middle.png");
     public static ResourceLocation TEXTURE_CRAPS_LEFT        = new ResourceLocation(MODID, "textures/gui/craps_left.png");
     public static ResourceLocation TEXTURE_CRAPS_RIGHT       = new ResourceLocation(MODID, "textures/gui/craps_right.png");
+    public static ResourceLocation TEXTURE_CRAPS_MIDDLE      = new ResourceLocation(MODID, "textures/gui/craps_middle.png");
+    public static ResourceLocation TEXTURE_FANTAN            = new ResourceLocation(MODID, "textures/gui/fantan.png");
     public static ResourceLocation TEXTURE_ROUGE             = new ResourceLocation(MODID, "textures/gui/cards_rouge.png");
     public static ResourceLocation TEXTURE_NOIR              = new ResourceLocation(MODID, "textures/gui/cards_noir.png");
     public static ResourceLocation TEXTURE_MYSTICSQUARE      = new ResourceLocation(MODID, "textures/gui/mysticsquare.png");
@@ -241,6 +245,7 @@ public class CasinoKeeper {
     public static ResourceLocation TEXTURE_FONT_ARCADE       = new ResourceLocation(MODID, "textures/gui/font_arcade.png");
     public static ResourceLocation TEXTURE_FONT_CARDTABLE    = new ResourceLocation(MODID, "textures/gui/font_cardtable.png");
     public static ResourceLocation TEXTURE_STATIC            = new ResourceLocation(MODID, "textures/gui/static.png");
+    public static ResourceLocation TEXTURE_SIMON             = new ResourceLocation(MODID, "textures/gui/simon.png");
 
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
@@ -573,6 +578,8 @@ public class CasinoKeeper {
         ScreenManager.registerFactory(ContainerRoulette.TYPE, GuiRoulette::new);
         ScreenManager.registerFactory(ContainerSicBo.TYPE, GuiSicBo::new);
         ScreenManager.registerFactory(ContainerSudoku.TYPE, GuiSudoku::new);
+        ScreenManager.registerFactory(ContainerFanTan.TYPE, GuiFanTan::new);
+        ScreenManager.registerFactory(ContainerSimon.TYPE, GuiSimon::new);
 
         ScreenManager.registerFactory(Container2048.TYPE, Gui2048::new);
         ScreenManager.registerFactory(ContainerColumns.TYPE, GuiColumns::new);
@@ -610,6 +617,8 @@ public class CasinoKeeper {
         registry.register(ContainerRoulette.TYPE);
         registry.register(ContainerSicBo.TYPE);
         registry.register(ContainerSudoku.TYPE);
+        registry.register(ContainerFanTan.TYPE);
+        registry.register(ContainerSimon.TYPE);
 
         registry.register(Container2048.TYPE);
         registry.register(ContainerColumns.TYPE);

@@ -299,4 +299,9 @@ public abstract class ContainerCasino extends ContainerBase {
     }
 
     public abstract String getName();
+
+    public String getCurrentPlayer(){
+        TileEntityBoard te = (TileEntityBoard) world.getTileEntity(pos);
+        return te.currentPlayer;
+    }
 }

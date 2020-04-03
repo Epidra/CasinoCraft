@@ -11,7 +11,7 @@ import java.util.List;
 
 public class LogicSnake extends LogicBase {
 
-    public Entity octanom_head;
+    public Entity octanom_head = new Entity(1, new Vector2(0, 0), new Vector2(0, 0));
     public List<Entity> octanom_tail = new ArrayList<Entity>();
 
     public int temp_player; // Player Input
@@ -19,7 +19,7 @@ public class LogicSnake extends LogicBase {
 
     public int pointer;
 
-    public Vector2 point;
+    public Vector2 point = new Vector2(-1, -1);
 
     public boolean active_move_tail;
 
@@ -28,7 +28,7 @@ public class LogicSnake extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicSnake(){
-        super(true, "a_snake");
+        super(true, 0, "a_snake");
     }
 
 
@@ -40,8 +40,6 @@ public class LogicSnake extends LogicBase {
         pointer = -1;
         temp_player = 0;
         temp_auto = 0;
-        octanom_head = new Entity(1, new Vector2(0, 0), new Vector2(0, 0));
-        point = new Vector2(-1, -1);
         Command_Spawn_Point();
         octanom_tail.clear();
     }
@@ -66,8 +64,8 @@ public class LogicSnake extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-        octanom_head = loadEntity(compound, 0)[0];
-        octanom_tail = Arrays.asList(loadEntity(compound, 1));
+        octanom_head = loadEntity(    compound, 0);
+        octanom_tail = loadEntityList(compound, 1);
         temp_player = compound.getInt("tempplayer");
         temp_auto = compound.getInt("tempauto");
         pointer = compound.getInt("pointer");
@@ -76,8 +74,8 @@ public class LogicSnake extends LogicBase {
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveEntity(compound, 0, new Entity[]{octanom_head});
-        saveEntity(compound, 1, (Entity[]) octanom_tail.toArray());
+        saveEntity(    compound, 0, octanom_head);
+        saveEntityList(compound, 1, octanom_tail);
         compound.putInt("tempplayer", temp_player);
         compound.putInt("temp_auto", temp_auto);
         compound.putInt("pointer", pointer);
@@ -155,7 +153,7 @@ public class LogicSnake extends LogicBase {
     }
 
     private int Speed(){
-        return 2;
+        return 4;
     }
 
     private void Command_Spawn_Point() {

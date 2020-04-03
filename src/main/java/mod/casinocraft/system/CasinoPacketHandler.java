@@ -46,11 +46,13 @@ public class CasinoPacketHandler {
         INSTANCE.registerMessage(disc++, ServerBoardMessage.class, ServerBoardMessage::encode, ServerBoardMessage::decode, ServerBoardMessage.Handler::handle);
         INSTANCE.registerMessage(disc++, ServerPlayerMessage.class, ServerPlayerMessage::encode, ServerPlayerMessage::decode, ServerPlayerMessage.Handler::handle);
         INSTANCE.registerMessage(disc++, ServerPowerMessage.class, ServerPowerMessage::encode, ServerPowerMessage::decode, ServerPowerMessage.Handler::handle);
-        INSTANCE.registerMessage(disc++, ServerBlockMessage.class, ServerBlockMessage::encode, ServerBlockMessage::decode, ServerBlockMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, ServerScoreMessage.class, ServerScoreMessage::encode, ServerScoreMessage::decode, ServerScoreMessage.Handler::handle);
         INSTANCE.registerMessage(disc++, ServerActionMessage.class, ServerActionMessage::encode, ServerActionMessage::decode, ServerActionMessage.Handler::handle);
         INSTANCE.registerMessage(disc++, ServerStartMessage.class, ServerStartMessage::encode, ServerStartMessage::decode, ServerStartMessage.Handler::handle);
         INSTANCE.registerMessage(disc++, ServerTurnstateMessage.class, ServerTurnstateMessage::encode, ServerTurnstateMessage::decode, ServerTurnstateMessage.Handler::handle);
         INSTANCE.registerMessage(disc++, ServerPauseMessage.class, ServerPauseMessage::encode, ServerPauseMessage::decode, ServerPauseMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, PacketClientInventoryMessage.class, PacketClientInventoryMessage::encode, PacketClientInventoryMessage::decode, PacketClientInventoryMessage.Handler::handle);
+        INSTANCE.registerMessage(disc++, ServerInventoryMessage.class, ServerInventoryMessage::encode, ServerInventoryMessage::decode, ServerInventoryMessage.Handler::handle);
     }
 
     public static <MSG> void send(PacketDistributor.PacketTarget target, MSG message){

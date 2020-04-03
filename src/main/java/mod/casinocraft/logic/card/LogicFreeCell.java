@@ -17,7 +17,7 @@ public class LogicFreeCell extends LogicBase {
 
     public Card[] cards_freecell   = new Card[4];
 
-    public int compress = 4;
+    public int compress = 1;
     public int timer = 0;
 
 
@@ -33,6 +33,21 @@ public class LogicFreeCell extends LogicBase {
     //--------------------BASIC--------------------
 
     public void start2(){
+
+        cards_field[0] = new ArrayList<Card>();
+        cards_field[1] = new ArrayList<Card>();
+        cards_field[2] = new ArrayList<Card>();
+        cards_field[3] = new ArrayList<Card>();
+        cards_field[4] = new ArrayList<Card>();
+        cards_field[5] = new ArrayList<Card>();
+        cards_field[6] = new ArrayList<Card>();
+        cards_field[7] = new ArrayList<Card>();
+
+        cards_finish[0] = new ArrayList<Card>();
+        cards_finish[1] = new ArrayList<Card>();
+        cards_finish[2] = new ArrayList<Card>();
+        cards_finish[3] = new ArrayList<Card>();
+
         List<Card> deck = ShuffleDeck();
 
         TransferCards(cards_field[0], deck, 0, 7);
@@ -49,9 +64,17 @@ public class LogicFreeCell extends LogicBase {
         cards_freecell[2] = new Card(-1, -1);
         cards_freecell[3] = new Card(-1, -1);
 
+        for(int x = 0; x < 8; x++){
+            int y = 0;
+            for(Card c : cards_field[x]){
+                c.setShift(0, -20*y, 60-10*y + x*4);
+                y++;
+            }
+        }
+
         selector = new Vector2(-1, -1);
 
-        compress = 400;
+        compress = 2;
         timer = -1;
     }
 
@@ -149,40 +172,40 @@ public class LogicFreeCell extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-        cards_field[0].addAll(Arrays.asList(loadCard(compound, 0)));
-        cards_field[1].addAll(Arrays.asList(loadCard(compound, 1)));
-        cards_field[2].addAll(Arrays.asList(loadCard(compound, 2)));
-        cards_field[3].addAll(Arrays.asList(loadCard(compound, 3)));
-        cards_field[4].addAll(Arrays.asList(loadCard(compound, 4)));
-        cards_field[5].addAll(Arrays.asList(loadCard(compound, 5)));
-        cards_field[6].addAll(Arrays.asList(loadCard(compound, 6)));
-        cards_field[7].addAll(Arrays.asList(loadCard(compound, 7)));
+        cards_field[0] = loadCardList(compound, 0);
+        cards_field[1] = loadCardList(compound, 1);
+        cards_field[2] = loadCardList(compound, 2);
+        cards_field[3] = loadCardList(compound, 3);
+        cards_field[4] = loadCardList(compound, 4);
+        cards_field[5] = loadCardList(compound, 5);
+        cards_field[6] = loadCardList(compound, 6);
+        cards_field[7] = loadCardList(compound, 7);
 
-        cards_finish[0].addAll(Arrays.asList(loadCard(compound, 8)));
-        cards_finish[1].addAll(Arrays.asList(loadCard(compound, 9)));
-        cards_finish[2].addAll(Arrays.asList(loadCard(compound, 10)));
-        cards_finish[3].addAll(Arrays.asList(loadCard(compound, 11)));
-        cards_freecell = loadCard(compound, 12);
+        cards_finish[0] = loadCardList(compound,  8);
+        cards_finish[1] = loadCardList(compound,  9);
+        cards_finish[2] = loadCardList(compound, 10);
+        cards_finish[3] = loadCardList(compound, 11);
+        cards_freecell = loadCardArray(compound, 12);
         compress = compound.getInt("compress");
         timer = compound.getInt("timer");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveCards(compound, 0, (Card[]) cards_field[0].toArray());
-        saveCards(compound, 1, (Card[]) cards_field[1].toArray());
-        saveCards(compound, 2, (Card[]) cards_field[2].toArray());
-        saveCards(compound, 3, (Card[]) cards_field[3].toArray());
-        saveCards(compound, 4, (Card[]) cards_field[4].toArray());
-        saveCards(compound, 5, (Card[]) cards_field[5].toArray());
-        saveCards(compound, 6, (Card[]) cards_field[6].toArray());
-        saveCards(compound, 7, (Card[]) cards_field[7].toArray());
+        saveCardList(compound, 0, cards_field[0]);
+        saveCardList(compound, 1, cards_field[1]);
+        saveCardList(compound, 2, cards_field[2]);
+        saveCardList(compound, 3, cards_field[3]);
+        saveCardList(compound, 4, cards_field[4]);
+        saveCardList(compound, 5, cards_field[5]);
+        saveCardList(compound, 6, cards_field[6]);
+        saveCardList(compound, 7, cards_field[7]);
 
-        saveCards(compound, 8, (Card[]) cards_finish[0].toArray());
-        saveCards(compound, 9, (Card[]) cards_finish[1].toArray());
-        saveCards(compound, 10, (Card[]) cards_finish[2].toArray());
-        saveCards(compound, 11, (Card[]) cards_finish[3].toArray());
+        saveCardList(compound,  8, cards_finish[0]);
+        saveCardList(compound,  9, cards_finish[1]);
+        saveCardList(compound, 10, cards_finish[2]);
+        saveCardList(compound, 11, cards_finish[3]);
 
-        saveCards(compound, 0, cards_freecell);
+        saveCardArray(compound, 0, cards_freecell);
         compound.putInt("compress", compress);
         compound.putInt("timer", timer);
         return compound;
@@ -192,17 +215,10 @@ public class LogicFreeCell extends LogicBase {
 
     //--------------------CUSTOM--------------------
 
-    private void TransferCards(List<Card> cards_field2, List<Card> deck, int position, int count){
-        for(int i = position; i < position + count; i++){
-            cards_field2.add(deck.get(position));
-            deck.remove(position);
-        }
-        for(int x = 0; x < 8; x++){
-            int y = 0;
-            for(Card c : cards_field[x]){
-                c.setShift(0, -20*y, 60-10*y + x*3);
-                y++;
-            }
+    private void TransferCards(List<Card> cards, List<Card> deck, int position, int count){
+        for(int i = 0; i < count; i++){
+            cards.add(deck.get(0));
+            deck.remove(0);
         }
     }
 
@@ -241,10 +257,10 @@ public class LogicFreeCell extends LogicBase {
             }
         } else if(selector.Y >= 0) {
             if(cards_freecell[cell].suit == -1) {
-                if(selector.Y == cards_finish[selector.X].size() - 1) {
+                if(selector.Y == cards_field[selector.X].size() - 1) {
                     cards_field[selector.X].get(cards_field[selector.X].size() - 1).setShift(0, 16, 0);
                     cards_freecell[cell].set(cards_field[selector.X].get(cards_field[selector.X].size() - 1));
-                    cards_field[selector.X].remove(cards_finish[selector.X].size() - 1);
+                    cards_field[selector.X].remove(cards_field[selector.X].size() - 1);
                     selector.set(-1, -1);
                 }
             }

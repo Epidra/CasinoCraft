@@ -65,9 +65,9 @@ public class LogicVideoPoker extends LogicBase {
             case 0: // NULL
                 break;
             case 1: // Cards Move up
-                ticker++;
+                ticker+=2;
                 for(int i = 0; i < 5; i++){
-                    if(!hold[i]) cards_field[i].shiftY--;
+                    if(!hold[i]) cards_field[i].shiftY-=2;
                 }
                 if(ticker >= 30){
                     for(int i = 0; i < 5; i++){
@@ -81,34 +81,34 @@ public class LogicVideoPoker extends LogicBase {
                 }
                 break;
             case 2: // Cards Move down
-                ticker--;
+                ticker-=2;
                 for(int i = 0; i < 5; i++){
-                    if(!hold[i]) cards_field[i].shiftY++;
+                    if(!hold[i]) cards_field[i].shiftY+=2;
                 }
-                if(ticker == 0){
+                if(ticker <= 0){
                     movestate = 3;
                 }
                 break;
             case 3: // Cards Move Together
-                ticker++;
-                cards_field[0].shiftX+=2;
-                cards_field[1].shiftX+=1;
-                cards_field[3].shiftX-=1;
-                cards_field[4].shiftX-=2;
-                if(ticker == 48){
+                ticker+=2;
+                cards_field[0].shiftX+=4;
+                cards_field[1].shiftX+=2;
+                cards_field[3].shiftX-=2;
+                cards_field[4].shiftX-=4;
+                if(ticker == 44){
                     Sort();
                     movestate = 4;
                 }
                 break;
             case 4: // Cards Move apart
-                ticker--;
-                cards_field[0].shiftX-=2;
-                cards_field[1].shiftX-=1;
-                cards_field[3].shiftX+=1;
-                cards_field[4].shiftX+=2;
+                ticker-=2;
+                cards_field[0].shiftX-=4;
+                cards_field[1].shiftX-=2;
+                cards_field[3].shiftX+=2;
+                cards_field[4].shiftX+=4;
                 if(ticker == 0){
                     Result();
-                    turnstate =4;
+                    turnstate = 4;
                     movestate = 0;
                 }
                 break;
@@ -116,7 +116,7 @@ public class LogicVideoPoker extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-        cards_field = loadCard(compound, 0);
+        cards_field = loadCardArray(compound, 0);
         hold[0] = compound.getBoolean("hold0");
         hold[1] = compound.getBoolean("hold1");
         hold[2] = compound.getBoolean("hold2");
@@ -127,7 +127,7 @@ public class LogicVideoPoker extends LogicBase {
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveCards(compound, 0, cards_field);
+        saveCardArray(compound, 0, cards_field);
         compound.putBoolean("hold0", hold[0]);
         compound.putBoolean("hold1", hold[1]);
         compound.putBoolean("hold2", hold[2]);
@@ -149,28 +149,29 @@ public class LogicVideoPoker extends LogicBase {
         card[2] = cards_field[2];
         card[3] = cards_field[3];
         card[4] = cards_field[4];
-        if(card[0].number > card[4].number) { Card z = card[0]; card[0] = card[1]; card[1] = card[2]; card[2] = card[3]; card[3] = card[4]; card[4] = z; }
-        if(card[0].number > card[3].number) { Card z = card[0]; card[0] = card[1]; card[1] = card[2]; card[2] = card[3]; card[3]                    = z; }
-        if(card[0].number > card[2].number) { Card z = card[0]; card[0] = card[1]; card[1] = card[2]; card[2]                                       = z; }
-        if(card[0].number > card[1].number) { Card z = card[0]; card[0] = card[1]; card[1]                                                          = z; }
-        if(card[1].number > card[4].number) { Card z =                    card[1]; card[1] = card[2]; card[2] = card[3]; card[3] = card[4]; card[4] = z; }
-        if(card[1].number > card[3].number) { Card z =                    card[1]; card[1] = card[2]; card[2] = card[3]; card[3]                    = z; }
-        if(card[1].number > card[2].number) { Card z =                    card[1]; card[1] = card[2]; card[2]                                       = z; }
-        if(card[2].number > card[4].number) { Card z =                                       card[2]; card[2] = card[3]; card[3] = card[4]; card[4] = z; }
-        if(card[2].number > card[3].number) { Card z =                                       card[2]; card[2] = card[3]; card[3]                    = z; }
-        if(card[3].number > card[4].number) { Card z =                                                          card[3]; card[3] = card[4]; card[4] = z; }
-
-        card[0].shiftX =  48*2;
-        card[1].shiftX =  48;
-        card[2].shiftX =   0;
-        card[3].shiftX = -48;
-        card[4].shiftX = -48*2;
+        Card z = new Card(-1, -1);
+        if(card[0].SortedNumber() > card[4].SortedNumber()) { z.set(card[0]); card[0].set(card[1]); card[1].set(card[2]); card[2].set(card[3]); card[3].set(card[4]); card[4].set(z); }
+        if(card[0].SortedNumber() > card[3].SortedNumber()) { z.set(card[0]); card[0].set(card[1]); card[1].set(card[2]); card[2].set(card[3]); card[3].set(                      z); }
+        if(card[0].SortedNumber() > card[2].SortedNumber()) { z.set(card[0]); card[0].set(card[1]); card[1].set(card[2]); card[2].set(                                            z); }
+        if(card[0].SortedNumber() > card[1].SortedNumber()) { z.set(card[0]); card[0].set(card[1]); card[1].set(                                                                  z); }
+        if(card[1].SortedNumber() > card[4].SortedNumber()) { z.set(                      card[1]); card[1].set(card[2]); card[2].set(card[3]); card[3].set(card[4]); card[4].set(z); }
+        if(card[1].SortedNumber() > card[3].SortedNumber()) { z.set(                      card[1]); card[1].set(card[2]); card[2].set(card[3]); card[3].set(                      z); }
+        if(card[1].SortedNumber() > card[2].SortedNumber()) { z.set(                      card[1]); card[1].set(card[2]); card[2].set(                                            z); }
+        if(card[2].SortedNumber() > card[4].SortedNumber()) { z.set(                                            card[2]); card[2].set(card[3]); card[3].set(card[4]); card[4].set(z); }
+        if(card[2].SortedNumber() > card[3].SortedNumber()) { z.set(                                            card[2]); card[2].set(card[3]); card[3].set(                      z); }
+        if(card[3].SortedNumber() > card[4].SortedNumber()) { z.set(                                                                  card[3]); card[3].set(card[4]); card[4].set(z); }
 
         cards_field[0].set(card[0]);
         cards_field[1].set(card[1]);
         cards_field[2].set(card[2]);
         cards_field[3].set(card[3]);
         cards_field[4].set(card[4]);
+
+        cards_field[0].shiftX =  44*2;
+        cards_field[1].shiftX =  44;
+        cards_field[2].shiftX =   0;
+        cards_field[3].shiftX = -44;
+        cards_field[4].shiftX = -44*2;
 
     }
 

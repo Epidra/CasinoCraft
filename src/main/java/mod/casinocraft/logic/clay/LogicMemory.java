@@ -6,8 +6,6 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class LogicMemory extends LogicBase {
 
-    public int[][] grid = new int[17][9];
-
     public boolean selectA = false;
     public boolean selectB = false;
 
@@ -21,7 +19,7 @@ public class LogicMemory extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicMemory(int table){
-        super(true, table, "c_memory");
+        super(true, table, "c_memory", 17, 9);
     }
 
 
@@ -102,7 +100,6 @@ public class LogicMemory extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-        grid = loadGrid(compound, 17, 9);
         selectA = compound.getBoolean("selecta");
         selectB = compound.getBoolean("selectb");
         positionA.set(compound.getInt("positionax"), compound.getInt("positionay"));
@@ -111,7 +108,6 @@ public class LogicMemory extends LogicBase {
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveGrid(compound, 17, 9, grid);
         compound.putBoolean("selecta", selectA);
         compound.putBoolean("selectb", selectB);
         compound.putInt("positionax", positionA.X);

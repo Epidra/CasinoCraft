@@ -84,46 +84,46 @@ public class LogicSpider extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-        cards_field[0].addAll(Arrays.asList(loadCard(compound, 0)));
-        cards_field[1].addAll(Arrays.asList(loadCard(compound, 1)));
-        cards_field[2].addAll(Arrays.asList(loadCard(compound, 2)));
-        cards_field[3].addAll(Arrays.asList(loadCard(compound, 3)));
-        cards_field[4].addAll(Arrays.asList(loadCard(compound, 4)));
-        cards_field[5].addAll(Arrays.asList(loadCard(compound, 5)));
-        cards_field[6].addAll(Arrays.asList(loadCard(compound, 6)));
-        cards_field[7].addAll(Arrays.asList(loadCard(compound, 7)));
-        cards_field[8].addAll(Arrays.asList(loadCard(compound, 8)));
-        cards_field[9].addAll(Arrays.asList(loadCard(compound, 9)));
+        cards_field[0] = loadCardList(compound, 0);
+        cards_field[1] = loadCardList(compound, 1);
+        cards_field[2] = loadCardList(compound, 2);
+        cards_field[3] = loadCardList(compound, 3);
+        cards_field[4] = loadCardList(compound, 4);
+        cards_field[5] = loadCardList(compound, 5);
+        cards_field[6] = loadCardList(compound, 6);
+        cards_field[7] = loadCardList(compound, 7);
+        cards_field[8] = loadCardList(compound, 8);
+        cards_field[9] = loadCardList(compound, 9);
 
-        cards_reserve[0].addAll(Arrays.asList(loadCard(compound, 10)));
-        cards_reserve[1].addAll(Arrays.asList(loadCard(compound, 11)));
-        cards_reserve[2].addAll(Arrays.asList(loadCard(compound, 12)));
-        cards_reserve[3].addAll(Arrays.asList(loadCard(compound, 13)));
-        cards_reserve[4].addAll(Arrays.asList(loadCard(compound, 14)));
+        cards_reserve[0] = loadCardList(compound, 10);
+        cards_reserve[1] = loadCardList(compound, 11);
+        cards_reserve[2] = loadCardList(compound, 12);
+        cards_reserve[3] = loadCardList(compound, 13);
+        cards_reserve[4] = loadCardList(compound, 14);
 
-        cards_finish.addAll(Arrays.asList(loadCard(compound, 15)));
+        cards_finish.addAll(loadCardList(compound, 15));
         compress = compound.getInt("compress");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveCards(compound, 0, (Card[]) cards_field[0].toArray());
-        saveCards(compound, 1, (Card[]) cards_field[1].toArray());
-        saveCards(compound, 2, (Card[]) cards_field[2].toArray());
-        saveCards(compound, 3, (Card[]) cards_field[3].toArray());
-        saveCards(compound, 4, (Card[]) cards_field[4].toArray());
-        saveCards(compound, 5, (Card[]) cards_field[5].toArray());
-        saveCards(compound, 6, (Card[]) cards_field[6].toArray());
-        saveCards(compound, 7, (Card[]) cards_field[7].toArray());
-        saveCards(compound, 8, (Card[]) cards_field[8].toArray());
-        saveCards(compound, 9, (Card[]) cards_field[9].toArray());
+        saveCardList(compound, 0, cards_field[0]);
+        saveCardList(compound, 1, cards_field[1]);
+        saveCardList(compound, 2, cards_field[2]);
+        saveCardList(compound, 3, cards_field[3]);
+        saveCardList(compound, 4, cards_field[4]);
+        saveCardList(compound, 5, cards_field[5]);
+        saveCardList(compound, 6, cards_field[6]);
+        saveCardList(compound, 7, cards_field[7]);
+        saveCardList(compound, 8, cards_field[8]);
+        saveCardList(compound, 9, cards_field[9]);
 
-        saveCards(compound, 10, (Card[]) cards_reserve[0].toArray());
-        saveCards(compound, 11, (Card[]) cards_reserve[1].toArray());
-        saveCards(compound, 12, (Card[]) cards_reserve[2].toArray());
-        saveCards(compound, 13, (Card[]) cards_reserve[3].toArray());
-        saveCards(compound, 14, (Card[]) cards_reserve[4].toArray());
+        saveCardList(compound, 10, cards_reserve[0]);
+        saveCardList(compound, 11, cards_reserve[1]);
+        saveCardList(compound, 12, cards_reserve[2]);
+        saveCardList(compound, 13, cards_reserve[3]);
+        saveCardList(compound, 14, cards_reserve[4]);
 
-        saveCards(compound, 15, (Card[]) cards_finish.toArray());
+        saveCardList(compound, 15, cards_finish);
         compound.putInt("compress", compress);
         return compound;
     }
@@ -206,7 +206,7 @@ public class LogicSpider extends LogicBase {
         if(cards_field[x].size() >= y - 1) {
             if(selector.matches(-1, -1)) {
                 int x2 = x;
-                int y2 = cards_field[x].size() < y ? cards_field[x].size()-1 : y - 1;
+                int y2 = cards_field[x].size() <= y ? cards_field[x].size()-1 : y;
                 float tempCard = cards_field[x2].get(y2).number;
                 for(int i = y2; i < cards_field[x2].size(); i++) {
                     if(i != cards_field[x2].size() - 1) {

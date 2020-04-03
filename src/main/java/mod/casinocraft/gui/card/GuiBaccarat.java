@@ -47,7 +47,9 @@ public class GuiBaccarat extends GuiCasino {
             for(int z = 0; z < logic().cards_player.size(); z++){ if(logic().cards_player.get(z).idletimer == 0) drawCard( 24 + 16*z, 80 + 4*z, logic().cards_player.get(z)); }
             for(int z = 0; z < logic().cards_dealer.size(); z++){ if(logic().cards_dealer.get(z).idletimer == 0) drawCard(144 + 16*z, 24 + 4*z, logic().cards_dealer.get(z)); }
         }
+    }
 
+    protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY){
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_OCTAGAMES);
         if(logic().turnstate == 2){
             blit(guiLeft+24+7,  guiTop+204+2,  0, 0, 78, 22); // Button Hit

@@ -52,11 +52,11 @@ public class GuiHalma extends GuiCasino {
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_OCTAGAMES);
         for(int y = 0; y < 9; y++) {
             for(int x = 0; x < 17; x++) {
-                if(logic().grid[x][y] == 0) this.blit(guiLeft-4-24*3 + 24*x, guiTop-4+24 + 24*y, 24*9, 232, 24, 24);
-                if(logic().grid[x][y] == 1) this.blit(guiLeft-4-24*3 + 24*x, guiTop-4+24 + 24*y,    0, 232, 24, 24);
+                if(logic().grid[x][y] == 0) this.blit(guiLeft-4-24*3 + 24*x, guiTop-4+24 + 24*y, 24*9, 232-24, 24, 24);
+                if(logic().grid[x][y] == 1) this.blit(guiLeft-4-24*3 + 24*x, guiTop-4+24 + 24*y,    0, 232-24, 24, 24);
             }
         }
-        this.blit(guiLeft-4-24*3 + 24*logic().selector.X, guiTop-4+24 + 24*logic().selector.Y, 24, 232, 24, 24);
+        this.blit(guiLeft-4-24*3 + 24*logic().selector.X, guiTop-4+24 + 24*logic().selector.Y, 24, 232-24, 24, 24);
     }
 
 

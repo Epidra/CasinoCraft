@@ -107,9 +107,8 @@ public abstract class MachinaDoubleTall extends Block {
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
         boolean isPrimary = state.get(OFFSET);
         if(isPrimary) {
-            if(worldIn.getBlockState(pos.up()).getBlock() != Blocks.AIR) return false;
-        } else {
-            return true;
+            Block block = worldIn.getBlockState(pos.up()).getBlock();
+            return block == Blocks.AIR || block == Blocks.CAVE_AIR || block == Blocks.VOID_AIR;
         }
         return true;
     }

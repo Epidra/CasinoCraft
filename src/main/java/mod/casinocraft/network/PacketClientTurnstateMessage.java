@@ -44,6 +44,9 @@ public class PacketClientTurnstateMessage {
             TileEntityBoard te = (TileEntityBoard) Minecraft.getInstance().world.getTileEntity(pos);
             context.get().enqueueWork(() -> {
                 te.LOGIC.turnstate = state;
+                if(state >= 5){
+                    te.resetPlayer();
+                }
             });
             context.get().setPacketHandled(true);
         }

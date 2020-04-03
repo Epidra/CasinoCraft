@@ -7,7 +7,7 @@ import net.minecraft.util.IIntArray;
 public class LogicDummy extends LogicBase {
 
     public LogicDummy() {
-        super(false, "x_dummy");
+        super(false, 0, "x_dummy");
     }
 
     @Override

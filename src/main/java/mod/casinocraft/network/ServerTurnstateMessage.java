@@ -48,8 +48,11 @@ public class ServerTurnstateMessage {
                 BlockPos pos = new BlockPos(message.x, message.y, message.z);
                 TileEntityBoard te = (TileEntityBoard) context.get().getSender().world.getTileEntity(pos);
                 te.LOGIC.turnstate = state;
+                if(state >= 5){
+                    te.resetPlayer();
+                }
             });
-            CasinoPacketHandler.sendToAll(new PacketClientActionMessage(
+            CasinoPacketHandler.sendToAll(new PacketClientTurnstateMessage(
                     state,
                     new BlockPos(message.x, message.y, message.z)));
             context.get().setPacketHandled(true);

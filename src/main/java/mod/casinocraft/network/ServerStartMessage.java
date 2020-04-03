@@ -14,12 +14,14 @@ import java.util.function.Supplier;
 
 public class ServerStartMessage {
 
+    static String name;
     static int seed;
     static int x;
     static int y;
     static int z;
 
-    public ServerStartMessage(int seed, BlockPos pos) {
+    public ServerStartMessage(String name, int seed, BlockPos pos) {
+        this.name = name;
         this.seed = seed;
         this.x = pos.getX();
         this.y = pos.getY();
@@ -27,6 +29,7 @@ public class ServerStartMessage {
     }
 
     public static void encode (ServerStartMessage msg, PacketBuffer buf) {
+        buf.writeString(msg.name);
         buf.writeInt(msg.seed);
         buf.writeInt(msg.x);
         buf.writeInt(msg.y);
@@ -34,11 +37,12 @@ public class ServerStartMessage {
     }
 
     public static ServerStartMessage decode (PacketBuffer buf) {
+        String _name = buf.readString();
         int _seed = buf.readInt();
         int _x = buf.readInt();
         int _y = buf.readInt();
         int _z = buf.readInt();
-        return new ServerStartMessage(_seed, new BlockPos(_x, _y, _z));
+        return new ServerStartMessage(_name, _seed, new BlockPos(_x, _y, _z));
     }
 
     public static class Handler {
@@ -54,10 +58,12 @@ public class ServerStartMessage {
                 int seed = message.seed;
                 BlockPos pos = new BlockPos(message.x, message.y, message.z);
                 TileEntityBoard te = (TileEntityBoard) context.get().getSender().world.getTileEntity(pos);
+                te.setPlayer(message.name);
                 te.LOGIC.start(seed);
             });
             CasinoPacketHandler.sendToAll(new PacketClientStartMessage(
-                    seed,
+                    message.name,
+                    message.seed,
                     new BlockPos(message.x, message.y, message.z)));
             context.get().setPacketHandled(true);
 

@@ -13,12 +13,14 @@ import java.util.function.Supplier;
 
 public class PacketClientStartMessage {
 
+    static String name;
     static int seed;
     static int x;
     static int y;
     static int z;
 
-    public PacketClientStartMessage(int seed, BlockPos pos) {
+    public PacketClientStartMessage(String name, int seed, BlockPos pos) {
+        this.name = name;
         this.seed = seed;
         this.x = pos.getX();
         this.y = pos.getY();
@@ -26,6 +28,7 @@ public class PacketClientStartMessage {
     }
 
     public static void encode (PacketClientStartMessage msg, PacketBuffer buf) {
+        buf.writeString(msg.name);
         buf.writeInt(msg.seed);
         buf.writeInt(msg.x);
         buf.writeInt(msg.y);
@@ -33,11 +36,12 @@ public class PacketClientStartMessage {
     }
 
     public static PacketClientStartMessage decode (PacketBuffer buf) {
+        String _name = buf.readString();
         int _seed = buf.readInt();
         int _x = buf.readInt();
         int _y = buf.readInt();
         int _z = buf.readInt();
-        return new PacketClientStartMessage(_seed, new BlockPos(_x, _y, _z));
+        return new PacketClientStartMessage(_name, _seed, new BlockPos(_x, _y, _z));
     }
 
     public static class Handler {
@@ -47,6 +51,7 @@ public class PacketClientStartMessage {
             TileEntityBoard te = (TileEntityBoard) Minecraft.getInstance().world.getTileEntity(pos);
             context.get().enqueueWork(() -> {
                 te.LOGIC.start(seed);
+                te.setPlayer(name);
             });
             context.get().setPacketHandled(true);
         }

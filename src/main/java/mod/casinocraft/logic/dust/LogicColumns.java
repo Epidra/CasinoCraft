@@ -9,8 +9,6 @@ import java.util.List;
 
 public class LogicColumns extends LogicBase {
 
-    public int[][] grid = new int[6][15];
-
     public boolean active_hold;
 
     public int[] container_next    = new int[3];
@@ -21,7 +19,7 @@ public class LogicColumns extends LogicBase {
     public double time_break;
     public int timer;
 
-    public Vector2[] tromino = new Vector2[3];
+    public Vector2[] tromino = new Vector2[]{new Vector2(-1, -1), new Vector2(-1, -1), new Vector2(-1, -1)};
 
     public List<Vector2> clear = new ArrayList<Vector2>();
 
@@ -32,7 +30,7 @@ public class LogicColumns extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicColumns(){
-        super(true, "a_columns");
+        super(true, 0, "a_columns", 6, 15);
     }
 
 
@@ -56,7 +54,7 @@ public class LogicColumns extends LogicBase {
                 grid[i][j] = -1;
             }
         }
-        time_break = 500;
+        time_break = 200;
         time_last = 0;
         clear.clear();
         alpha = 255;
@@ -100,8 +98,6 @@ public class LogicColumns extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-
-        grid = loadGrid(compound, 6, 15);
         active_hold = compound.getBoolean("activehold");
         container_next[0] = compound.getInt("containernext0");
         container_next[1] = compound.getInt("containernext1");
@@ -127,8 +123,6 @@ public class LogicColumns extends LogicBase {
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-
-        saveGrid(compound, 6, 15, grid);
         compound.putBoolean("activehold", active_hold);
         compound.putInt("container_next0", container_next[0]);
         compound.putInt("container_next1", container_next[1]);

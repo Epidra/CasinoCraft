@@ -181,43 +181,43 @@ public class LogicKlondike extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-        cards_field[0].addAll(Arrays.asList(loadCard(compound, 0)));
-        cards_field[1].addAll(Arrays.asList(loadCard(compound, 1)));
-        cards_field[2].addAll(Arrays.asList(loadCard(compound, 2)));
-        cards_field[3].addAll(Arrays.asList(loadCard(compound, 3)));
-        cards_field[4].addAll(Arrays.asList(loadCard(compound, 4)));
-        cards_field[5].addAll(Arrays.asList(loadCard(compound, 5)));
-        cards_field[6].addAll(Arrays.asList(loadCard(compound, 6)));
-        cards_field[7].addAll(Arrays.asList(loadCard(compound, 7)));
+        cards_field[0] = loadCardList(compound, 0);
+        cards_field[1] = loadCardList(compound, 1);
+        cards_field[2] = loadCardList(compound, 2);
+        cards_field[3] = loadCardList(compound, 3);
+        cards_field[4] = loadCardList(compound, 4);
+        cards_field[5] = loadCardList(compound, 5);
+        cards_field[6] = loadCardList(compound, 6);
+        cards_field[7] = loadCardList(compound, 7);
 
-        cards_finish[0].addAll(Arrays.asList(loadCard(compound, 8)));
-        cards_finish[1].addAll(Arrays.asList(loadCard(compound, 9)));
-        cards_finish[2].addAll(Arrays.asList(loadCard(compound, 10)));
-        cards_finish[3].addAll(Arrays.asList(loadCard(compound, 11)));
+        cards_finish[0] = loadCardList(compound,  8);
+        cards_finish[1] = loadCardList(compound,  9);
+        cards_finish[2] = loadCardList(compound, 10);
+        cards_finish[3] = loadCardList(compound, 11);
 
-        cards_reserve.addAll(Arrays.asList(loadCard(compound, 12)));
-        cards_stack.addAll(Arrays.asList(loadCard(compound, 13)));
+        cards_reserve.addAll(loadCardList(compound, 12));
+        cards_stack  .addAll(loadCardList(compound, 13));
         compress = compound.getInt("compress");
         timer = compound.getInt("timer");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveCards(compound, 0, (Card[]) cards_field[0].toArray());
-        saveCards(compound, 1, (Card[]) cards_field[1].toArray());
-        saveCards(compound, 2, (Card[]) cards_field[2].toArray());
-        saveCards(compound, 3, (Card[]) cards_field[3].toArray());
-        saveCards(compound, 4, (Card[]) cards_field[4].toArray());
-        saveCards(compound, 5, (Card[]) cards_field[5].toArray());
-        saveCards(compound, 6, (Card[]) cards_field[6].toArray());
-        saveCards(compound, 7, (Card[]) cards_field[7].toArray());
+        saveCardList(compound, 0, cards_field[0]);
+        saveCardList(compound, 1, cards_field[1]);
+        saveCardList(compound, 2, cards_field[2]);
+        saveCardList(compound, 3, cards_field[3]);
+        saveCardList(compound, 4, cards_field[4]);
+        saveCardList(compound, 5, cards_field[5]);
+        saveCardList(compound, 6, cards_field[6]);
+        saveCardList(compound, 7, cards_field[7]);
 
-        saveCards(compound, 8, (Card[]) cards_finish[0].toArray());
-        saveCards(compound, 9, (Card[]) cards_finish[1].toArray());
-        saveCards(compound, 10, (Card[]) cards_finish[2].toArray());
-        saveCards(compound, 11, (Card[]) cards_finish[3].toArray());
+        saveCardList(compound,  8, cards_finish[0]);
+        saveCardList(compound,  9, cards_finish[1]);
+        saveCardList(compound, 10, cards_finish[2]);
+        saveCardList(compound, 11, cards_finish[3]);
 
-        saveCards(compound, 12, (Card[]) cards_reserve.toArray());
-        saveCards(compound, 13, (Card[]) cards_stack.toArray());
+        saveCardList(compound, 12, cards_reserve);
+        saveCardList(compound, 13, cards_stack  );
 
         compound.putInt("compress", compress);
         compound.putInt("timer", timer);

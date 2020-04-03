@@ -84,16 +84,16 @@ public class LogicBaccarat extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-        cards_player.addAll(Arrays.asList(loadCard(compound, 0)));
-        cards_dealer.addAll(Arrays.asList(loadCard(compound, 1)));
+        cards_player = loadCardList(compound, 0);
+        cards_dealer = loadCardList(compound, 1);
         value_player = compound.getInt("valueplayer");
         value_dealer = compound.getInt("valuedealer");
         status = compound.getInt("status");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveCards(compound, 0, (Card[]) cards_player.toArray());
-        saveCards(compound, 0, (Card[]) cards_player.toArray());
+        saveCardList(compound, 0, cards_player);
+        saveCardList(compound, 0, cards_player);
         compound.putInt("valueplayer", value_player);
         compound.putInt("valueplayer", value_dealer);
         compound.putInt("status", status);

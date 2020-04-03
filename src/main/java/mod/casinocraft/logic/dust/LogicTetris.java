@@ -6,8 +6,6 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class LogicTetris extends LogicBase {
 
-    public int[][] grid = new int[10][20];
-
     public boolean canHold = false;
 
     public int container_next = 0;
@@ -20,14 +18,14 @@ public class LogicTetris extends LogicBase {
     public int[] lines = new int[4];
     public int alpha = 0;
 
-    public Vector2[] tetromino = new Vector2[4]; // Position of the moving tetromino on the grid
+    public Vector2[] tetromino = new Vector2[]{new Vector2(-1,-1), new Vector2(-1,-1), new Vector2(-1,-1), new Vector2(-1,-1)}; // Position of the moving tetromino on the grid
 
 
 
     //--------------------CONSTRUCTOR--------------------
 
     public LogicTetris(){
-        super(true, "a_tetris");
+        super(true, 0, "a_tetris", 10, 20);
     }
 
 
@@ -45,7 +43,7 @@ public class LogicTetris extends LogicBase {
                 grid[i][j] = -1;
             }
         }
-        timer_break = 500;
+        timer_break = 200;
         timer_last = 0;
         lines[0] = -1;
         lines[1] = -1;
@@ -86,8 +84,6 @@ public class LogicTetris extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-
-        grid = loadGrid(compound, 10, 20);
         canHold = compound.getBoolean("canhold");
         container_next = compound.getInt("containernext");
         container_hold = compound.getInt("containerhold");
@@ -119,8 +115,6 @@ public class LogicTetris extends LogicBase {
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-
-        saveGrid(compound, 10, 20, grid);
         compound.putBoolean("canhold", canHold);
         compound.putInt("container_next", container_next);
         compound.putInt("container_last", container_hold);

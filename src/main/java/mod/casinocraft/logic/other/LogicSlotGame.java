@@ -5,13 +5,28 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class LogicSlotGame extends LogicBase {
 
+    public int multiplier;
+    public int wheel; // What wheel will be halted next
+
+    public int[] wheelPos = new int[3];
+
+    public boolean[] lines = new boolean[5];
+
     public LogicSlotGame() {
-        super(false, "x_slotgame");
+        super(false, 3, "x_slotgame", 9, 3);
     }
 
     @Override
     public void actionTouch(int action) {
-
+        if(action == 0){
+            if(multiplier < 5) multiplier++;
+        } else {
+            if(turnstate == 2){
+                turnstate = 3;
+            } else if(turnstate == 3){
+                Spin();
+            }
+        }
     }
 
     @Override
@@ -21,201 +36,137 @@ public class LogicSlotGame extends LogicBase {
 
     @Override
     public void updateLogic() {
+        int max = 48*9;
+        if(turnstate == 3) {
+            for(int i = 0; i < 3; i++) {
+                if(wheel <= i) {
+                    wheelPos[i] = (wheelPos[i] + 6 + i * 6) % max;
+                } else if(wheelPos[i] % 48 != 0) {
+                    wheelPos[i] = (wheelPos[i] + 1) % max;
+                }
+            }
+            if(wheel == 3){
+                if(wheelPos[0] % 48 == 0 && wheelPos[1] % 48 == 0 && wheelPos[2] % 48 == 0){
+                    Result();
+                }
+            }
+        }
 
     }
 
     @Override
     public void start2() {
-
+        Fill_Grid();
+        wheelPos[0] = 0;
+        wheelPos[1] = 0;
+        wheelPos[2] = 0;
+        multiplier = 1;
+        wheel = 0;
+        lines[0] = false;
+        lines[1] = false;
+        lines[2] = false;
+        lines[3] = false;
+        lines[4] = false;
     }
 
     @Override
     public void load2(CompoundNBT compound){
-
+        multiplier = compound.getInt("multiplier");
+        wheel = compound.getInt("wheel");
+        wheelPos[0] = compound.getInt("wheelpos0");
+        wheelPos[1] = compound.getInt("wheelpos1");
+        wheelPos[2] = compound.getInt("wheelpos2");
+        lines[0] = compound.getBoolean("lines0");
+        lines[1] = compound.getBoolean("lines1");
+        lines[2] = compound.getBoolean("lines2");
+        lines[3] = compound.getBoolean("lines3");
+        lines[4] = compound.getBoolean("lines4");
     }
 
     @Override
     public CompoundNBT save2(CompoundNBT compound){
+        compound.putInt("multiplier", multiplier);
+        compound.putInt("wheel", wheel);
+        compound.putInt("wheelpos0", wheelPos[0]);
+        compound.putInt("wheelpos1", wheelPos[1]);
+        compound.putInt("wheelpos2", wheelPos[2]);
+        compound.putBoolean("lines0", lines[0]);
+        compound.putBoolean("lines1", lines[1]);
+        compound.putBoolean("lines2", lines[2]);
+        compound.putBoolean("lines3", lines[3]);
+        compound.putBoolean("lines4", lines[4]);
         return compound;
     }
-}
 
-//public class LogicSlotMachine extends LogicBase {
-//
-//    int slotID = -1; // to define what wheels are displayed
-//    int multiplier;
-//    int wheel; // What wheel will be halted next
-//
-//    int[] wheelPos   = new int[3];
-//    int[] wheelSpeed = new int[3];
-//
-//    float[] lines = new float[5];
-//
-//
-//
-//    //--------------------CONSTRUCTOR--------------------
-//
-//    public LogicSlotMachine(){
-//        super(false, false, false, false, 9, 3);
-//    }
-//
-//
-//
-//    //--------------------BASIC--------------------
-//
-//    public void start2(){
-//        if(slotID == -1) {
-//            slotID = rand.nextInt(6);
-//        } else {
-//            slotID = (slotID + 1) % 6;
-//        }
-//        Fill_Grid();
-//        wheelPos[0] = rand.nextInt(9) * 100;
-//        wheelPos[1] = rand.nextInt(9) * 100;
-//        wheelPos[2] = rand.nextInt(9) * 100;
-//        wheelSpeed[0] = 1 + rand.nextInt(5);
-//        wheelSpeed[1] = 1 + rand.nextInt(5);
-//        wheelSpeed[2] = 1 + rand.nextInt(5);
-//        multiplier = 1;
-//        wheel = 0;
-//        lines[0] = 0.00f;
-//        lines[1] = 0.00f;
-//        lines[2] = 0.00f;
-//        lines[3] = 0.00f;
-//        lines[4] = 0.00f;
-//    }
-//
-//    public void actionTouch(int action){
-//        if(action == -1){
-//            if(turnstate == 2){
-//                turnstate = 3;
-//            } else if(turnstate == 3){
-//                Spin();
-//            }
-//        }
-//    }
-//
-//    public void update(){
-//        if(turnstate == 3) {
-//            for(int i = 0; i < 3; i++) {
-//                if(wheel <= i) {
-//                    wheelPos[i] = (wheelPos[i] + wheelSpeed[i]) % 900;
-//                } else if(wheelSpeed[i] != 0){
-//
-//                    if(wheelPos[i] % 100 >= 35 && wheelPos[i] % 100 <= 65) {
-//                        wheelPos[i] = (wheelPos[i] / 100) * 100 + 50;
-//                        wheelSpeed[i] = 0;
-//                    } else {
-//                        wheelPos[i] = (wheelPos[i] + (wheelSpeed[i] / 2)) % 900;
-//                    }
-//                }
-//            }
-//        }
-//        if(turnstate == 3 && wheelSpeed[2] == 0) {
-//            Result();
-//        }
-//        if(turnstate == 4) {
-//            //GameOver(gameTime.TotalGameTime.TotalSeconds);
-//        }
-//    }
-//
-//    @Override
-//    public void update2() {
-//
-//    }
-//
-//
-//    //--------------------GETTER--------------------
-//
-//    public int getValue(int index){
-//        if(index == -1) return wheelPos[0];
-//        if(index == -2) return wheelPos[1];
-//        if(index == -3) return wheelPos[2];
-//        return gridI[index%9][index/9];
-//    }
-//
-//
-//
-//    //--------------------CUSTOM--------------------
-//
-//    private void Fill_Grid() {
-//        for(int y = 0; y < 3; y++) {
-//            int[] gridtemp = Get_Grid((slotID + y) % 9);
-//            for(int x = 0; x < 9; x++) {
-//                gridI[x][y] = gridtemp[x];
-//            }
-//        }
-//    }
-//
-//    private int[] Get_Grid(int id) {
-//        switch(id) {
-//            case 0: return new int[] { 1, 0, 5, 4, 3, 2, 0, 5, 4 };
-//            case 1: return new int[] { 1, 2, 0, 5, 4, 3, 2, 0, 5 };
-//            case 2: return new int[] { 1, 3, 2, 0, 5, 4, 3, 2, 0 };
-//            case 3: return new int[] { 1, 4, 3, 2, 0, 5, 4, 3, 2 };
-//            case 4: return new int[] { 1, 5, 4, 3, 2, 0, 5, 4, 3 };
-//            case 5: return new int[] { 1, 0, 5, 4, 3, 2, 0, 5, 4 };
-//            case 6: return new int[] { 1, 2, 0, 5, 4, 3, 2, 0, 5 };
-//            case 7: return new int[] { 1, 3, 2, 0, 5, 4, 3, 2, 0 };
-//            case 8: return new int[] { 1, 4, 3, 2, 0, 5, 4, 3, 2 };
-//            case 9: return new int[] { 1, 5, 4, 3, 2, 0, 5, 4, 3 };
-//        }
-//        return null;
-//    }
-//
-//    private void Spin() {
-//        if(wheel < 3) {
-//            wheel++;
-//        }
-//    }
-//
-//    private void Result() {
-//        if(multiplier >= 1) {
-//            if(grid[(wheelPos[0] / 100 + 2) % 9][0] == 0) { coins_plus += (bet / multiplier); lines[0] = 0.15f; }
-//            if(grid[(wheelPos[1] / 100 + 2) % 9][1] == 0) { coins_plus += (bet / multiplier); lines[0] = 0.15f; }
-//            if(grid[(wheelPos[2] / 100 + 2) % 9][2] == 0) { coins_plus += (bet / multiplier); lines[0] = 0.15f; }
-//            if(grid[(wheelPos[0] / 100 + 2) % 9][0] == grid[(wheelPos[1] / 100 + 2) % 9, 1] && grid[(wheelPos[0] / 100 + 2) % 9, 0] == grid[(wheelPos[2] / 100 + 2) % 9, 2]) {
-//                coins_plus += grid[(wheelPos[0] / 100 + 2) % 9, 0] == 1 ? 7 : (bet * grid[(wheelPos[0] / 100 + 2) % 9, 0]);
-//                lines[0] = 0.65f;
-//            }
-//        }
-//        if(multiplier >= 2) {
-//            if(grid[(wheelPos[0] / 100 + 1) % 9][0] == 0) { coins_plus += (bet / multiplier); lines[1] = 0.15f; }
-//            if(grid[(wheelPos[1] / 100 + 1) % 9][1] == 0) { coins_plus += (bet / multiplier); lines[1] = 0.15f; }
-//            if(grid[(wheelPos[2] / 100 + 1) % 9][2] == 0) { coins_plus += (bet / multiplier); lines[1] = 0.15f; }
-//            if(grid[(wheelPos[0] / 100 + 1) % 9][0] == grid[(wheelPos[1] / 100 + 1) % 9, 1] && grid[(wheelPos[0] / 100 + 1) % 9, 0] == grid[(wheelPos[2] / 100 + 1) % 9, 2]) {
-//                coins_plus += grid[(wheelPos[0] / 100 + 1) % 9, 0] == 1 ? 7 : (bet * grid[(wheelPos[0] / 100 + 1) % 9, 0]);
-//                lines[1] = 0.65f;
-//            }
-//        }
-//        if(multiplier >= 3) {
-//            if(grid[(wheelPos[0] / 100 + 3) % 9][0] == 0) { coins_plus += (bet / multiplier); lines[2] = 0.15f; }
-//            if(grid[(wheelPos[1] / 100 + 3) % 9][1] == 0) { coins_plus += (bet / multiplier); lines[2] = 0.15f; }
-//            if(grid[(wheelPos[2] / 100 + 3) % 9][2] == 0) { coins_plus += (bet / multiplier); lines[2] = 0.15f; }
-//            if(grid[(wheelPos[0] / 100 + 3) % 9][0] == grid[(wheelPos[1] / 100 + 3) % 9, 1] && grid[(wheelPos[0] / 100 + 3) % 9, 0] == grid[(wheelPos[2] / 100 + 3) % 9, 2]) {
-//                coins_plus += grid[(wheelPos[0] / 100 + 3) % 9, 0] == 1 ? 7 : (bet * grid[(wheelPos[0] / 100 + 3) % 9, 0]);
-//                lines[2] = 0.65f;
-//            }
-//        }
-//        if(multiplier >= 4) {
-//            if(grid[(wheelPos[0] / 100 + 1) % 9][0] == 0) { coins_plus += (bet / multiplier); lines[3] = 0.15f; }
-//            if(grid[(wheelPos[1] / 100 + 2) % 9][1] == 0) { coins_plus += (bet / multiplier); lines[3] = 0.15f; }
-//            if(grid[(wheelPos[2] / 100 + 3) % 9][2] == 0) { coins_plus += (bet / multiplier); lines[3] = 0.15f; }
-//            if(grid[(wheelPos[0] / 100 + 1) % 9][0] == grid[(wheelPos[1] / 100 + 2) % 9, 1] && grid[(wheelPos[0] / 100 + 1) % 9, 0] == grid[(wheelPos[2] / 100 + 3) % 9, 2]) {
-//                coins_plus += grid[(wheelPos[0] / 100 + 1) % 9, 0] == 1 ? 7 : (bet * grid[(wheelPos[0] / 100 + 1) % 9, 0]);
-//                lines[3] = 0.65f;
-//            }
-//        }
-//        if(multiplier >= 5) {
-//            if(grid[(wheelPos[0] / 100 + 3) % 9][0] == 0) { coins_plus += (bet / multiplier); lines[4] = 0.15f; }
-//            if(grid[(wheelPos[1] / 100 + 2) % 9][1] == 0) { coins_plus += (bet / multiplier); lines[4] = 0.15f; }
-//            if(grid[(wheelPos[2] / 100 + 1) % 9][2] == 0) { coins_plus += (bet / multiplier); lines[4] = 0.15f; }
-//            if(grid[(wheelPos[0] / 100 + 3) % 9][0] == grid[(wheelPos[1] / 100 + 2) % 9, 1] && grid[(wheelPos[0] / 100 + 3) % 9, 0] == grid[(wheelPos[2] / 100 + 1) % 9, 2]) {
-//                coins_plus += grid[(wheelPos[0] / 100 + 2) % 9, 0] == 1 ? 7 : (bet * grid[(wheelPos[0] / 100 + 2) % 9, 0]);
-//                lines[4] = 0.65f;
-//            }
-//        }
-//        turnstate = 4;
-//    }
-//
-//}
+    private void Fill_Grid() {
+        for(int y = 0; y < 3; y++) {
+            int[] gridtemp = Get_Grid((y) % 9);
+            for(int x = 0; x < 9; x++) {
+                grid[x][y] = gridtemp[x];
+            }
+        }
+    }
+
+    private int[] Get_Grid(int id) {
+        switch(id) {
+            case 0: return new int[] { 1, 0, 5, 4, 3, 2, 0, 5, 4 };
+            case 1: return new int[] { 1, 2, 0, 5, 4, 3, 2, 0, 5 };
+            case 2: return new int[] { 1, 3, 2, 0, 5, 4, 3, 2, 0 };
+        }
+        return null;
+    }
+
+    private void Spin() {
+        if(wheel < 3) {
+            wheel++;
+        }
+    }
+
+    public int Get_Value(int index) {
+        return grid[index % 9][index / 9];
+    }
+
+    private void Result() {
+        int pos0 = wheelPos[0] / 48;
+        int pos1 = wheelPos[1] / 48;
+        int pos2 = wheelPos[2] / 48;
+        if(multiplier >= 1) CheckWheel(grid[(pos0 + 1) % 9][0], grid[(pos1 + 1) % 9][1], grid[(pos2 + 1) % 9][2], 0);
+        if(multiplier >= 2) CheckWheel(grid[(pos0 + 0) % 9][0], grid[(pos1 + 0) % 9][1], grid[(pos2 + 0) % 9][2], 1);
+        if(multiplier >= 3) CheckWheel(grid[(pos0 + 2) % 9][0], grid[(pos1 + 2) % 9][1], grid[(pos2 + 2) % 9][2], 2);
+        if(multiplier >= 4) CheckWheel(grid[(pos0 + 0) % 9][0], grid[(pos1 + 1) % 9][1], grid[(pos2 + 2) % 9][2], 3);
+        if(multiplier >= 5) CheckWheel(grid[(pos0 + 2) % 9][0], grid[(pos1 + 1) % 9][1], grid[(pos2 + 0) % 9][2], 4);
+        turnstate = 4;
+    }
+
+    public void CheckWheel(int wheel0, int wheel1, int wheel2, int index){
+        if(wheel0 == 0){
+            reward += 1; // BAR
+        }
+        if(wheel0 == 1){
+            reward += 1; // BAR
+        }
+        if(wheel0 == 2){
+            reward += 1; // BAR
+        }
+        if(wheel0 == 2 && wheel1 == 2 && wheel2 == 2){
+            reward += 5; // KREUZ
+            lines[index] = true;
+        }
+        if(wheel0 == 3 && wheel1 == 3 && wheel2 == 3){
+            reward += 10; // PIK
+            lines[index] = true;
+        }
+        if(wheel0 == 4 && wheel1 == 4 && wheel2 == 4){
+            reward += 20; // KARO
+            lines[index] = true;
+        }
+        if(wheel0 == 5 && wheel1 == 5 && wheel2 == 5){
+            reward += 35; // HERZ
+            lines[index] = true;
+        }
+        if(wheel0 == 1 && wheel1 == 1 && wheel2 == 1){
+            reward += 77; // SEVEN
+            lines[index] = true;
+        }
+    }
+}

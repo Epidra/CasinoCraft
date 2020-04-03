@@ -21,7 +21,7 @@ public class LogicRougeEtNoir extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicRougeEtNoir(int table){
-        super(false, table, "c_rouge_et_noir");
+        super(false, table, "c_rouge_etnoir");
     }
 
 
@@ -72,15 +72,15 @@ public class LogicRougeEtNoir extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-        cards_rouge.addAll(Arrays.asList(loadCard(compound, 0)));
-        cards_noir.addAll(Arrays.asList(loadCard(compound, 0)));
+        cards_rouge = loadCardList(compound, 0);
+        cards_noir  = loadCardList(compound, 1);
         value_rouge = compound.getInt("valuerouge");
-        value_noir = compound.getInt("valuenoir");
+        value_noir  = compound.getInt("valuenoir");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveCards(compound, 0, (Card[]) cards_rouge.toArray());
-        saveCards(compound, 0, (Card[]) cards_noir.toArray());
+        saveCardList(compound, 0, cards_rouge);
+        saveCardList(compound, 1, cards_noir);
         compound.putInt("valuerouge", value_rouge);
         compound.putInt("valuenoir", value_noir);
         return compound;

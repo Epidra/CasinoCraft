@@ -27,6 +27,6 @@ public class ContainerMinesweeper extends ContainerCasino {
     }
 
     public String getName(){
-        return "a_minesweeper";
+        return "c_minesweeper";
     }
 }

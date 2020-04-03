@@ -79,17 +79,17 @@ public class ContainerProvider implements INamedContainerProvider {
             if(module == CasinoKeeper.MODULE_CLAY_MAGENTA)   return new ContainerCraps(windowId, playerInventory, this.board);
             //if(module == CasinoKeeper.MODULE_CLAY_LIGHTBLUE) return new ContainerField(windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CLAY_YELLOW)    return new ContainerMysticSquare(windowId, playerInventory, this.board);
-            //if(module == CasinoKeeper.MODULE_CLAY_LIME)      return new ContainerField(windowId, playerInventory, this.board);
+            if(module == CasinoKeeper.MODULE_CLAY_LIME)      return new ContainerSimon(windowId, playerInventory, this.board);
             //if(module == CasinoKeeper.MODULE_CLAY_PINK)      return new ContainerField(windowId, playerInventory, this.board);
             //if(module == CasinoKeeper.MODULE_CLAY_GRAY)      return new ContainerField(windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CLAY_SILVER)    return new ContainerMinesweeper(windowId, playerInventory, this.board);
             //if(module == CasinoKeeper.MODULE_CLAY_CYAN)      return new ContainerField(windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CLAY_PURPLE)    return new ContainerSicBo(windowId, playerInventory, this.board);
             //if(module == CasinoKeeper.MODULE_CLAY_BLUE)      return new ContainerField(windowId, playerInventory, this.board);
-            //if(module == CasinoKeeper.MODULE_CLAY_BROWN)     return new ContainerField(windowId, playerInventory, this.board);
+            if(module == CasinoKeeper.MODULE_CLAY_BROWN)     return new ContainerFanTan(windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CLAY_GREEN)     return new ContainerMemory(windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CLAY_RED)       return new ContainerRoulette(windowId, playerInventory, this.board);
-            //if(module == CasinoKeeper.MODULE_CLAY_BLACK)     return new ContainerField(windowId, playerInventory, this.board);
+            if(module == CasinoKeeper.MODULE_CLAY_BLACK)     return new ContainerHalma(windowId, playerInventory, this.board);
             return new ContainerField(windowId, playerInventory, this.board);
         } else if(this.board instanceof TileEntitySlotMachine) {
             if (heldItem == key) return new ContainerSlotMachine(windowId, playerInventory, this.board);

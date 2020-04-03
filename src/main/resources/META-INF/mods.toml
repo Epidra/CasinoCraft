@@ -3,16 +3,16 @@ loaderVersion="[28,)" #mandatory (26 is current forge version)
 issueTrackerURL="https://github.com/Epidra/CasinoCraft/issues"
 [[mods]]
 modId="casinocraft"
-version="vXX"
+version="v07"
 displayName="CasinoCraft"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/casinocraft"
 logoFile="casinocraft.png"
 credits="Thanks for this example mod goes to Java" #optional
 authors="Love, Cheese and small house plants" #optional
 description='''
-STUFF
-STUFF
-STUFF
+Ever wanted to relax with a little card game after a hard day in the mines?
+Or lose all your potatoes on the roulette table?
+Then you're at the right place.
 '''
 [[dependencies.casinocraft]]
     modId="forge"

@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
@@ -88,7 +89,7 @@ public class BlockArcade extends MachinaDoubleTall {
 
 
     public void setPowerState(Item item, BlockPos pos) {
-        CasinoPacketHandler.sendToServer(new ServerPowerMessage(EnumModule.byItem(item).meta, pos));
+        CasinoPacketHandler.sendToServer(new ServerPowerMessage(new ItemStack(item), pos));
         //CasinoPacketHandler.INSTANCE.sendToAll(new PacketClientPowerMessage(EnumModule.byItem(item).meta, pos));
     }
 
@@ -96,26 +97,31 @@ public class BlockArcade extends MachinaDoubleTall {
     public static void setPowerState2(World world, BlockPos pos){
         BlockState iblockstate = world.getBlockState(pos);
         TileEntityBoard tileentity = (TileEntityBoard) world.getTileEntity(pos);
-
+        int level = iblockstate.get(LEVEL);
         if (tileentity != null){
-            //world.notifyBlockUpdate(pos, iblockstate, iblockstate.with(LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
-            world.destroyBlock(pos, false);
-            world.destroyBlock(pos.up(), false);
-            ///world.removeBlock(pos.up());
-            world.setBlockState(pos,      iblockstate.with(LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
-            world.setBlockState(pos.up(), iblockstate.with(OFFSET, false).with(LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
-            tileentity.validate();
-            world.setTileEntity(pos, tileentity);
+
+            if(level != itemToInt(tileentity.inventory.get(1).getItem())){
+                //world.notifyBlockUpdate(pos, iblockstate, iblockstate.with(LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
+                world.destroyBlock(pos, false);
+                world.destroyBlock(pos.up(), false);
+                ///world.removeBlock(pos.up());
+                world.setBlockState(pos,      iblockstate.with(                    LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
+                world.setBlockState(pos.up(), iblockstate.with(OFFSET, false).with(LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
+                tileentity.validate();
+                world.setTileEntity(pos, tileentity);
+            }
+
+
         }
     }
 
     public static int itemToInt(Item item){
-        if(item == CasinoKeeper.MODULE_DUST_BLACK)  return 1;
-        if(item == CasinoKeeper.MODULE_DUST_YELLOW) return 2;
-        if(item == CasinoKeeper.MODULE_DUST_BROWN)  return 3;
-        if(item == CasinoKeeper.MODULE_DUST_ORANGE) return 4;
-        if(item == CasinoKeeper.MODULE_DUST_GREEN)  return 5;
-        if(item == CasinoKeeper.MODULE_DUST_PURPLE) return 6;
+        if(item == CasinoKeeper.MODULE_DUST_WHITE)      return 1; // 2048
+        if(item == CasinoKeeper.MODULE_DUST_MAGENTA)    return 2; // SOKOBAN
+        if(item == CasinoKeeper.MODULE_DUST_LIGHTBLUE)  return 3; // MEANMINOS
+        if(item == CasinoKeeper.MODULE_DUST_CYAN)       return 4; // COLUMNS
+        if(item == CasinoKeeper.MODULE_DUST_BLUE)       return 5; // TETRIS
+        if(item == CasinoKeeper.MODULE_DUST_RED)        return 6; // SNAKE
         return 0;
     }
 

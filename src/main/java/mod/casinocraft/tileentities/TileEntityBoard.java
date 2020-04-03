@@ -2,11 +2,14 @@ package mod.casinocraft.tileentities;
 
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicBase;
-import mod.casinocraft.logic.card.LogicBaccarat;
-import mod.casinocraft.logic.clay.LogicRoulette;
-import mod.casinocraft.logic.dust.Logic2048;
+import mod.casinocraft.logic.card.*;
+import mod.casinocraft.logic.clay.*;
+import mod.casinocraft.logic.dust.*;
 import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.logic.other.LogicSlotGame;
+import mod.casinocraft.network.PacketClientInventoryMessage;
+import mod.casinocraft.network.ServerInventoryMessage;
+import mod.casinocraft.system.CasinoPacketHandler;
 import mod.casinocraft.util.BoardDataArray;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,6 +29,9 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class TileEntityBoard extends TileEntity implements IInventory, ITickableTileEntity {
 
     public TileEntityBoard(TileEntityType<?> tileEntityTypeIn, DyeColor color, int tableID) {
@@ -41,6 +47,8 @@ public abstract class TileEntityBoard extends TileEntity implements IInventory, 
     public boolean transfer_in  = false;
     public boolean transfer_out = false;
     public boolean isCreative = false;
+
+    public String currentPlayer = "void";
 
     private Item lastModule = Items.FLINT;
 
@@ -105,60 +113,60 @@ public abstract class TileEntityBoard extends TileEntity implements IInventory, 
 
     private LogicBase setLogic(){
         if(this instanceof TileEntityArcade){
-            if(getModule() == CasinoKeeper.MODULE_DUST_BLACK)     return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_RED)       return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_GREEN)     return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_BROWN)     return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_BLUE)      return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_PURPLE)    return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_CYAN)      return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_SILVER)    return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_GRAY)      return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_PINK)      return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_LIME)      return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_YELLOW)    return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_LIGHTBLUE) return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_MAGENTA)   return new Logic2048();
-            if(getModule() == CasinoKeeper.MODULE_DUST_ORANGE)    return new Logic2048();
             if(getModule() == CasinoKeeper.MODULE_DUST_WHITE)     return new Logic2048();
+            //if(getModule() == CasinoKeeper.MODULE_DUST_ORANGE)    return new Logic2048();
+            if(getModule() == CasinoKeeper.MODULE_DUST_MAGENTA)   return new LogicSokoban();
+            if(getModule() == CasinoKeeper.MODULE_DUST_LIGHTBLUE) return new LogicMeanMinos();
+            //if(getModule() == CasinoKeeper.MODULE_DUST_YELLOW)    return new Logic2048();
+            //if(getModule() == CasinoKeeper.MODULE_DUST_LIME)      return new Logic2048();
+            //if(getModule() == CasinoKeeper.MODULE_DUST_PINK)      return new Logic2048();
+            //if(getModule() == CasinoKeeper.MODULE_DUST_GRAY)      return new Logic2048();
+            //if(getModule() == CasinoKeeper.MODULE_DUST_SILVER)    return new Logic2048();
+            if(getModule() == CasinoKeeper.MODULE_DUST_CYAN)      return new LogicColumns();
+            //if(getModule() == CasinoKeeper.MODULE_DUST_PURPLE)    return new Logic2048();
+            if(getModule() == CasinoKeeper.MODULE_DUST_BLUE)      return new LogicTetris();
+            //if(getModule() == CasinoKeeper.MODULE_DUST_BROWN)     return new Logic2048();
+            //if(getModule() == CasinoKeeper.MODULE_DUST_GREEN)     return new Logic2048();
+            if(getModule() == CasinoKeeper.MODULE_DUST_RED)       return new LogicSnake();
+            //if(getModule() == CasinoKeeper.MODULE_DUST_BLACK)     return new Logic2048();
         }
         if(this instanceof TileEntityCardTableBase || this instanceof TileEntityCardTableWide){
-            if(getModule() == CasinoKeeper.MODULE_CARD_BLACK)     return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_RED)       return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_GREEN)     return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_BROWN)     return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_BLUE)      return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_PURPLE)    return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_CYAN)      return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_SILVER)    return new LogicBaccarat(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CARD_WHITE)     return new LogicAceyDeucey(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CARD_ORANGE)    return new LogicBaccarat(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CARD_MAGENTA)   return new LogicTriPeak(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CARD_LIGHTBLUE) return new LogicBaccarat(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CARD_YELLOW)    return new LogicFreeCell(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CARD_LIME)      return new LogicBaccarat(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CARD_PINK)      return new LogicBaccarat(tableID);
             if(getModule() == CasinoKeeper.MODULE_CARD_GRAY)      return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_PINK)      return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_LIME)      return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_YELLOW)    return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_LIGHTBLUE) return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_MAGENTA)   return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_ORANGE)    return new LogicBaccarat(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CARD_WHITE)     return new LogicBaccarat(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CARD_SILVER)    return new LogicVideoPoker(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CARD_CYAN)      return new LogicKlondike(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CARD_PURPLE)    return new LogicPyramid(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CARD_BLUE)      return new LogicBaccarat(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CARD_BROWN)     return new LogicSpider(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CARD_GREEN)     return new LogicBaccarat(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CARD_RED)       return new LogicRougeEtNoir(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CARD_BLACK)     return new LogicBlackJack(tableID);
 
-            if(getModule() == CasinoKeeper.MODULE_CLAY_BLACK)     return new LogicRoulette(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CLAY_WHITE)     return new LogicSudoku(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CLAY_ORANGE)    return new LogicRoulette(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CLAY_MAGENTA)   return new LogicCraps(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CLAY_LIGHTBLUE) return new LogicRoulette(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CLAY_YELLOW)    return new LogicMysticSquare(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CLAY_LIME)      return new LogicSimon(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CLAY_PINK)      return new LogicRoulette(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CLAY_GRAY)      return new LogicRoulette(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CLAY_SILVER)    return new LogicMinesweeper(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CLAY_CYAN)      return new LogicRoulette(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CLAY_PURPLE)    return new LogicSicBo(tableID);
+            //if(getModule() == CasinoKeeper.MODULE_CLAY_BLUE)      return new LogicRoulette(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CLAY_BROWN)     return new LogicFanTan(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CLAY_GREEN)     return new LogicMemory(tableID);
             if(getModule() == CasinoKeeper.MODULE_CLAY_RED)       return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_GREEN)     return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_BROWN)     return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_BLUE)      return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_PURPLE)    return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_CYAN)      return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_SILVER)    return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_GRAY)      return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_PINK)      return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_LIME)      return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_YELLOW)    return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_LIGHTBLUE) return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_MAGENTA)   return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_ORANGE)    return new LogicRoulette(tableID);
-            if(getModule() == CasinoKeeper.MODULE_CLAY_WHITE)     return new LogicRoulette(tableID);
+            if(getModule() == CasinoKeeper.MODULE_CLAY_BLACK)     return new LogicHalma(tableID);
         }
         if(this instanceof TileEntitySlotMachine){
-            return new LogicSlotGame();
+            if(getModule() != Blocks.AIR.asItem()) return new LogicSlotGame();
         }
         return new LogicDummy();
     }
@@ -172,6 +180,9 @@ public abstract class TileEntityBoard extends TileEntity implements IInventory, 
         if(getModule() != lastModule){
             lastModule = getModule();
             LOGIC = setLogic();
+            if(this.world.isRemote) {
+                CasinoPacketHandler.sendToServer(new ServerInventoryMessage(inventory, getPos()));
+            }
         }
 
         boolean isDirty = false;
@@ -208,11 +219,9 @@ public abstract class TileEntityBoard extends TileEntity implements IInventory, 
             this.markDirty();
         }
 
-        LOGIC.updateLogic();
-        LOGIC.updateMotion();
-        if(!world.isRemote){
-            this.bet_high++;
-            markDirty();
+        if(LOGIC.turnstate > 1 && LOGIC.turnstate < 6){
+            LOGIC.updateLogic();
+            LOGIC.updateMotion();
         }
     }
 
@@ -281,6 +290,23 @@ public abstract class TileEntityBoard extends TileEntity implements IInventory, 
         }
     }
 
+
+
+
+    public void setPlayer(String name){
+        currentPlayer = name;
+    }
+
+    public void resetPlayer(){
+        currentPlayer = "void";
+    }
+
+
+
+
+
+
+
     /** ??? */
     public void read(CompoundNBT compound){
         super.read(compound);
@@ -288,8 +314,11 @@ public abstract class TileEntityBoard extends TileEntity implements IInventory, 
         bet_low  = compound.getInt("low");
         bet_high = compound.getInt("high");
         isCreative = compound.getBoolean("iscreative");
+        currentPlayer = compound.getString("currentplayer");
         this.inventory = NonNullList.withSize(6, ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(compound, this.inventory);
+        lastModule = getModule();
+        LOGIC = setLogic();
         LOGIC.load(compound);
         /**CasinoPacketHandler.INSTANCE.sendToServer(new ServerPowerMessage(EnumModule.byItem(inventory.get(1).getItem()).meta, pos));*/
     }
@@ -300,6 +329,7 @@ public abstract class TileEntityBoard extends TileEntity implements IInventory, 
         compound.putInt("low", bet_low);
         compound.putInt("high", bet_high);
         compound.putBoolean("iscreative", isCreative);
+        compound.putString("currentplayer", currentPlayer);
         ItemStackHelper.saveAllItems(compound, this.inventory);
         LOGIC.save(compound);
         return compound;

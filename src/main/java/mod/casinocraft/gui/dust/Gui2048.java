@@ -61,10 +61,11 @@ public class Gui2048 extends GuiCasino {
             for(int y = 0; y < 4; y++){
                 for(int x = 0; x < 4; x++){
                     //drawMino(tileCasino.getValue(y * 4 + x), x, y);
-                    if(logic().gridI[x][y] != 0){
-                        int shiftX = logic().gridB[x][y] ? logic().direction == 4 ? logic().timer : logic().direction == 3 ? -logic().timer : 0 : 0;
-                        int shiftY = logic().gridB[x][y] ? logic().direction == 2 ? logic().timer : logic().direction == 1 ? -logic().timer : 0 : 0;
-                        this.blit(guiLeft + 48*x+32 + shiftX, guiTop + 48*y+16 + shiftY, ((logic().gridI[x][y]-1)%4)*48, ((logic().gridI[x][y]-1)/4)*48, 48, 48);
+                    if(logic().grid[x][y] != 0){
+                        int shiftX = logic().grid[x][y] >= 100 ? logic().direction == 4 ? logic().timer : logic().direction == 3 ? -logic().timer : 0 : 0;
+                        int shiftY = logic().grid[x][y] >= 100 ? logic().direction == 2 ? logic().timer : logic().direction == 1 ? -logic().timer : 0 : 0;
+                        int color = (logic().grid[x][y] % 100) - 1;
+                        this.blit(guiLeft + 48*x+32 + shiftX, guiTop + 48*y+16 + shiftY, (color % 4)*48, (color / 4)*48, 48, 48);
                     }
                 }
             }

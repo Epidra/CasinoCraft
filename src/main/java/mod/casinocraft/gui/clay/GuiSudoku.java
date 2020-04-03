@@ -28,7 +28,9 @@ public class GuiSudoku extends GuiCasino {
         if (mouseButton == 0){
             for(int y = 0; y < 9; y++) {
                 for(int x = 0; x < 9; x++) {
-                    if(mouseRect(20 + 24*x, 20 + 24*y, 24, 24, mouseX, mouseY)){ action(100 + y*9 + x); }
+                    if(mouseRect(20 + 24*x, 20 + 24*y, 24, 24, mouseX, mouseY)){
+                        if(logic().grid[x][y] < 10) action(100 + y*9 + x);
+                    }
                 }
             }
         }
@@ -60,16 +62,10 @@ public class GuiSudoku extends GuiCasino {
 
         for(int y = 0; y < 9; y++) {
             for(int x = 0; x < 9; x++) {
-                if(logic().gridB[x][y]) {
-                    if(logic().gridI[x][y] > 0) {
-                        GlStateManager.color4f(0.25F, 0.25F, 0.25F, 1.0F);
-                        this.blit(guiLeft+20+4 + 24*x, guiTop+20+4 + 24*y, 240, 64 + 16*logic().gridI[x][y], 16, 16);
-                        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-                    }
-                } else {
-                    if(logic().gridI[x][y] > 0) {
-                        this.blit(guiLeft+20+4 + 24*x, guiTop+20+4 + 24*y, 240, 64 + 16*logic().gridI[x][y], 16, 16);
-                    }
+                if(logic().grid[x][y] > 0) {
+                    if(logic().grid[x][y] > 10) GlStateManager.color4f(0.25F, 0.25F, 0.25F, 1.0F);
+                    this.blit(guiLeft+20+4 + 24*x, guiTop+20+4 + 24*y, 240, 64 + 16*(logic().grid[x][y] % 10), 16, 16);
+                    GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 }
             }
         }

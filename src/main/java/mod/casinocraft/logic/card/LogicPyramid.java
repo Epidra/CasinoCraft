@@ -32,7 +32,7 @@ public class LogicPyramid extends LogicBase {
     //--------------------BASIC--------------------
 
     public void start2(){
-        scoreLives = 5;
+        scoreLives = 2;
         timer = 0;
         selector.set(-1, -1);
 
@@ -163,16 +163,16 @@ public class LogicPyramid extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-        cards_reserve.addAll(Arrays.asList(loadCard(compound, 0)));
-        cards_stack.addAll(Arrays.asList(loadCard(compound, 1)));
-        cards_field = loadCard(compound, 2);
+        cards_reserve = loadCardList(compound, 0);
+        cards_stack   = loadCardList(compound, 1);
+        cards_field = loadCardArray(compound, 2);
         timer = compound.getInt("timer");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveCards(compound, 12, (Card[]) cards_reserve.toArray());
-        saveCards(compound, 13, (Card[]) cards_stack.toArray());
-        saveCards(compound, 0, cards_field);
+        saveCardList(compound, 0, cards_reserve);
+        saveCardList(compound, 1, cards_stack);
+        saveCardArray(compound, 2, cards_field);
         compound.putInt("timer", timer);
         return compound;
     }

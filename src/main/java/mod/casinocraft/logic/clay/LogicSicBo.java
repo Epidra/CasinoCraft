@@ -7,8 +7,6 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class LogicSicBo extends LogicBase {
 
-    public int grid[][] = new int[12][6];
-
     public Dice[] dice = new Dice[3];
 
 
@@ -16,7 +14,7 @@ public class LogicSicBo extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicSicBo(int table){
-        super(false, table, "c_sicbo");
+        super(false, table, "c_sicbo", 12, 6);
     }
 
 
@@ -24,12 +22,7 @@ public class LogicSicBo extends LogicBase {
     //--------------------BASIC--------------------
 
     public void start2(){
-        for(int y = 0; y < 6; y++) {
-            for(int x = 0; x < 12; x++) {
-                grid[x][y] = 0;
-            }
-        }
-        selector = new Vector2(-1, -1);
+        selector = new Vector2(5, 2);
         dice[0] = new Dice(0, 4);
         dice[1] = new Dice(0, 4);
         dice[2] = new Dice(0, 4);
@@ -75,14 +68,10 @@ public class LogicSicBo extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-
-        grid = loadGrid(compound, 12, 6);
         dice = loadDice(compound);
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-
-        saveGrid(compound, 12, 6, grid);
         saveDice(compound, dice);
         return compound;
     }
@@ -198,7 +187,14 @@ public class LogicSicBo extends LogicBase {
     }
 
     private boolean Result_Double(int n1, int n2) {
+        if(n1 == n2) return Result_Double(n1);
         return Result_Single(n1) && Result_Single(n2);
+    }
+
+    private boolean Result_Double(int n){
+        if(dice[0].number == n && dice[1].number == n) return true;
+        if(dice[0].number == n && dice[2].number == n) return true;
+        return (dice[1].number == n && dice[2].number == n);
     }
 
     private boolean Result_Triple(int n) {

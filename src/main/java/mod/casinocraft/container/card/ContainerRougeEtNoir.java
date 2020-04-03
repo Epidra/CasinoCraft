@@ -28,6 +28,6 @@ public class ContainerRougeEtNoir extends ContainerCasino {
     }
 
     public String getName(){
-        return "c_rouge_et_noir";
+        return "c_rouge_etnoir";
     }
 }

@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-        "casinocraft:module_clay_black",
+        "casinocraft:module_card_black",
         "casinocraft:module_card_blue",
         "casinocraft:module_card_brown",
         "casinocraft:module_card_cyan",

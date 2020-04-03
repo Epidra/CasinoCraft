@@ -6,8 +6,6 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class LogicRoulette extends LogicBase {
 
-    public int[][] grid = new int[25][7];
-
     float rotation_wheel;
     float rotation_ball;
 
@@ -20,7 +18,7 @@ public class LogicRoulette extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicRoulette(int table){
-        super(false, table, "c_roulette");
+        super(false, table, "c_roulette", 25, 7);
     }
 
 
@@ -28,12 +26,7 @@ public class LogicRoulette extends LogicBase {
     //--------------------BASIC--------------------
 
     public void start2(){
-        for(int y = 0; y < 7; y++) {
-            for(int x = 0; x < 25; x++) {
-                grid[x][y] = 0;
-            }
-        }
-        selector = new Vector2(-1, -1);
+        selector = new Vector2(0, 4);
         rotation_wheel = 0.00f;
         rotation_ball = 0.00f;
         spinning = false;
@@ -80,8 +73,6 @@ public class LogicRoulette extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-
-        grid = loadGrid(compound, 25, 7);
         rotation_wheel = compound.getFloat("rotationwheel");
         rotation_ball = compound.getFloat("rotation_ball");
         spinning = compound.getBoolean("spinning");
@@ -90,9 +81,6 @@ public class LogicRoulette extends LogicBase {
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-
-        saveGrid(compound, 25, 7, grid);
-
         compound.putFloat("rotationwheel", rotation_wheel);
         compound.putFloat("rotationball", rotation_ball);
         compound.putBoolean("spinning", spinning);
@@ -191,7 +179,7 @@ public class LogicRoulette extends LogicBase {
             if(selector.X != -1) grid[selector.X][selector.Y] = 1;
             turnstate = 3;
         } else if(turnstate == 3 && !spinning) {
-            timer = 100 + RANDOM.nextInt(500);
+            timer = 100 + RANDOM.nextInt(150);
             spinning = true;
         } else if(turnstate == 3 && timer == 0) {
             Result();

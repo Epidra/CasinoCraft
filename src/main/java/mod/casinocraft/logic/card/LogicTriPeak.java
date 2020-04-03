@@ -30,7 +30,7 @@ public class LogicTriPeak extends LogicBase {
     //--------------------BASIC--------------------
 
     public void start2(){
-        scoreLives = 5;
+        scoreLives = 2;
 
         combo = 0;
 
@@ -148,15 +148,15 @@ public class LogicTriPeak extends LogicBase {
     }
 
     public void load2(CompoundNBT compound){
-        cards_field = loadCard(compound, 0);
-        cards_stack.addAll(Arrays.asList(loadCard(compound, 1)));
-        cards_reserve.addAll(Arrays.asList(loadCard(compound, 2)));
+        cards_field = loadCardArray(      compound, 0);
+        cards_stack   = loadCardList(compound, 1);
+        cards_reserve = loadCardList(compound, 2);
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveCards(compound, 0, cards_field);
-        saveCards(compound, 0, (Card[]) cards_stack.toArray());
-        saveCards(compound, 0, (Card[]) cards_reserve.toArray());
+        saveCardArray(compound, 0, cards_field);
+        saveCardList(compound,  1, cards_stack);
+        saveCardList(compound,  2, cards_reserve);
         return compound;
     }
 
@@ -192,7 +192,7 @@ public class LogicTriPeak extends LogicBase {
             if(scoreLives == 0){
                 turnstate = 4;
             } else {
-                scoreLives = -1;
+                scoreLives--;
                 Restart();
             }
         }
@@ -322,7 +322,7 @@ public class LogicTriPeak extends LogicBase {
 
         if(cards_field[id].number + 1 == cards_stack.get(cards_stack.size() - 1).number || cards_field[id].number - 1 == cards_stack.get(cards_stack.size() - 1).number || (cards_field[id].number == 0 && cards_stack.get(cards_stack.size() - 1).number == 12) || (cards_field[id].number == 12 && cards_stack.get(cards_stack.size() - 1).number == 0)) {
             combo++;
-            scorePoint = 50 * combo;
+            scorePoint += 50 * combo;
             cards_field[id].shiftX = 0;
             cards_field[id].shiftY = +24;
             cards_stack.add(cards_field[id]);
