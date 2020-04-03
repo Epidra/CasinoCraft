@@ -2,6 +2,7 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +22,8 @@ public class LogicBaccarat extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicBaccarat(int table){
-        super(false, table, "baccarat");
+        super(false, table, "c_baccarat");
     }
-
 
 
     //--------------------BASIC--------------------
@@ -80,6 +80,23 @@ public class LogicBaccarat extends LogicBase {
 
     public void updateLogic(){
 
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_player = loadCardList(compound, 0);
+        cards_dealer = loadCardList(compound, 1);
+        value_player = compound.getInt("valueplayer");
+        value_dealer = compound.getInt("valuedealer");
+        status = compound.getInt("status");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCardList(compound, 0, cards_player);
+        saveCardList(compound, 0, cards_player);
+        compound.putInt("valueplayer", value_player);
+        compound.putInt("valueplayer", value_dealer);
+        compound.putInt("status", status);
+        return compound;
     }
 
 

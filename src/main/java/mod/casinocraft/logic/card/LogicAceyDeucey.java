@@ -2,6 +2,7 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicAceyDeucey extends LogicBase {
 
@@ -16,7 +17,7 @@ public class LogicAceyDeucey extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicAceyDeucey(int table){
-        super(false, table, "aceydeucey");
+        super(false, table, "c_acey_deucey");
     }
 
 
@@ -26,7 +27,7 @@ public class LogicAceyDeucey extends LogicBase {
     public void start2(){
         spread = -1;
         hand = "";
-        cards[0] = new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), 0, -25);
+        cards[0] = new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), 0, -30);
         cards[1] = new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), 0, -50);
         cards[2] = new Card(-1, -1);
         turnstate = 3;
@@ -58,7 +59,7 @@ public class LogicAceyDeucey extends LogicBase {
             if(cards[0].number == cards[1].number) {
                 if(cards[2].number == -1) {
                     if(cards[0].shiftY == 0) {
-                        cards[2] = new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), 0, -75);
+                        cards[2] = new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), 0, -60);
                     }
                 } else {
                     if(cards[2].shiftY == 0) {
@@ -107,6 +108,19 @@ public class LogicAceyDeucey extends LogicBase {
                 }
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards = loadCardArray(compound, 0);
+        spread = compound.getInt("spread");
+        doublebet = compound.getBoolean("doublebet");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCardArray(compound, 0, cards);
+        compound.putInt("spread", spread);
+        compound.putBoolean("doublebet", doublebet);
+        return compound;
     }
 
 

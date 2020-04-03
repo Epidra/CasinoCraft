@@ -2,13 +2,35 @@ package mod.casinocraft;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import mod.casinocraft.blocks.*;
+import mod.casinocraft.container.ContainerArcade;
+import mod.casinocraft.container.ContainerCardTable;
+import mod.casinocraft.container.ContainerSlotMachine;
+import mod.casinocraft.container.card.*;
+import mod.casinocraft.container.clay.*;
+import mod.casinocraft.container.dust.*;
+import mod.casinocraft.container.other.ContainerField;
+import mod.casinocraft.container.other.ContainerNoise;
+import mod.casinocraft.container.other.ContainerSlotGame;
+import mod.casinocraft.gui.GuiArcade;
+import mod.casinocraft.gui.GuiCardTable;
+import mod.casinocraft.gui.GuiSlotMachine;
+import mod.casinocraft.gui.card.*;
+import mod.casinocraft.gui.clay.*;
+import mod.casinocraft.gui.dust.*;
+import mod.casinocraft.gui.other.GuiField;
+import mod.casinocraft.gui.other.GuiNoise;
+import mod.casinocraft.gui.other.GuiSlotGame;
 import mod.casinocraft.tileentities.TileEntityArcade;
-import mod.casinocraft.tileentities.TileEntityCardTable;
+import mod.casinocraft.tileentities.TileEntityCardTableBase;
+import mod.casinocraft.tileentities.TileEntityCardTableWide;
 import mod.casinocraft.tileentities.TileEntitySlotMachine;
 import mod.shared.Register;
 import mod.shared.items.ItemItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -17,7 +39,8 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 
 import java.nio.file.Path;
 
@@ -176,7 +199,7 @@ public class CasinoKeeper {
     public static final Item MODULE_CARD_GREEN     = new ItemItem(MODID, "module_card_green", ItemGroup.MISC);
     public static final Item MODULE_CARD_RED       = new ItemItem(MODID, "module_card_red", ItemGroup.MISC);
     public static final Item MODULE_CARD_BLACK     = new ItemItem(MODID, "module_card_black", ItemGroup.MISC);
-    
+
     public enum GuiID{CARDTABLE, ARCADE, BLACKJACK, BACCARAT, VIDEOPOKER, MEMORY, TETRIS, SLOTMACHINE, ROULETTE, COLUMNS, MEANMINOS, MYSTICSQUARE, PYRAMID, SOKOBAN, SUDOKU, TRIPEAK, _2048, ACEYDEUCEY, HALMA, ROUGEETNOIR, SNAKE, CRAPS, SICBO, KLONDIKE, FREECELL, SPIDER, MINESWEEPER}
 
     public static ResourceLocation TEXTURE_GROUND_BLACK      = new ResourceLocation(MODID, "textures/gui/cardtable_black.png");
@@ -205,14 +228,18 @@ public class CasinoKeeper {
     public static ResourceLocation TEXTURE_OCTAGAMES         = new ResourceLocation(MODID, "textures/gui/octagames.png");
     public static ResourceLocation TEXTURE_CASINO            = new ResourceLocation(MODID, "textures/gui/casino.png");
     public static ResourceLocation TEXTURE_SLOTMACHINE       = new ResourceLocation(MODID, "textures/gui/slotmachine.png");
-    public static ResourceLocation TEXTURE_SLOTWHEEL         = new ResourceLocation(MODID, "textures/gui/slotwheel.png");
+    public static ResourceLocation TEXTURE_SLOTGAME          = new ResourceLocation(MODID, "textures/gui/slotgame.png");
     public static ResourceLocation TEXTURE_ROULETTE_LEFT     = new ResourceLocation(MODID, "textures/gui/roulette_left.png");
     public static ResourceLocation TEXTURE_ROULETTE_RIGHT    = new ResourceLocation(MODID, "textures/gui/roulette_right.png");
+    public static ResourceLocation TEXTURE_ROULETTE_MIDDLE   = new ResourceLocation(MODID, "textures/gui/roulette_middle.png");
     public static ResourceLocation TEXTURE_ROULETTE_WHEEL    = new ResourceLocation(MODID, "textures/gui/roulette_wheel.png");
     public static ResourceLocation TEXTURE_SICBO_LEFT        = new ResourceLocation(MODID, "textures/gui/sicbo_left.png");
     public static ResourceLocation TEXTURE_SICBO_RIGHT       = new ResourceLocation(MODID, "textures/gui/sicbo_right.png");
+    public static ResourceLocation TEXTURE_SICBO_MIDDLE      = new ResourceLocation(MODID, "textures/gui/sicbo_middle.png");
     public static ResourceLocation TEXTURE_CRAPS_LEFT        = new ResourceLocation(MODID, "textures/gui/craps_left.png");
     public static ResourceLocation TEXTURE_CRAPS_RIGHT       = new ResourceLocation(MODID, "textures/gui/craps_right.png");
+    public static ResourceLocation TEXTURE_CRAPS_MIDDLE      = new ResourceLocation(MODID, "textures/gui/craps_middle.png");
+    public static ResourceLocation TEXTURE_FANTAN            = new ResourceLocation(MODID, "textures/gui/fantan.png");
     public static ResourceLocation TEXTURE_ROUGE             = new ResourceLocation(MODID, "textures/gui/cards_rouge.png");
     public static ResourceLocation TEXTURE_NOIR              = new ResourceLocation(MODID, "textures/gui/cards_noir.png");
     public static ResourceLocation TEXTURE_MYSTICSQUARE      = new ResourceLocation(MODID, "textures/gui/mysticsquare.png");
@@ -220,6 +247,8 @@ public class CasinoKeeper {
     public static ResourceLocation TEXTURE_SUDOKU            = new ResourceLocation(MODID, "textures/gui/sudoku.png");
     public static ResourceLocation TEXTURE_FONT_ARCADE       = new ResourceLocation(MODID, "textures/gui/font_arcade.png");
     public static ResourceLocation TEXTURE_FONT_CARDTABLE    = new ResourceLocation(MODID, "textures/gui/font_cardtable.png");
+    public static ResourceLocation TEXTURE_STATIC            = new ResourceLocation(MODID, "textures/gui/static.png");
+    public static ResourceLocation TEXTURE_SIMON             = new ResourceLocation(MODID, "textures/gui/simon.png");
 
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
@@ -459,20 +488,152 @@ public class CasinoKeeper {
     public static final ResourceLocation GUIID_2048      = new ResourceLocation(MODID, "_2048");
 
     public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event){
-        TileEntityArcade.TYPE.setRegistryName(MODID, "arcade");
-        event.getRegistry().register(TileEntityArcade.TYPE);
-        TileEntityCardTable.TYPE.setRegistryName(MODID, "cardtable");
-        event.getRegistry().register(TileEntityCardTable.TYPE);
-        TileEntitySlotMachine.TYPE.setRegistryName(MODID, "slotmachine");
-        event.getRegistry().register(TileEntitySlotMachine.TYPE);
+        event.getRegistry().register(TileEntityArcade.TYPE_BLACK    );
+        event.getRegistry().register(TileEntityArcade.TYPE_BLUE     );
+        event.getRegistry().register(TileEntityArcade.TYPE_BROWN    );
+        event.getRegistry().register(TileEntityArcade.TYPE_CYAN     );
+        event.getRegistry().register(TileEntityArcade.TYPE_GRAY     );
+        event.getRegistry().register(TileEntityArcade.TYPE_GREEN    );
+        event.getRegistry().register(TileEntityArcade.TYPE_LIGHTBLUE);
+        event.getRegistry().register(TileEntityArcade.TYPE_LIME     );
+        event.getRegistry().register(TileEntityArcade.TYPE_MAGENTA  );
+        event.getRegistry().register(TileEntityArcade.TYPE_ORANGE   );
+        event.getRegistry().register(TileEntityArcade.TYPE_PINK     );
+        event.getRegistry().register(TileEntityArcade.TYPE_PURPLE   );
+        event.getRegistry().register(TileEntityArcade.TYPE_RED      );
+        event.getRegistry().register(TileEntityArcade.TYPE_SILVER   );
+        event.getRegistry().register(TileEntityArcade.TYPE_WHITE    );
+        event.getRegistry().register(TileEntityArcade.TYPE_YELLOW   );
+
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_BLACK    );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_BLUE     );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_BROWN    );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_CYAN     );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_GRAY     );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_GREEN    );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_LIGHTBLUE);
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_LIME     );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_MAGENTA  );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_ORANGE   );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_PINK     );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_PURPLE   );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_RED      );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_SILVER   );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_WHITE    );
+        event.getRegistry().register(TileEntityCardTableBase.TYPE_YELLOW   );
+
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_BLACK    );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_BLUE     );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_BROWN    );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_CYAN     );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_GRAY     );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_GREEN    );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_LIGHTBLUE);
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_LIME     );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_MAGENTA  );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_ORANGE   );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_PINK     );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_PURPLE   );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_RED      );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_SILVER   );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_WHITE    );
+        event.getRegistry().register(TileEntityCardTableWide.TYPE_YELLOW   );
+
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_BLACK    );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_BLUE     );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_BROWN    );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_CYAN     );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_GRAY     );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_GREEN    );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_LIGHTBLUE);
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_LIME     );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_MAGENTA  );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_ORANGE   );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_PINK     );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_PURPLE   );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_RED      );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_SILVER   );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_WHITE    );
+        event.getRegistry().register(TileEntitySlotMachine.TYPE_YELLOW   );
 
     }
 
-    public static void registerContainers(RegistryEvent.Register<ContainerType<?>> event) {
-        //event.getRegistry().register(CreatureContainer.TYPE);
-        //event.getRegistry().register(SummoningPedestalContainer.TYPE);
-        //event.getRegistry().register(EquipmentForgeContainer.TYPE);
-        //event.getRegistry().register(EquipmentInfuserContainer.TYPE);
+    public static void registerScreen(){
+        ScreenManager.registerFactory(ContainerArcade.TYPE, GuiArcade::new);
+        ScreenManager.registerFactory(ContainerCardTable.TYPE, GuiCardTable::new);
+        ScreenManager.registerFactory(ContainerSlotMachine.TYPE, GuiSlotMachine::new);
+
+        ScreenManager.registerFactory(ContainerAceyDeucey.TYPE, GuiAceyDeucey::new);
+        ScreenManager.registerFactory(ContainerBaccarat.TYPE, GuiBaccarat::new);
+        ScreenManager.registerFactory(ContainerBlackJack.TYPE, GuiBlackJack::new);
+        ScreenManager.registerFactory(ContainerFreeCell.TYPE, GuiFreeCell::new);
+        ScreenManager.registerFactory(ContainerKlondike.TYPE, GuiKlondike::new);
+        ScreenManager.registerFactory(ContainerPyramid.TYPE, GuiPyramid::new);
+        ScreenManager.registerFactory(ContainerRougeEtNoir.TYPE, GuiRougeEtNoir::new);
+        ScreenManager.registerFactory(ContainerSpider.TYPE, GuiSpider::new);
+        ScreenManager.registerFactory(ContainerTriPeak.TYPE, GuiTriPeak::new);
+        ScreenManager.registerFactory(ContainerVideoPoker.TYPE, GuiVideoPoker::new);
+
+        ScreenManager.registerFactory(ContainerCraps.TYPE, GuiCraps::new);
+        ScreenManager.registerFactory(ContainerHalma.TYPE, GuiHalma::new);
+        ScreenManager.registerFactory(ContainerMemory.TYPE, GuiMemory::new);
+        ScreenManager.registerFactory(ContainerMysticSquare.TYPE, GuiMysticSquare::new);
+        ScreenManager.registerFactory(ContainerRoulette.TYPE, GuiRoulette::new);
+        ScreenManager.registerFactory(ContainerSicBo.TYPE, GuiSicBo::new);
+        ScreenManager.registerFactory(ContainerSudoku.TYPE, GuiSudoku::new);
+        ScreenManager.registerFactory(ContainerFanTan.TYPE, GuiFanTan::new);
+        ScreenManager.registerFactory(ContainerSimon.TYPE, GuiSimon::new);
+
+        ScreenManager.registerFactory(Container2048.TYPE, Gui2048::new);
+        ScreenManager.registerFactory(ContainerColumns.TYPE, GuiColumns::new);
+        ScreenManager.registerFactory(ContainerMeanMinos.TYPE, GuiMeanMinos::new);
+        ScreenManager.registerFactory(ContainerMinesweeper.TYPE, GuiMinesweeper::new);
+        ScreenManager.registerFactory(ContainerSnake.TYPE, GuiSnake::new);
+        ScreenManager.registerFactory(ContainerSokoban.TYPE, GuiSokoban::new);
+        ScreenManager.registerFactory(ContainerTetris.TYPE, GuiTetris::new);
+
+        ScreenManager.registerFactory(ContainerSlotGame.TYPE, GuiSlotGame::new);
+        ScreenManager.registerFactory(ContainerField.TYPE, GuiField::new);
+        ScreenManager.registerFactory(ContainerNoise.TYPE, GuiNoise::new);
+    }
+
+    public static void registerContainer(IForgeRegistry<ContainerType<?>> registry) {
+        registry.register(ContainerArcade.TYPE);
+        registry.register(ContainerCardTable.TYPE);
+        registry.register(ContainerSlotMachine.TYPE);
+
+        registry.register(ContainerAceyDeucey.TYPE);
+        registry.register(ContainerBaccarat.TYPE);
+        registry.register(ContainerBlackJack.TYPE);
+        registry.register(ContainerFreeCell.TYPE);
+        registry.register(ContainerKlondike.TYPE);
+        registry.register(ContainerPyramid.TYPE);
+        registry.register(ContainerRougeEtNoir.TYPE);
+        registry.register(ContainerSpider.TYPE);
+        registry.register(ContainerTriPeak.TYPE);
+        registry.register(ContainerVideoPoker.TYPE);
+
+        registry.register(ContainerCraps.TYPE);
+        registry.register(ContainerHalma.TYPE);
+        registry.register(ContainerMemory.TYPE);
+        registry.register(ContainerMysticSquare.TYPE);
+        registry.register(ContainerRoulette.TYPE);
+        registry.register(ContainerSicBo.TYPE);
+        registry.register(ContainerSudoku.TYPE);
+        registry.register(ContainerFanTan.TYPE);
+        registry.register(ContainerSimon.TYPE);
+
+        registry.register(Container2048.TYPE);
+        registry.register(ContainerColumns.TYPE);
+        registry.register(ContainerMeanMinos.TYPE);
+        registry.register(ContainerMinesweeper.TYPE);
+        registry.register(ContainerSnake.TYPE);
+        registry.register(ContainerSokoban.TYPE);
+        registry.register(ContainerTetris.TYPE);
+
+        registry.register(ContainerField.TYPE);
+        registry.register(ContainerNoise.TYPE);
+        registry.register(ContainerSlotGame.TYPE);
     }
 
     //public void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
@@ -488,6 +649,73 @@ public class CasinoKeeper {
     //        specialEntityTypes.put(specialEntities.get(entityName), entityType);
     //        event.getRegistry().register(entityType);
     //    }
+    //}
+
+    //public static void renderLayer() {
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_WHITE,     RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_ORANGE,    RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_MAGENTA,   RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_LIGHTBLUE, RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_YELLOW,    RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_LIME,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_PINK,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_GRAY,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_SILVER,    RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_CYAN,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_PURPLE,    RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_BLUE,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_BROWN,     RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_GREEN,     RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_RED,       RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_BASE_BLACK,     RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_WHITE,     RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_ORANGE,    RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_MAGENTA,   RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_LIGHTBLUE, RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_YELLOW,    RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_LIME,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_PINK,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_GRAY,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_SILVER,    RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_CYAN,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_PURPLE,    RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_BLUE,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_BROWN,     RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_GREEN,     RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_RED,       RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(CARDTABLE_WIDE_BLACK,     RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_WHITE,        RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_ORANGE,       RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_MAGENTA,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_LIGHTBLUE,    RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_YELLOW,       RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_LIME,         RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_PINK,         RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_GRAY,         RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_SILVER,       RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_CYAN,         RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_PURPLE,       RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_BLUE,         RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_BROWN,        RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_GREEN,        RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_RED,          RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_BASE_BLACK,        RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_WHITE,        RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_ORANGE,       RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_MAGENTA,      RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_LIGHTBLUE,    RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_YELLOW,       RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_LIME,         RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_PINK,         RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_GRAY,         RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_SILVER,       RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_CYAN,         RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_PURPLE,       RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_BLUE,         RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_BROWN,        RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_GREEN,        RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_RED,          RenderType.translucent());
+    //    RenderTypeLookup.setRenderLayer(ARCADE_SLOT_BLACK,        RenderType.translucent());
     //}
 
 

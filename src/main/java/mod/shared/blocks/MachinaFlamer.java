@@ -1,15 +1,11 @@
 package mod.shared.blocks;
 
-import mod.acecraft.ShopKeeper;
-import mod.acecraft.tileentities.TileBlastFurnace;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -22,10 +18,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -49,14 +43,6 @@ public abstract class MachinaFlamer extends Block {
 
 
     //----------------------------------------FUNCTION----------------------------------------//
-
-    public boolean isFullCube(BlockState state){
-        return false;
-    }
-
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
 
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
@@ -155,12 +141,12 @@ public abstract class MachinaFlamer extends Block {
         return state.get(LIT) ? super.getLightValue(state) : 0;
     }
 
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (!worldIn.isRemote) {
             this.interactWith(worldIn, pos, player);
         }
 
-        return true;
+        return ActionResultType.PASS;
     }
 
     /**

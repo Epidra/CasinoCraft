@@ -29,10 +29,14 @@ public class GuiMysticSquare extends GuiCasino {
             for(int y = 0; y < 4; y++){
                 for(int x = 0; x < 4; x++){
                     if(mouseRect(32 + 48*x, 32 + 48*y, 48, 48, mouseX, mouseY)){
-                        if(y > 0) if(logic().gridI[x    ][y - 1] == -1) action(0);
-                        if(y < 3) if(logic().gridI[x    ][y + 1] == -1) action(1);
-                        if(x > 0) if(logic().gridI[x - 1][y    ] == -1) action(2);
-                        if(x < 3) if(logic().gridI[x + 1][y    ] == -1) action(3);
+                        if(y > 0) if(logic().grid[x    ][y - 1] == -1)
+                            action(0);
+                        if(y < 3) if(logic().grid[x    ][y + 1] == -1)
+                            action(1);
+                        if(x > 0) if(logic().grid[x - 1][y    ] == -1)
+                            action(2);
+                        if(x < 3) if(logic().grid[x + 1][y    ] == -1)
+                            action(3);
                     }
                 }
             }
@@ -55,8 +59,9 @@ public class GuiMysticSquare extends GuiCasino {
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MYSTICSQUARE);
             for(int y = 0; y < 4; y++) {
                 for(int x = 0; x < 4; x++) {
-                    if(logic().gridI[x][y] != -1) {
-                        this.blit(guiLeft + 32 + 48*x, guiTop + 32 + 48*y, (logic().gridI[x][y] % 4)*48, (logic().gridI[x][y] / 4)*48, 48, 48);
+                    int i = logic().grid[x][y] % 20;
+                    if(i != -1) {
+                        this.blit(guiLeft + 32 + 48*x, guiTop + 32 + 48*y, (i % 4)*48, (i / 4)*48, 48, 48);
                     }
                 }
             }

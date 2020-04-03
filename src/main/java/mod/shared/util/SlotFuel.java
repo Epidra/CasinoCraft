@@ -1,6 +1,5 @@
 package mod.shared.util;
 
-import mod.acecraft.container.ContainerBlastFurnace;
 import mod.shared.container.ContainerFlamer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;

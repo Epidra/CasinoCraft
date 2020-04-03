@@ -62,12 +62,12 @@ public class GuiMemory extends GuiCasino {
                 for(int x = 0; x < 17; x++){
                     if(logic().grid[x][y] != -1){
                         if(logic().positionA.matches(x, y)){
-                            this.blit(guiLeft-76 + 24*x, guiTop+20 + 24*y, logic().grid[x][y]*24+24, 232, 24, 24);
+                            this.blit(guiLeft-76 + 24*x, guiTop+20 + 24*y, logic().grid[x][y]*24+24, 232-24, 24, 24);
                         } else
                         if(logic().positionB.matches(x, y)){
-                            this.blit(guiLeft-76 + 24*x, guiTop+20 + 24*y, logic().grid[x][y]*24+24, 232, 24, 24);
+                            this.blit(guiLeft-76 + 24*x, guiTop+20 + 24*y, logic().grid[x][y]*24+24, 232-24, 24, 24);
                         } else {
-                            this.blit(guiLeft-76 + 24*x, guiTop+20 + 24*y, 0, 232, 24, 24);
+                            this.blit(guiLeft-76 + 24*x, guiTop+20 + 24*y, 0, 232-24, 24, 24);
                         }
                     }
                 }

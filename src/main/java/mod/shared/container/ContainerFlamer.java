@@ -1,26 +1,24 @@
 package mod.shared.container;
 
-import mod.acecraft.util.FoundryContent;
-import mod.shared.tileentity.TileEntityFlamer;
 import mod.shared.util.BurnTimes;
 import mod.shared.util.ContainerContent;
 import mod.shared.util.SlotFuel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IRecipeHelperPopulator;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.*;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.ContainerType;
+import net.minecraft.inventory.container.FurnaceResultSlot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.RecipeItemHelper;
 import net.minecraft.util.IIntArray;
-import net.minecraft.util.IntArray;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nullable;
 
 public abstract class ContainerFlamer extends Container {
 
@@ -28,10 +26,6 @@ public abstract class ContainerFlamer extends Container {
     protected final IIntArray trackingData;
     protected final ContainerContent trackingExtraData;
     protected final World world;
-
-   protected ContainerFlamer(ContainerType<?> containerTypeIn, int id, PlayerInventory playerInventoryIn){
-       this(containerTypeIn, id, playerInventoryIn, new Inventory(3), null, new FoundryContent());
-   }
 
     protected ContainerFlamer(ContainerType<?> containerTypeIn, int id, PlayerInventory playerInventoryIn, IIntArray data, ContainerContent extraData) {
         this(containerTypeIn, id, playerInventoryIn, new Inventory(3), data, extraData);

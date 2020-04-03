@@ -59,12 +59,12 @@ public class GuiSokoban extends GuiCasino {
                 for(int y = 0; y < 12; y++){
                     //if(tc.getValue(x + y*16) == 1) this.drawTexturedModalRect(guiLeft + x*16, guiTop + y*16, 32, 64, 16, 16);
                     //if(tc.getValue(x + y*16) == 2) this.drawTexturedModalRect(guiLeft + x*16, guiTop + y*16, 48, 64, 16, 16);
-                    if(logic().gridB[x][y]    ) this.blit(guiLeft + x*16, guiTop + y*16,  16*7, 216, 16, 16);
+                    if(logic().grid[x][y] > 0) this.blit(guiLeft + x*16, guiTop + y*16,  16*7, 216-24, 16, 16);
                 }
             }
-            for(Entity e : logic().crate){ this.blit(guiLeft + e.Get_Pos().X, guiTop + e.Get_Pos().Y,  16*14, 216, 16, 16); }
-            this.blit(guiLeft + logic().octanom.Get_Pos().X, guiTop + logic().octanom.Get_Pos().Y, 0, logic().octanom.Get_LookDirection()*16+66, 16, 16);
-            for(Entity e : logic().cross){ this.blit(guiLeft + e.Get_Pos().X, guiTop + e.Get_Pos().Y, 16*10, 216, 16, 16); }
+            for(Entity e : logic().crate){ this.blit(guiLeft + e.Get_Pos().X, guiTop + e.Get_Pos().Y,  16*14, 216-24, 16, 16); }
+            this.blit(guiLeft + logic().octanom.Get_Pos().X, guiTop + logic().octanom.Get_Pos().Y, 0, logic().octanom.Get_LookDirection()*16+112, 16, 16);
+            for(Entity e : logic().cross){ this.blit(guiLeft + e.Get_Pos().X, guiTop + e.Get_Pos().Y, 16*10, 216-24, 16, 16); }
             if(logic().turnstate == 5) GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }

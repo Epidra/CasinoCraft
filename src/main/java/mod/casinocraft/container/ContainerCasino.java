@@ -1,38 +1,19 @@
 package mod.casinocraft.container;
 
-import com.google.common.collect.Lists;
-import mod.casinocraft.CasinoCraft;
 import mod.casinocraft.logic.LogicBase;
-import mod.casinocraft.tileentities.TileEntityArcade;
 import mod.casinocraft.tileentities.TileEntityBoard;
 import mod.casinocraft.util.BoardDataArray;
-import mod.casinocraft.util.DataCard;
-import mod.casinocraft.util.DataDice;
-import mod.casinocraft.util.DataEntity;
 import mod.shared.container.ContainerBase;
-import mod.shared.util.Vector2;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IIntArray;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.IntReferenceHolder;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.extensions.IForgeContainerType;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public abstract class ContainerCasino extends ContainerBase {
 
@@ -44,6 +25,7 @@ public abstract class ContainerCasino extends ContainerBase {
     protected final BoardDataArray boardData;
     private BlockPos pos = new BlockPos(0, 0, 0);
     public DyeColor color;
+    public int tableID;
 
   //  private final List<IContainerListener> listeners = Lists.newArrayList();
 //
@@ -65,8 +47,13 @@ public abstract class ContainerCasino extends ContainerBase {
 
 
     public ContainerCasino(ContainerType<?> type, int windowID, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
-        this(type, windowID, playerInventory, (TileEntityBoard) playerInventory.player.getEntityWorld().getTileEntity(BlockPos.fromLong(packetBuffer.readLong())));
-        this.pos = BlockPos.fromLong(packetBuffer.readLong());
+        this(type, windowID, playerInventory, BlockPos.fromLong(packetBuffer.readLong()));
+        //this.pos = BlockPos.fromLong(packetBuffer.readLong());
+    }
+
+    public ContainerCasino(ContainerType<?> type, int windowID, PlayerInventory playerInventory, BlockPos pos) {
+        this(type, windowID, playerInventory, (TileEntityBoard) playerInventory.player.getEntityWorld().getTileEntity(pos));
+        this.pos = pos;
     }
 
     public ContainerCasino(ContainerType<?> type, int windowID, PlayerInventory playerInventory, TileEntityBoard board) {
@@ -80,6 +67,7 @@ public abstract class ContainerCasino extends ContainerBase {
         this.casinoData = board.casinoData;
         this.boardData = board.boardData;
         color = board.color;
+        tableID = board.tableID;
     }
 
    // protected void trackIntArray(IIntArray arrayIn) {
@@ -247,16 +235,28 @@ public abstract class ContainerCasino extends ContainerBase {
         casinoData.set(2, value);
     }
 
+    public void addBetStorage(int value){
+        casinoData.set(0, casinoData.get(0) + value);
+    }
+
+    public void addBetLow(int value){
+        casinoData.set(1, casinoData.get(1) + value);
+    }
+
+    public void addBetHigh(int value){
+        casinoData.set(2, casinoData.get(2) + value);
+    }
+
     public void setTransferIn(boolean value){
-        casinoData.set(3, value ? 0 : 1);
+        casinoData.set(3, value ? 1 : 0);
     }
 
     public void setTransferOut(boolean value){
-        casinoData.set(4, value ? 0 : 1);
+        casinoData.set(4, value ? 1 : 0);
     }
 
     public void setIsCreative(boolean value){
-        casinoData.set(5, value ? 0 : 1);
+        casinoData.set(5, value ? 1 : 0);
     }
 
     public World world(){
@@ -280,4 +280,9 @@ public abstract class ContainerCasino extends ContainerBase {
     }
 
     public abstract String getName();
+
+    public String getCurrentPlayer(){
+        TileEntityBoard te = (TileEntityBoard) world.getTileEntity(pos);
+        return te.currentPlayer;
+    }
 }

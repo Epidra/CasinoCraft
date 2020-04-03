@@ -2,13 +2,12 @@ package mod.casinocraft.logic.dust;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LogicMeanMinos extends LogicBase {
-
-    public int[][] grid = new int[6][15];
 
     public boolean active_hold;
 
@@ -20,7 +19,7 @@ public class LogicMeanMinos extends LogicBase {
     public double time_break;
     public int timer;
 
-    public Vector2[] domino = new Vector2[2];
+    public Vector2[] domino = new Vector2[]{new Vector2(-1, -1), new Vector2(-1, -1)};
 
     public List<Vector2> clear = new ArrayList<Vector2>();
 
@@ -31,7 +30,7 @@ public class LogicMeanMinos extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicMeanMinos(){
-        super(true, "meanminos");
+        super(true, 0, "a_meanminos", 6, 15);
     }
 
 
@@ -52,7 +51,7 @@ public class LogicMeanMinos extends LogicBase {
                 grid[i][j] = -1;
             }
         }
-        time_break = 500;
+        time_break = 200;
         time_last = 0;
         clear.clear();
         alpha = 255;
@@ -93,6 +92,49 @@ public class LogicMeanMinos extends LogicBase {
                 Command_Collapse();
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        active_hold = compound.getBoolean("activehold");
+        container_next[0] = compound.getInt("containernext0");
+        container_next[1] = compound.getInt("containernext1");
+
+        container_hold[0] = compound.getInt("containerhold0");
+        container_hold[1] = compound.getInt("containerhold1");
+
+        container_current[0] = compound.getInt("containercurrent0");
+        container_current[1] = compound.getInt("containercurrent1");
+
+        time_last = compound.getDouble("timelast");
+        time_break = compound.getDouble("timebreak");
+        timer = compound.getInt("timer");
+
+        domino[0].set(compound.getInt("domino0x"), compound.getInt("domino0y"));
+        domino[1].set(compound.getInt("domino1x"), compound.getInt("domino1y"));
+
+        alpha = compound.getInt("alpha");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        compound.putBoolean("activehold", active_hold);
+        compound.putInt("container_next0", container_next[0]);
+        compound.putInt("container_next1", container_next[1]);
+
+        compound.putInt("container_hold0", container_hold[0]);
+        compound.putInt("container_hold1", container_hold[1]);
+
+        compound.putInt("container_current0", container_current[0]);
+        compound.putInt("container_current1", container_current[1]);
+
+        compound.putDouble("timelast", time_last);
+        compound.putDouble("timebreak", time_break);
+        compound.putInt("timer", timer);
+        compound.putInt("domino0x", domino[0].X);
+        compound.putInt("domino0y", domino[0].Y);
+        compound.putInt("domino1x", domino[1].X);
+        compound.putInt("domino1y", domino[1].Y);
+        compound.putInt("alpha", alpha);
+        return compound;
     }
 
 

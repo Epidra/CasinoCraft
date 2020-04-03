@@ -3,6 +3,7 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class LogicSpider extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicSpider(int table){
-        super(false, table, "spider");
+        super(false, table, "c_spider");
     }
 
 
@@ -79,6 +80,51 @@ public class LogicSpider extends LogicBase {
             scorePoint = 100;
             turnstate = 4;
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_field[0] = loadCardList(compound, 0);
+        cards_field[1] = loadCardList(compound, 1);
+        cards_field[2] = loadCardList(compound, 2);
+        cards_field[3] = loadCardList(compound, 3);
+        cards_field[4] = loadCardList(compound, 4);
+        cards_field[5] = loadCardList(compound, 5);
+        cards_field[6] = loadCardList(compound, 6);
+        cards_field[7] = loadCardList(compound, 7);
+        cards_field[8] = loadCardList(compound, 8);
+        cards_field[9] = loadCardList(compound, 9);
+
+        cards_reserve[0] = loadCardList(compound, 10);
+        cards_reserve[1] = loadCardList(compound, 11);
+        cards_reserve[2] = loadCardList(compound, 12);
+        cards_reserve[3] = loadCardList(compound, 13);
+        cards_reserve[4] = loadCardList(compound, 14);
+
+        cards_finish.addAll(loadCardList(compound, 15));
+        compress = compound.getInt("compress");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCardList(compound, 0, cards_field[0]);
+        saveCardList(compound, 1, cards_field[1]);
+        saveCardList(compound, 2, cards_field[2]);
+        saveCardList(compound, 3, cards_field[3]);
+        saveCardList(compound, 4, cards_field[4]);
+        saveCardList(compound, 5, cards_field[5]);
+        saveCardList(compound, 6, cards_field[6]);
+        saveCardList(compound, 7, cards_field[7]);
+        saveCardList(compound, 8, cards_field[8]);
+        saveCardList(compound, 9, cards_field[9]);
+
+        saveCardList(compound, 10, cards_reserve[0]);
+        saveCardList(compound, 11, cards_reserve[1]);
+        saveCardList(compound, 12, cards_reserve[2]);
+        saveCardList(compound, 13, cards_reserve[3]);
+        saveCardList(compound, 14, cards_reserve[4]);
+
+        saveCardList(compound, 15, cards_finish);
+        compound.putInt("compress", compress);
+        return compound;
     }
 
 
@@ -159,7 +205,7 @@ public class LogicSpider extends LogicBase {
         if(cards_field[x].size() >= y - 1) {
             if(selector.matches(-1, -1)) {
                 int x2 = x;
-                int y2 = cards_field[x].size() < y ? cards_field[x].size()-1 : y - 1;
+                int y2 = cards_field[x].size() <= y ? cards_field[x].size()-1 : y;
                 float tempCard = cards_field[x2].get(y2).number;
                 for(int i = y2; i < cards_field[x2].size(); i++) {
                     if(i != cards_field[x2].size() - 1) {

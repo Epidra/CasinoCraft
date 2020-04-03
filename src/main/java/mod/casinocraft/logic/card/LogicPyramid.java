@@ -2,6 +2,7 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class LogicPyramid extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicPyramid(int table){
-        super(true, table, "pyramid");
+        super(true, table, "c_pyramid");
     }
 
 
@@ -30,7 +31,7 @@ public class LogicPyramid extends LogicBase {
     //--------------------BASIC--------------------
 
     public void start2(){
-        scoreLives = 5;
+        scoreLives = 2;
         timer = 0;
         selector.set(-1, -1);
 
@@ -158,6 +159,21 @@ public class LogicPyramid extends LogicBase {
                 }
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_reserve = loadCardList(compound, 0);
+        cards_stack   = loadCardList(compound, 1);
+        cards_field = loadCardArray(compound, 2);
+        timer = compound.getInt("timer");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCardList(compound, 0, cards_reserve);
+        saveCardList(compound, 1, cards_stack);
+        saveCardArray(compound, 2, cards_field);
+        compound.putInt("timer", timer);
+        return compound;
     }
 
 

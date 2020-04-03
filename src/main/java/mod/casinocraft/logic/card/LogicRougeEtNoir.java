@@ -2,6 +2,7 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class LogicRougeEtNoir extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicRougeEtNoir(int table){
-        super(false, table, "rougeetnoir");
+        super(false, table, "c_rouge_etnoir");
     }
 
 
@@ -67,6 +68,21 @@ public class LogicRougeEtNoir extends LogicBase {
                 }
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_rouge = loadCardList(compound, 0);
+        cards_noir  = loadCardList(compound, 1);
+        value_rouge = compound.getInt("valuerouge");
+        value_noir  = compound.getInt("valuenoir");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCardList(compound, 0, cards_rouge);
+        saveCardList(compound, 1, cards_noir);
+        compound.putInt("valuerouge", value_rouge);
+        compound.putInt("valuenoir", value_noir);
+        return compound;
     }
 
 

@@ -2,10 +2,9 @@ package mod.casinocraft.logic.clay;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicMemory extends LogicBase {
-
-    public int[][] grid = new int[17][9];
 
     public boolean selectA = false;
     public boolean selectB = false;
@@ -20,7 +19,7 @@ public class LogicMemory extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicMemory(int table){
-        super(true, table, "memory");
+        super(true, table, "c_memory", 17, 9);
     }
 
 
@@ -98,6 +97,25 @@ public class LogicMemory extends LogicBase {
             if(timer <= 0)
                 timer = -1;
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        selectA = compound.getBoolean("selecta");
+        selectB = compound.getBoolean("selectb");
+        positionA.set(compound.getInt("positionax"), compound.getInt("positionay"));
+        positionA.set(compound.getInt("positionbx"), compound.getInt("positionby"));
+        timer = compound.getInt("timer");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        compound.putBoolean("selecta", selectA);
+        compound.putBoolean("selectb", selectB);
+        compound.putInt("positionax", positionA.X);
+        compound.putInt("positionay", positionA.Y);
+        compound.putInt("positionbx", positionB.X);
+        compound.putInt("positionby", positionB.Y);
+        compound.putInt("timer", timer);
+        return compound;
     }
 
 

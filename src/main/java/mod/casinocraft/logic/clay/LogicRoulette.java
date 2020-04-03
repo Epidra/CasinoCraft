@@ -2,10 +2,9 @@ package mod.casinocraft.logic.clay;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicRoulette extends LogicBase {
-
-    public int[][] grid = new int[25][7];
 
     float rotation_wheel;
     float rotation_ball;
@@ -19,7 +18,7 @@ public class LogicRoulette extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicRoulette(int table){
-        super(false, table, "roulette");
+        super(false, table, "c_roulette", 25, 7);
     }
 
 
@@ -27,12 +26,7 @@ public class LogicRoulette extends LogicBase {
     //--------------------BASIC--------------------
 
     public void start2(){
-        for(int y = 0; y < 7; y++) {
-            for(int x = 0; x < 25; x++) {
-                grid[x][y] = 0;
-            }
-        }
-        selector = new Vector2(-1, -1);
+        selector = new Vector2(0, 4);
         rotation_wheel = 0.00f;
         rotation_ball = 0.00f;
         spinning = false;
@@ -76,6 +70,24 @@ public class LogicRoulette extends LogicBase {
             selector = new Vector2(-1, -1);
             //GameOver();
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        rotation_wheel = compound.getFloat("rotationwheel");
+        rotation_ball = compound.getFloat("rotation_ball");
+        spinning = compound.getBoolean("spinning");
+        result = compound.getInt("result");
+        timer = compound.getInt("timer");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        compound.putFloat("rotationwheel", rotation_wheel);
+        compound.putFloat("rotationball", rotation_ball);
+        compound.putBoolean("spinning", spinning);
+        compound.putInt("result", result);
+        compound.putInt("timer", timer);
+
+        return compound;
     }
 
 
@@ -167,7 +179,7 @@ public class LogicRoulette extends LogicBase {
             if(selector.X != -1) grid[selector.X][selector.Y] = 1;
             turnstate = 3;
         } else if(turnstate == 3 && !spinning) {
-            timer = 100 + RANDOM.nextInt(500);
+            timer = 100 + RANDOM.nextInt(150);
             spinning = true;
         } else if(turnstate == 3 && timer == 0) {
             Result();

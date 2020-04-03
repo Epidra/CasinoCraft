@@ -1,6 +1,5 @@
 package mod.shared.blocks;
 
-import jdk.nashorn.internal.ir.BlockStatement;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -15,7 +14,6 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -44,14 +42,6 @@ public abstract class MachinaDoubleWide extends Block {
 
 
     //----------------------------------------FUNCTION----------------------------------------//
-
-    public boolean isFullCube(BlockState state){
-        return false;
-    }
-
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
 
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
@@ -130,16 +120,17 @@ public abstract class MachinaDoubleWide extends Block {
     }
 
     @Deprecated
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
+    public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
         boolean isPrimary = state.get(OFFSET);
         Direction enumfacing = state.get(FACING);
         //if(!isPrimary) enumfacing = enumfacing.getOpposite();
         if(!isPrimary) return true;
-        if(enumfacing == Direction.NORTH) if(worldIn.getBlockState(pos.west()).getBlock()  != Blocks.AIR) return false;
-        if(enumfacing == Direction.SOUTH) if(worldIn.getBlockState(pos.east()).getBlock()  != Blocks.AIR) return false;
-        if(enumfacing == Direction.EAST ) if(worldIn.getBlockState(pos.north()).getBlock() != Blocks.AIR) return false;
-        if(enumfacing == Direction.WEST ) if(worldIn.getBlockState(pos.south()).getBlock() != Blocks.AIR) return false;
-        return true;
+        Block block = world.getBlockState(pos).getBlock();
+        if(enumfacing == Direction.NORTH){ block = world.getBlockState(pos.west() ).getBlock(); }
+        if(enumfacing == Direction.SOUTH){ block = world.getBlockState(pos.east() ).getBlock(); }
+        if(enumfacing == Direction.EAST ){ block = world.getBlockState(pos.north()).getBlock(); }
+        if(enumfacing == Direction.WEST ){ block = world.getBlockState(pos.south()).getBlock(); }
+        return block == Blocks.AIR || block == Blocks.CAVE_AIR || block == Blocks.VOID_AIR;
     }
 
 }

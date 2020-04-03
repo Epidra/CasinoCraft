@@ -122,18 +122,18 @@ public class Card {
     /** ??? */
     public void update(){
         if(idletimer > 0){
-            idletimer--;
+            idletimer-=2;
         } else {
-            if(shiftX < 0) shiftX++;
-            if(shiftX > 0) shiftX--;
-            if(shiftY < 0) shiftY++;
-            if(shiftY > 0) shiftY--;
-            if(dead) deathtimer++;
+            if(shiftX < 0) shiftX+=2;
+            if(shiftX > 0) shiftX-=2;
+            if(shiftY < 0) shiftY+=2;
+            if(shiftY > 0) shiftY-=2;
+            if(dead) deathtimer+=2;
         }
     }
 
     public int SortedNumber() {
-        return number;
+        return number == 0 ? 13 : number;
     }
 
     public boolean equals(int x, int y) {

@@ -3,7 +3,6 @@ package mod.casinocraft.container.card;
 import mod.casinocraft.CasinoCraft;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.tileentities.TileEntityBoard;
-import mod.shared.container.ContainerBase;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ContainerType;
@@ -28,6 +27,6 @@ public class ContainerKlondike extends ContainerCasino {
     }
 
     public String getName(){
-        return "c_acey_deucey";
+        return "c_klondike";
     }
 }

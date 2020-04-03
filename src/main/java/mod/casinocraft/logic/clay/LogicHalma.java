@@ -1,15 +1,14 @@
 package mod.casinocraft.logic.clay;
 
 import mod.casinocraft.logic.LogicBase;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicHalma extends LogicBase {
-
-    public int[][] grid = new int[17][9];
 
     //--------------------CONSTRUCTOR--------------------
 
     public LogicHalma(int table){
-        super(true, table, "halma");
+        super(true, table, "c_halma", 17, 9);
     }
 
 
@@ -17,7 +16,7 @@ public class LogicHalma extends LogicBase {
     //--------------------BASIC--------------------
 
     public void start2(){
-        if(table == 2) {
+        if(table == 1) {
             selector.set(8, 2);
             grid[0][0] = -1; grid[1][0] = -1; grid[2][0] = -1; grid[3][0] = -1; grid[4][0] = -1; grid[5][0] = -1; grid[6][0] = 1; grid[7][0] =  1; grid[8][0] =  1; grid[9][0] =  1; grid[10][0] = 1; grid[11][0] = -1; grid[12][0] = -1; grid[13][0] = -1; grid[14][0] = -1; grid[15][0] = -1; grid[16][0] = -1;
             grid[0][1] = -1; grid[1][1] = -1; grid[2][1] = -1; grid[3][1] = -1; grid[4][1] = -1; grid[5][1] = -1; grid[6][1] = 1; grid[7][1] =  1; grid[8][1] =  1; grid[9][1] =  1; grid[10][1] = 1; grid[11][1] = -1; grid[12][1] = -1; grid[13][1] = -1; grid[14][1] = -1; grid[15][1] = -1; grid[16][1] = -1;
@@ -52,6 +51,14 @@ public class LogicHalma extends LogicBase {
 
     public void updateLogic(){
 
+    }
+
+    public void load2(CompoundNBT compound){
+
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        return compound;
     }
 
 

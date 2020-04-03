@@ -2,10 +2,9 @@ package mod.casinocraft.logic.dust;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 public class LogicTetris extends LogicBase {
-
-    public int[][] grid = new int[10][20];
 
     public boolean canHold = false;
 
@@ -19,14 +18,14 @@ public class LogicTetris extends LogicBase {
     public int[] lines = new int[4];
     public int alpha = 0;
 
-    public Vector2[] tetromino = new Vector2[4]; // Position of the moving tetromino on the grid
+    public Vector2[] tetromino = new Vector2[]{new Vector2(-1,-1), new Vector2(-1,-1), new Vector2(-1,-1), new Vector2(-1,-1)}; // Position of the moving tetromino on the grid
 
 
 
     //--------------------CONSTRUCTOR--------------------
 
     public LogicTetris(){
-        super(true, "tetris");
+        super(true, 0, "a_tetris", 10, 20);
     }
 
 
@@ -44,7 +43,7 @@ public class LogicTetris extends LogicBase {
                 grid[i][j] = -1;
             }
         }
-        timer_break = 500;
+        timer_break = 200;
         timer_last = 0;
         lines[0] = -1;
         lines[1] = -1;
@@ -82,6 +81,68 @@ public class LogicTetris extends LogicBase {
                 Command_Collapse();
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        canHold = compound.getBoolean("canhold");
+        container_next = compound.getInt("containernext");
+        container_hold = compound.getInt("containerhold");
+        container_now  = compound.getInt("containernow");
+
+        timer_last = compound.getInt("timerlast");
+        timer_break = compound.getInt("timerbreak");
+        timer = compound.getInt("timer");
+
+        tetromino[0].set(compound.getInt("tetromino0x"), compound.getInt("tetromino0y"));
+        tetromino[1].set(compound.getInt("tetromino1x"), compound.getInt("tetromino1y"));
+        tetromino[2].set(compound.getInt("tetromino2x"), compound.getInt("tetromino2y"));
+        tetromino[3].set(compound.getInt("tetromino3x"), compound.getInt("tetromino3y"));
+
+        color[0] = compound.getInt("color0");
+        color[1] = compound.getInt("color1");
+        color[2] = compound.getInt("color2");
+        color[3] = compound.getInt("color3");
+        color[4] = compound.getInt("color4");
+        color[5] = compound.getInt("color5");
+        color[6] = compound.getInt("color6");
+
+        lines[0] = compound.getInt("lines0");
+        lines[1] = compound.getInt("lines1");
+        lines[2] = compound.getInt("lines2");
+        lines[3] = compound.getInt("lines3");
+
+        alpha = compound.getInt("alpha");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        compound.putBoolean("canhold", canHold);
+        compound.putInt("container_next", container_next);
+        compound.putInt("container_last", container_hold);
+        compound.putInt("container_now", container_now);
+        compound.putInt("timerlast", timer_last);
+        compound.putInt("timerbreak", timer_break);
+        compound.putInt("timer", timer);
+        compound.putInt("tetromino0x", tetromino[0].X);
+        compound.putInt("tetromino0y", tetromino[0].Y);
+        compound.putInt("tetromino1x", tetromino[1].X);
+        compound.putInt("tetromino1y", tetromino[1].Y);
+        compound.putInt("tetromino2x", tetromino[2].X);
+        compound.putInt("tetromino2y", tetromino[2].Y);
+        compound.putInt("tetromino3x", tetromino[3].X);
+        compound.putInt("tetromino3y", tetromino[3].Y);
+        compound.putInt("alpha", alpha);
+        compound.putInt("color0", color[0]);
+        compound.putInt("color1", color[1]);
+        compound.putInt("color2", color[2]);
+        compound.putInt("color3", color[3]);
+        compound.putInt("color4", color[4]);
+        compound.putInt("color5", color[5]);
+        compound.putInt("color6", color[6]);
+        compound.putInt("lines0", lines[0]);
+        compound.putInt("lines1", lines[1]);
+        compound.putInt("lines2", lines[2]);
+        compound.putInt("lines3", lines[3]);
+        return compound;
     }
 
 

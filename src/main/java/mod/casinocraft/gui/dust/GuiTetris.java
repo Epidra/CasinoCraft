@@ -50,20 +50,24 @@ public class GuiTetris extends GuiCasino {
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
 
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_TETRIS);
-        this.blit(guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background
+        if(logic().turnstate < 2){
+            this.blit(guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background
+        } else {
+            this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
+        }
 
         if(logic().turnstate >= 2){
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_OCTAGAMES);
             for(int y = 0; y < 20; y++){
                 for(int x = 0; x < 10; x++){
-                    if(logic().grid[x][y] != -1) this.blit(guiLeft+16 + 8 + 12*x, guiTop + 8 + 12*y, logic().turnstate >= 4 ? 12*8 : 12*tetroColor(x, y), 204, 12, 12);
+                    if(logic().grid[x][y] != -1) this.blit(guiLeft+16 + 8 + 12*x, guiTop + 8 + 12*y, logic().turnstate >= 4 ? 12*8 : 12*tetroColor(x, y), 204-24, 12, 12);
                 }
             }
 
-            this.blit(guiLeft+8+16 + 12*logic().tetromino[0].X, guiTop+8 + 12*logic().tetromino[0].Y, logic().turnstate >= 4 ? 12*8 : 12*logic().container_now, 204, 12, 12);
-            this.blit(guiLeft+8+16 + 12*logic().tetromino[1].X, guiTop+8 + 12*logic().tetromino[1].Y, logic().turnstate >= 4 ? 12*8 : 12*logic().container_now, 204, 12, 12);
-            this.blit(guiLeft+8+16 + 12*logic().tetromino[2].X, guiTop+8 + 12*logic().tetromino[2].Y, logic().turnstate >= 4 ? 12*8 : 12*logic().container_now, 204, 12, 12);
-            this.blit(guiLeft+8+16 + 12*logic().tetromino[3].X, guiTop+8 + 12*logic().tetromino[3].Y, logic().turnstate >= 4 ? 12*8 : 12*logic().container_now, 204, 12, 12);
+            this.blit(guiLeft+8+16 + 12*logic().tetromino[0].X, guiTop+8 + 12*logic().tetromino[0].Y, logic().turnstate >= 4 ? 12*8 : 12*logic().container_now, 204-24, 12, 12);
+            this.blit(guiLeft+8+16 + 12*logic().tetromino[1].X, guiTop+8 + 12*logic().tetromino[1].Y, logic().turnstate >= 4 ? 12*8 : 12*logic().container_now, 204-24, 12, 12);
+            this.blit(guiLeft+8+16 + 12*logic().tetromino[2].X, guiTop+8 + 12*logic().tetromino[2].Y, logic().turnstate >= 4 ? 12*8 : 12*logic().container_now, 204-24, 12, 12);
+            this.blit(guiLeft+8+16 + 12*logic().tetromino[3].X, guiTop+8 + 12*logic().tetromino[3].Y, logic().turnstate >= 4 ? 12*8 : 12*logic().container_now, 204-24, 12, 12);
 
 
             drawTetromino(logic().container_next, 8+16*11-24-4, 8+16*4+8);
@@ -83,46 +87,46 @@ public class GuiTetris extends GuiCasino {
 
     private void drawTetromino(int mino, int x, int y) {
         if(mino == 0) { // I
-            this.blit(guiLeft+x + 48/2, guiTop+y +  0  , logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 48/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 48/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 48/2, guiTop+y + 96/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
+            this.blit(guiLeft+x + 48/2, guiTop+y +  0  , logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 48/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 48/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 48/2, guiTop+y + 96/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
         }
         if(mino == 1) { // O
-            this.blit(guiLeft+x + 32/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 64/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 32/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 64/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
+            this.blit(guiLeft+x + 32/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 64/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 32/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 64/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
         }
         if(mino == 2) { // S
-            this.blit(guiLeft+x + 48/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 80/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 48/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 16/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
+            this.blit(guiLeft+x + 48/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 80/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 48/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 16/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
         }
         if(mino == 3) { // Z
-            this.blit(guiLeft+x + 48/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 16/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 48/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 80/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
+            this.blit(guiLeft+x + 48/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 16/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 48/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 80/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
         }
         if(mino == 4) { // L
-            this.blit(guiLeft+x + 32/2, guiTop+y + 16/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 32/2, guiTop+y + 48/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 32/2, guiTop+y + 80/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 64/2, guiTop+y + 80/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
+            this.blit(guiLeft+x + 32/2, guiTop+y + 16/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 32/2, guiTop+y + 48/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 32/2, guiTop+y + 80/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 64/2, guiTop+y + 80/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
         }
         if(mino == 5) { // J
-            this.blit(guiLeft+x + 64/2, guiTop+y + 16/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 64/2, guiTop+y + 48/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 64/2, guiTop+y + 80/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 32/2, guiTop+y + 80/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
+            this.blit(guiLeft+x + 64/2, guiTop+y + 16/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 64/2, guiTop+y + 48/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 64/2, guiTop+y + 80/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 32/2, guiTop+y + 80/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
         }
         if(mino == 6) { // T
-            this.blit(guiLeft+x + 16/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 48/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 80/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
-            this.blit(guiLeft+x + 48/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216, 16, 16);
+            this.blit(guiLeft+x + 16/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 48/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 80/2, guiTop+y + 32/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
+            this.blit(guiLeft+x + 48/2, guiTop+y + 64/2, logic().turnstate >= 4 ? 16*8 : 16*mino, 216-24, 16, 16);
         }
     }
 

@@ -3,13 +3,14 @@ package mod.casinocraft.logic.dust;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Entity;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LogicSnake extends LogicBase {
 
-    public Entity octanom_head;
+    public Entity octanom_head = new Entity(1, new Vector2(0, 0), new Vector2(0, 0));
     public List<Entity> octanom_tail = new ArrayList<Entity>();
 
     public int temp_player; // Player Input
@@ -17,7 +18,7 @@ public class LogicSnake extends LogicBase {
 
     public int pointer;
 
-    public Vector2 point;
+    public Vector2 point = new Vector2(-1, -1);
 
     public boolean active_move_tail;
 
@@ -26,7 +27,7 @@ public class LogicSnake extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicSnake(){
-        super(true, "snake");
+        super(true, 0, "a_snake");
     }
 
 
@@ -38,8 +39,6 @@ public class LogicSnake extends LogicBase {
         pointer = -1;
         temp_player = 0;
         temp_auto = 0;
-        octanom_head = new Entity(1, new Vector2(0, 0), new Vector2(0, 0));
-        point = new Vector2(-1, -1);
         Command_Spawn_Point();
         octanom_tail.clear();
     }
@@ -61,6 +60,28 @@ public class LogicSnake extends LogicBase {
             Command_Move();
             Command_Collision();
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        octanom_head = loadEntity(    compound, 0);
+        octanom_tail = loadEntityList(compound, 1);
+        temp_player = compound.getInt("tempplayer");
+        temp_auto = compound.getInt("tempauto");
+        pointer = compound.getInt("pointer");
+        point.set(compound.getInt("pointx"), compound.getInt("pointy"));
+        active_move_tail = compound.getBoolean("activemovetail");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveEntity(    compound, 0, octanom_head);
+        saveEntityList(compound, 1, octanom_tail);
+        compound.putInt("tempplayer", temp_player);
+        compound.putInt("temp_auto", temp_auto);
+        compound.putInt("pointer", pointer);
+        compound.putInt("pointx", point.X);
+        compound.putInt("pointy", point.Y);
+        compound.putBoolean("active_move_tail", active_move_tail);
+        return compound;
     }
 
 
@@ -131,7 +152,7 @@ public class LogicSnake extends LogicBase {
     }
 
     private int Speed(){
-        return 2;
+        return 4;
     }
 
     private void Command_Spawn_Point() {

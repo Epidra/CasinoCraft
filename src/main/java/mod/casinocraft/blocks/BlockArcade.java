@@ -13,16 +13,21 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -35,11 +40,29 @@ public class BlockArcade extends MachinaDoubleTall {
 
     private DyeColor color;
 
+    public static final VoxelShape AABB0 = Block.makeCuboidShape(2, 0, 0, 16, 16, 16);
+    public static final VoxelShape AABB1 = Block.makeCuboidShape(0, 0, 2, 16, 16, 16);
+    public static final VoxelShape AABB2 = Block.makeCuboidShape(0, 0, 0, 14, 16, 16);
+    public static final VoxelShape AABB3 = Block.makeCuboidShape(0, 0, 0, 16, 16, 14);
+
     /** Contructor with predefined BlockProperty */
     public BlockArcade(String modid, String name, Block block, DyeColor color) {
         super(modid, name, block);
         this.color = color;
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(OFFSET, Boolean.valueOf(true)).with(LEVEL, Integer.valueOf(0)));
+    }
+
+    @Deprecated
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+        Direction enumfacing = state.get(FACING);
+        switch(enumfacing) {
+            case NORTH: return AABB1;
+            case SOUTH: return AABB3;
+            case EAST:  return AABB2;
+            case WEST:  return AABB0;
+            default:
+                return VoxelShapes.fullCube();
+        }
     }
 
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
@@ -58,15 +81,15 @@ public class BlockArcade extends MachinaDoubleTall {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         if(state.get(OFFSET)){
-            return new TileEntityArcade(color);
+            return new TileEntityArcade(color, 0);
         }
         return null;
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (world.isRemote) {
-            return true;
+            return ActionResultType.PASS;
         } else {
             if (!world.isRemote() && player instanceof ServerPlayerEntity) {
                 boolean isPrimary = world.getBlockState(pos).get(OFFSET);
@@ -74,21 +97,16 @@ public class BlockArcade extends MachinaDoubleTall {
                 Item item = Items.FLINT;
                 TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos2);
                 if (tileEntity instanceof TileEntityArcade) {
-                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityArcade) tileEntity), buf -> buf.writeBlockPos(pos));
-                }
-                if (player.isSneaking()) {
-                    setPowerState(tileEntity.inventory.get(1).getItem(), pos2);
-                    //setPowerState(world, pos2, !isPrimary);
-                    return true;
+                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityArcade) tileEntity), buf -> buf.writeBlockPos(pos2));
                 }
             }
-            return true;
+            return ActionResultType.SUCCESS;
         }
     }
 
 
     public void setPowerState(Item item, BlockPos pos) {
-        CasinoPacketHandler.sendToServer(new ServerPowerMessage(EnumModule.byItem(item).meta, pos));
+        CasinoPacketHandler.sendToServer(new ServerPowerMessage(new ItemStack(item), pos));
         //CasinoPacketHandler.INSTANCE.sendToAll(new PacketClientPowerMessage(EnumModule.byItem(item).meta, pos));
     }
 
@@ -96,26 +114,31 @@ public class BlockArcade extends MachinaDoubleTall {
     public static void setPowerState2(World world, BlockPos pos){
         BlockState iblockstate = world.getBlockState(pos);
         TileEntityBoard tileentity = (TileEntityBoard) world.getTileEntity(pos);
-
+        int level = iblockstate.get(LEVEL);
         if (tileentity != null){
-            //world.notifyBlockUpdate(pos, iblockstate, iblockstate.with(LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
-            world.destroyBlock(pos, false);
-            world.destroyBlock(pos.up(), false);
-            ///world.removeBlock(pos.up());
-            world.setBlockState(pos,      iblockstate.with(LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
-            world.setBlockState(pos.up(), iblockstate.with(OFFSET, false).with(LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
-            tileentity.validate();
-            world.setTileEntity(pos, tileentity);
+
+            if(level != itemToInt(tileentity.inventory.get(1).getItem())){
+                //world.notifyBlockUpdate(pos, iblockstate, iblockstate.with(LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
+                world.destroyBlock(pos, false);
+                world.destroyBlock(pos.up(), false);
+                ///world.removeBlock(pos.up());
+                world.setBlockState(pos,      iblockstate.with(                    LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
+                world.setBlockState(pos.up(), iblockstate.with(OFFSET, false).with(LEVEL, itemToInt(tileentity.inventory.get(1).getItem())), 3);
+                tileentity.validate();
+                world.setTileEntity(pos, tileentity);
+            }
+
+
         }
     }
 
     public static int itemToInt(Item item){
-        if(item == CasinoKeeper.MODULE_DUST_BLACK)  return 1;
-        if(item == CasinoKeeper.MODULE_DUST_YELLOW) return 2;
-        if(item == CasinoKeeper.MODULE_DUST_BROWN)  return 3;
-        if(item == CasinoKeeper.MODULE_DUST_ORANGE) return 4;
-        if(item == CasinoKeeper.MODULE_DUST_GREEN)  return 5;
-        if(item == CasinoKeeper.MODULE_DUST_PURPLE) return 6;
+        if(item == CasinoKeeper.MODULE_DUST_WHITE)      return 1; // 2048
+        if(item == CasinoKeeper.MODULE_DUST_MAGENTA)    return 2; // SOKOBAN
+        if(item == CasinoKeeper.MODULE_DUST_LIGHTBLUE)  return 3; // MEANMINOS
+        if(item == CasinoKeeper.MODULE_DUST_CYAN)       return 4; // COLUMNS
+        if(item == CasinoKeeper.MODULE_DUST_BLUE)       return 5; // TETRIS
+        if(item == CasinoKeeper.MODULE_DUST_RED)        return 6; // SNAKE
         return 0;
     }
 

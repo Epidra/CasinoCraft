@@ -43,13 +43,17 @@ public class GuiAceyDeucey extends GuiCasino {
         if(logic().cards[2] != null){ drawCard(112, 72, logic().cards[2]); }
         drawCard(160, 72, logic().cards[1]);
 
+
+
+
+    }
+
+    protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY){
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_OCTAGAMES);
         if(logic().turnstate == 2){
             blit(guiLeft+24+7,  guiTop+204+2,  0, 0, 78, 22); // Button Hit
             blit(guiLeft+140+7, guiTop+204+2, 78, 0, 78, 22); // Button Stand
         }
-
-
     }
 
 }

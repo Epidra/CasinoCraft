@@ -2,6 +2,7 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class LogicBlackJack extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicBlackJack(int table){
-        super(false, table, "blackjack");
+        super(false, table, "c_black_jack");
     }
 
 
@@ -54,7 +55,7 @@ public class LogicBlackJack extends LogicBase {
     public void actionTouch(int action){
         if(action == 0){ // Hit
             if(split < 2){
-                value_player1 = Add_Card(cards_player1, -48, 0, true);
+                value_player1 = Add_Card(cards_player1, -48, 0, false);
                 if(value_player1 > 21) {
                     if(split == 0){
                         result();
@@ -63,9 +64,9 @@ public class LogicBlackJack extends LogicBase {
                     }
                 }
             } else {
-                value_player1 = Add_Card(cards_player2, -48, 0, true);
+                value_player2 = Add_Card(cards_player2, -48, 0, true);
                 if(value_player2 > 21) {
-                    if(value_player1 > 21) {
+                    if(value_player2 > 21) {
                         result();
                     } else {
                         turnstate = 3;
@@ -94,6 +95,25 @@ public class LogicBlackJack extends LogicBase {
             value_player1 = Add_Card(cards_player1, 0, 0, true);
             value_player2 = Add_Card(cards_player2, 0, 0, true);
         }
+        if(action == 3){ // DoubleDown
+            if(split < 2){
+                value_player1 = Add_Card(cards_player1, -48, 0, false);
+                if(split == 1){
+                    split = 2;
+                } else {
+                    turnstate = 3;
+                    cards_dealer.get(1).hidden = false;
+                }
+            } else {
+                value_player2 = Add_Card(cards_player2, -48, 0, true);
+                if(value_player1 > 21) {
+                    result();
+                } else {
+                    turnstate = 3;
+                    cards_dealer.get(1).hidden = false;
+                }
+            }
+        }
     }
 
     public void updateMotion(){
@@ -104,7 +124,7 @@ public class LogicBlackJack extends LogicBase {
 
     public void updateLogic(){
         if(turnstate == 3){ // Execute only on playing Player
-            if(cards_player1.get(cards_dealer.size() - 1).shiftY >= -16){
+            if(cards_player1.get(cards_player1.size() - 1).shiftY >= -16){
                 if(value_dealer > 16 || (value_dealer > value_player1 && value_dealer > value_player2)){
                     result();
                 } else {
@@ -112,6 +132,27 @@ public class LogicBlackJack extends LogicBase {
                 }
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_player1 = loadCardList(compound, 0);
+        cards_player2 = loadCardList(compound, 1);
+        cards_dealer  = loadCardList(compound, 2);
+        value_player1 = compound.getInt("valueplayer1");
+        value_player2 = compound.getInt("valueplayer2");
+        value_dealer = compound.getInt("valuedealer");
+        split = compound.getInt("split");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCardList(compound, 0, cards_player1);
+        saveCardList(compound, 1, cards_player2);
+        saveCardList(compound, 2, cards_dealer );
+        compound.putInt("valueplayer1", value_player1);
+        compound.putInt("valueplayer2", value_player2);
+        compound.putInt("valuedealer", value_dealer);
+        compound.putInt("split", split);
+        return compound;
     }
 
 

@@ -1,11 +1,13 @@
 package mod.casinocraft.network;
 
 import mod.shared.util.Inventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class ServerPlayerMessage {
@@ -40,11 +42,23 @@ public class ServerPlayerMessage {
     public static class Handler {
         public static void handle (final ServerPlayerMessage message, Supplier<NetworkEvent.Context> context) {
             // This is the player the packet was sent to the server from
-            //EntityPlayerMP serverPlayer = context.get().getSender();
+            ServerPlayerEntity serverPlayer = context.get().getSender();
             // The value that was sent
             Item item = message.stack.getItem();
             int amount = message.amount;
             int meta = message.meta;
+
+            context.get().enqueueWork(() ->{
+                if(amount < 0){
+                    Inventory.decreaseInventory(serverPlayer.inventory, message.stack, -amount);
+                    serverPlayer.inventory.clearMatchingItems(Predicate.isEqual(message.stack), -amount);
+                } else {
+                    serverPlayer.inventory.addItemStackToInventory(new ItemStack(item, amount));
+                }
+            });
+            // No response packet
+            context.get().setPacketHandled(true);
+
 
             //if(amount < 0){
             //        // Execute the action on the main server thread by adding it as a scheduled task

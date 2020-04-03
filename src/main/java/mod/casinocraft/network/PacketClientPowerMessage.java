@@ -14,31 +14,31 @@ import java.util.function.Supplier;
 
 public class PacketClientPowerMessage {
 
-    static int meta;
+    static ItemStack stack;
     static int x;
     static int y;
     static int z;
 
-    public PacketClientPowerMessage(int meta, BlockPos pos) {
-        this.meta = meta;
+    public PacketClientPowerMessage(ItemStack item, BlockPos pos) {
+        this.stack = item;
         this.x = pos.getX();
         this.y = pos.getY();
         this.z = pos.getZ();
     }
 
     public static void encode (PacketClientPowerMessage msg, PacketBuffer buf) {
-        buf.writeInt(msg.meta);
+        buf.writeItemStack(msg.stack);
         buf.writeInt(msg.x);
         buf.writeInt(msg.y);
         buf.writeInt(msg.z);
     }
 
     public static PacketClientPowerMessage decode (PacketBuffer buf) {
-        int _meta = buf.readInt();
+        ItemStack _stack = buf.readItemStack();
         int _x = buf.readInt();
         int _y = buf.readInt();
         int _z = buf.readInt();
-        return new PacketClientPowerMessage(_meta, new BlockPos(_x, _y, _z));
+        return new PacketClientPowerMessage(_stack, new BlockPos(_x, _y, _z));
     }
 
     public static class Handler {

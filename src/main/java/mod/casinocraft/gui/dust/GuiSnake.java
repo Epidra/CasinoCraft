@@ -57,10 +57,10 @@ public class GuiSnake extends GuiCasino {
         if(logic().turnstate >= 2) {
             if(logic().turnstate == 5) GlStateManager.color4f(0.25F, 0.25F, 0.25F, 1.0F);
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_OCTAGAMES);
-            this.blit(guiLeft+16 + logic().point.X*16, guiTop + logic().point.Y*16, 128, 0+66, 16, 16);
-            this.blit(guiLeft+16 + logic().octanom_head.Get_Pos().X, guiTop + logic().octanom_head.Get_Pos().Y, 0, logic().octanom_head.Get_LookDirection()*16+66, 16, 16);
+            this.blit(guiLeft+16 + logic().point.X*16, guiTop + logic().point.Y*16, 80, 112, 16, 16);
+            this.blit(guiLeft+16 + logic().octanom_head.Get_Pos().X, guiTop + logic().octanom_head.Get_Pos().Y, 0, logic().octanom_head.Get_LookDirection()*16+112, 16, 16);
             for(Entity tail : logic().octanom_tail){
-                this.blit(guiLeft+16 + tail.Get_Pos().X, guiTop + tail.Get_Pos().Y, 16, 66, 16, 16);
+                this.blit(guiLeft+16 + tail.Get_Pos().X, guiTop + tail.Get_Pos().Y, 16, 112, 16, 16);
             }
             if(logic().turnstate == 5) GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         }

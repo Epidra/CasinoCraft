@@ -3,6 +3,7 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class LogicKlondike extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicKlondike(int table){
-        super(true, table, "klondike");
+        super(true, table, "c_klondike");
     }
 
 
@@ -176,6 +177,50 @@ public class LogicKlondike extends LogicBase {
                 turnstate = 4;
             }
         }
+    }
+
+    public void load2(CompoundNBT compound){
+        cards_field[0] = loadCardList(compound, 0);
+        cards_field[1] = loadCardList(compound, 1);
+        cards_field[2] = loadCardList(compound, 2);
+        cards_field[3] = loadCardList(compound, 3);
+        cards_field[4] = loadCardList(compound, 4);
+        cards_field[5] = loadCardList(compound, 5);
+        cards_field[6] = loadCardList(compound, 6);
+        cards_field[7] = loadCardList(compound, 7);
+
+        cards_finish[0] = loadCardList(compound,  8);
+        cards_finish[1] = loadCardList(compound,  9);
+        cards_finish[2] = loadCardList(compound, 10);
+        cards_finish[3] = loadCardList(compound, 11);
+
+        cards_reserve.addAll(loadCardList(compound, 12));
+        cards_stack  .addAll(loadCardList(compound, 13));
+        compress = compound.getInt("compress");
+        timer = compound.getInt("timer");
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCardList(compound, 0, cards_field[0]);
+        saveCardList(compound, 1, cards_field[1]);
+        saveCardList(compound, 2, cards_field[2]);
+        saveCardList(compound, 3, cards_field[3]);
+        saveCardList(compound, 4, cards_field[4]);
+        saveCardList(compound, 5, cards_field[5]);
+        saveCardList(compound, 6, cards_field[6]);
+        saveCardList(compound, 7, cards_field[7]);
+
+        saveCardList(compound,  8, cards_finish[0]);
+        saveCardList(compound,  9, cards_finish[1]);
+        saveCardList(compound, 10, cards_finish[2]);
+        saveCardList(compound, 11, cards_finish[3]);
+
+        saveCardList(compound, 12, cards_reserve);
+        saveCardList(compound, 13, cards_stack  );
+
+        compound.putInt("compress", compress);
+        compound.putInt("timer", timer);
+        return compound;
     }
 
 

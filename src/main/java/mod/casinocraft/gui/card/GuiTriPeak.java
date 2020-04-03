@@ -42,10 +42,10 @@ public class GuiTriPeak extends GuiCasino {
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
         if(logic().turnstate >= 2){
-            drawString("POINTS",             24, 24);
-            drawString("" + logic().scorePoint,  34, 34);
-            drawString("DRAWS",             204, 24);
-            drawString("" + logic().scoreLives, 214, 34);
+            drawString("POINTS",                 24, 24-3);
+            drawString("" + logic().scorePoint,  34, 34-3);
+            drawString("DRAWS",                 204, 24-3);
+            drawString("" + logic().scoreLives, 214, 34-3);
         }
     }
 

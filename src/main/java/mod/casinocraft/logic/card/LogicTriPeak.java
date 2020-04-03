@@ -3,6 +3,7 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
 import mod.shared.util.Vector2;
+import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class LogicTriPeak extends LogicBase {
     //--------------------CONSTRUCTOR--------------------
 
     public LogicTriPeak(int table){
-        super(true, table, "tripeak");
+        super(true, table, "c_tripeak");
     }
 
 
@@ -28,7 +29,7 @@ public class LogicTriPeak extends LogicBase {
     //--------------------BASIC--------------------
 
     public void start2(){
-        scoreLives = 5;
+        scoreLives = 2;
 
         combo = 0;
 
@@ -145,6 +146,19 @@ public class LogicTriPeak extends LogicBase {
 
     }
 
+    public void load2(CompoundNBT compound){
+        cards_field = loadCardArray(      compound, 0);
+        cards_stack   = loadCardList(compound, 1);
+        cards_reserve = loadCardList(compound, 2);
+    }
+
+    public CompoundNBT save2(CompoundNBT compound){
+        saveCardArray(compound, 0, cards_field);
+        saveCardList(compound,  1, cards_stack);
+        saveCardList(compound,  2, cards_reserve);
+        return compound;
+    }
+
 
 
     //--------------------CUSTOM--------------------
@@ -177,7 +191,7 @@ public class LogicTriPeak extends LogicBase {
             if(scoreLives == 0){
                 turnstate = 4;
             } else {
-                scoreLives = -1;
+                scoreLives--;
                 Restart();
             }
         }
@@ -307,7 +321,7 @@ public class LogicTriPeak extends LogicBase {
 
         if(cards_field[id].number + 1 == cards_stack.get(cards_stack.size() - 1).number || cards_field[id].number - 1 == cards_stack.get(cards_stack.size() - 1).number || (cards_field[id].number == 0 && cards_stack.get(cards_stack.size() - 1).number == 12) || (cards_field[id].number == 12 && cards_stack.get(cards_stack.size() - 1).number == 0)) {
             combo++;
-            scorePoint = 50 * combo;
+            scorePoint += 50 * combo;
             cards_field[id].shiftX = 0;
             cards_field[id].shiftY = +24;
             cards_stack.add(cards_field[id]);
