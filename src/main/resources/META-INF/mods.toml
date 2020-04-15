@@ -3,7 +3,7 @@ loaderVersion="[28,)" #mandatory (26 is current forge version)
 issueTrackerURL="https://github.com/Epidra/CasinoCraft/issues"
 [[mods]]
 modId="casinocraft"
-version="v07"
+version="v08"
 displayName="CasinoCraft"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/casinocraft"
 logoFile="casinocraft.png"

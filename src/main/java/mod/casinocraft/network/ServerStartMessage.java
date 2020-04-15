@@ -37,7 +37,7 @@ public class ServerStartMessage {
     }
 
     public static ServerStartMessage decode (PacketBuffer buf) {
-        String _name = buf.readString();
+        String _name = buf.readString(24);
         int _seed = buf.readInt();
         int _x = buf.readInt();
         int _y = buf.readInt();
