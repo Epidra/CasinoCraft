@@ -85,6 +85,7 @@ public class ClientScoreMessage implements IMessage {
     		Item item = message.stack.getItem();
     		BlockPos pos = new BlockPos(message.x, message.y, message.z);
     		TileEntityBoard te = (TileEntityBoard) Minecraft.getMinecraft().world.getTileEntity(pos);
+    		if(te == null) return null;
     		thread.addScheduledTask(() -> {
     			te.setScoreToken(item);
     			for(int i = 0; i < 18; i++) {

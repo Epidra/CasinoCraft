@@ -72,6 +72,7 @@ public class ClientBoardMessage implements IMessage {
     		// The value that was sent
     		BlockPos pos = new BlockPos(message.x, message.y, message.z);
     		TileEntityBoard te = (TileEntityBoard) Minecraft.getMinecraft().world.getTileEntity(pos);
+    		if(te == null) return null;
     		thread.addScheduledTask(() -> {
     			te.bet_low  = message.betLow;
         		te.bet_high = message.betHigh;

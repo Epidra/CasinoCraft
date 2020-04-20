@@ -63,6 +63,7 @@ public class ClientPowerMessage implements IMessage {
     		IThreadListener thread = Minecraft.getMinecraft();
     		// The value that was sent
     		BlockPos pos = new BlockPos(message.x, message.y, message.z);
+    		if(!(Minecraft.getMinecraft().player.world.getBlockState(pos).getBlock() instanceof BlockArcade)) return null;
     		TileEntityBoard te = (TileEntityBoard) Minecraft.getMinecraft().player.world.getTileEntity(pos);
     		BlockArcade block = (BlockArcade) Minecraft.getMinecraft().player.world.getBlockState(pos).getBlock();
     		

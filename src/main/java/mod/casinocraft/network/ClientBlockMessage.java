@@ -77,6 +77,7 @@ public class ClientBlockMessage implements IMessage {
     		int amount = message.amount;
     		BlockPos pos = new BlockPos(message.x, message.y, message.z);
     		TileEntityBoard te = (TileEntityBoard) Minecraft.getMinecraft().world.getTileEntity(pos);
+    		if(te == null) return null;
     		thread.addScheduledTask(() -> {
 				if(amount <= 0) {
     				te.bet_storage = 0;
