@@ -1,0 +1,6 @@
+{
+    "parent": "casinocraft:template/arcade_game",
+    "textures": {
+        "screen": "casinocraft:block/arcade_game_light_gray"
+    }
+}

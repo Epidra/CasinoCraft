@@ -1,0 +1,91 @@
+{
+    "__comment": "Model generated using MrCrayfish's Model Creator (https://mrcrayfish.com/tools?id=mc)",
+    "textures": {
+        "board": "minecraft:block/birch_planks",
+        "planks": "minecraft:block/oak_planks",
+        "particle": "minecraft:block/oak_planks"
+    },
+    "display": {
+        "gui": {
+            "rotation": [ 30, 45, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.625, 0.625, 0.625 ]
+        },
+        "ground": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 3, 0 ],
+            "scale": [ 0.25, 0.25, 0.25 ]
+        },
+        "fixed": {
+            "rotation": [ 0, 180, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 1, 1, 1 ]
+        },
+        "head": {
+            "rotation": [ 0, 180, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 1, 1, 1 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 0, 315, 0 ],
+            "translation": [ 0, 2.5, 0 ],
+            "scale": [ 0.4, 0.4, 0.4 ]
+        },
+        "thirdperson_righthand": {
+            "rotation": [ 75, 315, 0 ],
+            "translation": [ 0, 2.5, 0 ],
+            "scale": [ 0.375, 0.375, 0.375 ]
+        }
+    },
+    "elements": [
+        {
+            "name": "Base1",
+            "from": [ 0, 0, 0 ], 
+            "to": [ 16, 2, 17 ], 
+            "faces": {
+                "north": { "texture": "#planks", "uv": [ 0, 14, 16, 16 ] },
+                "east": { "texture": "#planks", "uv": [ 0, 14, 16, 16 ] },
+                "south": { "texture": "#planks", "uv": [ 0, 14, 16, 16 ] },
+                "west": { "texture": "#planks", "uv": [ 0, 14, 16, 16 ] },
+                "up": { "texture": "#planks", "uv": [ 0, 0, 16, 16 ] },
+                "down": { "texture": "#planks", "uv": [ 0, 0, 16, 16 ] }
+            }
+        },
+        {
+            "name": "Base2",
+            "from": [ 2, 2, 2 ], 
+            "to": [ 14, 4, 14 ], 
+            "faces": {
+                "north": { "texture": "#planks", "uv": [ 2, 12, 14, 14 ] },
+                "east": { "texture": "#planks", "uv": [ 2, 12, 14, 14 ] },
+                "south": { "texture": "#planks", "uv": [ 2, 12, 14, 14 ] },
+                "west": { "texture": "#planks", "uv": [ 2, 12, 14, 14 ] },
+                "up": { "texture": "#planks", "uv": [ 2, 2, 14, 14 ] }
+            }
+        },
+        {
+            "name": "Base3",
+            "from": [ 4, 4, 4 ], 
+            "to": [ 12, 13, 12 ], 
+            "faces": {
+                "north": { "texture": "#planks", "uv": [ 4, 3, 12, 12 ] },
+                "east": { "texture": "#planks", "uv": [ 4, 3, 12, 12 ] },
+                "south": { "texture": "#planks", "uv": [ 4, 3, 12, 12 ] },
+                "west": { "texture": "#planks", "uv": [ 4, 3, 12, 12 ] }
+            }
+        },
+        {
+            "name": "Board",
+            "from": [ 0, 13, 0 ], 
+            "to": [ 16, 16, 16 ], 
+            "faces": {
+                "north": { "texture": "#planks", "uv": [ 0, 0, 16, 3 ] },
+                "east": { "texture": "#planks", "uv": [ 0, 0, 16, 3 ] },
+                "south": { "texture": "#planks", "uv": [ 0, 0, 16, 3 ] },
+                "west": { "texture": "#planks", "uv": [ 0, 0, 16, 3 ] },
+                "up": { "texture": "#board", "uv": [ 0, 0, 16, 16 ] },
+                "down": { "texture": "#planks", "uv": [ 0, 0, 16, 16 ] }
+            }
+        }
+    ]
+}
