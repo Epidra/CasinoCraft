@@ -87,11 +87,6 @@ public class Register {
 	public static void registerEntity(Class<? extends Entity> entity, String name, Object instance, String modid){
 		EntityRegistry.registerModEntity(new ResourceLocation(modid, name), entity, name, 0, instance, 64, 20, true); // missing Resource Location
 	}
-
-	public static SoundEvent registerSound(String string, String modid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	public static void removeRecipes(Block block) {
 		 ForgeRegistry<IRecipe> recipeRegistry = (ForgeRegistry<IRecipe>)ForgeRegistries.RECIPES;

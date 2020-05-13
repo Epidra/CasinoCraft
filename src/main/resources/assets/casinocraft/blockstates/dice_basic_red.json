@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "casinocraft:dice_basic_red", "x":   0, "y": 180, "uvlock": true },
+        "facing=south": { "model": "casinocraft:dice_basic_red", "x":   0, "y":   0, "uvlock": true },
+        "facing=west":  { "model": "casinocraft:dice_basic_red", "x":   0, "y":  90, "uvlock": true },
+        "facing=east":  { "model": "casinocraft:dice_basic_red", "x":   0, "y": 270, "uvlock": true }
+    }
+}

@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+        "casinocraft:cardtable_base_blue",
+        "casinocraft:cardtable_wide_blue"
+    ]
+  },
+  "criteria": {
+    "has_wool": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:wool",
+            "data": 11
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_wool"
+    ]
+  ]
+}

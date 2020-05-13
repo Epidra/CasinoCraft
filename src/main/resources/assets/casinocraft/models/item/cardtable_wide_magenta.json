@@ -1,5 +1,5 @@
 {
-    "parent": "casinocraft:block/cardtable_wide_magenta",
+    "parent": "casinocraft:block/cardtable_wide_magenta_inventory",
     "display": {
         "gui": {
             "rotation": [ 30, 45, 0],

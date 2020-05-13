@@ -1,16 +1,20 @@
 package mod.casinocraft.tileentities;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.blocks.BlockArcade.EnumModule;
-import mod.casinocraft.network.ServerPowerMessage;
-import mod.casinocraft.network.ServerScoreMessage;
+import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.card.*;
+import mod.casinocraft.logic.chip.*;
+import mod.casinocraft.logic.mino.*;
+import mod.casinocraft.logic.other.LogicDummy;
+import mod.casinocraft.logic.other.LogicSlotGame;
+import mod.casinocraft.network.MessageModuleServer;
 import mod.casinocraft.system.CasinoPacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.EnumDyeColor;
@@ -28,24 +32,24 @@ public class TileEntityBoard extends TileEntity implements IInventory, ITickable
 	/** 0 - lock, 1 - module, 2 - inventoryIN, 3 - inventoryOUT, 4 - inventoryTOKEN, 5 - scoreTOKEN **/
 	public NonNullList<ItemStack> inventory = NonNullList.withSize(6, ItemStack.EMPTY);
 
-	public EnumDyeColor color = EnumDyeColor.BLACK;
-	
 	public int bet_storage = 0;
 	public int bet_low  = 0;
 	public int bet_high = 0;
 	public boolean transfer_in  = false;
 	public boolean transfer_out = false;
 	public boolean isCreative = false;
-	public int scorePoints[] = new int[18];
-	public String scoreName[] = new String[18];
-	public boolean hasHighscore = false;
-	public int scoreLast = 18;
+	private Item lastModule = Items.FLINT;
+	public LogicBase LOGIC;
+	public EnumDyeColor color;
+	public final int tableID;
+	public Item getKey(){
+		return inventory.get(0).getItem();
+	}
 	
-	public TileEntityBoard(){
-		for(int i = 0; i <18; i++) {
-			scorePoints[i] = 0;
-			scoreName[i] = "empty";
-		}
+	public TileEntityBoard(EnumDyeColor color, int tableID){
+		LOGIC = new LogicDummy(tableID);
+		this.color = color;
+		this.tableID = tableID;
 	}
 	
 	public Item getModule() {
@@ -111,7 +115,7 @@ public class TileEntityBoard extends TileEntity implements IInventory, ITickable
     
     /** Get the name of this object. For players this returns their username */
     public String getName(){
-        return "container.cardtable";
+        return "container.casinoboard";
     }
     
     /** Returns true if this thing is named */
@@ -157,34 +161,33 @@ public class TileEntityBoard extends TileEntity implements IInventory, ITickable
     
     /** ??? */
     public void readFromNBT(NBTTagCompound compound){
-        super.readFromNBT(compound);
-    	bet_storage = compound.getInteger("storage");
-    	bet_low  = compound.getInteger("low");
-    	bet_high = compound.getInteger("high");
-    	isCreative = compound.getBoolean("iscreative");
-        this.inventory = NonNullList.withSize(6, ItemStack.EMPTY);
-        ItemStackHelper.loadAllItems(compound, this.inventory);
-        for(int i = 0; i < 18; i++) {
-        	scorePoints[i] = compound.getInteger("points" + i);
-        	scoreName[i]   = compound.getString("name" + i);
-        }
-        
-        CasinoPacketHandler.INSTANCE.sendToServer(new ServerPowerMessage(EnumModule.byItem(inventory.get(1).getItem()).meta, pos));
+		super.readFromNBT(compound);
+		bet_storage = compound.getInteger("storage");
+		bet_low  = compound.getInteger("low");
+		bet_high = compound.getInteger("high");
+		isCreative = compound.getBoolean("iscreative");
+		this.inventory = NonNullList.withSize(6, ItemStack.EMPTY);
+		ItemStackHelper.loadAllItems(compound, this.inventory);
+		lastModule = getModule();
+		LOGIC = setLogic();
+		LOGIC.load(compound);
+		//if(!world.isRemote){
+			if(tableID == 0){
+				CasinoPacketHandler.INSTANCE.sendToServer(new MessageModuleServer(getPos()));
+			}
+		//}
     }
     
     /** ??? */
     public NBTTagCompound writeToNBT(NBTTagCompound compound){
-        super.writeToNBT(compound);
-    	compound.setInteger("storage", bet_storage);
-    	compound.setInteger("low", bet_low);
-    	compound.setInteger("high", bet_high);
-    	compound.setBoolean("iscreative", isCreative);
-        ItemStackHelper.saveAllItems(compound, this.inventory);
-        for(int i = 0; i < 18; i++) {
-        	compound.setInteger("points" + i, scorePoints[i]);
-        	compound.setString("name" + i, scoreName[i]);
-        }
-        return compound;
+		super.writeToNBT(compound);
+		compound.setInteger("storage", bet_storage);
+		compound.setInteger("low", bet_low);
+		compound.setInteger("high", bet_high);
+		compound.setBoolean("iscreative", isCreative);
+		ItemStackHelper.saveAllItems(compound, this.inventory);
+		LOGIC.save(compound);
+		return compound;
     }
     
     /** Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be extended. */
@@ -239,41 +242,45 @@ public class TileEntityBoard extends TileEntity implements IInventory, ITickable
 
     /** Like the old updateEntity(), except more generic. */
     public void update(){
-    	
-    	boolean isDirty = false;
-    	
-    	if(transfer_in) {
-    		if(inventory.get(2).getCount() > 0 && (bet_storage == 0 || isToken(inventory.get(2)))) {
-    			if(getToken() == Item.getItemFromBlock(Blocks.AIR)) setToken(inventory.get(2));
-    			int count = CasinoKeeper.config_fastload ? inventory.get(2).getCount() : 1;
-    			inventory.get(2).shrink(count);
-    			bet_storage+=count;
-    			isDirty = true;
-    		}
-    	}
-    	if(transfer_out) {
-    		if(bet_storage > 0 && (isToken(inventory.get(3)) || inventory.get(3).isEmpty())) {
-    			if(inventory.get(3).isEmpty()) {
-    				int count = CasinoKeeper.config_fastload ? bet_storage >= 64 ? 64 : bet_storage : 1;
-    				inventory.set(3, new ItemStack(getTokenStack().getItem(), count, getTokenStack().getMetadata()));
-    				bet_storage-=count;
-    				isDirty = true;
-    			}else if(inventory.get(3).getCount() < 64) {
-    				int count = CasinoKeeper.config_fastload ? bet_storage >= 64-inventory.get(3).getCount() ? 64-inventory.get(3).getCount() : bet_storage : 1;
-    				inventory.get(3).grow(count);
-    				bet_storage-=count;
-    				isDirty = true;
-    			}
-    			if(bet_storage == 0) {
-    				setToken(new ItemStack(Blocks.AIR));
-    				isDirty = true;
-    			}
-    		}
-    	}
-    	
-    	if (isDirty){
-            this.markDirty();
-        }
+
+		changeLogic();
+		boolean isDirty = false;
+		if(transfer_in) {
+			if(inventory.get(2).getCount() > 0 && (bet_storage == 0 || isToken(inventory.get(2)))) {
+				if(getToken() == Item.getItemFromBlock(Blocks.AIR)) setToken(inventory.get(2));
+				int count = CasinoKeeper.config_fastload ? inventory.get(2).getCount() : 1;
+				inventory.get(2).shrink(count);
+				bet_storage+=count;
+				if(inventory.get(2).getCount() <= 0) inventory.set(2, new ItemStack(Blocks.AIR));
+				isDirty = true;
+			}
+		}
+		if(transfer_out) {
+			if(bet_storage > 0 && (isToken(inventory.get(3)) || inventory.get(3).isEmpty())) {
+				if(inventory.get(3).isEmpty()) {
+					int count = CasinoKeeper.config_fastload ? Math.min(bet_storage, 64) : 1;
+					inventory.set(3, new ItemStack(getTokenStack().getItem(), count));
+					bet_storage-=count;
+					isDirty = true;
+				}else if(inventory.get(3).getCount() < 64) {
+					int count = CasinoKeeper.config_fastload ? Math.min(bet_storage, 64 - inventory.get(3).getCount()) : 1;
+					inventory.get(3).grow(count);
+					bet_storage-=count;
+					isDirty = true;
+				}
+				if(bet_storage == 0) {
+					setToken(new ItemStack(Blocks.AIR));
+					isDirty = true;
+				}
+			}
+		}
+		if (isDirty){
+			this.markDirty();
+		}
+
+		if(LOGIC.turnstate > 1 && LOGIC.turnstate < 6){
+			LOGIC.update();
+		}
     	
     	
     	
@@ -313,95 +320,79 @@ public class TileEntityBoard extends TileEntity implements IInventory, ITickable
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-	
-	private String getScorename(int r) {
-		switch(r) {
-		case  0: return "Ruby";
-		case  1: return "Weiss";
-		case  2: return "Blake";
-		case  3: return "Yang";
-		case  4: return "Jaune";
-		case  5: return "Nora";
-		case  6: return "Pyrrha";
-		case  7: return "Ren";
-		case  8: return "Sun";
-		case  9: return "Neptune";
-		case 10: return "Flynt";
-		case 11: return "Neon";
-		case 12: return "Cinder";
-		case 13: return "Mercury";
-		case 14: return "Emerald";
-		case 15: return "Summer";
-		case 16: return "Taiyang";
-		case 17: return "Qrow";
-		case 18: return "Raven";
-		case 19: return "Winter";
-		case 20: return "Coco";
-		case 21: return "Fox";
-		case 22: return "Velvet";
-		case 23: return "Yatsuhashi";
-		}
-		return "Zwei";
-	}
-	
-	public void addScore(String name, int points) {
-		int pos = 18;
-		for(int i = 17; i >= 0; i--) {
-			if(points > scorePoints[i]) {
-				pos = i;
-			}
-		}
-		if(pos == 17) {
-			scorePoints[17] = points;
-			scoreName[17] = name;
-			scoreLast = 17;
-		}
-		if(pos < 17) {
-			for(int i = 16; i >= pos; i--) {
-				scorePoints[i+1] = scorePoints[i];
-				scoreName[i+1] = scoreName[i];
-			}
-			scorePoints[pos] = points;
-			scoreName[pos] = name;
-		}
-		scoreLast = pos;
+		return this.world.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 
-	public void setupHighscore(Item item) {
-		scoreLast = 18;
-		if(getScoreToken() != item) {
-			setScoreToken(item);
-			Random rand = new Random();
-			for(int i = 17; i >= 0; i--) {
-				scorePoints[i] = (18-i) * 5;
-				scoreName[i] = getScorename(rand.nextInt(24));
-			}
-			CasinoPacketHandler.INSTANCE.sendToServer(new ServerScoreMessage(getScoreToken(), scoreName, scorePoints, getPos()));
+	public void changeLogic(){
+		if(lastModule != getModule()){
+			lastModule = getModule();
+			LOGIC = setLogic();
 		}
-		this.hasHighscore = scoreActive(item);
 	}
-	
-	private boolean scoreActive(Item item) {
-		if(item == CasinoKeeper.MODULE_PYRAMID) return true;
-		if(item == CasinoKeeper.MODULE_TRIPEAK) return true;
-		if(item == CasinoKeeper.MODULE_KLONDIKE) return true;
-		if(item == CasinoKeeper.MODULE_MEMORY) return true;
-		if(item == CasinoKeeper.MODULE_HALMA) return true;
-		if(item == CasinoKeeper.MODULE_MINESWEEPER) return true;
-		if(item == CasinoKeeper.MODULE_TETRIS) return true;
-		if(item == CasinoKeeper.MODULE_COLUMNS) return true;
-		if(item == CasinoKeeper.MODULE_MEANMINOS) return true;
-		if(item == CasinoKeeper.MODULE_SNAKE) return true;
-        return item == CasinoKeeper.MODULE_2048;
-    }
+
+	private LogicBase setLogic(){
+		if(this instanceof TileEntityArcade){
+			if(getModule() == CasinoKeeper.MODULE_CHIP_WHITE)     return new LogicChipWhite(    tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_ORANGE)    return new LogicChipOrange(   tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_MAGENTA)   return new LogicChipMagenta(  tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_LIGHTBLUE) return new LogicChipLightBlue(tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_YELLOW)    return new LogicChipYellow(   tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_LIME)      return new LogicChipLime(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_PINK)      return new LogicChipPink(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_GRAY)      return new LogicChipGray(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_SILVER)    return new LogicChipLightGray(tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_CYAN)      return new LogicChipCyan(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_PURPLE)    return new LogicChipPurple(   tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_BLUE)      return new LogicChipBlue(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_BROWN)     return new LogicChipBrown(    tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_GREEN)     return new LogicChipGreen(    tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_RED)       return new LogicChipRed(      tableID);
+			if(getModule() == CasinoKeeper.MODULE_CHIP_BLACK)     return new LogicChipBlack(    tableID);
+		}
+		if(this instanceof TileEntityCardTableBase || this instanceof TileEntityCardTableWide){
+			if(getModule() == CasinoKeeper.MODULE_CARD_WHITE)     return new LogicCardWhite(    tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_ORANGE)    return new LogicCardOrange(   tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_MAGENTA)   return new LogicCardMagenta(  tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_LIGHTBLUE) return new LogicCardLightBlue(tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_YELLOW)    return new LogicCardYellow(   tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_LIME)      return new LogicCardLime(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_PINK)      return new LogicCardPink(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_GRAY)      return new LogicCardGray(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_SILVER)    return new LogicCardLightGray(tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_CYAN)      return new LogicCardCyan(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_PURPLE)    return new LogicCardPurple(   tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_BLUE)      return new LogicCardBlue(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_BROWN)     return new LogicCardBrown(    tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_GREEN)     return new LogicCardGreen(    tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_RED)       return new LogicCardRed(      tableID);
+			if(getModule() == CasinoKeeper.MODULE_CARD_BLACK)     return new LogicCardBlack(    tableID);
+
+			if(getModule() == CasinoKeeper.MODULE_MINO_WHITE)     return new LogicMinoWhite(    tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_ORANGE)    return new LogicMinoOrange(   tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_MAGENTA)   return new LogicMinoMagenta(  tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_LIGHTBLUE) return new LogicMinoLightBlue(tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_YELLOW)    return new LogicMinoYellow(   tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_LIME)      return new LogicMinoLime(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_PINK)      return new LogicMinoPink(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_GRAY)      return new LogicMinoGray(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_SILVER)    return new LogicMinoLightGray(tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_CYAN)      return new LogicMinoCyan(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_PURPLE)    return new LogicMinoPurple(   tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_BLUE)      return new LogicMinoBlue(     tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_BROWN)     return new LogicMinoBrown(    tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_GREEN)     return new LogicMinoGreen(    tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_RED)       return new LogicMinoRed(      tableID);
+			if(getModule() == CasinoKeeper.MODULE_MINO_BLACK)     return new LogicMinoBlack(    tableID);
+		}
+		if(this instanceof TileEntitySlotMachine){
+			if(getModule() != Item.getItemFromBlock(Blocks.AIR)) return new LogicSlotGame(tableID);
+		}
+		return new LogicDummy(tableID);
+	}
 	
 }

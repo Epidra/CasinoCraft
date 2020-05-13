@@ -6,13 +6,11 @@
   ],
   "key": {
     "X": {
-      "item": "casinocraft:cardtable_base_lime",
-      "data": 0
+      "item": "casinocraft:cardtable_base_lime"
     }
   },
   "result": {
     "item": "casinocraft:cardtable_wide_lime",
-    "count": 1,
-    "data": 0
+    "count": 1
   }
 }

@@ -1,0 +1,119 @@
+{
+    "__comment": "Model generated using MrCrayfish's Model Creator (https://mrcrayfish.com/tools?id=mc)",
+    "textures": {
+        "screen": "casinocraft:blocks/arcade_game_off",
+        "box": "casinocraft:blocks/arcade_color",
+        "particle": "casinocraft:blocks/arcade_color"
+    },
+    "display": {
+        "gui": {
+            "rotation": [ 30, 45, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.625, 0.625, 0.625 ]
+        },
+        "ground": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 0, 3, 0 ],
+            "scale": [ 0.25, 0.25, 0.25 ]
+        },
+        "fixed": {
+            "rotation": [ 0, 180, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 1, 1, 1 ]
+        },
+        "head": {
+            "rotation": [ 0, 180, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 1, 1, 1 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 0, 315, 0 ],
+            "translation": [ 0, 2.5, 0 ],
+            "scale": [ 0.4, 0.4, 0.4 ]
+        },
+        "thirdperson_righthand": {
+            "rotation": [ 75, 315, 0 ],
+            "translation": [ 0, 2.5, 0 ],
+            "scale": [ 0.375, 0.375, 0.375 ]
+        }
+    },
+    "elements": [
+        {
+            "name": "Base",
+            "from": [ 1, 0, 0 ], 
+            "to": [ 15, 16, 14 ], 
+            "faces": {
+                "north": { "texture": "#box", "uv": [ 1, 0, 15, 16 ] },
+                "east": { "texture": "#box", "uv": [ 1, 0, 15, 16 ] },
+                "south": { "texture": "#color", "uv": [ 1, 0, 15, 16 ] },
+                "west": { "texture": "#box", "uv": [ 1, 0, 15, 16 ] },
+                "up": { "texture": "#box", "uv": [ 1, 1, 15, 15 ] },
+                "down": { "texture": "#box", "uv": [ 1, 1, 15, 15 ] }
+            }
+        },
+        {
+            "name": "Back",
+            "from": [ 1, 16, 0 ], 
+            "to": [ 15, 32, 6 ], 
+            "faces": {
+                "north": { "texture": "#color", "uv": [ 1, 0, 15, 16 ] },
+                "east": { "texture": "#box", "uv": [ 8, 0, 14, 16 ] },
+                "south": { "texture": "#box", "uv": [ 1, 0, 15, 16 ] },
+                "west": { "texture": "#box", "uv": [ 1, 0, 7, 16 ] },
+                "up": { "texture": "#box", "uv": [ 1, 0, 15, 6 ] }
+            }
+        },
+        {
+            "name": "Panel",
+            "from": [ 3, 16, 11 ], 
+            "to": [ 13, 17, 12 ], 
+            "faces": {
+                "south": { "texture": "#box", "uv": [ 3, 14, 13, 15 ] },
+                "up": { "texture": "#box", "uv": [ 3, 13, 13, 14 ] }
+            }
+        },
+        {
+            "name": "Screen",
+            "from": [ 3, 15, 13.5 ],
+            "to": [ 13, 28, 14.5 ],
+            "rotation": { "origin": [ 8, 8, 8 ], "axis": "x", "angle": -22.5 },
+            "faces": {
+                "south": { "texture": "#screen", "uv": [ 3, 2, 13, 15 ] }
+            }
+        },
+        {
+            "name": "SideLeft",
+            "from": [ 2, 13, 9 ], 
+            "to": [ 3, 29, 16 ], 
+            "rotation": { "origin": [ 8, 8, 8 ], "axis": "x", "angle": -22.5 },
+            "faces": {
+                "east": { "texture": "#box", "uv": [ 0, 0, 7, 16 ] },
+                "south": { "texture": "#box", "uv": [ 0, 0, 1, 16 ] },
+                "west": { "texture": "#box", "uv": [ 9, 0, 16, 16 ] }
+            }
+        },
+        {
+            "name": "SideRight",
+            "from": [ 13, 13, 9 ], 
+            "to": [ 14, 29, 16 ], 
+            "rotation": { "origin": [ 8, 8, 8 ], "axis": "x", "angle": -22.5 },
+            "faces": {
+                "east": { "texture": "#box", "uv": [ 0, 0, 7, 16 ] },
+                "south": { "texture": "#box", "uv": [ 15, 0, 16, 16 ] },
+                "west": { "texture": "#box", "uv": [ 9, 0, 16, 16 ] }
+            }
+        },
+        {
+            "name": "Top",
+            "from": [ 1, 29, 6 ], 
+            "to": [ 15, 32, 9 ], 
+            "faces": {
+                "east": { "texture": "#box", "uv": [ 0, 0, 3, 3 ] },
+                "south": { "texture": "#box", "uv": [ 1, 0, 15, 3 ] },
+                "west": { "texture": "#box", "uv": [ 13, 0, 16, 3 ] },
+                "up": { "texture": "#box", "uv": [ 1, 0, 15, 3 ] },
+                "down": { "texture": "#box", "uv": [ 1, 0, 15, 3 ] }
+            }
+        }
+    ]
+}

@@ -1,10 +1,8 @@
 package mod.casinocraft.util;
 
-import mod.shared.util.Vector2;
-
 public class Dice {
-	
-	public int number;
+
+    public int number;
     public int color;
     public int posX;
     public int posY;
@@ -12,6 +10,11 @@ public class Dice {
     public int shiftY;
     public int rotation;
     public boolean direction;
+
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public Dice(int _number, int _color) {
         number = _number;
@@ -24,15 +27,10 @@ public class Dice {
         direction = false;
     }
 
-    public void Set_Up(int _shiftX, int _shiftY, boolean leftOrRight) {
-        shiftX = _shiftX;
-        shiftY = _shiftY;
-        direction = leftOrRight;
-    }
 
-    public Vector2 Get_Pos() {
-        return new Vector2(posX, posY);
-    }
+
+
+    //----------------------------------------UPDATE----------------------------------------//
 
     public void Update(int shift, int randNumber) {
         posX   += (shiftX / 30);
@@ -47,6 +45,11 @@ public class Dice {
         }
     }
 
+
+
+
+    //----------------------------------------SUPPORT----------------------------------------//
+
     public void Reset() {
         posX = 0;
         posY = 0;
@@ -55,5 +58,11 @@ public class Dice {
         rotation = 0;
         direction = false;
     }
-	
+
+    public void setUp(int _shiftX, int _shiftY, boolean leftOrRight) {
+        shiftX = _shiftX;
+        shiftY = _shiftY;
+        direction = leftOrRight;
+    }
+
 }

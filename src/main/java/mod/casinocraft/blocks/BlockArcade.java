@@ -4,14 +4,13 @@ import java.util.List;
 
 import mod.casinocraft.CasinoCraft;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.network.ServerPowerMessage;
 import mod.casinocraft.system.CasinoPacketHandler;
+import mod.casinocraft.tileentities.TileEntityArcade;
 import mod.casinocraft.tileentities.TileEntityBoard;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyEnum;
@@ -21,6 +20,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
@@ -38,8 +38,10 @@ public class BlockArcade extends BlockContainer {
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	public static final PropertyBool PRIMARY = PropertyBool.create("primary");
 	public static final PropertyEnum<EnumModule> MODULE = PropertyEnum.create("module", EnumModule.class);
+
+	final EnumDyeColor color;
 	
-	public BlockArcade(String name) {
+	public BlockArcade(String name, EnumDyeColor colorIn) {
 		super(Material.ANVIL);
 		this.setUnlocalizedName(name);
 		this.setRegistryName(name);
@@ -49,10 +51,11 @@ public class BlockArcade extends BlockContainer {
 		this.setSoundType(SoundType.ANVIL);
 		this.setHarvestLevel("pickaxe", 0);
 		this.setTickRandomly(false);
-		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(MODULE, EnumModule.EMPTY).withProperty(PRIMARY, true));
+		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(MODULE, EnumModule.OFF).withProperty(PRIMARY, true));
+		this.color = colorIn;
 	}
-	
-	/** ??? */
+
+    /** ??? */
 	public boolean isFullCube(IBlockState state){
         return false;
     }
@@ -70,9 +73,9 @@ public class BlockArcade extends BlockContainer {
 	/** Called by ItemBlocks after a block is set in the world, to allow post-place logic */
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack){
     	TileEntityBoard te = (TileEntityBoard) worldIn.getTileEntity(pos);
-    	worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(PRIMARY, Boolean.valueOf(true)).withProperty(MODULE, te == null ? EnumModule.EMPTY : EnumModule.byItem(te.inventory.get(1).getItem())));
+    	worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(PRIMARY, Boolean.valueOf(true)).withProperty(MODULE, EnumModule.OFF));
         if(worldIn.isAirBlock(pos.up())) {
-        	worldIn.setBlockState(pos.up(), state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(PRIMARY, Boolean.valueOf(false)).withProperty(MODULE, te == null ? EnumModule.EMPTY : EnumModule.byItem(te.inventory.get(1).getItem())));
+        	worldIn.setBlockState(pos.up(), state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(PRIMARY, Boolean.valueOf(false)).withProperty(MODULE, EnumModule.OFF));
         } else {
      	   worldIn.destroyBlock(pos, true);
         }
@@ -130,22 +133,26 @@ public class BlockArcade extends BlockContainer {
         	}
         	if(world.getTileEntity(pos2) instanceof TileEntityBoard){
         		TileEntityBoard te = (TileEntityBoard) world.getTileEntity(pos2);
-        		if(player.isSneaking()) {
-                	setPowerState(te.inventory.get(1).getItem(), pos2);
-                	//setPowerState(world, pos2, !isPrimary);
-                	return true;
-                }
-				if(te.getStackInSlot(0) == null || (player.getHeldItem(hand) != null && te.getStackInSlot(0).getItem() == player.getHeldItem(hand).getItem() && te.getStackInSlot(0).getDisplayName().matches(player.getHeldItem(hand).getDisplayName()))){
-					player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.ARCADE.ordinal(), world, pos2.getX(), pos2.getY(), pos2.getZ());
-    				player.addStat(StatList.CRAFTING_TABLE_INTERACTION);
-            	} else if(te.inventory.get(1) != null){
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_TETRIS)   player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.TETRIS.ordinal(),    world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_COLUMNS)  player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.COLUMNS.ordinal(),   world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MEANMINOS)player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.MEANMINOS.ordinal(), world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_SOKOBAN)  player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.SOKOBAN.ordinal(),   world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_SNAKE)    player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.SNAKE.ordinal(),     world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_2048)     player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID._2048.ordinal(),     world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		player.addStat(StatList.CRAFTING_TABLE_INTERACTION);
+                if(te.getStackInSlot(0).isEmpty() || (te.getStackInSlot(0).getItem() == player.getHeldItem(hand).getItem())){
+					player.openGui(CasinoCraft.instance, 48, world, pos2.getX(), pos2.getY(), pos2.getZ());
+            	} else {
+				    if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_WHITE)     player.openGui(CasinoCraft.instance,  0, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_ORANGE)    player.openGui(CasinoCraft.instance,  1, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_MAGENTA)   player.openGui(CasinoCraft.instance,  2, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_LIGHTBLUE) player.openGui(CasinoCraft.instance,  3, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_YELLOW)    player.openGui(CasinoCraft.instance,  4, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_LIME)      player.openGui(CasinoCraft.instance,  5, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_PINK)      player.openGui(CasinoCraft.instance,  6, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_GRAY)      player.openGui(CasinoCraft.instance,  7, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_SILVER)    player.openGui(CasinoCraft.instance,  8, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_CYAN)      player.openGui(CasinoCraft.instance,  9, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_PURPLE)    player.openGui(CasinoCraft.instance, 10, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_BLUE)      player.openGui(CasinoCraft.instance, 11, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_BROWN)     player.openGui(CasinoCraft.instance, 12, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_GREEN)     player.openGui(CasinoCraft.instance, 13, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_RED)       player.openGui(CasinoCraft.instance, 14, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CHIP_BLACK)     player.openGui(CasinoCraft.instance, 15, world, pos2.getX(), pos2.getY(), pos2.getZ());
+                    else { player.openGui(CasinoCraft.instance, 52, world, pos2.getX(), pos2.getY(), pos2.getZ()); }
             	}
     			
     			te.markDirty();
@@ -155,7 +162,7 @@ public class BlockArcade extends BlockContainer {
     }
 	
 	public TileEntity createNewTileEntity(World worldIn, int meta){
-        return meta < 8 ? null : new TileEntityBoard();
+        return meta < 8 ? null : new TileEntityArcade(color, 0);
     }
 	
 	/** ??? */
@@ -180,31 +187,45 @@ public class BlockArcade extends BlockContainer {
         }
         return i;
     }
-    
-    public void setPowerState(Item item, BlockPos pos) {
-    	CasinoPacketHandler.INSTANCE.sendToServer(new ServerPowerMessage(EnumModule.byItem(item).meta, pos));
-		//CasinoPacketHandler.INSTANCE.sendToAll(new ClientPowerMessage(EnumModule.byItem(item).meta, pos));
-    }
-    
-	/** ??? */
-    public static void setPowerState2(World world, BlockPos pos){
+
+    public static void setModuleState(World world, BlockPos pos){
         IBlockState iblockstate = world.getBlockState(pos);
         TileEntityBoard tileentity = (TileEntityBoard) world.getTileEntity(pos);
         if (tileentity != null){
-        	world.setBlockState(pos, iblockstate.withProperty(MODULE, EnumModule.byItem(tileentity.inventory.get(1).getItem())));
-            tileentity.validate();
-            world.setTileEntity(pos, tileentity);
+            if(tileentity.inventory.get(0).isEmpty()){
+                world.setBlockState(pos,      iblockstate.withProperty(                             MODULE, EnumModule.OFF), 3);
+                world.setBlockState(pos.up(), iblockstate.withProperty(PRIMARY, false).withProperty(MODULE, EnumModule.OFF), 3);
+                tileentity.validate();
+                world.setTileEntity(pos, tileentity);
+            }
+            else {
+                world.setBlockState(pos,      iblockstate.withProperty(                             MODULE, EnumModule.byItem(tileentity.inventory.get(1).getItem())), 3);
+                world.setBlockState(pos.up(), iblockstate.withProperty(PRIMARY, false).withProperty(MODULE, EnumModule.byItem(tileentity.inventory.get(1).getItem())), 3);
+                tileentity.validate();
+                world.setTileEntity(pos, tileentity);
+            }
         }
     }
 	
 	public enum EnumModule implements IStringSerializable{
-        EMPTY    (0, "empty"),
-        TETRIS   (1, "tetris"),
-        COLUMNS  (2, "columns"),
-        MEANMINOS(3, "meanminos"),
-        SNAKE    (4, "snake"),
-        SOKOBAN  (5, "sokoban"),
-        _2048    (6, "_2048");
+        BLACK    ( 0, "black"),
+        RED      ( 1, "red"),
+        GREEN    ( 2, "green"),
+        BROWN    ( 3, "brown"),
+        BLUE     ( 4, "blue"),
+        PURPLE   ( 5, "purple"),
+        CYAN     ( 6, "cyan"),
+        SILVER   ( 7, "silver"),
+        GRAY     ( 8, "gray"),
+        PINK     ( 9, "pink"),
+        LIME     (10, "lime"),
+        YELLOW   (11, "yellow"),
+        LIGHTBLUE(12, "lightblue"),
+        MAGENTA  (13, "magenta"),
+        ORANGE   (14, "orange"),
+        WHITE    (15, "white"),
+        EMPTY    (16, "empty"),
+        OFF      (17, "off");
     	
         public final String name;
         public final int meta;
@@ -227,23 +248,33 @@ public class BlockArcade extends BlockContainer {
         }
         
         public static EnumModule byMetadata(int meta){
-        	if(meta == 0) return EnumModule.EMPTY;
-        	if(meta == 1) return EnumModule.TETRIS;
-        	if(meta == 2) return EnumModule.COLUMNS;
-        	if(meta == 3) return EnumModule.MEANMINOS;
-        	if(meta == 4) return EnumModule.SNAKE;
-        	if(meta == 5) return EnumModule.SOKOBAN;
-        	if(meta == 6) return EnumModule._2048;
+        	//if(meta == 0) return EnumModule.EMPTY;
+        	//if(meta == 1) return EnumModule.TETRIS;
+        	//if(meta == 2) return EnumModule.COLUMNS;
+        	//if(meta == 3) return EnumModule.MEANMINOS;
+        	//if(meta == 4) return EnumModule.SNAKE;
+        	//if(meta == 5) return EnumModule.SOKOBAN;
+        	//if(meta == 6) return EnumModule._2048;
         	return EnumModule.EMPTY;
         }
         
         public static EnumModule byItem(Item item){
-        	if(item == CasinoKeeper.MODULE_TETRIS)    return EnumModule.TETRIS;
-        	if(item == CasinoKeeper.MODULE_COLUMNS)   return EnumModule.COLUMNS;
-        	if(item == CasinoKeeper.MODULE_MEANMINOS) return EnumModule.MEANMINOS;
-        	if(item == CasinoKeeper.MODULE_SNAKE)     return EnumModule.SNAKE;
-        	if(item == CasinoKeeper.MODULE_SOKOBAN)   return EnumModule.SOKOBAN;
-        	if(item == CasinoKeeper.MODULE_2048)      return EnumModule._2048;
+        	if(item == CasinoKeeper.MODULE_CHIP_BLACK)     return EnumModule.BLACK;
+            if(item == CasinoKeeper.MODULE_CHIP_RED)       return EnumModule.RED;
+            if(item == CasinoKeeper.MODULE_CHIP_GREEN)     return EnumModule.GREEN;
+            if(item == CasinoKeeper.MODULE_CHIP_BROWN)     return EnumModule.BROWN;
+            if(item == CasinoKeeper.MODULE_CHIP_BLUE)      return EnumModule.BLUE;
+            if(item == CasinoKeeper.MODULE_CHIP_PURPLE)    return EnumModule.PURPLE;
+            if(item == CasinoKeeper.MODULE_CHIP_CYAN)      return EnumModule.CYAN;
+            if(item == CasinoKeeper.MODULE_CHIP_SILVER)    return EnumModule.SILVER;
+            if(item == CasinoKeeper.MODULE_CHIP_GRAY)      return EnumModule.GRAY;
+            if(item == CasinoKeeper.MODULE_CHIP_PINK)      return EnumModule.PINK;
+            if(item == CasinoKeeper.MODULE_CHIP_LIME)      return EnumModule.LIME;
+            if(item == CasinoKeeper.MODULE_CHIP_YELLOW)    return EnumModule.YELLOW;
+            if(item == CasinoKeeper.MODULE_CHIP_LIGHTBLUE) return EnumModule.LIGHTBLUE;
+            if(item == CasinoKeeper.MODULE_CHIP_MAGENTA)   return EnumModule.MAGENTA;
+            if(item == CasinoKeeper.MODULE_CHIP_ORANGE)    return EnumModule.ORANGE;
+            if(item == CasinoKeeper.MODULE_CHIP_WHITE)     return EnumModule.WHITE;
         	return EnumModule.EMPTY;
         }
         

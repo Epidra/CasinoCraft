@@ -1,5 +1,6 @@
 package mod.casinocraft.blocks;
 
+import mod.casinocraft.tileentities.TileEntityCardTableWide;
 import mod.shared.blocks.IMachinaDoubleWide;
 import mod.casinocraft.CasinoCraft;
 import mod.casinocraft.CasinoKeeper;
@@ -8,6 +9,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -16,10 +18,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockCardTableWide extends IMachinaDoubleWide {
+
+	final EnumDyeColor color;
 	
-	public BlockCardTableWide(String name){
+	public BlockCardTableWide(String name, EnumDyeColor colorIn){
         super(name, Material.WOOD);
         this.setCreativeTab(CreativeTabs.DECORATIONS);
+		this.color = colorIn;
     }
 	
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ){
@@ -37,30 +42,43 @@ public class BlockCardTableWide extends IMachinaDoubleWide {
         	}
         	if(world.getTileEntity(pos2) instanceof TileEntityBoard){
         		TileEntityBoard te = (TileEntityBoard) world.getTileEntity(pos2);
-        		
-        		if(te.getStackInSlot(0) == null || (player.getHeldItem(hand) != null && te.getStackInSlot(0).getItem() == player.getHeldItem(hand).getItem() && te.getStackInSlot(0).getDisplayName().matches(player.getHeldItem(hand).getDisplayName()))){
-					player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.CARDTABLE.ordinal(), world, pos2.getX(), pos2.getY(), pos2.getZ());
-    				player.addStat(StatList.CRAFTING_TABLE_INTERACTION);
-            	} else if(te.inventory.get(1) != null){
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_BLACKJACK)    player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.BLACKJACK.ordinal(),    world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_BACCARAT)     player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.BACCARAT.ordinal(),     world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MEMORY)       player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.MEMORY.ordinal(),       world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MYSTICSQUARE) player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.MYSTICSQUARE.ordinal(), world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_PYRAMID)      player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.PYRAMID.ordinal(),      world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_TRIPEAK)      player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.TRIPEAK.ordinal(),      world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_ACEYDEUCEY)   player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.ACEYDEUCEY.ordinal(),   world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_HALMA)        player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.HALMA.ordinal(),        world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_ROUGEETNOIR)  player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.ROUGEETNOIR.ordinal(),  world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_SUDOKU)       player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.SUDOKU.ordinal(),       world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_ROULETTE)     player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.ROULETTE.ordinal(),     world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CRAPS)        player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.CRAPS.ordinal(),        world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_SICBO)        player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.SICBO.ordinal(),        world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_KLONDIKE)     player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.KLONDIKE.ordinal(),     world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_FREECELL)     player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.FREECELL.ordinal(),     world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_SPIDER)       player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.SPIDER.ordinal(),       world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_VIDEOPOKER)   player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.VIDEOPOKER.ordinal(),   world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINESWEEPER)  player.openGui(CasinoCraft.instance, CasinoKeeper.GuiID.MINESWEEPER.ordinal(),  world, pos2.getX(), pos2.getY(), pos2.getZ());
-            		player.addStat(StatList.CRAFTING_TABLE_INTERACTION);
+
+				if(te.getStackInSlot(0).isEmpty() || (te.getStackInSlot(0).getItem() == player.getHeldItem(hand).getItem())){
+					player.openGui(CasinoCraft.instance, 49, world, pos2.getX(), pos2.getY(), pos2.getZ());
+				} else {
+					     if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_WHITE)     player.openGui(CasinoCraft.instance, 16, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_ORANGE)    player.openGui(CasinoCraft.instance, 17, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_MAGENTA)   player.openGui(CasinoCraft.instance, 18, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_LIGHTBLUE) player.openGui(CasinoCraft.instance, 19, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_YELLOW)    player.openGui(CasinoCraft.instance, 20, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_LIME)      player.openGui(CasinoCraft.instance, 21, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_PINK)      player.openGui(CasinoCraft.instance, 22, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_GRAY)      player.openGui(CasinoCraft.instance, 23, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_SILVER)    player.openGui(CasinoCraft.instance, 24, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_CYAN)      player.openGui(CasinoCraft.instance, 25, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_PURPLE)    player.openGui(CasinoCraft.instance, 26, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_BLUE)      player.openGui(CasinoCraft.instance, 27, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_BROWN)     player.openGui(CasinoCraft.instance, 28, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_GREEN)     player.openGui(CasinoCraft.instance, 29, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_RED)       player.openGui(CasinoCraft.instance, 30, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_CARD_BLACK)     player.openGui(CasinoCraft.instance, 31, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_WHITE)     player.openGui(CasinoCraft.instance, 32, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_ORANGE)    player.openGui(CasinoCraft.instance, 33, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_MAGENTA)   player.openGui(CasinoCraft.instance, 34, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_LIGHTBLUE) player.openGui(CasinoCraft.instance, 35, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_YELLOW)    player.openGui(CasinoCraft.instance, 36, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_LIME)      player.openGui(CasinoCraft.instance, 37, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_PINK)      player.openGui(CasinoCraft.instance, 38, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_GRAY)      player.openGui(CasinoCraft.instance, 39, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_SILVER)    player.openGui(CasinoCraft.instance, 40, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_CYAN)      player.openGui(CasinoCraft.instance, 41, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_PURPLE)    player.openGui(CasinoCraft.instance, 42, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_BLUE)      player.openGui(CasinoCraft.instance, 43, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_BROWN)     player.openGui(CasinoCraft.instance, 44, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_GREEN)     player.openGui(CasinoCraft.instance, 45, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_RED)       player.openGui(CasinoCraft.instance, 46, world, pos2.getX(), pos2.getY(), pos2.getZ());
+					else if(te.inventory.get(1).getItem() == CasinoKeeper.MODULE_MINO_BLACK)     player.openGui(CasinoCraft.instance, 47, world, pos2.getX(), pos2.getY(), pos2.getZ());
+						 else { player.openGui(CasinoCraft.instance, 52, world, pos2.getX(), pos2.getY(), pos2.getZ()); }
             	}
     			te.markDirty();
     		}
@@ -69,7 +87,7 @@ public class BlockCardTableWide extends IMachinaDoubleWide {
     }
 	
     public TileEntity createNewTileEntity(World worldIn, int meta){
-        return meta < 8 ? null : new TileEntityBoard();
+        return meta < 8 ? null : new TileEntityCardTableWide(color, 2);
     }
 	
 }

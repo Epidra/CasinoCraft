@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+    "group": "module_chip",
+  "pattern": [
+    "XDX"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:redstone"
+    },
+    "D": {
+      "item": "minecraft:dye",
+      "data": 14
+    }
+  },
+  "result": {
+    "item": "casinocraft:module_chip_orange",
+    "count": 1
+  }
+}

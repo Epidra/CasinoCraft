@@ -1,18 +1,22 @@
 package mod.casinocraft.gui;
 
 import java.io.IOException;
+import java.util.Random;
+import java.util.function.Predicate;
 
+import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.other.LogicDummy;
+import mod.casinocraft.network.*;
+import mod.casinocraft.util.Card;
+import mod.casinocraft.util.Ship;
+import mod.shared.util.InventoryUtil;
+import mod.shared.util.Vector2;
 import org.lwjgl.input.Keyboard;
 
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.blocks.BlockArcade;
 import mod.casinocraft.container.ContainerCasino;
-import mod.casinocraft.network.ServerBlockMessage;
-import mod.casinocraft.network.ServerPlayerMessage;
-import mod.casinocraft.network.ServerScoreMessage;
 import mod.casinocraft.system.CasinoPacketHandler;
-import mod.casinocraft.tileentities.TileEntityCasino;
-import mod.casinocraft.util.Card;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -23,106 +27,121 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiCasino extends GuiContainer {
-	
+public abstract class GuiCasino extends GuiContainer {
+
 	/** The player inventory bound to this GUI. */
-    private   final InventoryPlayer playerInventory;
-    protected final TileEntityCasino tc;
-    
-    protected int table; // 0 - Arcade, 1 - Table Normal, 2 - Table Wide
-    protected int playerToken = -1;
-    protected int bet = 0;
-    
-    protected int colour = 0;
-    protected boolean colourUP = true;
-    
-    protected int camera1 = 0;
-    protected int camera0 = 0;
-    protected int shift = 1;
-    protected int intro = 256;
-    
-    //private Item logo;
+	private   final InventoryPlayer PLAYER;
+	/** The TileEntity bound to this GUI. */
+	protected final ContainerCasino CONTAINER;
+
+	/** Determines the Background of the game. */
+	protected int tableID; // 0 - Arcade, 1 - Table Normal, 2 - Table Wide, 3 - Slot Machine
+	/** Amount of tokens in the PlayerInventory */
+	protected int playerToken = -1;
+	/** The bet set up in the opening screen */
+	protected int bet = 0;
+
+	protected int colour = 0;
+	protected boolean colourUP = true;
+
+	private final int grayscale = 16777215;
+
+	protected int camera1 = 0;
+	protected int camera0 = 0;
+	protected int shift = 1;
+	protected int intro = 256;
     
     
     //--------------------CONSTRUCTOR--------------------
     
     /** Basic Constructor **/
-    public GuiCasino(InventoryPlayer playerInv, IInventory furnaceInv, Item logo){
-        super(new ContainerCasino(playerInv, furnaceInv));
-        this.playerInventory = playerInv;
-        this.tc = (TileEntityCasino) furnaceInv;
+    public GuiCasino(ContainerCasino container, InventoryPlayer player){
+        super(container);
+        PLAYER = player;
+        CONTAINER = container;
         this.xSize = 256;
 		this.ySize = 256;
-		this.table = 0;
-		//this.logo = logo;
-		tc.board.setupHighscore(tc.board.inventory.get(1).getItem());
+		this.tableID = CONTAINER.tableID;
     }
-    
-    /** Custom Constructor **/
-    public GuiCasino(ContainerCasino container, InventoryPlayer playerInv, IInventory furnaceInv, int table, Item logo){
-        super(new ContainerCasino(furnaceInv));
-        this.playerInventory = playerInv;
-        this.tc = (TileEntityCasino) furnaceInv;
-        this.xSize = 256;
-		this.ySize = 256;
-		this.table = table;
-		//this.logo = logo;
-		tc.board.setupHighscore(tc.board.inventory.get(1).getItem());
-    }
+
+	private LogicBase logic(){
+		return CONTAINER.logic();
+	}
     
     
     
     //--------------------BASIC--------------------
     
     /** Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code) */
-    protected void keyTyped(char typedChar, int keyCode) throws IOException{
-    	keyTyped2(typedChar, keyCode);
-    	
-    	if(tc.turnstate == 0 && table == 0 && keyCode == Keyboard.KEY_RETURN) {
-    		if(!tc.hasToken() || playerToken >= tc.getBetLow()) {
-    			if(tc.hasToken()) CollectBet();
-    			tc.actionStart(2);
-    			shift = 2;
-    			tc.turnstate = 1;
-    		}
-    	} else
-		if(tc.turnstate == 7 && table == 0 && keyCode == Keyboard.KEY_RETURN) {
-    		if(tc.hasToken()) {
-    			camera1 = 0;
-    			camera0 = 0;
-    		    shift = 1;
-    		    intro = 256;
-    		    tc.turnstate = 0;
-    		} else {
-    			tc.actionStart(2);
-    			if(tc.turnstate == 0) {
-    				intro = 256;
-    				shift = 1;
-    			}
-    		}
-    	} else
-    	if(tc.turnstate == 5 && table == 0 && keyCode == Keyboard.KEY_RETURN) {
-    		if(hasHighscore()) {
-    			tc.turnstate = 7;
-    			shift = 1;
-    		} else {
-    			if(tc.hasToken()) {
-        			camera1 = 0;
-        			camera0 = 0;
-        		    shift = 1;
-        		    intro = 256;
-        		    tc.turnstate = 0;
-        		} else {
-        			tc.actionStart(2);
-        		}
-    		}
-    	}
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+		if(isCurrentPlayer()) keyTyped2(typedChar, keyCode);
+
+		if(tableID == 0){
+			// Collect Token and start game (Arcade Version) / FROM: Start Screen
+			if(CONTAINER.turnstate() == 0 && tableID == 0 && keyCode == Keyboard.KEY_RETURN) {
+				if(!CONTAINER.hasToken() || playerToken >= CONTAINER.getBetLow()) {
+					if(CONTAINER.hasToken()) collectBet();
+					start();
+					shift = 2;
+				}
+			} else {
+				// Collect Token and start game (Arcade Version) / FROM: Highscore Screen
+				if(CONTAINER.turnstate() == 7 && tableID == 0 && keyCode == Keyboard.KEY_RETURN) {
+					camera1 = 0;
+					camera0 = 0;
+					shift = 1;
+					intro = 256;
+					reset();
+				} else {
+					// Collect Token and start game (Arcade Version) / FROM: GameOver Screen
+					if(CONTAINER.turnstate() == 5 && tableID == 0 && keyCode == Keyboard.KEY_RETURN) {
+						if(logic().hasHighscore()) { // Show Highscore Screen
+							turnstate(7);
+							shift = 1;
+						} else {
+							//if(CONTAINER.hasToken()) {
+							camera1 = 0;
+							camera0 = 0;
+							shift = 1;
+							intro = 256;
+							reset();
+							//} else {
+							//    start();
+							//}
+						}
+					}
+				}
+			}
+
+			// Toggle Pause Mode
+			if(CONTAINER.turnstate() == 2 && tableID == 0 && keyCode == Keyboard.KEY_SPACE){
+				CasinoPacketHandler.INSTANCE.sendToServer(new MessageStateServer(true, -1, CONTAINER.getPos()));
+			}
+		} else if(tableID == 3){
+			// Collect Token and start game (Arcade Version) / FROM: Start Screen
+			if(CONTAINER.turnstate() == 0 && keyCode == Keyboard.KEY_RETURN) {
+				if(playerToken >= CONTAINER.getBetLow()) {
+					collectBet();
+					start();
+				}
+			} else {
+				// Collect Token and start game (Arcade Version) / FROM: Highscore Screen
+				if(CONTAINER.turnstate() == 5 && keyCode == Keyboard.KEY_RETURN) {
+					reset();
+				}
+			}
+
+			// Toggle Pause Mode
+			if(CONTAINER.turnstate() == 2 && tableID == 0 && keyCode == Keyboard.KEY_SPACE){
+				CasinoPacketHandler.INSTANCE.sendToServer(new MessageStateServer(true, -1, CONTAINER.getPos()));
+			}
+		}
     	
     	if (keyCode == 1 || this.mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode)){
-    		if(tc.board.getWorld().getBlockState(tc.board.getPos()).getBlock() instanceof BlockArcade) {
-    			BlockArcade block = (BlockArcade) tc.board.getWorld().getBlockState(tc.board.getPos()).getBlock();
-    			block.setPowerState(tc.board.inventory.get(1).getItem(), tc.board.getPos());
-    		}
+    		//if(tc.board.getWorld().getBlockState(tc.board.getPos()).getBlock() instanceof BlockArcade) {
+    		//	BlockArcade block = (BlockArcade) tc.board.getWorld().getBlockState(tc.board.getPos()).getBlock();
+    		//	block.setPowerState(tc.board.inventory.get(1).getItem(), tc.board.getPos());
+    		//}
             this.mc.player.closeScreen();
         }
         this.checkHotbarKeys(keyCode);
@@ -130,691 +149,725 @@ public class GuiCasino extends GuiContainer {
     
 	/** Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton */
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        if (mouseButton == 0){
-        	if(tc.turnstate == 0) {
-        		if(mouseRect(82-26, 204, 26, 26, mouseX, mouseY)) { if(bet > tc.getBetLow() ) bet--; } // BET MINUS
-        		if(mouseRect(82+92, 204, 26, 26, mouseX, mouseY)) { if(bet < tc.getBetHigh()) bet++; } // BET PLUS
-        		if(mouseRect(82, 204, 92, 26, mouseX, mouseY)) {
-        			if(!tc.hasToken()){
-            			tc.actionStart(table+1);
-            		} else {
-            			if(playerToken >= bet){
-            				CollectBet();
-            				playerToken = -1;
-            				tc.actionStart(table+1);
-            			}
-            		}
-        		}
-        	} else
-        	if(tc.turnstate == 5) {
-        		if(mouseRect(82, 204, 92, 26, mouseX, mouseY)){
-    				if(hasHighscore()) {
-    					tc.turnstate = 7;
-    				} else {
-    					if(tc.hasToken()){
-        					tc.actionStart(table+1);
-        				} else {
-        					tc.turnstate = 0;
-        				}
-    				}
-    			}
-        	} else
-        	if(tc.turnstate == 7) {
-        		if(mouseRect(82, 204, 92, 26, mouseX, mouseY)){
-    				if(tc.hasToken()){
-    					tc.actionStart(table+1);
-    				} else {
-    					tc.turnstate = 0;
-    				}
-    			}
-        	} else {
-        		mouseClicked2(mouseX, mouseY, mouseButton);
-        	}
-        }
+		if (mouseButton == 0){
+			if(CONTAINER.turnstate() == 0) { // Adjust Bet
+				if(logic().hasHighscore())
+					if(mouseRect(82, 164, 92, 26, mouseX, mouseY)) { turnstate(7); } // HIGHSCORE
+				if(mouseRect(82-26, 204, 26, 26, mouseX, mouseY)) { if(bet > CONTAINER.getBetLow() ) bet--; } // BET MINUS
+				if(mouseRect(82+92, 204, 26, 26, mouseX, mouseY)) { if(bet < CONTAINER.getBetHigh()) bet++; } // BET PLUS
+				if(mouseRect(82, 204, 92, 26, mouseX, mouseY)) {
+					// Start Game
+					if(!CONTAINER.hasToken()){
+						start();
+					} else {
+						if(playerToken >= bet){
+							collectBet();
+							playerToken = -1;
+							start();
+						}
+					}
+				}
+			} else
+			if(CONTAINER.turnstate() == 5) { // GameOver Screen
+				if(mouseRect(82, 204, 92, 26, mouseX, mouseY)){
+					if(logic().hasHighscore()) { // Show Highscore
+						turnstate(7);
+					} else { // Reset Game
+						//if(CONTAINER.hasToken()){
+						reset();
+						//} else {
+						//    start();
+						//}
+					}
+				}
+			} else
+			if(CONTAINER.turnstate() == 7) { // Highscore Screen
+				if(mouseRect(82, 204, 92, 26, mouseX, mouseY)){
+					//if(CONTAINER.hasToken()){ // Reset Game
+					reset();
+					//} else {
+					//    start();
+					//}
+				}
+			} else if(CONTAINER.logic().isMultiplayer() && CONTAINER.turnstate() == 2 && !isCurrentPlayer()){ // Multiplayer Additional Player Join Button
+				if(CONTAINER.logic().hasFreePlayerSlots()){
+					if(mouseRect(26, 237, 78, 22, mouseX, mouseY)){
+						if(!CONTAINER.hasToken()){
+							addNewPlayer();
+						} else {
+							if(playerToken >= bet){
+								collectBet();
+								playerToken = -1;
+								addNewPlayer();
+							}
+						}
+					}
+				}
+			} else {
+				if(isCurrentPlayer()) mouseClicked2(mouseX, mouseY, mouseButton);
+			}
+		}
     }
     
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-    	if(this.mc.gameSettings.advancedItemTooltips){
-    		this.fontRenderer.drawString("turnstate: "  + tc.turnstate,   table == 2 ? 355 : 260, 15, 16777215);
-    		this.fontRenderer.drawString("difficulty: " + tc.difficulty,  table == 2 ? 355 : 260, 25, 16777215);
-    		this.fontRenderer.drawString("points: "     + tc.scorePoints, table == 2 ? 355 : 260, 35, 16777215);
-    		this.fontRenderer.drawString("level: "      + tc.scoreLevel,  table == 2 ? 355 : 260, 45, 16777215);
-    		this.fontRenderer.drawString("lives: "      + tc.scoreLives,  table == 2 ? 355 : 260, 55, 16777215);
-    		this.fontRenderer.drawString("hand: "       + tc.hand,        table == 2 ? 355 : 260, 65, 16777215);
-    		this.fontRenderer.drawString("reward: "     + tc.reward,      table == 2 ? 355 : 260, 75, 16777215);
-    		this.fontRenderer.drawString("selector: "   + tc.selector.X + ":" + tc.selector.Y, table == 2 ? 355 : 260, 85, 16777215);
-    		this.fontRenderer.drawString("tileentity: " + tc.toString().substring(33), table == 2 ? 355 : 260, 95, 16777215);
-    		this.fontRenderer.drawString("playertoken: " + playerToken,        table == 2 ? 355 : 260, 105, 16777215);
-    		this.fontRenderer.drawString("boardToken: "  + tc.getBetStorage(), table == 2 ? 355 : 260, 115, 16777215);
-    		this.fontRenderer.drawString("bet low: "     + tc.getBetLow(),     table == 2 ? 355 : 260, 125, 16777215);
-    		this.fontRenderer.drawString("bet high: "    + tc.getBetHigh(),    table == 2 ? 355 : 260, 135, 16777215);
-    		this.fontRenderer.drawString("bet player: "  + bet,                table == 2 ? 355 : 260, 145, 16777215);
-    		this.fontRenderer.drawString("is creative: " + tc.board.isCreative,table == 2 ? 355 : 260, 155, 16777215);
-    		this.fontRenderer.drawString("score token: " + tc.board.getScoreToken().getUnlocalizedName(),table == 2 ? 355 : 260, 165, 16777215);
-    		this.fontRenderer.drawString("score last: " + getScoreLast(),table == 2 ? 355 : 260, 175, 16777215);
-    		this.fontRenderer.drawString("has highscore: " + hasHighscore(),table == 2 ? 355 : 260, 185, 16777215);
-    		this.fontRenderer.drawString("has token: " + tc.hasToken(),table == 2 ? 355 : 260, 195, 16777215);
-    		this.fontRenderer.drawString("board: " + tc.board.toString().substring(33), table == 2 ? 355 : 260, 205, 16777215);
-    	}
-    	
-    	if(playerToken == -1) ValidateBet();
-    	
-    	if(tc.turnstate == 0 && table != 0){
-    		if(tc.hasToken() && tc.getBetHigh() > 0) {
-    			if(tc.getBetLow() == tc.getBetHigh()) {
-    				this.fontRenderer.drawString("The current bet is:", 31, 101, 0);
-    				this.fontRenderer.drawString("The current bet is:", 30, 100, 16777215);
-    				this.itemRender.renderItemIntoGUI(tc.getTokenStack(), 130+12, 96);
-        			if(tc.getBetLow() > 1) this.fontRenderer.drawString("x" + tc.getBetLow(), 145+16, 101, 0);
-        			if(tc.getBetLow() > 1) this.fontRenderer.drawString("x" + tc.getBetLow(), 145+15, 100, 16777215);
-    			} else {
-    				this.fontRenderer.drawString("The bets are:", 31, 101, 0);
-    				this.fontRenderer.drawString("The bets are:", 30, 100, 16777215);
-    				this.itemRender.renderItemIntoGUI(tc.getTokenStack(), 130+12, 96);
-        			this.fontRenderer.drawString("x" + tc.getBetLow() + "  to  x" + tc.getBetHigh(), 145+11, 101, 0);
-        			this.fontRenderer.drawString("x" + tc.getBetLow() + "  to  x" + tc.getBetHigh(), 145+15, 100, 16777215);
-    			}
-    			
-    			if(playerToken < tc.getBetLow()) {
-    				this.fontRenderer.drawString("You don't have enough Token to play...", 31, 121, 0);
-    				this.fontRenderer.drawString("You don't have enough Token to play...", 30, 120, 16777215);
-    			} else {
-    				this.fontRenderer.drawString("Do you wish to play?", 31, 121, 0);
-    				this.fontRenderer.drawString("Do you wish to play?", 30, 120, 16777215);
-    			}
-    			if(tc.getBetHigh() != tc.getBetLow()) this.fontRenderer.drawString("Your Bet:  " + bet, 31, 141, 0);
-    			if(tc.getBetHigh() != tc.getBetLow()) this.fontRenderer.drawString("Your Bet:  " + bet, 30, 140, 16777215);
-    		} else {
-    			//this.fontRenderer.drawString("Free to play", 80, 170, 16777215);
-    		}
-    		
-    	} else if(tc.turnstate == 7 && table != 0){
-    		for(int i = 0; i < 18; i++) {
-    			this.fontRenderer.drawString(     getScoreName(i)  ,  41, 26 + 10*i, 0);
-    			this.fontRenderer.drawString(     getScoreName(i)  ,  40, 25 + 10*i, getScoreLast() == i ? 16777215/2 : 16777215);
-    			this.fontRenderer.drawString("" + getScorePoints(i), 201, 26 + 10*i, 0);
-    			this.fontRenderer.drawString("" + getScorePoints(i), 200, 25 + 10*i, getScoreLast() == i ? 16777215/2 : 16777215);
-    		}
-    		
-    	} else if(tc.turnstate == 0 && table == 0){
-    		if(tc.hasToken() && tc.getBetHigh() > 0) {
-    			this.fontRenderer.drawString("INSERT ", 90, 180, 16777215);
-				this.itemRender.renderItemIntoGUI(new ItemStack(tc.getToken()), 126, 176);
-    			if(tc.getBetLow() > 1) this.fontRenderer.drawString("x" + tc.getBetLow(), 145, 180, 16777215);
-    			if(playerToken < tc.getBetLow()) {
-    				this.fontRenderer.drawString("NOT ENOUGH TOKEN", 80, 210, colour);
-    			} else {
-    				this.fontRenderer.drawString("Press ENTER", 95, 210, colour);
-    			}
-    		} else {
-    			this.fontRenderer.drawString("Press ENTER", 95, 210, colour);
-    		}
-    		
-    		if(colourUP){
-    			colour += 65793;
-    			if(colour >= 16777215){
-    				colour = 16777215;
-    				colourUP = false;
-    			}
-    		} else {
-    			colour -= 65793;
-    			if(colour <= 0){
-    				colour = 0;
-    				colourUP = true;
-    			}
-    		}
-    	} else if(tc.turnstate == 7 && table == 0){
-    		
-    		for(int i = 0; i < 18; i++) {
-    			this.fontRenderer.drawString(     getScoreName(i)  ,  40, 25 + 10*i, getScoreLast() == i ? 16777215/2 : 16777215);
-    			this.fontRenderer.drawString("" + getScorePoints(i), 200, 25 + 10*i, getScoreLast() == i ? 16777215/2 : 16777215);
-    		}
-    		
-    		this.fontRenderer.drawString("Press ENTER", 95, 220, colour);
-    		
-    		if(colourUP){
-    			colour += 65793;
-    			if(colour >= 16777215){
-    				colour = 16777215;
-    				colourUP = false;
-    			}
-    		} else {
-    			colour -= 65793;
-    			if(colour <= 0){
-    				colour = 0;
-    				colourUP = true;
-    			}
-    		}
-    	} else {
-    		
-    		drawGuiContainerForegroundLayer2(mouseX, mouseY);
-    		
-        	if(tc.turnstate == 4){
-        		tc.turnstate = 5;
-        		gameOver();
-        		playerToken = -1;
-        	}
-    	}
+		// Debug Info (shown if Advanced Tooltips are enabled)
+		//if(this.minecraft.gameSettings.advancedItemTooltips){
+//
+		//	this.fontRenderer.drawString("PLAYER1: " + logic().currentPlayer[0],         tableID == 2 ? 355 : 260,  15, 16777215);
+		//	this.fontRenderer.drawString("PLAYER2: " + logic().currentPlayer[1],         tableID == 2 ? 355 : 260,  25, 16777215);
+		//	this.fontRenderer.drawString("PLAYER3: " + logic().currentPlayer[2],         tableID == 2 ? 355 : 260,  35, 16777215);
+		//	this.fontRenderer.drawString("PLAYER4: " + logic().currentPlayer[3],         tableID == 2 ? 355 : 260,  45, 16777215);
+		//	this.fontRenderer.drawString("PLAYER5: " + logic().currentPlayer[4],         tableID == 2 ? 355 : 260,  55, 16777215);
+		//	this.fontRenderer.drawString("PLAYER6: " + logic().currentPlayer[5],         tableID == 2 ? 355 : 260,  65, 16777215);
+		//	this.fontRenderer.drawString("TIMEOUT: " + logic().timeout,                  tableID == 2 ? 355 : 260,  75, 16777215);
+		//	this.fontRenderer.drawString("STATE:   " + logic().turnstate,                tableID == 2 ? 355 : 260,  85, 16777215);
+		//	this.fontRenderer.drawString("PLAYERS: " + logic().getFirstFreePlayerSlot(), tableID == 2 ? 355 : 260,  95, 16777215);
+		//	this.fontRenderer.drawString("ACTIVE:  " + logic().activePlayer,             tableID == 2 ? 355 : 260, 105, 16777215);
+//
+		//	//    this.font.drawString("turnstate:     " + logic().turnstate,                             tableID == 2 ? 355 : 260,  15, 16777215);
+		//	//    this.font.drawString("table:         " + logic().tableID,                               tableID == 2 ? 355 : 260,  25, 16777215);
+		//	//    this.font.drawString("points:        " + logic().scorePoint,                            tableID == 2 ? 355 : 260,  35, 16777215);
+		//	//    this.font.drawString("points:        " + this.container.getBetHigh(),                   tableID == 2 ? 355 : 260,  35, 16777215);
+		//	//    this.font.drawString("level:         " + logic().scoreLevel,                            tableID == 2 ? 355 : 260,  45, 16777215);
+		//	//    this.font.drawString("lives:         " + logic().scoreLives,                            tableID == 2 ? 355 : 260,  55, 16777215);
+		//	//    this.font.drawString("hand:          " + logic().hand,                                  tableID == 2 ? 355 : 260,  65, 16777215);
+		//	//    this.font.drawString("reward:        " + logic().reward,                                tableID == 2 ? 355 : 260,  75, 16777215);
+		//	//    this.font.drawString("selector:      " + logic().selector.X + ":" + logic().selector.Y, tableID == 2 ? 355 : 260,  85, 16777215);
+		//	//    this.font.drawString("tileentity:    " + CONTAINER.inventory.toString().substring(27),  tableID == 2 ? 355 : 260,  95, 16777215);
+		//	//    this.font.drawString("playertoken:   " + playerToken,                                   tableID == 2 ? 355 : 260, 105, 16777215);
+		//	//    this.font.drawString("boardToken:    " + CONTAINER.getBetStorage(),                     tableID == 2 ? 355 : 260, 115, 16777215);
+		//	//    this.font.drawString("bet low:       " + CONTAINER.getBetLow(),                         tableID == 2 ? 355 : 260, 125, 16777215);
+		//	//    this.font.drawString("bet high:      " + CONTAINER.getBetHigh(),                        tableID == 2 ? 355 : 260, 135, 16777215);
+		//	//    this.font.drawString("bet player:    " + bet,                                           tableID == 2 ? 355 : 260, 145, 16777215);
+		//	//    this.font.drawString("is creative:   " + CONTAINER.isCreative(),                        tableID == 2 ? 355 : 260, 155, 16777215);
+		//	//    this.font.drawString("logic:         " + CONTAINER.logic().toString().substring(27),    tableID == 2 ? 355 : 260, 165, 16777215);
+		//	//    this.font.drawString("score last:    " + logic().scoreLast,                             tableID == 2 ? 355 : 260, 175, 16777215);
+		//	//    this.font.drawString("has highscore: " + logic().hasHighscore(),                        tableID == 2 ? 355 : 260, 185, 16777215);
+		//	//    this.font.drawString("has token:     " + CONTAINER.hasToken(),                          tableID == 2 ? 355 : 260, 195, 16777215);
+		//	//    this.font.drawString("board:         " + CONTAINER.toString().substring(27),            tableID == 2 ? 355 : 260, 205, 16777215);
+		//	//    this.font.drawString("Player:        " + CONTAINER.getCurrentPlayer(),                  tableID == 2 ? 355 : 260, 215, 16777215);
+		//	//    this.font.drawString("Table:         " + CONTAINER.tableID,                             tableID == 2 ? 355 : 260, 235, 16777215);
+		//}
+
+		if(logic() instanceof LogicDummy) return;
+
+		// Search for tokens in PlayerInventory
+		if(playerToken == -1 && logic().turnstate < 4) validateBet();
+
+		// Multiplayer Additional Player Join Button
+		if(CONTAINER.logic().isMultiplayer() && CONTAINER.turnstate() == 2 && !isCurrentPlayer()){
+			if(CONTAINER.logic().hasFreePlayerSlots()){
+				drawFont("BET:", 158, 246-2);
+				this.itemRender.renderItemIntoGUI(CONTAINER.getToken(), 158+20, 242-2);
+				if(CONTAINER.getBetLow() > 1) drawFont("x" + CONTAINER.getBetLow(), 158+50, 246-2);
+			}
+		}
+
+		// Draw Start Screen Information (Card Table)
+		if(CONTAINER.turnstate() == 0 && tableID != 0){
+			if(tableID < 3){
+				if(CONTAINER.hasToken() && CONTAINER.getBetHigh() > 0) {
+					if(CONTAINER.getBetLow() == CONTAINER.getBetHigh()) {
+						drawFont("The bet is:", 30, 100);
+						this.itemRender.renderItemIntoGUI(CONTAINER.getToken(), 100, 96);
+						if(CONTAINER.getBetLow() > 1) drawFont("x" + CONTAINER.getBetLow(), 124, 100);
+					} else {
+						drawFont("The bets are:", 30, 100);
+						this.itemRender.renderItemIntoGUI(CONTAINER.getToken(), 100, 96);
+						drawFont("x" + CONTAINER.getBetLow() + " to x" + CONTAINER.getBetHigh(), 124, 100);
+					}
+
+					if(playerToken < CONTAINER.getBetLow()) {
+						drawFont("You don't have enough Token to play...", 30, 120);
+					} else {
+						drawFont("Do you wish to play?", 30, 120);
+					}
+					if(CONTAINER.getBetHigh() != CONTAINER.getBetLow()) drawFont("Your Bet:  " + bet, 30, 140);
+				} else {
+					//this.fontRenderer.drawString("Free to play", 80, 170, 16777215);
+				}
+			} else {
+				if(CONTAINER.hasToken() && CONTAINER.getBetHigh() > 0){
+					this.fontRenderer.drawString("INSERT ", 128, 210, 16777215);
+					this.itemRender.renderItemIntoGUI(CONTAINER.getToken(), 160, 206);
+					if(CONTAINER.getBetLow() > 1) this.fontRenderer.drawString("x" + CONTAINER.getBetLow(), 180, 210, 16777215);
+					this.fontRenderer.drawString("Press ENTER", 128, 225, 16777215);
+				}
+			}
+
+			// Draw Highscore (Card Table)
+		} else if(CONTAINER.turnstate() == 7 && tableID != 0){
+			for(int i = 0; i < 18; i++) {
+				drawFont(           logic().scoreName[i],  40, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
+				drawFontInvert("" + logic().scoreHigh[i], 216, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
+			}
+
+
+			// Draw Start Screen Information (Arcade)
+		} else if(CONTAINER.turnstate() == 0 && tableID == 0){
+			if(CONTAINER.hasToken() && CONTAINER.getBetHigh() > 0) {
+				this.fontRenderer.drawString("INSERT ", 90, 180, 16777215);
+				this.itemRender.renderItemIntoGUI(CONTAINER.getToken(), 126, 176);
+				if(CONTAINER.getBetLow() > 1) this.fontRenderer.drawString("x" + CONTAINER.getBetLow(), 145, 180, 16777215);
+				if(playerToken < CONTAINER.getBetLow()) {
+					this.fontRenderer.drawString("NOT ENOUGH TOKEN", 80, 210, colour);
+				} else {
+					this.fontRenderer.drawString("Press ENTER", 95, 210, colour);
+				}
+			} else {
+				this.fontRenderer.drawString("Press ENTER", 95, 210, colour);
+			}
+
+			if(colourUP){
+				colour += 65793;
+				if(colour >= 16777215){
+					colour = 16777215;
+					colourUP = false;
+				}
+			} else {
+				colour -= 65793;
+				if(colour <= 0){
+					colour = 0;
+					colourUP = true;
+				}
+			}
+
+			// Draw Highscore Information (Arcade)
+		} else if(CONTAINER.turnstate() == 7 && tableID == 0){
+
+			for(int i = 0; i < 18; i++) {
+				drawFont(           logic().scoreName[i],  40, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
+				drawFontInvert("" + logic().scoreHigh[i], 216, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
+			}
+
+			this.fontRenderer.drawString("Press ENTER", 95, 220, colour);
+
+			if(colourUP){
+				colour += 65793;
+				if(colour >= 16777215){
+					colour = 16777215;
+					colourUP = false;
+				}
+			} else {
+				colour -= 65793;
+				if(colour <= 0){
+					colour = 0;
+					colourUP = true;
+				}
+			}
+		} else {
+
+			drawGuiContainerForegroundLayer2(mouseX, mouseY);
+
+			if(logic().turnstate == 4){ // ???
+				gameOver();
+			}
+		}
+
+		if(CONTAINER.getID() != logic().getID()){
+			this.mc.player.closeScreen();
+		}
     }
     
     /** Draws the background layer of this container (behind the items). */
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY){
-    	GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-    	if(table == 0) { // Arcade Background
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_STARFIELD1);
-			this.drawTexturedModalRect(guiLeft, guiTop, 0, shift == 0 ? 0 : camera1, 256, 256);
-			this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_STARFIELD0);
-			this.drawTexturedModalRect(guiLeft, guiTop, 0, shift == 0 ? 0 : camera0, 256, 256);
-    	} else { // Card Table Background
-    		this.mc.getTextureManager().bindTexture(table == 0 ? CasinoKeeper.TEXTURE_GROUND_ARCADE : getBackground());
-            if(table == 2){
-            	this.drawTexturedModalRect(guiLeft-128+32, guiTop,  0, 0, this.xSize-32, this.ySize); // Background Left
-         	   this.drawTexturedModalRect(guiLeft+128   , guiTop, 32, 0, this.xSize-32, this.ySize); // Background Right
-            } else {
-            	this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
-            }
-    	}
-    	
-    	if(tc.turnstate <= 1) {
-    		drawLogo();
-    	}
-        
-    	if(tc.turnstate == 1) {
-    		intro--;
-    		if(intro == 0) {
-    			tc.turnstate = 2;
-    		}
-    	}
-    	
-        if(tc.turnstate >= 1 && tc.turnstate < 6) drawGuiContainerBackgroundLayer2(partialTicks, mouseX, mouseY);
-        
-		if((tc.turnstate == 5 || tc.turnstate == 0 || tc.turnstate == 7) && table > 0){
-			if(tc.turnstate == 5 && hasHighscore()){
-				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_OCTAGAMES);
-				drawTexturedModalRect(guiLeft+89, guiTop+206, 0, 22, 78, 22); // Button Highcore
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		if(tableID == 0) { // Arcade Background
+			if(logic() instanceof LogicDummy){
+				Random RANDOM = new Random();
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_STATIC);
+				for(int y = 0; y < 8; y++){
+					for(int x = 0; x < 6; x++){
+						this.drawTexturedModalRect(guiLeft + 32 + 32*x, guiTop + 32*y, 32*RANDOM.nextInt(8), 32*RANDOM.nextInt(8), 32, 32);
+					}
+				}
+			} else {
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_STARFIELD1);
+				this.drawTexturedModalRect(guiLeft, guiTop, 0, shift == 0 ? 0 : camera1, 256, 256);
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_STARFIELD0);
+				this.drawTexturedModalRect(guiLeft, guiTop, 0, shift == 0 ? 0 : camera0, 256, 256);
+			}
+		} else if(tableID < 3){ // Card Table Background
+			this.mc.getTextureManager().bindTexture(tableID == 0 ? CasinoKeeper.TEXTURE_GROUND_ARCADE : getBackground());
+			if(tableID == 2){
+				this.drawTexturedModalRect(guiLeft-128+32, guiTop,  0, 0, this.xSize-32, this.ySize); // Background Left
+				this.drawTexturedModalRect(guiLeft+128   , guiTop, 32, 0, this.xSize-32, this.ySize); // Background Right
+			} else {
+				this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
+			}
+		} else { // Slot Machine Background
+			this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SLOTMACHINE);
+			this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
+		}
+
+		// Draws Logo from ItemModule
+		if(CONTAINER.turnstate() <= 1) {
+			drawLogo();
+		}
+
+		// Intro Animation (Only on Arcade)
+		if(CONTAINER.turnstate() == 1) {
+			intro--;
+			if(intro == 0) {
+				turnstate(2);
+			}
+		}
+
+		// MiniGame BackgroundDrawer
+		if(CONTAINER.turnstate() >= 1 && CONTAINER.turnstate() < 6){
+			if(logic().pause) GlStateManager.color(0.35F, 0.35F, 0.35F, 1.0F);
+			drawGuiContainerBackgroundLayer2(partialTicks, mouseX, mouseY);
+			if(isCurrentPlayer()) drawGuiContainerBackgroundLayer3(partialTicks, mouseX, mouseY);
+			if(logic().pause) GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		}
+
+		// If NOT Ingame
+		if((CONTAINER.turnstate() == 5 || CONTAINER.turnstate() == 0 || CONTAINER.turnstate() == 7) && (tableID == 1 || tableID == 2) && !(logic() instanceof LogicDummy)){
+			if(CONTAINER.turnstate() == 5 && logic().hasHighscore()){
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+				drawTexturedModalRect(guiLeft+89, guiTop+206, 0, 22, 78, 22); // Button Highscore
 			} else
-			if(tc.turnstate == 5){
-				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_OCTAGAMES);
+			if(CONTAINER.turnstate() == 5){
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
 				drawTexturedModalRect(guiLeft+89, guiTop+206, 78*2, 22, 78, 22); // Button Finish
 			} else
-			if(tc.turnstate == 7){
-				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_OCTAGAMES);
+			if(CONTAINER.turnstate() == 7){
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
 				drawTexturedModalRect(guiLeft+89, guiTop+206, 78*2, 22, 78, 22); // Button Finish
 			} else
-			if(!tc.hasToken() || playerToken >= tc.getBetLow()){
-				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_OCTAGAMES);
+			if(!CONTAINER.hasToken() || playerToken >= CONTAINER.getBetLow()){
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
 				drawTexturedModalRect(guiLeft+89, guiTop+206, 78, 22, 78, 22); // Button New Game
 			}
-			if(tc.turnstate == 0 && playerToken >= tc.getBetLow()) {
-        		if(bet > tc.getBetLow())  drawTexturedModalRect(guiLeft+82-26+2, guiTop+204+2, 234, 22, 22, 22); // Button Minus
-        		if(bet < tc.getBetHigh()) drawTexturedModalRect(guiLeft+82+92+2, guiTop+204+2, 234, 44, 22, 22); // Button Plus
+			if(CONTAINER.turnstate() == 0 && logic().hasHighscore()){
+				drawTexturedModalRect(guiLeft+89, guiTop+166, 0, 22, 78, 22); // Button Highscore
+			}
+			if(CONTAINER.turnstate() == 0 && playerToken >= CONTAINER.getBetLow()) {
+				if(bet > CONTAINER.getBetLow())  drawTexturedModalRect(guiLeft+82-26+2, guiTop+204+2, 234, 22, 22, 22); // Button Minus
+				if(bet < CONTAINER.getBetHigh()) drawTexturedModalRect(guiLeft+82+92+2, guiTop+204+2, 234, 44, 22, 22); // Button Plus
 			}
 		}
-        
-		if(table == 0) {
-			this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_ARCADE);
-    		this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
-    		
-    		if(tc.turnstate != 5) camera1 = (camera1 + shift)   % 256;
-    		if(tc.turnstate != 5) camera0 = (camera0 + shift*2) % 256;
+
+		// Multiplayer Additional Player Join Button
+		if(CONTAINER.logic().isMultiplayer() && CONTAINER.turnstate() == 2 && !isCurrentPlayer()){
+			if(CONTAINER.logic().hasFreePlayerSlots()){
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+				this.drawTexturedModalRect(guiLeft + 153, guiTop + 237, 78, 220, 78, 22);
+				if(!CONTAINER.hasToken() || playerToken >= CONTAINER.getBetLow()){
+					drawTexturedModalRect(guiLeft + 26, guiTop + 237, 0, 220, 78, 22);
+				}
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_DICE);
+				this.drawTexturedModalRect(guiLeft + 128-16, guiTop + 232, 192, 32 + 32*CONTAINER.logic().getFirstFreePlayerSlot(), 32, 32);
+			}
 		}
-		
-		if(tc.turnstate >= 2) tc.update();
-		
+
+		// Draws Arcade Border
+		if(tableID == 0) {
+			this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_ARCADE);
+			this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
+
+			if(CONTAINER.turnstate() != 5) camera1 = (camera1 + shift)   % 256;
+			if(CONTAINER.turnstate() != 5) camera0 = (camera0 + shift*2) % 256;
+		}
+
+		// Multiplayer Status
+		if((logic().turnstate == 2 || logic().turnstate == 3) && logic().isMultiplayer()){
+			this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_DICE);
+			for(int i = 0; i < logic().getFirstFreePlayerSlot(); i++){
+				this.drawTexturedModalRect(guiLeft+(tableID == 2 ? 355-15 : 260-15), guiTop+32 + 36*i, 224, 32 + 32 * i, 32, 32);
+			}
+			if(logic().activePlayer < logic().getFirstFreePlayerSlot()){
+				this.drawTexturedModalRect(guiLeft+(tableID == 2 ? 355-15 : 260-15), guiTop+32 + 36*logic().activePlayer, 224-32, 32 + 32 * logic().activePlayer, 32, 32);
+			}
+		}
     }
-    
-    protected void gameOver(){
-    	payBet(tc.reward);
-    	if(hasHighscore()) {
-    		tc.board.addScore(playerInventory.player.getName(), tc.scorePoints);
-    		CasinoPacketHandler.INSTANCE.sendToServer(new ServerScoreMessage(tc.board.getScoreToken(), tc.board.scoreName, tc.board.scorePoints, tc.getPos()));
-    	}
-    }
-    
-    
-    
-    //--------------------EMPTY--------------------
-    
-    protected void keyTyped2(char typedChar, int keyCode) throws IOException{ }
-    protected void mouseClicked2(int mouseX, int mouseY, int mouseButton) throws IOException { }
-    protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){ }
-    protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){ }
-    
-    
-    
-    //--------------------HELPER--------------------
-    
-    private ResourceLocation getBackground(){
-    	if(tc.color == EnumDyeColor.BLACK)      return CasinoKeeper.TEXTURE_GROUND_BLACK;
-    	if(tc.color == EnumDyeColor.BLUE)       return CasinoKeeper.TEXTURE_GROUND_BLUE;
-    	if(tc.color == EnumDyeColor.BROWN)      return CasinoKeeper.TEXTURE_GROUND_BROWN;
-    	if(tc.color == EnumDyeColor.CYAN)       return CasinoKeeper.TEXTURE_GROUND_CYAN;
-    	if(tc.color == EnumDyeColor.GRAY)       return CasinoKeeper.TEXTURE_GROUND_GRAY;
-    	if(tc.color == EnumDyeColor.GREEN)      return CasinoKeeper.TEXTURE_GROUND_GREEN;
-    	if(tc.color == EnumDyeColor.LIGHT_BLUE) return CasinoKeeper.TEXTURE_GROUND_LIGHTBLUE;
-    	if(tc.color == EnumDyeColor.LIME)       return CasinoKeeper.TEXTURE_GROUND_LIME;
-    	if(tc.color == EnumDyeColor.MAGENTA)    return CasinoKeeper.TEXTURE_GROUND_MAGENTA;
-    	if(tc.color == EnumDyeColor.ORANGE)     return CasinoKeeper.TEXTURE_GROUND_ORANGE;
-    	if(tc.color == EnumDyeColor.PINK)       return CasinoKeeper.TEXTURE_GROUND_PINK;
-    	if(tc.color == EnumDyeColor.PURPLE)     return CasinoKeeper.TEXTURE_GROUND_PURPLE;
-    	if(tc.color == EnumDyeColor.RED)        return CasinoKeeper.TEXTURE_GROUND_RED;
-    	if(tc.color == EnumDyeColor.SILVER)     return CasinoKeeper.TEXTURE_GROUND_SILVER;
-    	if(tc.color == EnumDyeColor.WHITE)      return CasinoKeeper.TEXTURE_GROUND_WHITE;
-    	if(tc.color == EnumDyeColor.YELLOW)     return CasinoKeeper.TEXTURE_GROUND_YELLOW;
-    	
-    	return CasinoKeeper.TEXTURE_GROUND_GRAY;
-    }
-    
-    /** Checks if mouse is inside a rectangle **/
-    protected boolean mouseRect(int x, int y, int width, int height, int mouseX, int mouseY){
-    	if(guiLeft + x < mouseX && mouseX < guiLeft + x + width){
-            return guiTop + y < mouseY && mouseY < guiTop + y + height;
-    	}
-    	return false;
-    }
-    
-    private boolean ChangeTexture(Card v){
-	   	
-	   	return true;
-   }
-    
-    public void drawCard(int posX, int posY, Card card){
-    	if(card.suit == -1) return;
-    	if(card.hidden){
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_NOIR);
-    	} else {
-    		if(card.suit <= 1) this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ROUGE);
-    	   	if(card.suit >= 2) this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_NOIR);
-    	}
-    	int texX = card.suit == -1 || card.hidden ? 0 : card.number % 8;
-    	int texY = card.suit == -1 || card.hidden ? 4 : (card.suit % 2) * 2 + card.number / 8;
-    	drawTexturedModalRect(guiLeft + posX + card.shiftX, guiTop + posY + card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
-    }
-	
-    public void drawCardBack(int posX, int posY, int color){
-	   	if(color <= 6) this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_NOIR);
-	   	else           this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ROUGE);
-    	drawTexturedModalRect(guiLeft + posX, guiTop + posY, (color%7) * 32, 4 * 48, 32, 48);
-    }
-    
-    public void drawMino(int mino, int x, int y){
-    	if(mino != -1) this.drawTexturedModalRect(guiLeft + 8 + 16*x, guiTop + 8 + 16*y, MinoPos(tc.turnstate >= 4 ? 9 : mino, true), MinoPos(tc.turnstate >= 4 ? 9 : mino, false), 16, 16);
-    }
-    
-    public int MinoPos(int mino, boolean xy){
-    	if(mino == 0){ if(xy) return 16; else return  0; }
-    	if(mino == 1){ if(xy) return 32; else return  0; }
-    	if(mino == 2){ if(xy) return 48; else return  0; }
-    	if(mino == 3){ if(xy) return 64; else return  0; }
-    	if(mino == 4){ if(xy) return 80; else return  0; }
-    	if(mino == 5){ if(xy) return  0; else return 64; }
-    	if(mino == 6){ if(xy) return 16; else return 64; }
-    	if(mino == 7){ if(xy) return 32; else return 64; }
-    	if(mino == 8){ if(xy) return 48; else return 64; }
-    	if(mino == 9){ if(xy) return 64; else return 64; }
-    	return 0;
-    }
-    
-    protected void ValidateBet(){
-    	if(bet < tc.getBetLow ()) bet = tc.getBetLow();
-    	if(bet > tc.getBetHigh()) bet = tc.getBetHigh();
-    	if(tc.hasToken()){
-    		Item item = tc.getTokenStack().getItem();
-    		int meta = tc.getTokenStack().getMetadata();
-    		int count = 0;
-    		for(int i = 0; i < 36; i++){
-    			if(item == playerInventory.getStackInSlot(i).getItem() && meta == playerInventory.getStackInSlot(i).getMetadata()) count += playerInventory.getStackInSlot(i).getCount();
-    		}
-    		playerToken = count;
-    	}
-    }
-    
-    protected boolean AnotherBet(){
-    	ValidateBet();
-    	if(playerToken >= bet){
-    		CollectBet();
-    		return true;
-    	}
-    	return false;
-    }
-    
-    protected void CollectBet(){
-    	if(tc.hasToken()){
-    		playerInventory.clearMatchingItems(tc.getTokenStack().getItem(), tc.getTokenStack().getMetadata(), bet, null);
-    		CasinoPacketHandler.INSTANCE.sendToServer(new ServerPlayerMessage(tc.getToken(), tc.getTokenStack().getMetadata(), -bet));
-    		//CasinoPacketHandler.INSTANCE.sendToAll(new ClientPlayerMessage(tc.getToken(), tc.getTokenStack().getMetadata(), -bet));
-    		if(!tc.board.isCreative) {
-    			tc.board.bet_storage+=bet;
-    			CasinoPacketHandler.INSTANCE.sendToServer(new ServerBlockMessage(tc.board.inventory.get(0), tc.board.inventory.get(1), tc.board.inventory.get(4), tc.board.bet_storage, tc.getPos()));
-    		}
-    	}
-    }
-    
-    protected void payBet(int multi){
-    	if(multi <= 0) return;
-    	if(tc.hasToken()){
-    		if(!tc.board.isCreative) {
-    			Item item = tc.getTokenStack().getItem();
-    			int meta = tc.getTokenStack().getMetadata();
-        		int count = bet * multi; // multi == 1 -> Return bet
-        		int count2 = 0;
-        		
-        		if(tc.getBetStorage() >= count) {
-        			count2 = count;
-        		} else {
-        			count2 = tc.getBetStorage();
-        		}
-        		
-        		tc.board.bet_storage-=count;
-        		
-        		if(tc.getBetStorage() <= 0) {
-    				tc.board.bet_storage = 0;
-    				tc.board.setToken(new ItemStack(Blocks.AIR));
-    			}
-        		
-        		CasinoPacketHandler.INSTANCE.sendToServer(new ServerBlockMessage(tc.board.inventory.get(0), tc.board.inventory.get(1), tc.board.inventory.get(4), tc.board.bet_storage, tc.getPos()));
-        		
-        		playerInventory.addItemStackToInventory(new ItemStack(item, count2, meta));
-        		CasinoPacketHandler.INSTANCE.sendToServer(new ServerPlayerMessage(item, meta, count2));
-    		} else {
-    			Item item = tc.getTokenStack().getItem();
-    			int meta = tc.getTokenStack().getMetadata();
-        		int count = bet * multi; // multi == 1 -> Return bet
-        		playerInventory.addItemStackToInventory(new ItemStack(item, count, meta));
-        		CasinoPacketHandler.INSTANCE.sendToServer(new ServerPlayerMessage(item, meta, count));
-    		}
-    	}
-    }
-    
-    private Item getModule() {
-    	return tc.board.getModule();
-    }
-    
-    private void drawLogo() {
-    	int move = 256 - intro; // Move logo up
-    	int vanish = move < 32 ? 0 : move-32 > 34 ? 34 : move - 32;
-    	if(move >= 32) {
-    		int i = 0;
-    	}
-    	
-    	if(getModule() == CasinoKeeper.MODULE_TETRIS) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
-    		//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-    		this.drawTexturedModalRect(guiLeft + 56 + 0*24, guiTop + 32 - move + vanish, 1*40, 3*34 + vanish, 40, 34 - vanish); // T
-    		this.drawTexturedModalRect(guiLeft + 56 + 1*24, guiTop + 32 - move + vanish, 4*40, 0*34 + vanish, 40, 34 - vanish); // E
-    		this.drawTexturedModalRect(guiLeft + 56 + 2*24, guiTop + 32 - move + vanish, 1*40, 3*34 + vanish, 40, 34 - vanish); // T
-    		this.drawTexturedModalRect(guiLeft + 56 + 3*24, guiTop + 32 - move + vanish, 5*40, 2*34 + vanish, 40, 34 - vanish); // R
-    		this.drawTexturedModalRect(guiLeft + 56 + 4*24, guiTop + 32 - move + vanish, 2*40, 1*34 + vanish, 40, 34 - vanish); // I
-    		this.drawTexturedModalRect(guiLeft + 56 + 5*24, guiTop + 32 - move + vanish, 0*40, 3*34 + vanish, 40, 34 - vanish); // S
-    		//GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_COLUMNS) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
-    		this.drawTexturedModalRect(guiLeft + 39 + 0*24, guiTop + 32 - move + vanish, 2*40, 0*34 + vanish, 40, 34 - vanish); // C
-    		this.drawTexturedModalRect(guiLeft + 39 + 1*24, guiTop + 32 - move + vanish, 2*40, 2*34 + vanish, 40, 34 - vanish); // O
-    		this.drawTexturedModalRect(guiLeft + 39 + 2*24, guiTop + 32 - move + vanish, 5*40, 1*34 + vanish, 40, 34 - vanish); // L
-    		this.drawTexturedModalRect(guiLeft + 39 + 3*24, guiTop + 32 - move + vanish, 2*40, 3*34 + vanish, 40, 34 - vanish); // U
-    		this.drawTexturedModalRect(guiLeft + 39 + 4*24, guiTop + 32 - move + vanish, 0*40, 2*34 + vanish, 40, 34 - vanish); // M
-    		this.drawTexturedModalRect(guiLeft + 50 + 5*24, guiTop + 32 - move + vanish, 1*40, 2*34 + vanish, 40, 34 - vanish); // N
-    		this.drawTexturedModalRect(guiLeft + 50 + 6*24, guiTop + 32 - move + vanish, 0*40, 3*34 + vanish, 40, 34 - vanish); // S
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_MEANMINOS) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
-    		this.drawTexturedModalRect(guiLeft + 12 + 0*24, guiTop + 32 - move + vanish, 0*40, 2*34 + vanish, 40, 34 - vanish); // M
-    		this.drawTexturedModalRect(guiLeft + 23 + 1*24, guiTop + 32 - move + vanish, 4*40, 0*34 + vanish, 40, 34 - vanish); // E
-    		this.drawTexturedModalRect(guiLeft + 23 + 2*24, guiTop + 32 - move + vanish, 0*40, 0*34 + vanish, 40, 34 - vanish); // A
-    		this.drawTexturedModalRect(guiLeft + 23 + 3*24, guiTop + 32 - move + vanish, 1*40, 2*34 + vanish, 40, 34 - vanish); // N
-    		this.drawTexturedModalRect(guiLeft + 23 + 4*24, guiTop + 32 - move + vanish, 0*40, 2*34 + vanish, 40, 34 - vanish); // M
-    		this.drawTexturedModalRect(guiLeft + 34 + 5*24, guiTop + 32 - move + vanish, 2*40, 1*34 + vanish, 40, 34 - vanish); // I
-    		this.drawTexturedModalRect(guiLeft + 34 + 6*24, guiTop + 32 - move + vanish, 1*40, 2*34 + vanish, 40, 34 - vanish); // N
-    		this.drawTexturedModalRect(guiLeft + 34 + 7*24, guiTop + 32 - move + vanish, 2*40, 2*34 + vanish, 40, 34 - vanish); // O
-    		this.drawTexturedModalRect(guiLeft + 34 + 8*24, guiTop + 32 - move + vanish, 0*40, 3*34 + vanish, 40, 34 - vanish); // S
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_SNAKE) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
-    		this.drawTexturedModalRect(guiLeft + 68 + 0*24, guiTop + 32 - move + vanish, 0*40, 3*34 + vanish, 40, 34 - vanish); // S
-    		this.drawTexturedModalRect(guiLeft + 68 + 1*24, guiTop + 32 - move + vanish, 1*40, 2*34 + vanish, 40, 34 - vanish); // N
-    		this.drawTexturedModalRect(guiLeft + 68 + 2*24, guiTop + 32 - move + vanish, 0*40, 0*34 + vanish, 40, 34 - vanish); // A
-    		this.drawTexturedModalRect(guiLeft + 68 + 3*24, guiTop + 32 - move + vanish, 4*40, 1*34 + vanish, 40, 34 - vanish); // K
-    		this.drawTexturedModalRect(guiLeft + 68 + 4*24, guiTop + 32 - move + vanish, 4*40, 0*34 + vanish, 40, 34 - vanish); // E
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_SOKOBAN) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
-    		this.drawTexturedModalRect(guiLeft + 44 + 0*24, guiTop + 32 - move + vanish, 0*40, 3*34 + vanish, 40, 34 - vanish); // S
-    		this.drawTexturedModalRect(guiLeft + 44 + 1*24, guiTop + 32 - move + vanish, 2*40, 2*34 + vanish, 40, 34 - vanish); // O
-    		this.drawTexturedModalRect(guiLeft + 44 + 2*24, guiTop + 32 - move + vanish, 4*40, 1*34 + vanish, 40, 34 - vanish); // K
-    		this.drawTexturedModalRect(guiLeft + 44 + 3*24, guiTop + 32 - move + vanish, 2*40, 2*34 + vanish, 40, 34 - vanish); // O
-    		this.drawTexturedModalRect(guiLeft + 44 + 4*24, guiTop + 32 - move + vanish, 1*40, 0*34 + vanish, 40, 34 - vanish); // B
-    		this.drawTexturedModalRect(guiLeft + 44 + 5*24, guiTop + 32 - move + vanish, 0*40, 0*34 + vanish, 40, 34 - vanish); // A
-    		this.drawTexturedModalRect(guiLeft + 44 + 6*24, guiTop + 32 - move + vanish, 1*40, 2*34 + vanish, 40, 34 - vanish); // N
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_2048) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
-    		this.drawTexturedModalRect(guiLeft + 80 + 0*24, guiTop + 32 - move + vanish, 5*40, 4*34 + vanish, 40, 34 - vanish); // 2
-    		this.drawTexturedModalRect(guiLeft + 80 + 1*24, guiTop + 32 - move + vanish, 1*40, 6*34 + vanish, 40, 34 - vanish); // 0
-    		this.drawTexturedModalRect(guiLeft + 80 + 2*24, guiTop + 32 - move + vanish, 1*40, 5*34 + vanish, 40, 34 - vanish); // 4
-    		this.drawTexturedModalRect(guiLeft + 80 + 3*24, guiTop + 32 - move + vanish, 5*40, 5*34 + vanish, 40, 34 - vanish); // 8
-    	}
-    	
-    	if(getModule() == CasinoKeeper.MODULE_BLACKJACK) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 48 + 0*32, guiTop + 24, 1*32, 0*32, 32, 32); // B
-    		this.drawTexturedModalRect(guiLeft + 48 + 1*32, guiTop + 24, 7*32, 0*32, 32, 32); // L
-    		this.drawTexturedModalRect(guiLeft + 48 + 2*32, guiTop + 24, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft + 48 + 3*32, guiTop + 24, 2*32, 0*32, 32, 32); // C
-    		this.drawTexturedModalRect(guiLeft + 48 + 4*32, guiTop + 24, 2*32, 1*32, 32, 32); // K
-    		
-    		this.drawTexturedModalRect(guiLeft + 64 + 0*32, guiTop + 56, 3*32, 1*32, 32, 32); // J
-    		this.drawTexturedModalRect(guiLeft + 64 + 1*32, guiTop + 56, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft + 64 + 2*32, guiTop + 56, 2*32, 0*32, 32, 32); // C
-    		this.drawTexturedModalRect(guiLeft + 64 + 3*32, guiTop + 56, 2*32, 1*32, 32, 32); // K
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_BACCARAT) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft +  0 + 0*32, guiTop + 24, 1*32, 0*32, 32, 32); // B
-    		this.drawTexturedModalRect(guiLeft +  0 + 1*32, guiTop + 24, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft +  0 + 2*32, guiTop + 24, 2*32, 0*32, 32, 32); // C
-    		this.drawTexturedModalRect(guiLeft +  0 + 3*32, guiTop + 24, 2*32, 0*32, 32, 32); // C
-    		this.drawTexturedModalRect(guiLeft +  0 + 4*32, guiTop + 24, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft +  0 + 5*32, guiTop + 24, 1*32, 2*32, 32, 32); // R
-    		this.drawTexturedModalRect(guiLeft +  0 + 6*32, guiTop + 24, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft +  0 + 7*32, guiTop + 24, 3*32, 2*32, 32, 32); // T
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_VIDEOPOKER) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 48 + 0*32, guiTop + 24, 5*32, 2*32, 32, 32); // V
-    		this.drawTexturedModalRect(guiLeft + 48 + 1*32, guiTop + 24, 6*32, 0*32, 32, 32); // I
-    		this.drawTexturedModalRect(guiLeft + 48 + 2*32, guiTop + 24, 3*32, 0*32, 32, 32); // D
-    		this.drawTexturedModalRect(guiLeft + 48 + 3*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 48 + 4*32, guiTop + 24, 6*32, 1*32, 32, 32); // O
-    		
-    		this.drawTexturedModalRect(guiLeft + 48 + 0*32, guiTop + 56, 7*32, 1*32, 32, 32); // P
-    		this.drawTexturedModalRect(guiLeft + 48 + 1*32, guiTop + 56, 6*32, 1*32, 32, 32); // O
-    		this.drawTexturedModalRect(guiLeft + 48 + 2*32, guiTop + 56, 2*32, 1*32, 32, 32); // K
-    		this.drawTexturedModalRect(guiLeft + 48 + 3*32, guiTop + 56, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 48 + 4*32, guiTop + 56, 1*32, 2*32, 32, 32); // R
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_ACEYDEUCEY) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 64 + 0*32, guiTop + 24, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft + 64 + 1*32, guiTop + 24, 2*32, 0*32, 32, 32); // C
-    		this.drawTexturedModalRect(guiLeft + 64 + 2*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 64 + 3*32, guiTop + 24, 0*32, 3*32, 32, 32); // Y
-    		
-    		this.drawTexturedModalRect(guiLeft + 32 + 0*32, guiTop + 56, 3*32, 0*32, 32, 32); // D
-    		this.drawTexturedModalRect(guiLeft + 32 + 1*32, guiTop + 56, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 32 + 2*32, guiTop + 56, 4*32, 2*32, 32, 32); // U
-    		this.drawTexturedModalRect(guiLeft + 32 + 3*32, guiTop + 56, 2*32, 0*32, 32, 32); // C
-    		this.drawTexturedModalRect(guiLeft + 32 + 4*32, guiTop + 56, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 32 + 5*32, guiTop + 56, 0*32, 3*32, 32, 32); // Y
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_ROUGEETNOIR) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 48 + 0*32, guiTop + 24, 1*32, 2*32, 32, 32); // R
-    		this.drawTexturedModalRect(guiLeft + 48 + 1*32, guiTop + 24, 6*32, 1*32, 32, 32); // O
-    		this.drawTexturedModalRect(guiLeft + 48 + 2*32, guiTop + 24, 4*32, 2*32, 32, 32); // U
-    		this.drawTexturedModalRect(guiLeft + 48 + 3*32, guiTop + 24, 0*32, 1*32, 32, 32); // G
-    		this.drawTexturedModalRect(guiLeft + 48 + 4*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		
-    		this.drawTexturedModalRect(guiLeft + 32 + 0*32, guiTop + 56, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 32 + 1*32, guiTop + 56, 3*32, 2*32, 32, 32); // T
-    		this.drawTexturedModalRect(guiLeft + 32 + 2*32, guiTop + 56, 5*32, 1*32, 32, 32); // N
-    		this.drawTexturedModalRect(guiLeft + 32 + 3*32, guiTop + 56, 6*32, 1*32, 32, 32); // O
-    		this.drawTexturedModalRect(guiLeft + 32 + 4*32, guiTop + 56, 6*32, 0*32, 32, 32); // I
-    		this.drawTexturedModalRect(guiLeft + 32 + 5*32, guiTop + 56, 1*32, 2*32, 32, 32); // R
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_CRAPS) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 48 + 0*32, guiTop + 24, 2*32, 0*32, 32, 32); // C
-    		this.drawTexturedModalRect(guiLeft + 48 + 1*32, guiTop + 24, 1*32, 2*32, 32, 32); // R
-    		this.drawTexturedModalRect(guiLeft + 48 + 2*32, guiTop + 24, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft + 48 + 3*32, guiTop + 24, 7*32, 1*32, 32, 32); // P
-    		this.drawTexturedModalRect(guiLeft + 48 + 4*32, guiTop + 24, 2*32, 2*32, 32, 32); // S
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_SICBO) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 48 + 0*32, guiTop + 24, 2*32, 2*32, 32, 32); // S
-    		this.drawTexturedModalRect(guiLeft + 48 + 1*32, guiTop + 24, 6*32, 0*32, 32, 32); // I
-    		this.drawTexturedModalRect(guiLeft + 48 + 2*32, guiTop + 24, 2*32, 0*32, 32, 32); // C
-    		this.drawTexturedModalRect(guiLeft + 48 + 3*32, guiTop + 24, 1*32, 0*32, 32, 32); // B
-    		this.drawTexturedModalRect(guiLeft + 48 + 4*32, guiTop + 24, 6*32, 1*32, 32, 32); // O
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_ROULETTE) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft +  0 + 0*32, guiTop + 24, 1*32, 2*32, 32, 32); // R
-    		this.drawTexturedModalRect(guiLeft +  0 + 1*32, guiTop + 24, 6*32, 1*32, 32, 32); // O
-    		this.drawTexturedModalRect(guiLeft +  0 + 2*32, guiTop + 24, 4*32, 2*32, 32, 32); // U
-    		this.drawTexturedModalRect(guiLeft +  0 + 3*32, guiTop + 24, 7*32, 0*32, 32, 32); // L
-    		this.drawTexturedModalRect(guiLeft +  0 + 4*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft +  0 + 5*32, guiTop + 24, 3*32, 2*32, 32, 32); // T
-    		this.drawTexturedModalRect(guiLeft +  0 + 6*32, guiTop + 24, 3*32, 2*32, 32, 32); // T
-    		this.drawTexturedModalRect(guiLeft +  0 + 7*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_PYRAMID) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 16 + 0*32, guiTop + 24, 7*32, 1*32, 32, 32); // P
-    		this.drawTexturedModalRect(guiLeft + 16 + 1*32, guiTop + 24, 0*32, 3*32, 32, 32); // Y
-    		this.drawTexturedModalRect(guiLeft + 16 + 2*32, guiTop + 24, 1*32, 2*32, 32, 32); // R
-    		this.drawTexturedModalRect(guiLeft + 16 + 3*32, guiTop + 24, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft + 16 + 4*32, guiTop + 24, 4*32, 1*32, 32, 32); // M
-    		this.drawTexturedModalRect(guiLeft + 16 + 5*32, guiTop + 24, 6*32, 0*32, 32, 32); // I
-    		this.drawTexturedModalRect(guiLeft + 16 + 6*32, guiTop + 24, 3*32, 0*32, 32, 32); // D
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_TRIPEAK) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 16 + 0*32, guiTop + 24, 3*32, 2*32, 32, 32); // T
-    		this.drawTexturedModalRect(guiLeft + 16 + 1*32, guiTop + 24, 1*32, 2*32, 32, 32); // R
-    		this.drawTexturedModalRect(guiLeft + 16 + 2*32, guiTop + 24, 6*32, 0*32, 32, 32); // I
-    		this.drawTexturedModalRect(guiLeft + 16 + 3*32, guiTop + 24, 7*32, 1*32, 32, 32); // P
-    		this.drawTexturedModalRect(guiLeft + 16 + 4*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 16 + 5*32, guiTop + 24, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft + 16 + 6*32, guiTop + 24, 2*32, 1*32, 32, 32); // K
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_FREECELL) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft +  0 + 0*32, guiTop + 24, 5*32, 0*32, 32, 32); // F
-    		this.drawTexturedModalRect(guiLeft +  0 + 1*32, guiTop + 24, 1*32, 2*32, 32, 32); // R
-    		this.drawTexturedModalRect(guiLeft +  0 + 2*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft +  0 + 3*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft +  0 + 4*32, guiTop + 24, 2*32, 0*32, 32, 32); // C
-    		this.drawTexturedModalRect(guiLeft +  0 + 5*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft +  0 + 6*32, guiTop + 24, 7*32, 0*32, 32, 32); // L
-    		this.drawTexturedModalRect(guiLeft +  0 + 7*32, guiTop + 24, 7*32, 0*32, 32, 32); // L
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_KLONDIKE) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft +  0 + 0*32, guiTop + 24, 2*32, 1*32, 32, 32); // K
-    		this.drawTexturedModalRect(guiLeft +  0 + 1*32, guiTop + 24, 7*32, 0*32, 32, 32); // L
-    		this.drawTexturedModalRect(guiLeft +  0 + 2*32, guiTop + 24, 6*32, 1*32, 32, 32); // O
-    		this.drawTexturedModalRect(guiLeft +  0 + 3*32, guiTop + 24, 5*32, 1*32, 32, 32); // N
-    		this.drawTexturedModalRect(guiLeft +  0 + 4*32, guiTop + 24, 3*32, 0*32, 32, 32); // D
-    		this.drawTexturedModalRect(guiLeft +  0 + 5*32, guiTop + 24, 6*32, 0*32, 32, 32); // I
-    		this.drawTexturedModalRect(guiLeft +  0 + 6*32, guiTop + 24, 2*32, 1*32, 32, 32); // K
-    		this.drawTexturedModalRect(guiLeft +  0 + 7*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_SPIDER) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 32 + 0*32, guiTop + 24, 2*32, 2*32, 32, 32); // S
-    		this.drawTexturedModalRect(guiLeft + 32 + 1*32, guiTop + 24, 7*32, 1*32, 32, 32); // P
-    		this.drawTexturedModalRect(guiLeft + 32 + 2*32, guiTop + 24, 6*32, 0*32, 32, 32); // I
-    		this.drawTexturedModalRect(guiLeft + 32 + 3*32, guiTop + 24, 3*32, 0*32, 32, 32); // D
-    		this.drawTexturedModalRect(guiLeft + 32 + 4*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 32 + 5*32, guiTop + 24, 1*32, 2*32, 32, 32); // R
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_MEMORY) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 32 + 0*32, guiTop + 24, 4*32, 1*32, 32, 32); // M
-    		this.drawTexturedModalRect(guiLeft + 32 + 1*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 32 + 2*32, guiTop + 24, 4*32, 1*32, 32, 32); // M
-    		this.drawTexturedModalRect(guiLeft + 32 + 3*32, guiTop + 24, 6*32, 1*32, 32, 32); // O
-    		this.drawTexturedModalRect(guiLeft + 32 + 4*32, guiTop + 24, 1*32, 2*32, 32, 32); // R
-    		this.drawTexturedModalRect(guiLeft + 32 + 5*32, guiTop + 24, 0*32, 3*32, 32, 32); // Y
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_MYSTICSQUARE) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 32 + 0*32, guiTop + 24, 4*32, 1*32, 32, 32); // M
-    		this.drawTexturedModalRect(guiLeft + 32 + 1*32, guiTop + 24, 0*32, 3*32, 32, 32); // Y
-    		this.drawTexturedModalRect(guiLeft + 32 + 2*32, guiTop + 24, 2*32, 2*32, 32, 32); // S
-    		this.drawTexturedModalRect(guiLeft + 32 + 3*32, guiTop + 24, 3*32, 2*32, 32, 32); // T
-    		this.drawTexturedModalRect(guiLeft + 32 + 4*32, guiTop + 24, 6*32, 0*32, 32, 32); // I
-    		this.drawTexturedModalRect(guiLeft + 32 + 5*32, guiTop + 24, 2*32, 0*32, 32, 32); // C
-    		
-    		this.drawTexturedModalRect(guiLeft + 32 + 0*32, guiTop + 56, 2*32, 2*32, 32, 32); // S
-    		this.drawTexturedModalRect(guiLeft + 32 + 1*32, guiTop + 56, 0*32, 2*32, 32, 32); // Q
-    		this.drawTexturedModalRect(guiLeft + 32 + 2*32, guiTop + 56, 4*32, 2*32, 32, 32); // U
-    		this.drawTexturedModalRect(guiLeft + 32 + 3*32, guiTop + 56, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft + 32 + 4*32, guiTop + 56, 1*32, 2*32, 32, 32); // R
-    		this.drawTexturedModalRect(guiLeft + 32 + 5*32, guiTop + 56, 4*32, 0*32, 32, 32); // E
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_SUDOKU) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 32 + 0*32, guiTop + 24, 2*32, 2*32, 32, 32); // S
-    		this.drawTexturedModalRect(guiLeft + 32 + 1*32, guiTop + 24, 4*32, 2*32, 32, 32); // U
-    		this.drawTexturedModalRect(guiLeft + 32 + 2*32, guiTop + 24, 3*32, 0*32, 32, 32); // D
-    		this.drawTexturedModalRect(guiLeft + 32 + 3*32, guiTop + 24, 6*32, 1*32, 32, 32); // O
-    		this.drawTexturedModalRect(guiLeft + 32 + 4*32, guiTop + 24, 2*32, 1*32, 32, 32); // K
-    		this.drawTexturedModalRect(guiLeft + 32 + 5*32, guiTop + 24, 4*32, 2*32, 32, 32); // U
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_HALMA) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 48 + 0*32, guiTop + 24, 1*32, 1*32, 32, 32); // H
-    		this.drawTexturedModalRect(guiLeft + 48 + 1*32, guiTop + 24, 0*32, 0*32, 32, 32); // A
-    		this.drawTexturedModalRect(guiLeft + 48 + 2*32, guiTop + 24, 7*32, 0*32, 32, 32); // L
-    		this.drawTexturedModalRect(guiLeft + 48 + 3*32, guiTop + 24, 4*32, 1*32, 32, 32); // M
-    		this.drawTexturedModalRect(guiLeft + 48 + 4*32, guiTop + 24, 0*32, 0*32, 32, 32); // A
-    	}
-    	if(getModule() == CasinoKeeper.MODULE_MINESWEEPER) {
-    		this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
-    		this.drawTexturedModalRect(guiLeft + 64 + 0*32, guiTop + 24, 4*32, 1*32, 32, 32); // M
-    		this.drawTexturedModalRect(guiLeft + 64 + 1*32, guiTop + 24, 6*32, 0*32, 32, 32); // I
-    		this.drawTexturedModalRect(guiLeft + 64 + 2*32, guiTop + 24, 5*32, 1*32, 32, 32); // N
-    		this.drawTexturedModalRect(guiLeft + 64 + 3*32, guiTop + 24, 4*32, 0*32, 32, 32); // E
-    		
-    		this.drawTexturedModalRect(guiLeft + 16 + 0*32, guiTop + 56, 2*32, 2*32, 32, 32); // S
-    		this.drawTexturedModalRect(guiLeft + 16 + 1*32, guiTop + 56, 6*32, 2*32, 32, 32); // W
-    		this.drawTexturedModalRect(guiLeft + 16 + 2*32, guiTop + 56, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 16 + 3*32, guiTop + 56, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 16 + 4*32, guiTop + 56, 7*32, 1*32, 32, 32); // P
-    		this.drawTexturedModalRect(guiLeft + 16 + 5*32, guiTop + 56, 4*32, 0*32, 32, 32); // E
-    		this.drawTexturedModalRect(guiLeft + 16 + 6*32, guiTop + 56, 1*32, 2*32, 32, 32); // R
-    	}
-    }
-    
-    public boolean hasHighscore() {
-    	return tc.board.hasHighscore;
-    }
-    
-    public String getScoreName(int i) {
-    	return tc.board.scoreName[i];
-    }
-    
-    public int getScorePoints(int i) {
-    	return tc.board.scorePoints[i];
-    }
-    
-    public int getScoreLast() {
-    	return tc.board.scoreLast;
-    }
+
+	private void gameOver(){
+		int pos = getPlayerPosition();
+		if (pos > -1 && playerToken != -1) {
+			payBet(logic().reward[pos]);
+			turnstate(10 + pos);
+			playerToken = -1;
+		}
+		if(allCleared()){
+			turnstate(5);
+			if(logic().hasHighscore()) {
+				CasinoPacketHandler.INSTANCE.sendToServer(new MessageScoreServer(PLAYER.player.getName(), logic().scorePoint, CONTAINER.getPos()));
+			} else {
+				turnstate(-3);
+			}
+		}
+	}
+
+	private boolean allCleared(){
+		for(int i = 0; i < 6; i++){
+			if(logic().reward[i] > 0) return false;
+		}
+		return true;
+	}
+
+	/** Draws Colored Card Table Background **/
+	private ResourceLocation getBackground(){
+		if(CONTAINER.color == EnumDyeColor.BLACK)      return CasinoKeeper.TEXTURE_GROUND_BLACK;
+		if(CONTAINER.color == EnumDyeColor.BLUE)       return CasinoKeeper.TEXTURE_GROUND_BLUE;
+		if(CONTAINER.color == EnumDyeColor.BROWN)      return CasinoKeeper.TEXTURE_GROUND_BROWN;
+		if(CONTAINER.color == EnumDyeColor.CYAN)       return CasinoKeeper.TEXTURE_GROUND_CYAN;
+		if(CONTAINER.color == EnumDyeColor.GRAY)       return CasinoKeeper.TEXTURE_GROUND_GRAY;
+		if(CONTAINER.color == EnumDyeColor.GREEN)      return CasinoKeeper.TEXTURE_GROUND_GREEN;
+		if(CONTAINER.color == EnumDyeColor.LIGHT_BLUE) return CasinoKeeper.TEXTURE_GROUND_LIGHTBLUE;
+		if(CONTAINER.color == EnumDyeColor.LIME)       return CasinoKeeper.TEXTURE_GROUND_LIME;
+		if(CONTAINER.color == EnumDyeColor.MAGENTA)    return CasinoKeeper.TEXTURE_GROUND_MAGENTA;
+		if(CONTAINER.color == EnumDyeColor.ORANGE)     return CasinoKeeper.TEXTURE_GROUND_ORANGE;
+		if(CONTAINER.color == EnumDyeColor.PINK)       return CasinoKeeper.TEXTURE_GROUND_PINK;
+		if(CONTAINER.color == EnumDyeColor.PURPLE)     return CasinoKeeper.TEXTURE_GROUND_PURPLE;
+		if(CONTAINER.color == EnumDyeColor.RED)        return CasinoKeeper.TEXTURE_GROUND_RED;
+		if(CONTAINER.color == EnumDyeColor.SILVER)     return CasinoKeeper.TEXTURE_GROUND_SILVER;
+		if(CONTAINER.color == EnumDyeColor.WHITE)      return CasinoKeeper.TEXTURE_GROUND_WHITE;
+		if(CONTAINER.color == EnumDyeColor.YELLOW)     return CasinoKeeper.TEXTURE_GROUND_YELLOW;
+
+		return CasinoKeeper.TEXTURE_GROUND_GRAY;
+	}
+
+	/** Checks if mouse is inside a rectangle **/
+	protected boolean mouseRect(int x, int y, int width, int height, double mouseX, double mouseY){
+		if(guiLeft + x < mouseX && mouseX < guiLeft + x + width){
+			return guiTop + y < mouseY && mouseY < guiTop + y + height;
+		}
+		return false;
+	}
+
+	/** Scans the PlayerInventory for Tokens **/
+	protected void validateBet(){ // ???
+		playerToken = -2;
+		if(bet < CONTAINER.getBetLow ()) bet = CONTAINER.getBetLow();
+		if(bet > CONTAINER.getBetHigh()) bet = CONTAINER.getBetHigh();
+		if(CONTAINER.hasToken()){
+			Item item = CONTAINER.getToken().getItem();
+			int count = 0;
+			for(int i = 0; i < 36; i++){
+				if(item == PLAYER.getStackInSlot(i).getItem()) count += PLAYER.getStackInSlot(i).getCount();
+			}
+			playerToken = count;
+		}
+	}
+
+	/** Checks if Player can pay another bet (and automatically collects it IF TRUE) **/
+	protected boolean anotherBet(){
+		validateBet();
+		if(playerToken >= bet){
+			collectBet();
+			return true;
+		}
+		return false;
+	}
+
+	/** Collects the bet from the Player **/
+	protected void collectBet(){ // ???
+		if(CONTAINER.hasToken()){
+			//InventoryUtil.decreaseInventory(PLAYER, CONTAINER.getToken(), bet);
+			PLAYER.clearMatchingItems(CONTAINER.getToken().getItem(), CONTAINER.getToken().getMetadata(), bet, null);
+			CasinoPacketHandler.INSTANCE.sendToServer(new MessagePlayerServer(CONTAINER.getToken(), -bet));
+			if(!CONTAINER.isCreative()) {
+				CONTAINER.setBetStorage(CONTAINER.getBetStorage() + bet);
+				CasinoPacketHandler.INSTANCE.sendToServer(new MessageBlockServer(CONTAINER.inventory.getStackInSlot(0), CONTAINER.inventory.getStackInSlot(1), CONTAINER.inventory.getStackInSlot(4), CONTAINER.getBetStorage(), CONTAINER.getPos()));
+			}
+		}
+	}
+
+	/** Pays the Reward to the Player **/
+	private void payBet(int multi){ // ???
+		if(multi <= 0) return;
+		if(CONTAINER.hasToken()){
+			if(!CONTAINER.isCreative()) {
+				Item item = CONTAINER.getToken().getItem();
+				int count = bet * multi; // multi == 1 -> Return bet
+				int count2 = 0;
+
+				count2 = Math.min(CONTAINER.getBetStorage(), count);
+
+				CONTAINER.setBetStorage(CONTAINER.getBetStorage() - count);
+
+				if(CONTAINER.getBetStorage() <= 0) {
+					CONTAINER.setBetStorage(0);
+					CONTAINER.setToken(new ItemStack(Blocks.AIR));
+				}
+				CasinoPacketHandler.INSTANCE.sendToServer(new MessageBlockServer(CONTAINER.inventory.getStackInSlot(0), CONTAINER.inventory.getStackInSlot(1), CONTAINER.inventory.getStackInSlot(4), CONTAINER.getBetStorage(), CONTAINER.getPos()));
+
+				PLAYER.addItemStackToInventory(new ItemStack(CONTAINER.getToken().getItem(), count2, CONTAINER.getToken().getMetadata()));
+				CasinoPacketHandler.INSTANCE.sendToServer(new MessagePlayerServer(CONTAINER.getToken(), count2));
+			} else {
+				Item item = CONTAINER.getToken().getItem();
+				int count = bet * multi; // multi == 1 -> Return bet
+				PLAYER.addItemStackToInventory(new ItemStack(CONTAINER.getToken().getItem(), count, CONTAINER.getToken().getMetadata()));
+				CasinoPacketHandler.INSTANCE.sendToServer(new MessagePlayerServer(CONTAINER.getToken(), count));
+			}
+		}
+	}
+
+	protected void action(int action){
+		CasinoPacketHandler.INSTANCE.sendToServer(new MessageStateServer(false, action, CONTAINER.getPos()));
+	}
+
+	protected void start(){
+		Random r = new Random();
+		CasinoPacketHandler.INSTANCE.sendToServer(new MessageStartServer(PLAYER.player.getName(), r.nextInt(1000000), CONTAINER.getPos()));
+	}
+
+	private void reset(){
+		CasinoPacketHandler.INSTANCE.sendToServer(new MessageStateServer(true, 0, CONTAINER.getPos()));
+	}
+
+	protected void turnstate(int state){
+		CasinoPacketHandler.INSTANCE.sendToServer(new MessageStateServer(true, state, CONTAINER.getPos()));
+	}
+
+	private void addNewPlayer(){
+		CasinoPacketHandler.INSTANCE.sendToServer(new MessageStartServer(PLAYER.player.getName(), -1, CONTAINER.getPos()));
+	}
+
+	protected boolean isCurrentPlayer(){
+		if(CONTAINER.logic().isMultiplayer()){
+			if(CONTAINER.getCurrentPlayer(0).matches("void")){
+				return true;
+			}
+			for(int i = 0; i < 6; i++){
+				if(CONTAINER.getCurrentPlayer(i).matches(PLAYER.player.getName())){
+					return true;
+				}
+			}
+		} else {
+
+			return CONTAINER.getCurrentPlayer(0).matches("void") || CONTAINER.getCurrentPlayer(0).matches(PLAYER.player.getName());
+		}
+		return false;
+	}
+
+	protected boolean isActivePlayer(){
+		if(CONTAINER.logic().isMultiplayer()){
+			for(int i = 0; i < 6; i++){
+				if(CONTAINER.getCurrentPlayer(i).matches(PLAYER.player.getName())){
+					if(i == logic().activePlayer){
+						return true;
+					}
+				}
+			}
+		} else {
+			return CONTAINER.getCurrentPlayer(0).matches(PLAYER.player.getName());
+		}
+		return false;
+	}
+
+	protected int getPlayerPosition(){
+		if(CONTAINER.logic().isMultiplayer()){
+			for(int i = 0; i < 6; i++){
+				if(CONTAINER.getCurrentPlayer(i).matches(PLAYER.player.getName())){
+					return i;
+				}
+			}
+		} else {
+			return CONTAINER.getCurrentPlayer(0).matches(PLAYER.player.getName()) ? 0 : -1;
+		}
+		return -1;
+	}
+
+	/** Draws String on x,y position with shadow **/
+	protected void drawFont(String text, int x, int y){
+		drawFont(text, x, y, grayscale);
+	}
+
+	/** Draws String on x,y position with shadow and custom color **/
+	protected void drawFont(String text, int x, int y, int color){
+		this.fontRenderer.drawString(text,  x+1, y+1, 0);
+		this.fontRenderer.drawString(text,  x+0, y+0, color);
+	}
+
+	/** Draws String on x,y position with shadow **/
+	protected void drawFontInvert(String text, int x, int y){
+		drawFontInvert(text, x, y, grayscale);
+	}
+
+	/** Draws String on x,y position with shadow and custom color **/
+	protected void drawFontInvert(String text, int x, int y, int color){
+		int w = this.fontRenderer.getStringWidth(text);
+		this.fontRenderer.drawString(text,  x+1 - w, y+1, 0);
+		this.fontRenderer.drawString(text,  x+0 - w, y+0, color);
+	}
+
+	/** Draws String on x,y position with shadow **/
+	protected void drawFontCenter(String text, int x, int y){
+		drawFontCenter(text, x, y, grayscale);
+	}
+
+	/** Draws String on x,y position with shadow and custom color **/
+	protected void drawFontCenter(String text, int x, int y, int color){
+		int w = this.fontRenderer.getStringWidth(text);
+		this.fontRenderer.drawString(text,  x+1 - w/2, y+1, 0);
+		this.fontRenderer.drawString(text,  x+0 - w/2, y+0, color);
+	}
+
+
+
+	/** Draws a Card **/
+	public void drawCard(int posX, int posY, Card card){
+		if(card.suit == -1) return;
+		if(card.hidden){
+			this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_NOIR);
+		} else {
+			if(card.suit <= 1) this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ROUGE);
+			if(card.suit >= 2) this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_NOIR);
+		}
+		int texX = card.suit == -1 || card.hidden ? 0 : card.number % 8;
+		int texY = card.suit == -1 || card.hidden ? 4 : (card.suit % 2) * 2 + card.number / 8;
+		if(CasinoKeeper.config_animated_cards && !card.hidden){
+			if(card.number >= 10){
+				if(logic().frame == card.suit*12 + (card.number-10)*3){
+					texX += 3;
+				}
+			}
+		}
+		drawTexturedModalRect(guiLeft + posX + card.shiftX, guiTop + posY + card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
+	}
+
+	/** Draws the Backside of a Card (also used for highlighter) **/
+	public void drawCardBack(int posX, int posY, int color){
+		if(color <= 6) this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_NOIR);
+		else           this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ROUGE);
+		drawTexturedModalRect(guiLeft + posX, guiTop + posY, (color%7) * 32, 4 * 48, 32, 48);
+	}
+
+	private void drawLetter(char c, int posX, int posY, int sizeX, int sizeY, int vanish){
+		if(c == 'a') drawTexturedModalRect(posX, posY + vanish, 0*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'b') drawTexturedModalRect(posX, posY + vanish, 1*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'c') drawTexturedModalRect(posX, posY + vanish, 2*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'd') drawTexturedModalRect(posX, posY + vanish, 3*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'e') drawTexturedModalRect(posX, posY + vanish, 4*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'f') drawTexturedModalRect(posX, posY + vanish, 5*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'g') drawTexturedModalRect(posX, posY + vanish, 6*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'h') drawTexturedModalRect(posX, posY + vanish, 7*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'i') drawTexturedModalRect(posX, posY + vanish, 0*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'j') drawTexturedModalRect(posX, posY + vanish, 1*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'k') drawTexturedModalRect(posX, posY + vanish, 2*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'l') drawTexturedModalRect(posX, posY + vanish, 3*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'm') drawTexturedModalRect(posX, posY + vanish, 4*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'n') drawTexturedModalRect(posX, posY + vanish, 5*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'o') drawTexturedModalRect(posX, posY + vanish, 6*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'p') drawTexturedModalRect(posX, posY + vanish, 7*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'q') drawTexturedModalRect(posX, posY + vanish, 0*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'r') drawTexturedModalRect(posX, posY + vanish, 1*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 's') drawTexturedModalRect(posX, posY + vanish, 2*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 't') drawTexturedModalRect(posX, posY + vanish, 3*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'u') drawTexturedModalRect(posX, posY + vanish, 4*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'v') drawTexturedModalRect(posX, posY + vanish, 5*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'w') drawTexturedModalRect(posX, posY + vanish, 6*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'x') drawTexturedModalRect(posX, posY + vanish, 7*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'y') drawTexturedModalRect(posX, posY + vanish, 0*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == 'z') drawTexturedModalRect(posX, posY + vanish, 1*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == '0') drawTexturedModalRect(posX, posY + vanish, 2*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == '1') drawTexturedModalRect(posX, posY + vanish, 3*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == '2') drawTexturedModalRect(posX, posY + vanish, 4*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == '3') drawTexturedModalRect(posX, posY + vanish, 5*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == '4') drawTexturedModalRect(posX, posY + vanish, 6*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == '5') drawTexturedModalRect(posX, posY + vanish, 7*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == '6') drawTexturedModalRect(posX, posY + vanish, 0*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == '7') drawTexturedModalRect(posX, posY + vanish, 1*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == '8') drawTexturedModalRect(posX, posY + vanish, 2*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
+		if(c == '9') drawTexturedModalRect(posX, posY + vanish, 3*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
+	}
+
+	/** Draws Logo from ItemModule **/
+	private void drawLogo() {
+		int move = 256 - intro; // Move logo up
+		int vanish = move < 32 ? 0 : move-30 > 32 ? 32 : move - 30;
+		if(move >= 30) {
+			int i = 0;
+		}
+
+		int sizeX = 0;
+		String[] logo = getGameName().split("_");
+		if(tableID <= 2){
+			if(tableID == 0){
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
+				sizeX = 16;
+			} else if(tableID == 1 || tableID == 2){
+				this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_CARDTABLE);
+				sizeX = 32;
+				vanish = 0;
+			}
+
+			for(int i = 0; i < logo.length; i++){
+				for(int k = 0; k < logo[i].length(); k++){
+					drawLetter(logo[i].charAt(k), guiLeft + 128 - logo[i].length()*(sizeX/2) + sizeX*k, guiTop + 32 + 32*i - move, 32, 32, vanish);
+				}
+			}
+		}
+	}
+
+	protected void drawMino(int posX, int posY, int idX, int idY){
+		this.drawTexturedModalRect(guiLeft + posX, guiTop + posY, 24 * idX, 24 * idY, 24, 24);
+	}
+
+	protected void drawMino(int posX, int posY){
+		drawMino(posX, posY, 0, 0);
+	}
+
+	protected void drawMinoSmall(int posX, int posY, int id, boolean alternate){
+		if(alternate){
+			this.drawTexturedModalRect(guiLeft + posX, guiTop + posY, 240, 16 * id, 16, 16);
+		} else {
+			this.drawTexturedModalRect(guiLeft + posX, guiTop + posY, 16 * id, 240, 16, 16);
+		}
+	}
+
+	protected void drawMinoSmall(int posX, int posY){
+		drawMinoSmall(posX, posY, 0, false);
+	}
+
+	protected void drawDigi(int posX, int posY, int idX, int idY){
+		this.drawTexturedModalRect(guiLeft + posX, guiTop + posY, 16 * idX, 16 + 16 * idY, 16, 16);
+	}
+
+	protected void drawDigi(int posX, int posY){
+		drawDigi(posX, posY, 0, 0);
+	}
+
+	protected void drawDigiSmall(int posX, int posY, int id){
+		this.drawTexturedModalRect(guiLeft + posX, guiTop + posY, 2 + 16 * id, 2, 12, 12);
+	}
+
+	protected void drawDigiSmall(int posX, int posY){
+		drawDigiSmall(posX, posY, 0);
+	}
+
+	protected void drawButton(int posX, int posY, int id){
+
+	}
+
+	protected void drawShip(Ship ship, int shipID, boolean hasLookDirection, boolean animate){
+		int frame = logic().turnstate < 4 && animate ? (logic().frame % 12) / 2 : 0;
+		if(frame == 4) frame = 2;
+		if(frame == 5) frame = 1;
+		int direction = hasLookDirection ? ship.Get_LookDirection() : 0;
+		this.drawTexturedModalRect(guiLeft + 32 + ship.Get_Pos().X, guiTop + 8 + ship.Get_Pos().Y, 64*(shipID%4) + 16*frame, 128 + direction*16 + (shipID/4)*64, 16, 16);
+	}
+
+	protected void drawShip(Vector2 vec, int shipID){
+		int frame = logic().turnstate < 4 ? (logic().frame % 12) / 2 : 0;
+		if(frame == 4) frame = 2;
+		if(frame == 5) frame = 1;
+		this.drawTexturedModalRect(guiLeft + 32 + vec.X*16, guiTop + 8 + vec.Y*16, 64*(shipID%4) + 16*frame, 128 + (shipID/4)*64, 16, 16);
+	}
+
+
+
+
+	//----------------------------------------OVERRIDES----------------------------------------//
+
+	protected abstract void keyTyped2(char typedChar, int keyCode) throws IOException;
+	protected abstract void mouseClicked2(double mouseX, double mouseY, int mouseButton);
+	protected abstract void drawGuiContainerForegroundLayer2(int mouseX, int mouseY);
+	protected abstract void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY);
+	protected abstract void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY);
+	protected abstract String getGameName();
     
 }

@@ -6,13 +6,11 @@
   ],
   "key": {
     "X": {
-      "item": "casinocraft:cardtable_base_yellow",
-      "data": 0
+      "item": "casinocraft:cardtable_base_yellow"
     }
   },
   "result": {
     "item": "casinocraft:cardtable_wide_yellow",
-    "count": 1,
-    "data": 0
+    "count": 1
   }
 }

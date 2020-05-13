@@ -8,25 +8,21 @@
   ],
   "key": {
     "X": {
-      "item": "minecraft:iron_ingot",
-      "data": 0
+      "item": "minecraft:iron_ingot"
     },
     "D": {
       "item": "minecraft:dye",
       "data": 3
     },
     "Q": {
-      "item": "minecraft:quartz",
-      "data": 0
+      "item": "minecraft:quartz"
     },
     "R": {
-      "item": "minecraft:redstone",
-      "data": 0
+      "item": "minecraft:redstone"
     }
   },
   "result": {
     "item": "casinocraft:arcade_base_brown",
-    "count": 1,
-    "data": 0
+    "count": 1
   }
 }

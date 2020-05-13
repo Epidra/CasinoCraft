@@ -1,0 +1,40 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+        "casinocraft:module_chip_black",
+        "casinocraft:module_chip_blue",
+        "casinocraft:module_chip_brown",
+        "casinocraft:module_chip_cyan",
+        "casinocraft:module_chip_gray",
+        "casinocraft:module_chip_green",
+        "casinocraft:module_chip_lightblue",
+        "casinocraft:module_chip_silver",
+        "casinocraft:module_chip_lime",
+        "casinocraft:module_chip_magenta",
+        "casinocraft:module_chip_orange",
+        "casinocraft:module_chip_pink",
+        "casinocraft:module_chip_purple",
+        "casinocraft:module_chip_red",
+        "casinocraft:module_chip_white",
+        "casinocraft:module_chip_yellow"
+    ]
+  },
+  "criteria": {
+    "has_redstone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:redstone"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_redstone"
+    ]
+  ]
+}
