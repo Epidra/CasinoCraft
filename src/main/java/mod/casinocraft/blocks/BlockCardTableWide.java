@@ -3,14 +3,11 @@ package mod.casinocraft.blocks;
 import mod.casinocraft.container.ContainerProvider;
 import mod.casinocraft.tileentities.TileEntityBoard;
 import mod.casinocraft.tileentities.TileEntityCardTableWide;
-import mod.shared.blocks.MachinaDoubleWide;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -28,18 +25,49 @@ import javax.annotation.Nullable;
 
 public class BlockCardTableWide extends MachinaDoubleWide {
 
-    DyeColor color;
+    private DyeColor color;
+    private static final VoxelShape AABB0 = Block.makeCuboidShape(1, 0, 1, 15, 16, 16);
+    private static final VoxelShape AABB1 = Block.makeCuboidShape(0, 0, 1, 15, 16, 15);
+    private static final VoxelShape AABB2 = Block.makeCuboidShape(1, 0, 0, 15, 16, 15);
+    private static final VoxelShape AABB3 = Block.makeCuboidShape(1, 0, 1, 16, 16, 15);
 
-    public static final VoxelShape AABB0 = Block.makeCuboidShape(1, 0, 1, 15, 16, 16);
-    public static final VoxelShape AABB1 = Block.makeCuboidShape(0, 0, 1, 15, 16, 15);
-    public static final VoxelShape AABB2 = Block.makeCuboidShape(1, 0, 0, 15, 16, 15);
-    public static final VoxelShape AABB3 = Block.makeCuboidShape(1, 0, 1, 16, 16, 15);
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Contructor with predefined BlockProperty */
-    public BlockCardTableWide(String modid, String name, Block block, DyeColor color) {
-        super(modid, name, block);
+    public BlockCardTableWide(Block block, DyeColor color) {
+        super(block);
         this.color = color;
     }
+
+
+
+
+    //----------------------------------------INTERACTION----------------------------------------//
+
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (world.isRemote) {
+            return ActionResultType.SUCCESS;
+        } else {
+            if (!world.isRemote() && player instanceof ServerPlayerEntity) {
+                boolean isPrimary = world.getBlockState(pos).get(OFFSET);
+                final BlockPos pos2 = offset(state.get(FACING), isPrimary, pos);
+                TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos2);
+                if (tileEntity instanceof TileEntityCardTableWide) {
+                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider(tileEntity), buf -> buf.writeBlockPos(pos2));
+                }
+            }
+            return ActionResultType.SUCCESS;
+        }
+    }
+
+
+
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     @Deprecated
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -57,38 +85,19 @@ public class BlockCardTableWide extends MachinaDoubleWide {
 
     @Override
     public boolean hasTileEntity(BlockState state) {
-        if(state.get(OFFSET)){
-            return true;
-        }
-        return false;
+        return state.get(OFFSET);
     }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        if(state.get(OFFSET)){
-            return new TileEntityCardTableWide(color, 2);
-        }
-        return null;
+        return state.get(OFFSET) ? new TileEntityCardTableWide(color, 2) : null;
     }
 
-    @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (world.isRemote) {
-            return ActionResultType.PASS;
-        } else {
-            if (!world.isRemote() && player instanceof ServerPlayerEntity) {
-                boolean isPrimary = world.getBlockState(pos).get(OFFSET);
-                final BlockPos pos2 = offset(state.get(FACING), isPrimary, pos);
-                Item item = Items.FLINT;
-                TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos2);
-                if (tileEntity instanceof TileEntityCardTableWide) {
-                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityCardTableWide) tileEntity), buf -> buf.writeBlockPos(pos2));
-                }
-            }
-            return ActionResultType.SUCCESS;
-        }
-    }
+
+
+
+    //----------------------------------------HELPER----------------------------------------//
 
     private BlockPos offset(Direction facing, boolean isPrimary, BlockPos pos){
         if(isPrimary) return pos;

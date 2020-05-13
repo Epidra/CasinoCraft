@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "casinocraft:items/module_card_black"
+        "layer0": "casinocraft:item/module_card_black"
     }
 }

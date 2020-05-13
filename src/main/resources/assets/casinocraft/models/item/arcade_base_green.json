@@ -1,5 +1,5 @@
 {
-    "parent": "casinocraft:block/arcade_base_green",
+    "parent": "casinocraft:block/arcade_base_green_inventory",
     "display": {
         "gui": {
             "rotation": [ 30, 45, 0],

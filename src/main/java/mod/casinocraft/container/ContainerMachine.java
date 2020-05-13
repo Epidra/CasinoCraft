@@ -1,9 +1,6 @@
 package mod.casinocraft.container;
 
-import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.tileentities.TileEntityBoard;
-import mod.casinocraft.util.BoardDataArray;
-import mod.shared.container.ContainerBase;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -18,26 +15,25 @@ import net.minecraft.world.World;
 
 public abstract class ContainerMachine extends ContainerBase {
 
-    //public static final ContainerType<ContainerCasino> TYPE = (ContainerType<ContainerCasino>) IForgeContainerType.create(ContainerCasino::new).setRegistryName(CasinoCraft.MODID, "casino");
-
     public final IInventory inventory;
     private final World world;
-    protected final IIntArray casinoData;
-    protected final BoardDataArray boardData;
+    private final IIntArray casinoData;
     private BlockPos pos = new BlockPos(0, 0, 0);
     public DyeColor color;
 
 
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
     public ContainerMachine(ContainerType<?> type, int windowID, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
         this(type, windowID, playerInventory, BlockPos.fromLong(packetBuffer.readLong()));
-        //this.pos = BlockPos.fromLong(packetBuffer.readLong());
     }
 
     public ContainerMachine(ContainerType<?> type, int windowID, PlayerInventory playerInventory, BlockPos pos) {
         this(type, windowID, playerInventory, (TileEntityBoard) playerInventory.player.getEntityWorld().getTileEntity(pos));
         this.pos = pos;
     }
-
 
     public ContainerMachine(ContainerType<?> type, int windowID, PlayerInventory playerInventory, TileEntityBoard board) {
         super(type, windowID);
@@ -48,26 +44,16 @@ public abstract class ContainerMachine extends ContainerBase {
         this.addSlot(new Slot(board, 2,  28, 16)); // Token IN
         this.addSlot(new Slot(board, 3, 132, 16)); // Token OUT
         addPlayerSlots(playerInventory);
-
         this.casinoData = board.casinoData;
-        this.boardData = board.boardData;
         color = board.color;
     }
 
-    /**
-     * Determines whether supplied player can use this container
-     */
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return inventory.isUsableByPlayer(playerIn);
-    }
 
-    /**
-     * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player
-     * inventory and the other inventory(s).
-     */
 
-    // needed ???
+
+    //----------------------------------------INVENTORY----------------------------------------//
+
+    /** Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player inventory and the other inventory(s). */
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
@@ -80,23 +66,23 @@ public abstract class ContainerMachine extends ContainerBase {
                 }
 
                 slot.onSlotChange(itemstack1, itemstack);
-            //} else if (index != 1 && index != 0) {
-            //    if (this.func_217057_a(itemstack1)) {
-            //        if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
-            //            return ItemStack.EMPTY;
-            //        }
-            //    } else if (this.isFuel(itemstack1)) {
-            //        if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
-            //            return ItemStack.EMPTY;
-            //        }
-            //    } else if (index >= 3 && index < 30) {
-            //        if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
-            //            return ItemStack.EMPTY;
-            //        }
-            //    } else if (index >= 30 && index < 39 && !this.mergeItemStack(itemstack1, 3, 30, false)) {
-            //        return ItemStack.EMPTY;
-            //    }
-            //} else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
+                //} else if (index != 1 && index != 0) {
+                //    if (this.func_217057_a(itemstack1)) {
+                //        if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+                //            return ItemStack.EMPTY;
+                //        }
+                //    } else if (this.isFuel(itemstack1)) {
+                //        if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+                //            return ItemStack.EMPTY;
+                //        }
+                //    } else if (index >= 3 && index < 30) {
+                //        if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
+                //            return ItemStack.EMPTY;
+                //        }
+                //    } else if (index >= 30 && index < 39 && !this.mergeItemStack(itemstack1, 3, 30, false)) {
+                //        return ItemStack.EMPTY;
+                //    }
+                //} else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -116,112 +102,85 @@ public abstract class ContainerMachine extends ContainerBase {
         return itemstack;
     }
 
-    //    public void addListener(IContainerListener listener);
-    //    public void detectAndSendChanges();
-    //    public ItemStack transferStackInSlot(EntityPlayer player, int index);
 
 
-    public void logic(int index, int value){
-        boardData.set(index, value);
+
+    //----------------------------------------SUPPORT----------------------------------------//
+
+    /** Determines whether supplied player can use this container */
+    @Override
+    public boolean canInteractWith(PlayerEntity playerIn) {
+        return inventory.isUsableByPlayer(playerIn);
     }
 
-    public LogicBase logic(){
-        return boardData.get();
-    }
 
-    public int turnstate(){
-        return boardData.get().turnstate;
-    }
 
-    public void turnstate(int i){
-        boardData.set(0, i);
-    }
+
+    //----------------------------------------GET/SET----------------------------------------//
 
     public boolean hasToken() {
         return casinoData.get(0) > 0;
     }
-
     public int getBetStorage(){
         return casinoData.get(0);
     }
-
     public int getBetLow(){
         return casinoData.get(1);
     }
-
     public int getBetHigh(){
         return casinoData.get(2);
     }
-
     public boolean isCreative(){ return casinoData.get(5) == 1; }
-
     public boolean getTransferIn(){
         return casinoData.get(3) == 1;
     }
-
     public boolean getTransferOut(){
         return casinoData.get(4) == 1;
     }
-
     public boolean getIsCreative(){
         return casinoData.get(5) == 1;
     }
-
     public void setBetStorage(int value){
         casinoData.set(0, value);
     }
-
     public void setBetLow(int value){
         casinoData.set(1, value);
     }
-
     public void setBetHigh(int value){
         casinoData.set(2, value);
     }
-
     public void addBetStorage(int value){
         casinoData.set(0, casinoData.get(0) + value);
     }
-
     public void addBetLow(int value){
         casinoData.set(1, casinoData.get(1) + value);
     }
-
     public void addBetHigh(int value){
         casinoData.set(2, casinoData.get(2) + value);
     }
-
     public void setTransferIn(boolean value){
         casinoData.set(3, value ? 1 : 0);
     }
-
     public void setTransferOut(boolean value){
         casinoData.set(4, value ? 1 : 0);
     }
-
     public void setIsCreative(boolean value){
         casinoData.set(5, value ? 1 : 0);
     }
-
     public World world(){
         return this.world;
     }
-
     public ItemStack getToken(){
         return this.inventory.getStackInSlot(4);
     }
-
     public BlockPos getPos(){
         return pos;
     }
-
     public ItemStack getScoreToken(){
         return this.inventory.getStackInSlot(5);
     }
-
     public void setToken(ItemStack itemStack){
         this.inventory.setInventorySlotContents(4, itemStack);
     }
 
-    public abstract String getName();
 }

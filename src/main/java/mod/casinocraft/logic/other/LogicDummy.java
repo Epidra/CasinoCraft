@@ -5,37 +5,83 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class LogicDummy extends LogicBase {
 
-    public LogicDummy() {
-        super(false, 0, "x_dummy");
+    // ...
+
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
+    public LogicDummy(int tableID) {
+        super(tableID);
     }
 
-    @Override
-    public void actionTouch(int action) {
 
-    }
 
-    @Override
-    public void updateMotion() {
 
-    }
+    //----------------------------------------START/RESTART----------------------------------------//
 
-    @Override
-    public void updateLogic() {
-
-    }
-
-    @Override
     public void start2() {
 
     }
 
-    @Override
+
+
+
+    //----------------------------------------COMMAND----------------------------------------//
+
+    public void command(int action) {
+
+    }
+
+
+
+
+    //----------------------------------------UPDATE----------------------------------------//
+
+    public void updateLogic() {
+
+    }
+
+    public void updateMotion() {
+
+    }
+
+
+
+
+    //----------------------------------------SAVE/LOAD----------------------------------------//
+
     public void load2(CompoundNBT compound){
 
     }
 
-    @Override
     public CompoundNBT save2(CompoundNBT compound){
         return compound;
     }
+
+
+
+
+    //----------------------------------------CUSTOM----------------------------------------//
+
+    // ...
+
+
+
+
+    //----------------------------------------SUPPORT----------------------------------------//
+
+    public boolean hasHighscore(){
+        return false;
+    }
+
+    public boolean isMultiplayer(){
+        return true;
+    }
+
+    public int getID(){
+        return 48;
+    }
+
 }

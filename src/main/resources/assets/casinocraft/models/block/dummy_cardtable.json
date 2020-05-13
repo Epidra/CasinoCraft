@@ -1,9 +1,0 @@
-{
-    "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
-    "textures": {
-        "particle": "minecraft:block/oak_planks"
-    },
-    "elements": [
-    
-    ]
-}

@@ -1,6 +1,5 @@
 package mod.casinocraft.blocks;
 
-import mod.shared.blocks.BlockBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -19,26 +18,42 @@ import net.minecraft.world.World;
 
 public class BlockDice extends BlockBlock {
 
-    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
-    public static final IntegerProperty ROTATION = BlockStateProperties.LEVEL_0_3;
+    private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    private static final IntegerProperty ROTATION = BlockStateProperties.LEVEL_0_3;
+
 
 
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor */
-    public BlockDice(String modid, String name, Block block) {
-        super(modid, name, block);
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(ROTATION, Integer.valueOf(0)));
+    public BlockDice(Block block) {
+        super(block);
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(ROTATION, 0));
     }
 
 
 
-    //----------------------------------------RENDER----------------------------------------//
+
+
+
+    //----------------------------------------PLACEMENT----------------------------------------//
 
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
+
+    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack){
+
+    }
+
+
+
+
+    //----------------------------------------INTERACTION----------------------------------------//
+
+    // ...
+
 
 
 
@@ -54,14 +69,6 @@ public class BlockDice extends BlockBlock {
 
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(ROTATION, FACING);
-    }
-
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack){
-        Place();
-    }
-
-    public void Place(){
-
     }
 
 }

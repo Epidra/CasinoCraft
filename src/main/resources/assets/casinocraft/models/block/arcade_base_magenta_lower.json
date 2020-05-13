@@ -1,0 +1,6 @@
+{
+    "parent": "casinocraft:template/arcade_base_lower",
+    "textures": {
+        "color": "casinocraft:block/arcade_color_magenta"
+    }
+}

@@ -4,24 +4,20 @@ import java.util.Random;
 
 public class Card {
 
-    /** ??? */
     public int number;
-    /** 0 - Herz, 3 - Kreuz */
     public int suit;
-    /** ??? */
     public int shiftX;
-    /** ??? */
     public int shiftY;
-    /** ??? */
     public int deathtimer;
-    /** ??? */
     public boolean dead;
-    /** ??? */
     public int idletimer;
-    /** ??? */
     public boolean hidden;
 
-    /** ??? */
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
     public Card(Random random){
         this.number = random.nextInt(13);
         this.suit = random.nextInt(4);
@@ -32,7 +28,6 @@ public class Card {
         hidden = false;
     }
 
-    /** ??? */
     public Card(int number, int suit){
         this.number = number;
         this.suit = suit;
@@ -43,7 +38,6 @@ public class Card {
         hidden = false;
     }
 
-    /** ??? */
     public Card(int number, int suit, boolean hidden){
         this.number = number;
         this.suit = suit;
@@ -54,7 +48,6 @@ public class Card {
         this.hidden = hidden;
     }
 
-    /** ??? */
     public Card(Random random, int shiftX, int shiftY){
         this.number = random.nextInt(13);
         this.suit = random.nextInt(4);
@@ -66,7 +59,6 @@ public class Card {
         hidden = false;
     }
 
-    /** ??? */
     public Card(int number, int suit, int shiftX, int shiftY){
         this.number = number;
         this.suit = suit;
@@ -78,7 +70,6 @@ public class Card {
         hidden = false;
     }
 
-    /** ??? */
     public Card(Random random, int shiftX, int shiftY, int idletimer, boolean hidden){
         this.number = random.nextInt(13);
         this.suit = random.nextInt(4);
@@ -90,7 +81,6 @@ public class Card {
         this.hidden = hidden;
     }
 
-    /** ??? */
     public Card(int number, int suit, int shiftX, int shiftY, int idletimer, boolean hidden){
         this.number = number;
         this.suit = suit;
@@ -113,13 +103,11 @@ public class Card {
         this.hidden = card.hidden;
     }
 
-    public void setShift(int shiftX, int shiftY, int idletimer){
-        this.shiftX = shiftX;
-        this.shiftY = shiftY;
-        this.idletimer = idletimer;
-    }
 
-    /** ??? */
+
+
+    //----------------------------------------UPDATE----------------------------------------//
+
     public void update(){
         if(idletimer > 0){
             idletimer-=2;
@@ -132,12 +120,19 @@ public class Card {
         }
     }
 
-    public int SortedNumber() {
-        return number == 0 ? 13 : number;
+
+
+
+    //----------------------------------------SUPPORT----------------------------------------//
+
+    public void setShift(int shiftX, int shiftY, int idletimer){
+        this.shiftX = shiftX;
+        this.shiftY = shiftY;
+        this.idletimer = idletimer;
     }
 
-    public boolean equals(int x, int y) {
-        return number == x && suit == y;
+    public int sortedNumber() {
+        return number == 0 ? 13 : number;
     }
 
     public void set(int x, int y) {
@@ -154,6 +149,10 @@ public class Card {
         shiftX = c.shiftX;
         shiftY = c.shiftY;
         idletimer = c.idletimer;
+    }
+
+    public boolean equals(int x, int y) {
+        return number == x && suit == y;
     }
 
 }

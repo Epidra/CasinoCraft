@@ -3,7 +3,6 @@ package mod.casinocraft.blocks;
 import mod.casinocraft.container.ContainerProvider;
 import mod.casinocraft.tileentities.TileEntityBoard;
 import mod.casinocraft.tileentities.TileEntitySlotMachine;
-import mod.shared.blocks.MachinaDoubleTall;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,17 +28,49 @@ import javax.annotation.Nullable;
 public class BlockSlotMachine extends MachinaDoubleTall {
 
     private DyeColor color;
+    private static final VoxelShape AABB0 = Block.makeCuboidShape(2, 0, 1, 16, 16, 15);
+    private static final VoxelShape AABB1 = Block.makeCuboidShape(1, 0, 2, 15, 16, 16);
+    private static final VoxelShape AABB2 = Block.makeCuboidShape(0, 0, 1, 14, 16, 15);
+    private static final VoxelShape AABB3 = Block.makeCuboidShape(1, 0, 0, 15, 16, 14);
 
-    public static final VoxelShape AABB0 = Block.makeCuboidShape(2, 0, 1, 16, 16, 15);
-    public static final VoxelShape AABB1 = Block.makeCuboidShape(1, 0, 2, 15, 16, 16);
-    public static final VoxelShape AABB2 = Block.makeCuboidShape(0, 0, 1, 14, 16, 15);
-    public static final VoxelShape AABB3 = Block.makeCuboidShape(1, 0, 0, 15, 16, 14);
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Contructor with predefined BlockProperty */
-    public BlockSlotMachine(String modid, String name, Block block, DyeColor color) {
-        super(modid, name, block);
+    public BlockSlotMachine(Block block, DyeColor color) {
+        super(block);
         this.color = color;
     }
+
+
+
+
+    //----------------------------------------INTERACTION----------------------------------------//
+
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (world.isRemote) {
+            return ActionResultType.SUCCESS;
+        } else {
+            if (!world.isRemote() && player instanceof ServerPlayerEntity) {
+                boolean isPrimary = world.getBlockState(pos).get(OFFSET);
+                final BlockPos pos2 = isPrimary ? pos : pos.down();
+                Item item = Items.FLINT;
+                TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos2);
+                if (tileEntity instanceof TileEntitySlotMachine) {
+                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntitySlotMachine) tileEntity), buf -> buf.writeBlockPos(pos2));
+                }
+            }
+            return ActionResultType.SUCCESS;
+        }
+    }
+
+
+
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     @Deprecated
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -56,37 +87,13 @@ public class BlockSlotMachine extends MachinaDoubleTall {
 
     @Override
     public boolean hasTileEntity(BlockState state) {
-        if(state.get(OFFSET)){
-            return true;
-        }
-        return false;
+        return state.get(OFFSET);
     }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        if(state.get(OFFSET)){
-            return new TileEntitySlotMachine(color, 3);
-        }
-        return null;
-    }
-
-    @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (world.isRemote) {
-            return ActionResultType.PASS;
-        } else {
-            if (!world.isRemote() && player instanceof ServerPlayerEntity) {
-                boolean isPrimary = world.getBlockState(pos).get(OFFSET);
-                final BlockPos pos2 = isPrimary ? pos : pos.down();
-                Item item = Items.FLINT;
-                TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos2);
-                if (tileEntity instanceof TileEntitySlotMachine) {
-                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntitySlotMachine) tileEntity), buf -> buf.writeBlockPos(pos2));
-                }
-            }
-            return ActionResultType.SUCCESS;
-        }
+        return state.get(OFFSET) ? new TileEntitySlotMachine(color, 3) : null;
     }
 
 }
