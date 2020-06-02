@@ -1,0 +1,20 @@
+{
+    "variants": {
+        "color=black":      { "model": "casinocraft:CasinoCardTableBlack" },
+        "color=blue":       { "model": "casinocraft:CasinoCardTableBlue" },
+        "color=brown":      { "model": "casinocraft:CasinoCardTableBrown" },
+        "color=cyan":       { "model": "casinocraft:CasinoCardTableCyan" },
+        "color=gray":       { "model": "casinocraft:CasinoCardTableGray" },
+        "color=green":      { "model": "casinocraft:CasinoCardTableGreen" },
+        "color=light_blue": { "model": "casinocraft:CasinoCardTableLightBlue" },
+        "color=lime":       { "model": "casinocraft:CasinoCardTableLime" },
+        "color=magenta":    { "model": "casinocraft:CasinoCardTableMagenta" },
+        "color=orange":     { "model": "casinocraft:CasinoCardTableOrange" },
+        "color=pink":       { "model": "casinocraft:CasinoCardTablePink" },
+        "color=purple":     { "model": "casinocraft:CasinoCardTablePurple" },
+        "color=red":        { "model": "casinocraft:CasinoCardTableRed" },
+        "color=silver":     { "model": "casinocraft:CasinoCardTableSilver" },
+        "color=white":      { "model": "casinocraft:CasinoCardTableWhite" },
+        "color=yellow":     { "model": "casinocraft:CasinoCardTableYellow" }
+    }
+}
