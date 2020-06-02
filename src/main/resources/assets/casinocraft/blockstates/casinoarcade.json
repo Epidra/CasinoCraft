@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "casinocraft:casinoarcade", "y": 180 },
+        "facing=south": { "model": "casinocraft:casinoarcade", "y":   0 },
+        "facing=west":  { "model": "casinocraft:casinoarcade", "y":  90 },
+        "facing=east":  { "model": "casinocraft:casinoarcade", "y": 270 }
+    }
+}
