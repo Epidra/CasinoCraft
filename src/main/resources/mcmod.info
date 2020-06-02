@@ -1,0 +1,70 @@
+[
+{
+  "modid": "AceCraft",
+  "name": "AceCraft",
+  "version": "MARK II",
+  "mcversion": "1.7.10",
+  "description": "The most random shit you've ever seen",
+  "credits": "Created by Me",
+  "logoFile": "assets/logo/AceCraft.png",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [ "Epidra" ],
+  "parent":"",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+},
+{
+  "modid": "Uncharted",
+  "name": "Uncharted",
+  "version": "Version 3",
+  "mcversion": "1.7.10",
+  "description": "Your favourite Biome Panel",
+  "credits": "Created by Me",
+  "logoFile": "assets/logo/Uncharted.png",
+  "url": "http://minecraft.curseforge.com/projects/uncharted",
+  "updateUrl": "",
+  "authorList": [ "Epidra" ],
+  "parent": "",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+},
+{
+  "modid": "CasinoCraft",
+  "name": "CasinoCraft",
+  "version": "Version 1",
+  "mcversion": "1.7.10",
+  "description": "Card Games in Minecraft",
+  "credits": "Created by Me",
+  "logoFile": "assets/logo/CasinoCraft.png",
+  "url": "http://minecraft.curseforge.com/projects/casinocraft",
+  "updateUrl": "",
+  "authorList": [ "Epidra" ],
+  "parent": "",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+},
+{
+  "modid": "PhantomForces",
+  "name": "Phantom Forces",
+  "version": "Version 1",
+  "mcversion": "1.7.10",
+  "description": "Who you gonna call...?",
+  "credits": "Created by Me",
+  "logoFile": "assets/logo/PhantomForces.png",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [ "Epidra" ],
+  "parent": "",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+}
+]
