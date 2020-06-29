@@ -51,10 +51,10 @@ import static mod.casinocraft.CasinoCraft.MODID;
 
 public class CasinoKeeper {
 
-    private static final DeferredRegister<Block>                BLOCKS     = new DeferredRegister<>(ForgeRegistries.BLOCKS,             MODID);
-    private static final DeferredRegister<Item>                 ITEMS      = new DeferredRegister<>(ForgeRegistries.ITEMS,              MODID);
-    private static final DeferredRegister<ContainerType<?>>     CONTAINERS = new DeferredRegister<>(ForgeRegistries.CONTAINERS,         MODID);
-    private static final DeferredRegister<TileEntityType<?>>    TILES      = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES,      MODID);
+    private static final DeferredRegister<Block>                BLOCKS     = DeferredRegister.create(ForgeRegistries.BLOCKS,             MODID);
+    private static final DeferredRegister<Item>                 ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,              MODID);
+    private static final DeferredRegister<ContainerType<?>>     CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS,         MODID);
+    private static final DeferredRegister<TileEntityType<?>>    TILES      = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,      MODID);
 
 
 

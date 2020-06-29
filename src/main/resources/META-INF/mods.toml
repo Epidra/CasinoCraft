@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[31,)" #mandatory (26 is current forge version)
+loaderVersion="[32,)" #mandatory (26 is current forge version)
 issueTrackerURL="https://github.com/Epidra/CasinoCraft/issues"
 [[mods]]
 modId="casinocraft"
@@ -15,14 +15,8 @@ Or lose all your potatoes on the roulette table?
 Then you're at the right place.
 '''
 [[dependencies.casinocraft]]
-    modId="forge"
-    mandatory=true
-    versionRange="[31,)"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.casinocraft]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2]"
+    versionRange="[1.16.1]"
     ordering="NONE"
     side="BOTH"
