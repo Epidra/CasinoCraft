@@ -176,7 +176,7 @@ public class BlockArcade extends BlockContainer {
         if (enumfacing.getAxis() == EnumFacing.Axis.Y){
             enumfacing = EnumFacing.NORTH;
         }
-        return this.getDefaultState().withProperty(FACING, enumfacing).withProperty(PRIMARY, Boolean.valueOf((meta / 8) > 0)).withProperty(MODULE, EnumModule.EMPTY);
+        return this.getDefaultState().withProperty(FACING, enumfacing).withProperty(PRIMARY, Boolean.valueOf((meta / 8) > 0)).withProperty(MODULE, EnumModule.OFF);
     }
     
     /** Convert the BlockState into the correct metadata value */

@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 public class CasinoCraft {
 	
 	public static final String modid        = "casinocraft";
-	public static final String version      = "v06";
+	public static final String version      = "v10";
 	public static final String modName      = "CasinoCraft";
 	public static final String dependencies = "";
 	

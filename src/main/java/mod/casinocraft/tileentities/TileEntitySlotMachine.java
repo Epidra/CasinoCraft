@@ -69,18 +69,18 @@ public class TileEntitySlotMachine extends TileEntityBoard {
 		this.readFromNBT(tag);
 	}
     
-    /** ??? */
-    public void readFromNBT(NBTTagCompound compound){
-        super.readFromNBT(compound);
-        this.inventory = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-        ItemStackHelper.loadAllItems(compound, this.inventory);
-    }
-    
-    /** ??? */
-    public NBTTagCompound writeToNBT(NBTTagCompound compound){
-        super.writeToNBT(compound);
-        ItemStackHelper.saveAllItems(compound, this.inventory);
-        return compound;
-    }
+    ///** ??? */
+    //public void readFromNBT(NBTTagCompound compound){
+    //    super.readFromNBT(compound);
+    //    this.inventory = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+    //    ItemStackHelper.loadAllItems(compound, this.inventory);
+    //}
+    //
+    ///** ??? */
+    //public NBTTagCompound writeToNBT(NBTTagCompound compound){
+    //    super.writeToNBT(compound);
+    //    ItemStackHelper.saveAllItems(compound, this.inventory);
+    //    return compound;
+    //}
 	
 }

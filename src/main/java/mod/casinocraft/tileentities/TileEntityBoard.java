@@ -171,10 +171,13 @@ public class TileEntityBoard extends TileEntity implements IInventory, ITickable
 		lastModule = getModule();
 		LOGIC = setLogic();
 		LOGIC.load(compound);
-		//if(!world.isRemote){
-			if(tableID == 0){
-				CasinoPacketHandler.INSTANCE.sendToServer(new MessageModuleServer(getPos()));
-			}
+		//if(this.getWorld() != null && !this.getWorld().getMinecraftServer().isDedicatedServer()){
+		//	if(tableID == 0){
+		//		CasinoPacketHandler.INSTANCE.sendToServer(new MessageModuleServer(getPos()));
+		//	}
+		//}
+		//if(world != null){
+
 		//}
     }
     

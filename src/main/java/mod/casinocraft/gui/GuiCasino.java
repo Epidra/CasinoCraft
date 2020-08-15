@@ -212,43 +212,39 @@ public abstract class GuiCasino extends GuiContainer {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		// Debug Info (shown if Advanced Tooltips are enabled)
-		//if(this.minecraft.gameSettings.advancedItemTooltips){
-//
-		//	this.fontRenderer.drawString("PLAYER1: " + logic().currentPlayer[0],         tableID == 2 ? 355 : 260,  15, 16777215);
-		//	this.fontRenderer.drawString("PLAYER2: " + logic().currentPlayer[1],         tableID == 2 ? 355 : 260,  25, 16777215);
-		//	this.fontRenderer.drawString("PLAYER3: " + logic().currentPlayer[2],         tableID == 2 ? 355 : 260,  35, 16777215);
-		//	this.fontRenderer.drawString("PLAYER4: " + logic().currentPlayer[3],         tableID == 2 ? 355 : 260,  45, 16777215);
-		//	this.fontRenderer.drawString("PLAYER5: " + logic().currentPlayer[4],         tableID == 2 ? 355 : 260,  55, 16777215);
-		//	this.fontRenderer.drawString("PLAYER6: " + logic().currentPlayer[5],         tableID == 2 ? 355 : 260,  65, 16777215);
-		//	this.fontRenderer.drawString("TIMEOUT: " + logic().timeout,                  tableID == 2 ? 355 : 260,  75, 16777215);
-		//	this.fontRenderer.drawString("STATE:   " + logic().turnstate,                tableID == 2 ? 355 : 260,  85, 16777215);
-		//	this.fontRenderer.drawString("PLAYERS: " + logic().getFirstFreePlayerSlot(), tableID == 2 ? 355 : 260,  95, 16777215);
-		//	this.fontRenderer.drawString("ACTIVE:  " + logic().activePlayer,             tableID == 2 ? 355 : 260, 105, 16777215);
-//
-		//	//    this.font.drawString("turnstate:     " + logic().turnstate,                             tableID == 2 ? 355 : 260,  15, 16777215);
-		//	//    this.font.drawString("table:         " + logic().tableID,                               tableID == 2 ? 355 : 260,  25, 16777215);
-		//	//    this.font.drawString("points:        " + logic().scorePoint,                            tableID == 2 ? 355 : 260,  35, 16777215);
-		//	//    this.font.drawString("points:        " + this.container.getBetHigh(),                   tableID == 2 ? 355 : 260,  35, 16777215);
-		//	//    this.font.drawString("level:         " + logic().scoreLevel,                            tableID == 2 ? 355 : 260,  45, 16777215);
-		//	//    this.font.drawString("lives:         " + logic().scoreLives,                            tableID == 2 ? 355 : 260,  55, 16777215);
-		//	//    this.font.drawString("hand:          " + logic().hand,                                  tableID == 2 ? 355 : 260,  65, 16777215);
-		//	//    this.font.drawString("reward:        " + logic().reward,                                tableID == 2 ? 355 : 260,  75, 16777215);
-		//	//    this.font.drawString("selector:      " + logic().selector.X + ":" + logic().selector.Y, tableID == 2 ? 355 : 260,  85, 16777215);
-		//	//    this.font.drawString("tileentity:    " + CONTAINER.inventory.toString().substring(27),  tableID == 2 ? 355 : 260,  95, 16777215);
-		//	//    this.font.drawString("playertoken:   " + playerToken,                                   tableID == 2 ? 355 : 260, 105, 16777215);
-		//	//    this.font.drawString("boardToken:    " + CONTAINER.getBetStorage(),                     tableID == 2 ? 355 : 260, 115, 16777215);
-		//	//    this.font.drawString("bet low:       " + CONTAINER.getBetLow(),                         tableID == 2 ? 355 : 260, 125, 16777215);
-		//	//    this.font.drawString("bet high:      " + CONTAINER.getBetHigh(),                        tableID == 2 ? 355 : 260, 135, 16777215);
-		//	//    this.font.drawString("bet player:    " + bet,                                           tableID == 2 ? 355 : 260, 145, 16777215);
-		//	//    this.font.drawString("is creative:   " + CONTAINER.isCreative(),                        tableID == 2 ? 355 : 260, 155, 16777215);
-		//	//    this.font.drawString("logic:         " + CONTAINER.logic().toString().substring(27),    tableID == 2 ? 355 : 260, 165, 16777215);
-		//	//    this.font.drawString("score last:    " + logic().scoreLast,                             tableID == 2 ? 355 : 260, 175, 16777215);
-		//	//    this.font.drawString("has highscore: " + logic().hasHighscore(),                        tableID == 2 ? 355 : 260, 185, 16777215);
-		//	//    this.font.drawString("has token:     " + CONTAINER.hasToken(),                          tableID == 2 ? 355 : 260, 195, 16777215);
-		//	//    this.font.drawString("board:         " + CONTAINER.toString().substring(27),            tableID == 2 ? 355 : 260, 205, 16777215);
-		//	//    this.font.drawString("Player:        " + CONTAINER.getCurrentPlayer(),                  tableID == 2 ? 355 : 260, 215, 16777215);
-		//	//    this.font.drawString("Table:         " + CONTAINER.tableID,                             tableID == 2 ? 355 : 260, 235, 16777215);
-		//}
+		if(this.mc.gameSettings.advancedItemTooltips){
+			this.fontRenderer.drawString("PLAYER1: " + logic().currentPlayer[0],         tableID == 2 ? 355 : 260,  -40+15, 16777215);
+			this.fontRenderer.drawString("PLAYER2: " + logic().currentPlayer[1],         tableID == 2 ? 355 : 260,  -40+25, 16777215);
+			this.fontRenderer.drawString("PLAYER3: " + logic().currentPlayer[2],         tableID == 2 ? 355 : 260,  -40+35, 16777215);
+			this.fontRenderer.drawString("PLAYER4: " + logic().currentPlayer[3],         tableID == 2 ? 355 : 260,  -40+45, 16777215);
+			this.fontRenderer.drawString("PLAYER5: " + logic().currentPlayer[4],         tableID == 2 ? 355 : 260,  -40+55, 16777215);
+			this.fontRenderer.drawString("PLAYER6: " + logic().currentPlayer[5],         tableID == 2 ? 355 : 260,  -40+65, 16777215);
+			this.fontRenderer.drawString("TIMEOUT: " + logic().timeout,                  tableID == 2 ? 355 : 260,  -40+75, 16777215);
+			this.fontRenderer.drawString("STATE:   " + logic().turnstate,                tableID == 2 ? 355 : 260,  -40+85, 16777215);
+			this.fontRenderer.drawString("PLAYERS: " + logic().getFirstFreePlayerSlot(), tableID == 2 ? 355 : 260,  -40+95, 16777215);
+			this.fontRenderer.drawString("ACTIVE:  " + logic().activePlayer,             tableID == 2 ? 355 : 260,  -40+105, 16777215);
+
+			this.fontRenderer.drawString("table:         " + logic().tableID,                               tableID == 2 ? 355 : 260,  -40+115, 16777215);
+			this.fontRenderer.drawString("points:        " + logic().scorePoint,                            tableID == 2 ? 355 : 260,  -40+125, 16777215);
+			this.fontRenderer.drawString("level:         " + logic().scoreLevel,                            tableID == 2 ? 355 : 260,  -40+135, 16777215);
+			this.fontRenderer.drawString("lives:         " + logic().scoreLives,                            tableID == 2 ? 355 : 260,  -40+145, 16777215);
+			this.fontRenderer.drawString("hand:          " + logic().hand,                                  tableID == 2 ? 355 : 260,  -40+155, 16777215);
+			this.fontRenderer.drawString("reward:        " + logic().reward.toString(),                     tableID == 2 ? 355 : 260,  -40+165, 16777215);
+			this.fontRenderer.drawString("selector:      " + logic().selector.X + ":" + logic().selector.Y, tableID == 2 ? 355 : 260,  -40+175, 16777215);
+			this.fontRenderer.drawString("tileentity:    " + CONTAINER.inventory.toString().substring(27),  tableID == 2 ? 355 : 260,  -40+185, 16777215);
+			this.fontRenderer.drawString("playertoken:   " + playerToken,                                   tableID == 2 ? 355 : 260,  -40+195, 16777215);
+			this.fontRenderer.drawString("boardToken:    " + CONTAINER.getBetStorage(),                     tableID == 2 ? 355 : 260,  -40+205, 16777215);
+			this.fontRenderer.drawString("bet low:       " + CONTAINER.getBetLow(),                         tableID == 2 ? 355 : 260,  -40+215, 16777215);
+			this.fontRenderer.drawString("bet high:      " + CONTAINER.getBetHigh(),                        tableID == 2 ? 355 : 260,  -40+225, 16777215);
+			this.fontRenderer.drawString("bet player:    " + bet,                                           tableID == 2 ? 355 : 260,  -40+235, 16777215);
+			this.fontRenderer.drawString("is creative:   " + CONTAINER.isCreative(),                        tableID == 2 ? 355 : 260,  -40+245, 16777215);
+			this.fontRenderer.drawString("logic:         " + CONTAINER.logic().toString().substring(27),    tableID == 2 ? 355 : 260,  -40+255, 16777215);
+			this.fontRenderer.drawString("score last:    " + logic().scoreLast,                             tableID == 2 ? 355 : 260,  -40+265, 16777215);
+			this.fontRenderer.drawString("has highscore: " + logic().hasHighscore(),                        tableID == 2 ? 355 : 260,  -40+275, 16777215);
+			this.fontRenderer.drawString("has token:     " + CONTAINER.hasToken(),                          tableID == 2 ? 355 : 260,  -40+285, 16777215);
+			this.fontRenderer.drawString("board:  " + CONTAINER.toString().substring(27),                   tableID == 2 ? 355 : 260,  -40+295, 16777215);
+			this.fontRenderer.drawString("module: " + CONTAINER.inventory.getModule().getUnlocalizedName(), tableID == 2 ? 355 : 260,  -40+305, 16777215);
+		}
 
 		if(logic() instanceof LogicDummy) return;
 
@@ -832,11 +828,23 @@ public abstract class GuiCasino extends GuiContainer {
 	}
 
 	protected void drawDigiSmall(int posX, int posY, int id){
-		this.drawTexturedModalRect(guiLeft + posX, guiTop + posY, 2 + 16 * id, 2, 12, 12);
+		this.drawTexturedModalRect(guiLeft + posX + 0, guiTop + posY + 0, 16 * id +  0, 16   , 6, 6);
+		this.drawTexturedModalRect(guiLeft + posX + 6, guiTop + posY + 0, 16 * id + 10, 16   , 6, 6);
+		this.drawTexturedModalRect(guiLeft + posX + 0, guiTop + posY + 6, 16 * id +  0, 16+10, 6, 6);
+		this.drawTexturedModalRect(guiLeft + posX + 6, guiTop + posY + 6, 16 * id + 10, 16+10, 6, 6);
+
 	}
 
 	protected void drawDigiSmall(int posX, int posY){
 		drawDigiSmall(posX, posY, 0);
+	}
+
+	protected void drawDigiSymbol(int posX, int posY, int id){
+		this.drawTexturedModalRect(guiLeft + posX, guiTop + posY, 16 * id, 0, 16, 16);
+	}
+
+	protected void drawDigiSymbol(int posX, int posY){
+		drawDigiSymbol(posX, posY, 0);
 	}
 
 	protected void drawButton(int posX, int posY, int id){
