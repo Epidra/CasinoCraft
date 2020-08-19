@@ -78,13 +78,13 @@ public class ScreenChipCyan extends ScreenCasino {   // Columns
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADE);
             for(int y = 0; y < 15; y++){
                 for(int x = 0; x < 6; x++){
-                    if(logic().grid[x][y] != -1) drawDigi(32 + 16*x, 8 + 16*y, logic().turnstate >= 4 ? 8 : tetroColor(x, y), 0);
+                    if(logic().grid[x][y] != -1) drawDigiSymbol(32 + 16*x, 8 + 16*y, logic().turnstate >= 4 ? 8 : tetroColor(x, y));
                 }
             }
 
-            drawDigi(32 + 16*logic().tromino[0].X, 8 + 16*logic().tromino[0].Y, logic().turnstate >= 4 ? 8 : logic().container_current[0], 0);
-            drawDigi(32 + 16*logic().tromino[1].X, 8 + 16*logic().tromino[1].Y, logic().turnstate >= 4 ? 8 : logic().container_current[1], 0);
-            drawDigi(32 + 16*logic().tromino[2].X, 8 + 16*logic().tromino[2].Y, logic().turnstate >= 4 ? 8 : logic().container_current[2], 0);
+            drawDigiSymbol(32 + 16*logic().tromino[0].X, 8 + 16*logic().tromino[0].Y, logic().turnstate >= 4 ? 8 : logic().container_current[0]);
+            drawDigiSymbol(32 + 16*logic().tromino[1].X, 8 + 16*logic().tromino[1].Y, logic().turnstate >= 4 ? 8 : logic().container_current[1]);
+            drawDigiSymbol(32 + 16*logic().tromino[2].X, 8 + 16*logic().tromino[2].Y, logic().turnstate >= 4 ? 8 : logic().container_current[2]);
 
             if((logic().turnstate >= 4 ?  8 : logic().container_next[0]) > -1) drawTetromino(logic().turnstate >= 4 ?  8 : logic().container_next[0], logic().turnstate >= 4 ?  8 : logic().container_next[1], logic().turnstate >= 4 ?  8 : logic().container_next[2], 168,  92);
             if((logic().turnstate >= 4 ? -1 : logic().container_hold[0]) > -1) drawTetromino(logic().turnstate >= 4 ? -1 : logic().container_hold[0], logic().turnstate >= 4 ? -1 : logic().container_hold[1], logic().turnstate >= 4 ? -1 : logic().container_hold[2], 168, 180);
@@ -105,9 +105,9 @@ public class ScreenChipCyan extends ScreenCasino {   // Columns
     }
 
     private void drawTetromino(int mino0, int mino1, int mino2, int x, int y) {
-        drawDigi(x, y     , logic().turnstate >= 4 ? 8 : mino0, 0);
-        drawDigi(x, y + 16, logic().turnstate >= 4 ? 8 : mino1, 0);
-        drawDigi(x, y + 32, logic().turnstate >= 4 ? 8 : mino2, 0);
+        drawDigiSymbol(x, y     , logic().turnstate >= 4 ? 8 : mino0);
+        drawDigiSymbol(x, y + 16, logic().turnstate >= 4 ? 8 : mino1);
+        drawDigiSymbol(x, y + 32, logic().turnstate >= 4 ? 8 : mino2);
     }
 
 

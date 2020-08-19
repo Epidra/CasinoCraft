@@ -877,11 +877,23 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
     }
 
     protected void drawDigiSmall(int posX, int posY, int id){
-        this.blit(guiLeft + posX, guiTop + posY, 2 + 16 * id, 2, 12, 12);
+        this.blit(guiLeft + posX + 0, guiTop + posY + 0, 16 * id +  0, 16   , 6, 6);
+        this.blit(guiLeft + posX + 6, guiTop + posY + 0, 16 * id + 10, 16   , 6, 6);
+        this.blit(guiLeft + posX + 0, guiTop + posY + 6, 16 * id +  0, 16+10, 6, 6);
+        this.blit(guiLeft + posX + 6, guiTop + posY + 6, 16 * id + 10, 16+10, 6, 6);
+
     }
 
     protected void drawDigiSmall(int posX, int posY){
         drawDigiSmall(posX, posY, 0);
+    }
+
+    protected void drawDigiSymbol(int posX, int posY, int id){
+        this.blit(guiLeft + posX, guiTop + posY, 16 * id, 0, 16, 16);
+    }
+
+    protected void drawDigiSymbol(int posX, int posY){
+        drawDigiSymbol(posX, posY, 0);
     }
 
     protected void drawButton(int posX, int posY, int id){
