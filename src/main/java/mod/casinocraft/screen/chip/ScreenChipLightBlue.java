@@ -77,12 +77,12 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Mean Minos
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADE);
             for(int y = 0; y < 15; y++){
                 for(int x = 0; x < 6; x++){
-                    if(logic().grid[x][y] != -1) drawDigi(32 + 16*x, 8 + 16*y, logic().turnstate >= 4 ? 8 : tetroColor(x, y), 0);
+                    if(logic().grid[x][y] != -1) drawDigiSymbol(32 + 16*x, 8 + 16*y, logic().turnstate >= 4 ? 8 : tetroColor(x, y));
                 }
             }
 
-            drawDigi(32 + 16*logic().domino[0].X, 8 + 16*logic().domino[0].Y, logic().turnstate >= 4 ? 8 : logic().container_current[0], 0);
-            drawDigi(32 + 16*logic().domino[1].X, 8 + 16*logic().domino[1].Y, logic().turnstate >= 4 ? 8 : logic().container_current[1], 0);
+            drawDigiSymbol(32 + 16*logic().domino[0].X, 8 + 16*logic().domino[0].Y, logic().turnstate >= 4 ? 8 : logic().container_current[0]);
+            drawDigiSymbol(32 + 16*logic().domino[1].X, 8 + 16*logic().domino[1].Y, logic().turnstate >= 4 ? 8 : logic().container_current[1]);
 
             if((logic().turnstate >= 4 ?  8 : logic().container_next[0]) > -1) drawTetromino(logic().turnstate >= 4 ?  8 : logic().container_next[0], logic().turnstate >= 4 ?  8 : logic().container_next[1], 168, 100);
             if((logic().turnstate >= 4 ? -1 : logic().container_hold[0]) > -1) drawTetromino(logic().turnstate >= 4 ? -1 : logic().container_hold[0], logic().turnstate >= 4 ? -1 : logic().container_hold[1], 168, 188);
@@ -107,8 +107,8 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Mean Minos
     }
 
     private void drawTetromino(int mino0, int mino1, int x, int y) {
-        drawDigi(x, y     , logic().turnstate >= 4 ? 8 : mino1, 0);
-        drawDigi(x, y + 16, logic().turnstate >= 4 ? 8 : mino0, 0);
+        drawDigiSymbol(x, y     , logic().turnstate >= 4 ? 8 : mino1);
+        drawDigiSymbol(x, y + 16, logic().turnstate >= 4 ? 8 : mino0);
     }
 
 
