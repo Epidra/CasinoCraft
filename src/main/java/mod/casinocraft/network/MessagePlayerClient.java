@@ -41,7 +41,44 @@ public class MessagePlayerClient {
 
             if(amount < 0){
                 context.get().enqueueWork(() -> {
-                    Minecraft.getInstance().player.inventory.clearMatchingItems(Predicate.isEqual(message.stack), -amount);
+                    //Minecraft.getInstance().player.inventory.clearMatchingItems(Predicate.isEqual(message.stack), -amount);
+                    int i = 0;
+                    ItemStack itemStack = ItemStack.EMPTY;
+                    Predicate<ItemStack> p_195408_1_ = Predicate.isEqual(message.stack);
+                    int count = -amount;
+
+                    for(int j = 0; j < Minecraft.getInstance().player.inventory.getSizeInventory(); ++j) {
+                        ItemStack itemstack = Minecraft.getInstance().player.inventory.getStackInSlot(j);
+                        if (!itemstack.isEmpty() && p_195408_1_.test(itemstack)) {
+                            int k = count <= 0 ? itemstack.getCount() : Math.min(count - i, itemstack.getCount());
+                            i += k;
+                            if (count != 0) {
+                                itemstack.shrink(k);
+                                if (itemstack.isEmpty()) {
+                                    Minecraft.getInstance().player.inventory.setInventorySlotContents(j, ItemStack.EMPTY);
+                                }
+
+                                if (count > 0 && i >= count) {
+                                    //return i;
+                                }
+                            }
+                        }
+                    }
+
+                    if (!itemStack.isEmpty() && p_195408_1_.test(itemStack)) {
+                        int l = count <= 0 ? itemStack.getCount() : Math.min(count - i, itemStack.getCount());
+                        i += l;
+                        if (count != 0) {
+                            itemStack.shrink(l);
+                            if (itemStack.isEmpty()) {
+                                itemStack = ItemStack.EMPTY;
+                            }
+
+                            if (count > 0 && i >= count) {
+                                //return i;
+                            }
+                        }
+                    }
                 });
             } else {
                 context.get().enqueueWork(() -> {

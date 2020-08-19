@@ -1,12 +1,13 @@
 modLoader="javafml"
-loaderVersion="[32,)" #mandatory (26 is current forge version)
+loaderVersion="[33,)" #mandatory (26 is current forge version)
+license="All rights reserved"
 issueTrackerURL="https://github.com/Epidra/CasinoCraft/issues"
 [[mods]]
 modId="casinocraft"
-version="v09"
+version="v10"
 displayName="CasinoCraft"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/casinocraft"
-logoFile="casinocraft.png"
+logoFile="logo.png"
 credits="Thanks for this example mod goes to Java" #optional
 authors="Love, Cheese and small house plants" #optional
 description='''
@@ -17,6 +18,6 @@ Then you're at the right place.
 [[dependencies.casinocraft]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.1]"
+    versionRange="[1.16.2]"
     ordering="NONE"
     side="BOTH"

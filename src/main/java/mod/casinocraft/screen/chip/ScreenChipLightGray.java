@@ -1,5 +1,6 @@
 package mod.casinocraft.screen.chip;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
@@ -56,18 +57,18 @@ public class ScreenChipLightGray extends ScreenCasino {   // 2048
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate >= 2) {
-            drawFontCenter("" + logic().scorePoint, 128, 230);
+            drawFontCenter(matrixstack, "" + logic().scorePoint, 128, 230);
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADEDUMMY);
         if(logic().turnstate < 2){
-            this.blit(guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background
+            this.blit(matrixstack, guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background
         } else {
-            this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
+            this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
         }
 
         if(logic().turnstate >= 2){
@@ -80,7 +81,7 @@ public class ScreenChipLightGray extends ScreenCasino {   // 2048
                         int shiftX = logic().grid[x][y] >= 100 ? logic().direction == 4 ? logic().timer : logic().direction == 3 ? -logic().timer : 0 : 0;
                         int shiftY = logic().grid[x][y] >= 100 ? logic().direction == 2 ? logic().timer : logic().direction == 1 ? -logic().timer : 0 : 0;
                         int color = (logic().grid[x][y] % 100) - 1;
-                        this.blit(guiLeft + 48*x+32 + shiftX, guiTop + 48*y+8 + shiftY, (color % 4)*48, (color / 4)*48, 48, 48);
+                        this.blit(matrixstack, guiLeft + 48*x+32 + shiftX, guiTop + 48*y+8 + shiftY, (color % 4)*48, (color / 4)*48, 48, 48);
                     }
                 }
             }
@@ -88,7 +89,7 @@ public class ScreenChipLightGray extends ScreenCasino {   // 2048
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

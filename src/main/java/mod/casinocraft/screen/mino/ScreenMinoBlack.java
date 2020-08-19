@@ -1,5 +1,6 @@
 package mod.casinocraft.screen.mino;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.logic.mino.LogicMinoBlack;
@@ -47,15 +48,15 @@ public class ScreenMinoBlack extends ScreenCasino {   // -----
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

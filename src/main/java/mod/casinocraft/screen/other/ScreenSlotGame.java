@@ -1,5 +1,6 @@
 package mod.casinocraft.screen.other;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.screen.ScreenCasino;
@@ -64,67 +65,67 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate == 2){
-            this.font.drawString("SPACE to SPIN ",  128, 210, 16777215);
-            this.font.drawString("ENTER for TOKEN", 128, 225, 16777215);
+            this.font.drawString(matrixstack, "SPACE to SPIN ",  128, 210, 16777215);
+            this.font.drawString(matrixstack, "ENTER for TOKEN", 128, 225, 16777215);
         } else if(logic().turnstate == 3){
-            this.font.drawString("SPACE to HOLD", 128, 210, 16777215);
+            this.font.drawString(matrixstack, "SPACE to HOLD", 128, 210, 16777215);
         } else {
-            this.font.drawString("ENTER to RESET", 128, 210, 16777215);
+            this.font.drawString(matrixstack, "ENTER to RESET", 128, 210, 16777215);
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SLOTGAME);
 
         // Multiplier
         int m = logic().multiplier;
-        this.blit(guiLeft + 8, guiTop +  34, 192 + (m >= 4 ? 32 : 0), 48, 32, 16);
-        this.blit(guiLeft + 8, guiTop +  69, 192 + (m >= 2 ? 32 : 0), 16, 32, 16);
-        this.blit(guiLeft + 8, guiTop + 104, 192 + (m >= 1 ? 32 : 0),  0, 32, 16);
-        this.blit(guiLeft + 8, guiTop + 139, 192 + (m >= 3 ? 32 : 0), 32, 32, 16);
-        this.blit(guiLeft + 8, guiTop + 174, 192 + (m >= 5 ? 32 : 0), 64, 32, 16);
+        this.blit(matrixstack, guiLeft + 8, guiTop +  34, 192 + (m >= 4 ? 32 : 0), 48, 32, 16);
+        this.blit(matrixstack, guiLeft + 8, guiTop +  69, 192 + (m >= 2 ? 32 : 0), 16, 32, 16);
+        this.blit(matrixstack, guiLeft + 8, guiTop + 104, 192 + (m >= 1 ? 32 : 0),  0, 32, 16);
+        this.blit(matrixstack, guiLeft + 8, guiTop + 139, 192 + (m >= 3 ? 32 : 0), 32, 32, 16);
+        this.blit(matrixstack, guiLeft + 8, guiTop + 174, 192 + (m >= 5 ? 32 : 0), 64, 32, 16);
 
         // Icons
-        drawIcon(guiLeft +  48, guiTop + 40, 0);
-        drawIcon(guiLeft + 104, guiTop + 40, 1);
-        drawIcon(guiLeft + 160, guiTop + 40, 2);
+        drawIcon(matrixstack, guiLeft +  48, guiTop + 40, 0);
+        drawIcon(matrixstack, guiLeft + 104, guiTop + 40, 1);
+        drawIcon(matrixstack, guiLeft + 160, guiTop + 40, 2);
 
         // Lines
         if(logic().lines[0]){
-            this.blit(guiLeft +  48, guiTop +  88, 0, 192, 48, 48);
-            this.blit(guiLeft + 104, guiTop +  88, 0, 192, 48, 48);
-            this.blit(guiLeft + 160, guiTop +  88, 0, 192, 48, 48);
+            this.blit(matrixstack, guiLeft +  48, guiTop +  88, 0, 192, 48, 48);
+            this.blit(matrixstack, guiLeft + 104, guiTop +  88, 0, 192, 48, 48);
+            this.blit(matrixstack, guiLeft + 160, guiTop +  88, 0, 192, 48, 48);
         }
         if(logic().lines[1]){
-            this.blit(guiLeft +  48, guiTop +  44, 48, 192, 48, 48);
-            this.blit(guiLeft + 104, guiTop +  44, 48, 192, 48, 48);
-            this.blit(guiLeft + 160, guiTop +  44, 48, 192, 48, 48);
+            this.blit(matrixstack, guiLeft +  48, guiTop +  44, 48, 192, 48, 48);
+            this.blit(matrixstack, guiLeft + 104, guiTop +  44, 48, 192, 48, 48);
+            this.blit(matrixstack, guiLeft + 160, guiTop +  44, 48, 192, 48, 48);
         }
         if(logic().lines[2]){
-            this.blit(guiLeft +  48, guiTop + 136, 96, 192, 48, 48);
-            this.blit(guiLeft + 104, guiTop + 136, 96, 192, 48, 48);
-            this.blit(guiLeft + 160, guiTop + 136, 96, 192, 48, 48);
+            this.blit(matrixstack, guiLeft +  48, guiTop + 136, 96, 192, 48, 48);
+            this.blit(matrixstack, guiLeft + 104, guiTop + 136, 96, 192, 48, 48);
+            this.blit(matrixstack, guiLeft + 160, guiTop + 136, 96, 192, 48, 48);
         }
         if(logic().lines[3]){
-            this.blit(guiLeft +  48, guiTop +  40, 144, 192, 48, 48);
-            this.blit(guiLeft + 104, guiTop +  88, 144, 192, 48, 48);
-            this.blit(guiLeft + 160, guiTop +  136, 144, 192, 48, 48);
+            this.blit(matrixstack, guiLeft +  48, guiTop +  40, 144, 192, 48, 48);
+            this.blit(matrixstack, guiLeft + 104, guiTop +  88, 144, 192, 48, 48);
+            this.blit(matrixstack, guiLeft + 160, guiTop +  136, 144, 192, 48, 48);
         }
         if(logic().lines[4]){
-            this.blit(guiLeft +  48, guiTop +  136, 192, 192, 48, 48);
-            this.blit(guiLeft + 104, guiTop +  88, 192, 192, 48, 48);
-            this.blit(guiLeft + 160, guiTop +  40, 192, 192, 48, 48);
+            this.blit(matrixstack, guiLeft +  48, guiTop +  136, 192, 192, 48, 48);
+            this.blit(matrixstack, guiLeft + 104, guiTop +  88, 192, 192, 48, 48);
+            this.blit(matrixstack, guiLeft + 160, guiTop +  40, 192, 192, 48, 48);
         }
 
         // Shadows
-        this.blit(guiLeft +  48, guiTop +  40, 96,  96, 48, 48);
-        this.blit(guiLeft + 104, guiTop +  40, 96,  96, 48, 48);
-        this.blit(guiLeft + 160, guiTop +  40, 96,  96, 48, 48);
-        this.blit(guiLeft +  48, guiTop + 136, 96, 144, 48, 48);
-        this.blit(guiLeft + 104, guiTop + 136, 96, 144, 48, 48);
-        this.blit(guiLeft + 160, guiTop + 136, 96, 144, 48, 48);
+        this.blit(matrixstack, guiLeft +  48, guiTop +  40, 96,  96, 48, 48);
+        this.blit(matrixstack, guiLeft + 104, guiTop +  40, 96,  96, 48, 48);
+        this.blit(matrixstack, guiLeft + 160, guiTop +  40, 96,  96, 48, 48);
+        this.blit(matrixstack, guiLeft +  48, guiTop + 136, 96, 144, 48, 48);
+        this.blit(matrixstack, guiLeft + 104, guiTop + 136, 96, 144, 48, 48);
+        this.blit(matrixstack, guiLeft + 160, guiTop + 136, 96, 144, 48, 48);
 
 
         //spriteBatch.Draw(SK.texture_background_slotmachine1, SK.Position_DisplayEdge() + new Vector2(52, 0), Color.White);
@@ -156,7 +157,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
         //spriteBatch.Draw(SK.texture_background_slotmachine2, SK.Position_DisplayEdge() + new Vector2(52, 0), Color.White);
     }
 
-    protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 
@@ -165,16 +166,16 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
 
     //----------------------------------------CUSTOM----------------------------------------//
 
-    private void drawIcon(int posX, int posY, int index){
+    private void drawIcon(MatrixStack matrixstack, int posX, int posY, int index){
         for(int i = 0; i < 4; i++){
             int z = logic().grid[(logic().wheelPos[index]/48 + i) % 9][index];
             int mod = logic().wheelPos[index] % 48;
             int x = z < 2 ? z : z - 2;
             int y = z < 2 ? 3 : 1;
-            if(i == 0) this.blit(posX, posY + i*48 - (logic().wheelPos[index] % 48) + mod, x*48, y*48 + mod, 48, 48 - mod);
-            if(i == 1) this.blit(posX, posY + i*48 - (logic().wheelPos[index] % 48), x*48, y*48, 48, 48);
-            if(i == 2) this.blit(posX, posY + i*48 - (logic().wheelPos[index] % 48), x*48, y*48, 48, 48);
-            if(i == 3) this.blit(posX, posY + i*48 - (logic().wheelPos[index] % 48), x*48, y*48, 48, 48 - (48 - mod));
+            if(i == 0) this.blit(matrixstack, posX, posY + i*48 - (logic().wheelPos[index] % 48) + mod, x*48, y*48 + mod, 48, 48 - mod);
+            if(i == 1) this.blit(matrixstack, posX, posY + i*48 - (logic().wheelPos[index] % 48), x*48, y*48, 48, 48);
+            if(i == 2) this.blit(matrixstack, posX, posY + i*48 - (logic().wheelPos[index] % 48), x*48, y*48, 48, 48);
+            if(i == 3) this.blit(matrixstack, posX, posY + i*48 - (logic().wheelPos[index] % 48), x*48, y*48, 48, 48 - (48 - mod));
         }
     }
 

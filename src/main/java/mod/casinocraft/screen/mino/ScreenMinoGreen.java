@@ -1,5 +1,6 @@
 package mod.casinocraft.screen.mino;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.LogicBase;
@@ -68,25 +69,25 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate >= 2){
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MYSTICSQUARE);
             for(int y = 0; y < 4; y++) {
                 for(int x = 0; x < 4; x++) {
                     int i = logic().grid[x][y] % 20;
                     if(i != -1) {
-                        this.blit(guiLeft + 32 + 48*x, guiTop + 32 + 48*y, (i % 4)*48, (i / 4)*48, 48, 48);
+                        this.blit(matrixstack, guiLeft + 32 + 48*x, guiTop + 32 + 48*y, (i % 4)*48, (i / 4)*48, 48, 48);
                     }
                 }
             }
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

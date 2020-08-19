@@ -1,5 +1,6 @@
 package mod.casinocraft.screen;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
@@ -12,6 +13,7 @@ import mod.casinocraft.util.Ship;
 import mod.casinocraft.util.InventoryUtil;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.DyeColor;
@@ -241,28 +243,28 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
     //----------------------------------------DRAW----------------------------------------//
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrixStack);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
         //this.renderHoveredToolTip(mouseX, mouseY);
     }
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY){
 
         // Debug Info (shown if Advanced Tooltips are enabled)
         if(this.minecraft.gameSettings.advancedItemTooltips){
 
-            this.font.drawString("PLAYER1: " + logic().currentPlayer[0],         tableID == 2 ? 355 : 260,  15, 16777215);
-            this.font.drawString("PLAYER2: " + logic().currentPlayer[1],         tableID == 2 ? 355 : 260,  25, 16777215);
-            this.font.drawString("PLAYER3: " + logic().currentPlayer[2],         tableID == 2 ? 355 : 260,  35, 16777215);
-            this.font.drawString("PLAYER4: " + logic().currentPlayer[3],         tableID == 2 ? 355 : 260,  45, 16777215);
-            this.font.drawString("PLAYER5: " + logic().currentPlayer[4],         tableID == 2 ? 355 : 260,  55, 16777215);
-            this.font.drawString("PLAYER6: " + logic().currentPlayer[5],         tableID == 2 ? 355 : 260,  65, 16777215);
-            this.font.drawString("TIMEOUT: " + logic().timeout,                  tableID == 2 ? 355 : 260,  75, 16777215);
-            this.font.drawString("STATE:   " + logic().turnstate,                tableID == 2 ? 355 : 260,  85, 16777215);
-            this.font.drawString("PLAYERS: " + logic().getFirstFreePlayerSlot(), tableID == 2 ? 355 : 260,  95, 16777215);
-            this.font.drawString("ACTIVE:  " + logic().activePlayer,             tableID == 2 ? 355 : 260, 105, 16777215);
+            this.font.drawString(matrixStack, "PLAYER1: " + logic().currentPlayer[0],         tableID == 2 ? 355 : 260,  15, 16777215);
+            this.font.drawString(matrixStack, "PLAYER2: " + logic().currentPlayer[1],         tableID == 2 ? 355 : 260,  25, 16777215);
+            this.font.drawString(matrixStack, "PLAYER3: " + logic().currentPlayer[2],         tableID == 2 ? 355 : 260,  35, 16777215);
+            this.font.drawString(matrixStack, "PLAYER4: " + logic().currentPlayer[3],         tableID == 2 ? 355 : 260,  45, 16777215);
+            this.font.drawString(matrixStack, "PLAYER5: " + logic().currentPlayer[4],         tableID == 2 ? 355 : 260,  55, 16777215);
+            this.font.drawString(matrixStack, "PLAYER6: " + logic().currentPlayer[5],         tableID == 2 ? 355 : 260,  65, 16777215);
+            this.font.drawString(matrixStack, "TIMEOUT: " + logic().timeout,                  tableID == 2 ? 355 : 260,  75, 16777215);
+            this.font.drawString(matrixStack, "STATE:   " + logic().turnstate,                tableID == 2 ? 355 : 260,  85, 16777215);
+            this.font.drawString(matrixStack, "PLAYERS: " + logic().getFirstFreePlayerSlot(), tableID == 2 ? 355 : 260,  95, 16777215);
+            this.font.drawString(matrixStack, "ACTIVE:  " + logic().activePlayer,             tableID == 2 ? 355 : 260, 105, 16777215);
 
         //    this.font.drawString("turnstate:     " + logic().turnstate,                             tableID == 2 ? 355 : 260,  15, 16777215);
         //    this.font.drawString("table:         " + logic().tableID,                               tableID == 2 ? 355 : 260,  25, 16777215);
@@ -297,9 +299,9 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
         // Multiplayer Additional Player Join Button
         if(CONTAINER.logic().isMultiplayer() && CONTAINER.turnstate() == 2 && !isCurrentPlayer()){
             if(CONTAINER.logic().hasFreePlayerSlots()){
-                drawFont("BET:", 158, 246-2);
+                drawFont(matrixStack, "BET:", 158, 246-2);
                 this.itemRenderer.renderItemIntoGUI(CONTAINER.getToken(), 158+20, 242-2);
-                if(CONTAINER.getBetLow() > 1) drawFont("x" + CONTAINER.getBetLow(), 158+50, 246-2);
+                if(CONTAINER.getBetLow() > 1) drawFont(matrixStack, "x" + CONTAINER.getBetLow(), 158+50, 246-2);
             }
         }
 
@@ -308,54 +310,54 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
             if(tableID < 3){
                 if(CONTAINER.hasToken() && CONTAINER.getBetHigh() > 0) {
                     if(CONTAINER.getBetLow() == CONTAINER.getBetHigh()) {
-                        drawFont("The bet is:", 30, 100);
+                        drawFont(matrixStack, "The bet is:", 30, 100);
                         this.itemRenderer.renderItemIntoGUI(CONTAINER.getToken(), 100, 96);
-                        if(CONTAINER.getBetLow() > 1) drawFont("x" + CONTAINER.getBetLow(), 124, 100);
+                        if(CONTAINER.getBetLow() > 1) drawFont(matrixStack, "x" + CONTAINER.getBetLow(), 124, 100);
                     } else {
-                        drawFont("The bets are:", 30, 100);
+                        drawFont(matrixStack, "The bets are:", 30, 100);
                         this.itemRenderer.renderItemIntoGUI(CONTAINER.getToken(), 100, 96);
-                        drawFont("x" + CONTAINER.getBetLow() + " to x" + CONTAINER.getBetHigh(), 124, 100);
+                        drawFont(matrixStack, "x" + CONTAINER.getBetLow() + " to x" + CONTAINER.getBetHigh(), 124, 100);
                     }
 
                     if(playerToken < CONTAINER.getBetLow()) {
-                        drawFont("You don't have enough Token to play...", 30, 120);
+                        drawFont(matrixStack, "You don't have enough Token to play...", 30, 120);
                     } else {
-                        drawFont("Do you wish to play?", 30, 120);
+                        drawFont(matrixStack, "Do you wish to play?", 30, 120);
                     }
-                    if(CONTAINER.getBetHigh() != CONTAINER.getBetLow()) drawFont("Your Bet:  " + bet, 30, 140);
+                    if(CONTAINER.getBetHigh() != CONTAINER.getBetLow()) drawFont(matrixStack, "Your Bet:  " + bet, 30, 140);
                 } else {
                     //this.fontRenderer.drawString("Free to play", 80, 170, 16777215);
                 }
             } else {
                 if(CONTAINER.hasToken() && CONTAINER.getBetHigh() > 0){
-                    this.font.drawString("INSERT ", 128, 210, 16777215);
+                    this.font.drawString(matrixStack, "INSERT ", 128, 210, 16777215);
                     this.itemRenderer.renderItemIntoGUI(CONTAINER.getToken(), 160, 206);
-                    if(CONTAINER.getBetLow() > 1) this.font.drawString("x" + CONTAINER.getBetLow(), 180, 210, 16777215);
-                    this.font.drawString("Press ENTER", 128, 225, 16777215);
+                    if(CONTAINER.getBetLow() > 1) this.font.drawString(matrixStack, "x" + CONTAINER.getBetLow(), 180, 210, 16777215);
+                    this.font.drawString(matrixStack, "Press ENTER", 128, 225, 16777215);
                 }
             }
 
             // Draw Highscore (Card Table)
         } else if(CONTAINER.turnstate() == 7 && tableID != 0){
             for(int i = 0; i < 18; i++) {
-                drawFont(           logic().scoreName[i],  40, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
-                drawFontInvert("" + logic().scoreHigh[i], 216, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
+                drawFont( matrixStack,           logic().scoreName[i],  40, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
+                drawFontInvert(matrixStack, "" + logic().scoreHigh[i], 216, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
             }
 
 
             // Draw Start Screen Information (Arcade)
         } else if(CONTAINER.turnstate() == 0 && tableID == 0){
             if(CONTAINER.hasToken() && CONTAINER.getBetHigh() > 0) {
-                this.font.drawString("INSERT ", 90, 180, 16777215);
+                this.font.drawString(matrixStack, "INSERT ", 90, 180, 16777215);
                 this.itemRenderer.renderItemIntoGUI(CONTAINER.getToken(), 126, 176);
-                if(CONTAINER.getBetLow() > 1) this.font.drawString("x" + CONTAINER.getBetLow(), 145, 180, 16777215);
+                if(CONTAINER.getBetLow() > 1) this.font.drawString(matrixStack, "x" + CONTAINER.getBetLow(), 145, 180, 16777215);
                 if(playerToken < CONTAINER.getBetLow()) {
-                    this.font.drawString("NOT ENOUGH TOKEN", 80, 210, colour);
+                    this.font.drawString(matrixStack, "NOT ENOUGH TOKEN", 80, 210, colour);
                 } else {
-                    this.font.drawString("Press ENTER", 95, 210, colour);
+                    this.font.drawString(matrixStack, "Press ENTER", 95, 210, colour);
                 }
             } else {
-                this.font.drawString("Press ENTER", 95, 210, colour);
+                this.font.drawString(matrixStack, "Press ENTER", 95, 210, colour);
             }
 
             if(colourUP){
@@ -376,11 +378,11 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
         } else if(CONTAINER.turnstate() == 7 && tableID == 0){
 
             for(int i = 0; i < 18; i++) {
-                drawFont(           logic().scoreName[i],  40, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
-                drawFontInvert("" + logic().scoreHigh[i], 216, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
+                drawFont(     matrixStack,       logic().scoreName[i],  40, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
+                drawFontInvert(matrixStack, "" + logic().scoreHigh[i], 216, 25 + 10*i, logic().scoreLast == i ? grayscale/2 : grayscale);
             }
 
-            this.font.drawString("Press ENTER", 95, 220, colour);
+            this.font.drawString(matrixStack, "Press ENTER", 95, 220, colour);
 
             if(colourUP){
                 colour += 65793;
@@ -397,7 +399,7 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
             }
         } else {
 
-            drawGuiContainerForegroundLayer2(mouseX, mouseY);
+            drawGuiContainerForegroundLayer2(matrixStack, mouseX, mouseY);
 
             if(logic().turnstate == 4){ // ???
                 gameOver();
@@ -410,7 +412,7 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
     }
 
     /** Draws the background layer of this container (behind the items). */
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY){
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         if(tableID == 0) { // Arcade Background
             if(logic() instanceof LogicDummy){
@@ -418,31 +420,31 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_STATIC);
                 for(int y = 0; y < 8; y++){
                     for(int x = 0; x < 6; x++){
-                        this.blit(guiLeft + 32 + 32*x, guiTop + 32*y, 32*RANDOM.nextInt(8), 32*RANDOM.nextInt(8), 32, 32);
+                        this.blit(matrixStack, guiLeft + 32 + 32*x, guiTop + 32*y, 32*RANDOM.nextInt(8), 32*RANDOM.nextInt(8), 32, 32);
                     }
                 }
             } else {
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_STARFIELD1);
-                this.blit(guiLeft, guiTop, 0, shift == 0 ? 0 : camera1, 256, 256);
+                this.blit(matrixStack, guiLeft, guiTop, 0, shift == 0 ? 0 : camera1, 256, 256);
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_STARFIELD0);
-                this.blit(guiLeft, guiTop, 0, shift == 0 ? 0 : camera0, 256, 256);
+                this.blit(matrixStack, guiLeft, guiTop, 0, shift == 0 ? 0 : camera0, 256, 256);
             }
         } else if(tableID < 3){ // Card Table Background
             this.minecraft.getTextureManager().bindTexture(tableID == 0 ? CasinoKeeper.TEXTURE_GROUND_ARCADE : getBackground());
             if(tableID == 2){
-                this.blit(guiLeft-128+32, guiTop,  0, 0, this.xSize-32, this.ySize); // Background Left
-                this.blit(guiLeft+128   , guiTop, 32, 0, this.xSize-32, this.ySize); // Background Right
+                this.blit(matrixStack, guiLeft-128+32, guiTop,  0, 0, this.xSize-32, this.ySize); // Background Left
+                this.blit(matrixStack, guiLeft+128   , guiTop, 32, 0, this.xSize-32, this.ySize); // Background Right
             } else {
-                this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
+                this.blit(matrixStack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
             }
         } else { // Slot Machine Background
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SLOTMACHINE);
-            this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
+            this.blit(matrixStack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
         }
 
         // Draws Logo from ItemModule
         if(CONTAINER.turnstate() <= 1) {
-            drawLogo();
+            drawLogo(matrixStack);
         }
 
         // Intro Animation (Only on Arcade)
@@ -456,8 +458,8 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
         // MiniGame BackgroundDrawer
         if(CONTAINER.turnstate() >= 1 && CONTAINER.turnstate() < 6){
             if(logic().pause) GlStateManager.color4f(0.35F, 0.35F, 0.35F, 1.0F);
-            drawGuiContainerBackgroundLayer2(partialTicks, mouseX, mouseY);
-            if(isCurrentPlayer()) drawGuiContainerBackgroundLayer3(partialTicks, mouseX, mouseY);
+            drawGuiContainerBackgroundLayer2(matrixStack, partialTicks, mouseX, mouseY);
+            if(isCurrentPlayer()) drawGuiContainerBackgroundLayer3(matrixStack, partialTicks, mouseX, mouseY);
             if(logic().pause) GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         }
 
@@ -465,26 +467,26 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
         if((CONTAINER.turnstate() == 5 || CONTAINER.turnstate() == 0 || CONTAINER.turnstate() == 7) && (tableID == 1 || tableID == 2) && !(logic() instanceof LogicDummy)){
             if(CONTAINER.turnstate() == 5 && logic().hasHighscore()){
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
-                blit(guiLeft+89, guiTop+206, 0, 22, 78, 22); // Button Highscore
+                blit(matrixStack, guiLeft+89, guiTop+206, 0, 22, 78, 22); // Button Highscore
             } else
             if(CONTAINER.turnstate() == 5){
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
-                blit(guiLeft+89, guiTop+206, 78*2, 22, 78, 22); // Button Finish
+                blit(matrixStack, guiLeft+89, guiTop+206, 78*2, 22, 78, 22); // Button Finish
             } else
             if(CONTAINER.turnstate() == 7){
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
-                blit(guiLeft+89, guiTop+206, 78*2, 22, 78, 22); // Button Finish
+                blit(matrixStack, guiLeft+89, guiTop+206, 78*2, 22, 78, 22); // Button Finish
             } else
             if(!CONTAINER.hasToken() || playerToken >= CONTAINER.getBetLow()){
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
-                blit(guiLeft+89, guiTop+206, 78, 22, 78, 22); // Button New Game
+                blit(matrixStack, guiLeft+89, guiTop+206, 78, 22, 78, 22); // Button New Game
             }
             if(CONTAINER.turnstate() == 0 && logic().hasHighscore()){
-                blit(guiLeft+89, guiTop+166, 0, 22, 78, 22); // Button Highscore
+                blit(matrixStack, guiLeft+89, guiTop+166, 0, 22, 78, 22); // Button Highscore
             }
             if(CONTAINER.turnstate() == 0 && playerToken >= CONTAINER.getBetLow()) {
-                if(bet > CONTAINER.getBetLow())  blit(guiLeft+82-26+2, guiTop+204+2, 234, 22, 22, 22); // Button Minus
-                if(bet < CONTAINER.getBetHigh()) blit(guiLeft+82+92+2, guiTop+204+2, 234, 44, 22, 22); // Button Plus
+                if(bet > CONTAINER.getBetLow())  blit(matrixStack, guiLeft+82-26+2, guiTop+204+2, 234, 22, 22, 22); // Button Minus
+                if(bet < CONTAINER.getBetHigh()) blit(matrixStack, guiLeft+82+92+2, guiTop+204+2, 234, 44, 22, 22); // Button Plus
             }
         }
 
@@ -492,19 +494,19 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
         if(CONTAINER.logic().isMultiplayer() && CONTAINER.turnstate() == 2 && !isCurrentPlayer()){
             if(CONTAINER.logic().hasFreePlayerSlots()){
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
-                this.blit(guiLeft + 153, guiTop + 237, 78, 220, 78, 22);
+                this.blit(matrixStack, guiLeft + 153, guiTop + 237, 78, 220, 78, 22);
                 if(!CONTAINER.hasToken() || playerToken >= CONTAINER.getBetLow()){
-                    blit(guiLeft + 26, guiTop + 237, 0, 220, 78, 22);
+                    blit(matrixStack, guiLeft + 26, guiTop + 237, 0, 220, 78, 22);
                 }
                 this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_DICE);
-                this.blit(guiLeft + 128-16, guiTop + 232, 192, 32 + 32*CONTAINER.logic().getFirstFreePlayerSlot(), 32, 32);
+                this.blit(matrixStack, guiLeft + 128-16, guiTop + 232, 192, 32 + 32*CONTAINER.logic().getFirstFreePlayerSlot(), 32, 32);
             }
         }
 
         // Draws Arcade Border
         if(tableID == 0) {
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_GROUND_ARCADE);
-            this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
+            this.blit(matrixStack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
 
             if(CONTAINER.turnstate() != 5) camera1 = (camera1 + shift)   % 256;
             if(CONTAINER.turnstate() != 5) camera0 = (camera0 + shift*2) % 256;
@@ -514,10 +516,10 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
         if((logic().turnstate == 2 || logic().turnstate == 3) && logic().isMultiplayer()){
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_DICE);
             for(int i = 0; i < logic().getFirstFreePlayerSlot(); i++){
-                this.blit(guiLeft+(tableID == 2 ? 355-15 : 260-15), guiTop+32 + 36*i, 224, 32 + 32 * i, 32, 32);
+                this.blit(matrixStack, guiLeft+(tableID == 2 ? 355-15 : 260-15), guiTop+32 + 36*i, 224, 32 + 32 * i, 32, 32);
             }
             if(logic().activePlayer < logic().getFirstFreePlayerSlot()){
-                this.blit(guiLeft+(tableID == 2 ? 355-15 : 260-15), guiTop+32 + 36*logic().activePlayer, 224-32, 32 + 32 * logic().activePlayer, 32, 32);
+                this.blit(matrixStack, guiLeft+(tableID == 2 ? 355-15 : 260-15), guiTop+32 + 36*logic().activePlayer, 224-32, 32 + 32 * logic().activePlayer, 32, 32);
             }
         }
 
@@ -611,7 +613,47 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
     protected void collectBet(){ // ???
         if(CONTAINER.hasToken()){
             InventoryUtil.decreaseInventory(PLAYER, CONTAINER.getToken(), bet);
-            PLAYER.clearMatchingItems(Predicate.isEqual(CONTAINER.getToken()), bet);
+
+            {
+                //PLAYER.clearMatchingItems(Predicate.isEqual(CONTAINER.getToken()), bet);
+                int i = 0;
+                ItemStack itemStack = ItemStack.EMPTY;
+                Predicate<ItemStack> p_195408_1_ = Predicate.isEqual(CONTAINER.getToken());
+                int count = bet;
+
+                for(int j = 0; j < PLAYER.getSizeInventory(); ++j) {
+                    ItemStack itemstack = PLAYER.getStackInSlot(j);
+                    if (!itemstack.isEmpty() && p_195408_1_.test(itemstack)) {
+                        int k = count <= 0 ? itemstack.getCount() : Math.min(count - i, itemstack.getCount());
+                        i += k;
+                        if (count != 0) {
+                            itemstack.shrink(k);
+                            if (itemstack.isEmpty()) {
+                                PLAYER.setInventorySlotContents(j, ItemStack.EMPTY);
+                            }
+
+                            if (count > 0 && i >= count) {
+                                //return i;
+                            }
+                        }
+                    }
+                }
+
+                if (!itemStack.isEmpty() && p_195408_1_.test(itemStack)) {
+                    int l = count <= 0 ? itemStack.getCount() : Math.min(count - i, itemStack.getCount());
+                    i += l;
+                    if (count != 0) {
+                        itemStack.shrink(l);
+                        if (itemStack.isEmpty()) {
+                            itemStack = ItemStack.EMPTY;
+                        }
+
+                        if (count > 0 && i >= count) {
+                            //return i;
+                        }
+                    }
+                }
+            }
             CasinoPacketHandler.sendToServer(new MessagePlayerServer(CONTAINER.getToken().getItem(), 0, -bet));
             if(!CONTAINER.isCreative()) {
                 CONTAINER.setBetStorage(CONTAINER.getBetStorage() + bet);
@@ -717,44 +759,44 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
     }
 
     /** Draws String on x,y position with shadow **/
-    protected void drawFont(String text, int x, int y){
-        drawFont(text, x, y, grayscale);
+    protected void drawFont(MatrixStack matrixStack, String text, int x, int y){
+        drawFont(matrixStack, text, x, y, grayscale);
     }
 
     /** Draws String on x,y position with shadow and custom color **/
-    protected void drawFont(String text, int x, int y, int color){
-        this.font.drawString(text,  x+1, y+1, 0);
-        this.font.drawString(text,  x+0, y+0, color);
+    protected void drawFont(MatrixStack matrixStack, String text, int x, int y, int color){
+        this.font.drawString(matrixStack, text,  x+1, y+1, 0);
+        this.font.drawString(matrixStack, text,  x+0, y+0, color);
     }
 
     /** Draws String on x,y position with shadow **/
-    protected void drawFontInvert(String text, int x, int y){
-        drawFontInvert(text, x, y, grayscale);
+    protected void drawFontInvert(MatrixStack matrixStack, String text, int x, int y){
+        drawFontInvert(matrixStack, text, x, y, grayscale);
     }
 
     /** Draws String on x,y position with shadow and custom color **/
-    protected void drawFontInvert(String text, int x, int y, int color){
+    protected void drawFontInvert(MatrixStack matrixStack, String text, int x, int y, int color){
         int w = this.font.getStringWidth(text);
-        this.font.drawString(text,  x+1 - w, y+1, 0);
-        this.font.drawString(text,  x+0 - w, y+0, color);
+        this.font.drawString(matrixStack, text,  x+1 - w, y+1, 0);
+        this.font.drawString(matrixStack, text,  x+0 - w, y+0, color);
     }
 
     /** Draws String on x,y position with shadow **/
-    protected void drawFontCenter(String text, int x, int y){
-        drawFontCenter(text, x, y, grayscale);
+    protected void drawFontCenter(MatrixStack matrixStack, String text, int x, int y){
+        drawFontCenter(matrixStack, text, x, y, grayscale);
     }
 
     /** Draws String on x,y position with shadow and custom color **/
-    protected void drawFontCenter(String text, int x, int y, int color){
+    protected void drawFontCenter(MatrixStack matrixStack, String text, int x, int y, int color){
         int w = this.font.getStringWidth(text);
-        this.font.drawString(text,  x+1 - w/2, y+1, 0);
-        this.font.drawString(text,  x+0 - w/2, y+0, color);
+        this.font.drawString(matrixStack, text,  x+1 - w/2, y+1, 0);
+        this.font.drawString(matrixStack, text,  x+0 - w/2, y+0, color);
     }
 
 
 
     /** Draws a Card **/
-    public void drawCard(int posX, int posY, Card card){
+    public void drawCard(MatrixStack matrixStack, int posX, int posY, Card card){
         if(card.suit == -1) return;
         if(card.hidden){
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_NOIR);
@@ -771,57 +813,57 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
                 }
             }
         }
-        blit(guiLeft + posX + card.shiftX, guiTop + posY + card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
+        blit(matrixStack, guiLeft + posX + card.shiftX, guiTop + posY + card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
     }
 
     /** Draws the Backside of a Card (also used for highlighter) **/
-    public void drawCardBack(int posX, int posY, int color){
+    public void drawCardBack(MatrixStack matrixStack, int posX, int posY, int color){
         if(color <= 6) this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_NOIR);
         else           this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ROUGE);
-        blit(guiLeft + posX, guiTop + posY, (color%7) * 32, 4 * 48, 32, 48);
+        blit(matrixStack, guiLeft + posX, guiTop + posY, (color%7) * 32, 4 * 48, 32, 48);
     }
 
-    private void drawLetter(char c, int posX, int posY, int sizeX, int sizeY, int vanish){
-        if(c == 'a') blit(posX, posY + vanish, 0*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'b') blit(posX, posY + vanish, 1*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'c') blit(posX, posY + vanish, 2*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'd') blit(posX, posY + vanish, 3*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'e') blit(posX, posY + vanish, 4*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'f') blit(posX, posY + vanish, 5*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'g') blit(posX, posY + vanish, 6*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'h') blit(posX, posY + vanish, 7*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'i') blit(posX, posY + vanish, 0*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'j') blit(posX, posY + vanish, 1*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'k') blit(posX, posY + vanish, 2*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'l') blit(posX, posY + vanish, 3*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'm') blit(posX, posY + vanish, 4*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'n') blit(posX, posY + vanish, 5*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'o') blit(posX, posY + vanish, 6*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'p') blit(posX, posY + vanish, 7*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'q') blit(posX, posY + vanish, 0*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'r') blit(posX, posY + vanish, 1*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 's') blit(posX, posY + vanish, 2*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 't') blit(posX, posY + vanish, 3*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'u') blit(posX, posY + vanish, 4*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'v') blit(posX, posY + vanish, 5*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'w') blit(posX, posY + vanish, 6*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'x') blit(posX, posY + vanish, 7*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'y') blit(posX, posY + vanish, 0*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == 'z') blit(posX, posY + vanish, 1*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == '0') blit(posX, posY + vanish, 2*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == '1') blit(posX, posY + vanish, 3*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == '2') blit(posX, posY + vanish, 4*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == '3') blit(posX, posY + vanish, 5*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == '4') blit(posX, posY + vanish, 6*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == '5') blit(posX, posY + vanish, 7*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == '6') blit(posX, posY + vanish, 0*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == '7') blit(posX, posY + vanish, 1*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == '8') blit(posX, posY + vanish, 2*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
-        if(c == '9') blit(posX, posY + vanish, 3*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
+    private void drawLetter(MatrixStack matrixStack, char c, int posX, int posY, int sizeX, int sizeY, int vanish){
+        if(c == 'a') blit(matrixStack, posX, posY + vanish, 0*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'b') blit(matrixStack, posX, posY + vanish, 1*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'c') blit(matrixStack, posX, posY + vanish, 2*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'd') blit(matrixStack, posX, posY + vanish, 3*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'e') blit(matrixStack, posX, posY + vanish, 4*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'f') blit(matrixStack, posX, posY + vanish, 5*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'g') blit(matrixStack, posX, posY + vanish, 6*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'h') blit(matrixStack, posX, posY + vanish, 7*sizeX, 0*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'i') blit(matrixStack, posX, posY + vanish, 0*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'j') blit(matrixStack, posX, posY + vanish, 1*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'k') blit(matrixStack, posX, posY + vanish, 2*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'l') blit(matrixStack, posX, posY + vanish, 3*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'm') blit(matrixStack, posX, posY + vanish, 4*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'n') blit(matrixStack, posX, posY + vanish, 5*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'o') blit(matrixStack, posX, posY + vanish, 6*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'p') blit(matrixStack, posX, posY + vanish, 7*sizeX, 1*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'q') blit(matrixStack, posX, posY + vanish, 0*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'r') blit(matrixStack, posX, posY + vanish, 1*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 's') blit(matrixStack, posX, posY + vanish, 2*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 't') blit(matrixStack, posX, posY + vanish, 3*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'u') blit(matrixStack, posX, posY + vanish, 4*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'v') blit(matrixStack, posX, posY + vanish, 5*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'w') blit(matrixStack, posX, posY + vanish, 6*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'x') blit(matrixStack, posX, posY + vanish, 7*sizeX, 2*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'y') blit(matrixStack, posX, posY + vanish, 0*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == 'z') blit(matrixStack, posX, posY + vanish, 1*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == '0') blit(matrixStack, posX, posY + vanish, 2*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == '1') blit(matrixStack, posX, posY + vanish, 3*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == '2') blit(matrixStack, posX, posY + vanish, 4*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == '3') blit(matrixStack, posX, posY + vanish, 5*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == '4') blit(matrixStack, posX, posY + vanish, 6*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == '5') blit(matrixStack, posX, posY + vanish, 7*sizeX, 3*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == '6') blit(matrixStack, posX, posY + vanish, 0*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == '7') blit(matrixStack, posX, posY + vanish, 1*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == '8') blit(matrixStack, posX, posY + vanish, 2*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
+        if(c == '9') blit(matrixStack, posX, posY + vanish, 3*sizeX, 4*sizeY + vanish, sizeX, sizeY - vanish);
     }
 
     /** Draws Logo from ItemModule **/
-    private void drawLogo() {
+    private void drawLogo(MatrixStack matrixStack) {
         int move = 256 - intro; // Move logo up
         int vanish = move < 32 ? 0 : move-30 > 32 ? 32 : move - 30;
         if(move >= 30) {
@@ -842,65 +884,77 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
 
             for(int i = 0; i < logo.length; i++){
                 for(int k = 0; k < logo[i].length(); k++){
-                    drawLetter(logo[i].charAt(k), guiLeft + 128 - logo[i].length()*(sizeX/2) + sizeX*k, guiTop + 32 + 32*i - move, 32, 32, vanish);
+                    drawLetter(matrixStack, logo[i].charAt(k), guiLeft + 128 - logo[i].length()*(sizeX/2) + sizeX*k, guiTop + 32 + 32*i - move, 32, 32, vanish);
                 }
             }
         }
     }
 
-    protected void drawMino(int posX, int posY, int idX, int idY){
-        this.blit(guiLeft + posX, guiTop + posY, 24 * idX, 24 * idY, 24, 24);
+    protected void drawMino(MatrixStack matrixStack, int posX, int posY, int idX, int idY){
+        this.blit(matrixStack, guiLeft + posX, guiTop + posY, 24 * idX, 24 * idY, 24, 24);
     }
 
-    protected void drawMino(int posX, int posY){
-        drawMino(posX, posY, 0, 0);
+    protected void drawMino(MatrixStack matrixStack, int posX, int posY){
+        drawMino(matrixStack, posX, posY, 0, 0);
     }
 
-    protected void drawMinoSmall(int posX, int posY, int id, boolean alternate){
+    protected void drawMinoSmall(MatrixStack matrixStack, int posX, int posY, int id, boolean alternate){
         if(alternate){
-            this.blit(guiLeft + posX, guiTop + posY, 240, 16 * id, 16, 16);
+            this.blit(matrixStack, guiLeft + posX, guiTop + posY, 240, 16 * id, 16, 16);
         } else {
-            this.blit(guiLeft + posX, guiTop + posY, 16 * id, 240, 16, 16);
+            this.blit(matrixStack, guiLeft + posX, guiTop + posY, 16 * id, 240, 16, 16);
         }
     }
 
-    protected void drawMinoSmall(int posX, int posY){
-        drawMinoSmall(posX, posY, 0, false);
+    protected void drawMinoSmall(MatrixStack matrixStack, int posX, int posY){
+        drawMinoSmall(matrixStack, posX, posY, 0, false);
     }
 
-    protected void drawDigi(int posX, int posY, int idX, int idY){
-        this.blit(guiLeft + posX, guiTop + posY, 16 * idX, 16 + 16 * idY, 16, 16);
+    protected void drawDigi(MatrixStack matrixStack, int posX, int posY, int idX, int idY){
+        this.blit(matrixStack, guiLeft + posX, guiTop + posY, 16 * idX, 16 + 16 * idY, 16, 16);
     }
 
-    protected void drawDigi(int posX, int posY){
-        drawDigi(posX, posY, 0, 0);
+    protected void drawDigi(MatrixStack matrixStack, int posX, int posY){
+        drawDigi(matrixStack, posX, posY, 0, 0);
     }
 
-    protected void drawDigiSmall(int posX, int posY, int id){
-        this.blit(guiLeft + posX, guiTop + posY, 2 + 16 * id, 2, 12, 12);
-    }
-
-    protected void drawDigiSmall(int posX, int posY){
-        drawDigiSmall(posX, posY, 0);
-    }
-
-    protected void drawButton(int posX, int posY, int id){
+    protected void drawDigiSmall(MatrixStack matrixStack, int posX, int posY, int id){
+        this.blit(matrixStack, guiLeft + posX + 0, guiTop + posY + 0, 16 * id +  0, 16   , 6, 6);
+        this.blit(matrixStack, guiLeft + posX + 6, guiTop + posY + 0, 16 * id + 10, 16   , 6, 6);
+        this.blit(matrixStack, guiLeft + posX + 0, guiTop + posY + 6, 16 * id +  0, 16+10, 6, 6);
+        this.blit(matrixStack, guiLeft + posX + 6, guiTop + posY + 6, 16 * id + 10, 16+10, 6, 6);
 
     }
 
-    protected void drawShip(Ship ship, int shipID, boolean hasLookDirection, boolean animate){
+    protected void drawDigiSmall(MatrixStack matrixStack, int posX, int posY){
+        drawDigiSmall(matrixStack, posX, posY, 0);
+    }
+
+    protected void drawDigiSymbol(MatrixStack matrixStack, int posX, int posY, int id){
+        this.blit(matrixStack, guiLeft + posX, guiTop + posY, 16 * id, 0, 16, 16);
+    }
+
+    protected void drawDigiSymbol(MatrixStack matrixStack, int posX, int posY){
+        drawDigiSymbol(matrixStack, posX, posY, 0);
+    }
+
+    protected void drawButton(MatrixStack matrixStack, int posX, int posY, int id){
+
+    }
+
+    protected void drawShip(MatrixStack matrixStack, Ship ship, int shipID, boolean hasLookDirection, boolean animate){
         int frame = logic().turnstate < 4 && animate ? (logic().frame % 12) / 2 : 0;
         if(frame == 4) frame = 2;
         if(frame == 5) frame = 1;
         int direction = hasLookDirection ? ship.Get_LookDirection() : 0;
-        this.blit(guiLeft + 32 + ship.Get_Pos().X, guiTop + 8 + ship.Get_Pos().Y, 64*(shipID%4) + 16*frame, 128 + direction*16 + (shipID/4)*64, 16, 16);
+        this.blit(matrixStack, guiLeft + 32 + ship.Get_Pos().X, guiTop + 8 + ship.Get_Pos().Y, 64*(shipID%4) + 16*frame, 128 + direction*16 + (shipID/4)*64, 16, 16);
     }
 
-    protected void drawShip(Vector2 vec, int shipID){
+    protected void drawShip(MatrixStack matrixStack, Vector2 vec, int shipID){
         int frame = logic().turnstate < 4 ? (logic().frame % 12) / 2 : 0;
         if(frame == 4) frame = 2;
         if(frame == 5) frame = 1;
-        this.blit(guiLeft + 32 + vec.X*16, guiTop + 8 + vec.Y*16, 64*(shipID%4) + 16*frame, 128 + (shipID/4)*64, 16, 16);
+        this.blit(matrixStack, guiLeft + 32 + vec.X*16, guiTop + 8 + vec.Y*16, 64*(shipID%4) + 16*frame, 128 + (shipID/4)*64, 16, 16);
     }
 
 
@@ -910,9 +964,9 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
 
     protected abstract void keyTyped2(int keyCode);
     protected abstract void mouseClicked2(double mouseX, double mouseY, int mouseButton);
-    protected abstract void drawGuiContainerForegroundLayer2(int mouseX, int mouseY);
-    protected abstract void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY);
-    protected abstract void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY);
+    protected abstract void drawGuiContainerForegroundLayer2(MatrixStack matrixStack, int mouseX, int mouseY);
+    protected abstract void drawGuiContainerBackgroundLayer2(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY);
+    protected abstract void drawGuiContainerBackgroundLayer3(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY);
     protected abstract String getGameName();
 
 }

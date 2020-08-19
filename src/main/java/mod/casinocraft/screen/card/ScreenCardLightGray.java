@@ -1,5 +1,6 @@
 package mod.casinocraft.screen.card;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.LogicBase;
@@ -121,118 +122,118 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate == 2){
-            drawFontCenter("Waiting for Players", 128, 88);
+            drawFontCenter(matrixstack, "Waiting for Players", 128, 88);
         }
         if(logic().turnstate == 3){
-            drawFontCenter("POT:  " + (logic().pot*bet), 128, 88);
-            drawFontCenter("ROUND:  " + (logic().round + 1), 128, 108);
+            drawFontCenter(matrixstack, "POT:  " + (logic().pot*bet), 128, 88);
+            drawFontCenter(matrixstack, "ROUND:  " + (logic().round + 1), 128, 108);
             if(logic().round == 1){
-                drawFontCenter("You can change Cards now..", 128, 128);
+                drawFontCenter(matrixstack, "You can change Cards now..", 128, 128);
             }
         }
         if(CasinoKeeper.config_timeout.get() - logic().timeout > 0)
-            drawFontInvert("" + (CasinoKeeper.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
+            drawFontInvert(matrixstack, "" + (CasinoKeeper.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
     }
 
-    protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         int playerPos = getPlayerPosition();
         if(logic().turnstate >= 2){
 
             if(tableID == 1){
                 // Draw Player 1
-                drawCard2( 48, 188 + (logic().activePlayer == 0 && logic().dropped[3] ? -24 : 0), logic().cards[3][0], 0, playerPos, 0);
-                drawCard2( 80, 188 + (logic().activePlayer == 0 && logic().dropped[1] ? -24 : 0), logic().cards[1][0], 0, playerPos, 0);
-                drawCard2(112, 188 + (logic().activePlayer == 0 && logic().dropped[0] ? -24 : 0), logic().cards[0][0], 0, playerPos, 0);
-                drawCard2(144, 188 + (logic().activePlayer == 0 && logic().dropped[2] ? -24 : 0), logic().cards[2][0], 0, playerPos, 0);
-                drawCard2(176, 188 + (logic().activePlayer == 0 && logic().dropped[4] ? -24 : 0), logic().cards[4][0], 0, playerPos, 0);
+                drawCard2(matrixstack,  48, 188 + (logic().activePlayer == 0 && logic().dropped[3] ? -24 : 0), logic().cards[3][0], 0, playerPos, 0);
+                drawCard2(matrixstack,  80, 188 + (logic().activePlayer == 0 && logic().dropped[1] ? -24 : 0), logic().cards[1][0], 0, playerPos, 0);
+                drawCard2(matrixstack, 112, 188 + (logic().activePlayer == 0 && logic().dropped[0] ? -24 : 0), logic().cards[0][0], 0, playerPos, 0);
+                drawCard2(matrixstack, 144, 188 + (logic().activePlayer == 0 && logic().dropped[2] ? -24 : 0), logic().cards[2][0], 0, playerPos, 0);
+                drawCard2(matrixstack, 176, 188 + (logic().activePlayer == 0 && logic().dropped[4] ? -24 : 0), logic().cards[4][0], 0, playerPos, 0);
 
                 // Draw Player 2
-                drawCard2(20 + 48 + (logic().activePlayer == 1 && logic().dropped[3] ? 24 : 0),  48, logic().cards[3][1], 90, playerPos, 1);
-                drawCard2(20 + 48 + (logic().activePlayer == 1 && logic().dropped[1] ? 24 : 0),  80, logic().cards[1][1], 90, playerPos, 1);
-                drawCard2(20 + 48 + (logic().activePlayer == 1 && logic().dropped[0] ? 24 : 0), 112, logic().cards[0][1], 90, playerPos, 1);
-                drawCard2(20 + 48 + (logic().activePlayer == 1 && logic().dropped[2] ? 24 : 0), 144, logic().cards[2][1], 90, playerPos, 1);
-                drawCard2(20 + 48 + (logic().activePlayer == 1 && logic().dropped[4] ? 24 : 0), 176, logic().cards[4][1], 90, playerPos, 1);
+                drawCard2(matrixstack, 20 + 48 + (logic().activePlayer == 1 && logic().dropped[3] ? 24 : 0),  48, logic().cards[3][1], 90, playerPos, 1);
+                drawCard2(matrixstack, 20 + 48 + (logic().activePlayer == 1 && logic().dropped[1] ? 24 : 0),  80, logic().cards[1][1], 90, playerPos, 1);
+                drawCard2(matrixstack, 20 + 48 + (logic().activePlayer == 1 && logic().dropped[0] ? 24 : 0), 112, logic().cards[0][1], 90, playerPos, 1);
+                drawCard2(matrixstack, 20 + 48 + (logic().activePlayer == 1 && logic().dropped[2] ? 24 : 0), 144, logic().cards[2][1], 90, playerPos, 1);
+                drawCard2(matrixstack, 20 + 48 + (logic().activePlayer == 1 && logic().dropped[4] ? 24 : 0), 176, logic().cards[4][1], 90, playerPos, 1);
 
                 // Draw Player 3
-                drawCard2(176 + 32, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[3] ? 24 : 0), logic().cards[3][2], 180, playerPos, 2);
-                drawCard2(144 + 32, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[1] ? 24 : 0), logic().cards[1][2], 180, playerPos, 2);
-                drawCard2(112 + 32, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[0] ? 24 : 0), logic().cards[0][2], 180, playerPos, 2);
-                drawCard2( 80 + 32, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[2] ? 24 : 0), logic().cards[2][2], 180, playerPos, 2);
-                drawCard2( 48 + 32, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[4] ? 24 : 0), logic().cards[4][2], 180, playerPos, 2);
+                drawCard2(matrixstack, 176 + 32, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[3] ? 24 : 0), logic().cards[3][2], 180, playerPos, 2);
+                drawCard2(matrixstack, 144 + 32, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[1] ? 24 : 0), logic().cards[1][2], 180, playerPos, 2);
+                drawCard2(matrixstack, 112 + 32, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[0] ? 24 : 0), logic().cards[0][2], 180, playerPos, 2);
+                drawCard2(matrixstack,  80 + 32, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[2] ? 24 : 0), logic().cards[2][2], 180, playerPos, 2);
+                drawCard2(matrixstack,  48 + 32, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[4] ? 24 : 0), logic().cards[4][2], 180, playerPos, 2);
 
                 // Draw Player 4
-                drawCard2(188 + (logic().activePlayer == 3 && logic().dropped[3] ? -24 : 0), 176 + 32, logic().cards[3][3], 270, playerPos, 3);
-                drawCard2(188 + (logic().activePlayer == 3 && logic().dropped[1] ? -24 : 0), 144 + 32, logic().cards[1][3], 270, playerPos, 3);
-                drawCard2(188 + (logic().activePlayer == 3 && logic().dropped[0] ? -24 : 0), 112 + 32, logic().cards[0][3], 270, playerPos, 3);
-                drawCard2(188 + (logic().activePlayer == 3 && logic().dropped[2] ? -24 : 0),  80 + 32, logic().cards[2][3], 270, playerPos, 3);
-                drawCard2(188 + (logic().activePlayer == 3 && logic().dropped[4] ? -24 : 0),  48 + 32, logic().cards[4][3], 270, playerPos, 3);
+                drawCard2(matrixstack, 188 + (logic().activePlayer == 3 && logic().dropped[3] ? -24 : 0), 176 + 32, logic().cards[3][3], 270, playerPos, 3);
+                drawCard2(matrixstack, 188 + (logic().activePlayer == 3 && logic().dropped[1] ? -24 : 0), 144 + 32, logic().cards[1][3], 270, playerPos, 3);
+                drawCard2(matrixstack, 188 + (logic().activePlayer == 3 && logic().dropped[0] ? -24 : 0), 112 + 32, logic().cards[0][3], 270, playerPos, 3);
+                drawCard2(matrixstack, 188 + (logic().activePlayer == 3 && logic().dropped[2] ? -24 : 0),  80 + 32, logic().cards[2][3], 270, playerPos, 3);
+                drawCard2(matrixstack, 188 + (logic().activePlayer == 3 && logic().dropped[4] ? -24 : 0),  48 + 32, logic().cards[4][3], 270, playerPos, 3);
             }
             if(tableID == 2){
                 // Draw Player 1
-                drawCard2( 48-80, 188 + (logic().activePlayer == 0 && logic().dropped[3] ? -24 : 0), logic().cards[3][0], 0, playerPos, 0);
-                drawCard2( 80-80, 188 + (logic().activePlayer == 0 && logic().dropped[1] ? -24 : 0), logic().cards[1][0], 0, playerPos, 0);
-                drawCard2(112-80, 188 + (logic().activePlayer == 0 && logic().dropped[0] ? -24 : 0), logic().cards[0][0], 0, playerPos, 0);
-                drawCard2(144-80, 188 + (logic().activePlayer == 0 && logic().dropped[2] ? -24 : 0), logic().cards[2][0], 0, playerPos, 0);
-                drawCard2(176-80, 188 + (logic().activePlayer == 0 && logic().dropped[4] ? -24 : 0), logic().cards[4][0], 0, playerPos, 0);
+                drawCard2(matrixstack,  48-80, 188 + (logic().activePlayer == 0 && logic().dropped[3] ? -24 : 0), logic().cards[3][0], 0, playerPos, 0);
+                drawCard2(matrixstack,  80-80, 188 + (logic().activePlayer == 0 && logic().dropped[1] ? -24 : 0), logic().cards[1][0], 0, playerPos, 0);
+                drawCard2(matrixstack, 112-80, 188 + (logic().activePlayer == 0 && logic().dropped[0] ? -24 : 0), logic().cards[0][0], 0, playerPos, 0);
+                drawCard2(matrixstack, 144-80, 188 + (logic().activePlayer == 0 && logic().dropped[2] ? -24 : 0), logic().cards[2][0], 0, playerPos, 0);
+                drawCard2(matrixstack, 176-80, 188 + (logic().activePlayer == 0 && logic().dropped[4] ? -24 : 0), logic().cards[4][0], 0, playerPos, 0);
 
                 // Draw Player 2
-                drawCard2(20 + 48-96 + (logic().activePlayer == 1 && logic().dropped[3] ? 24 : 0),  48, logic().cards[3][1], 90, playerPos, 1);
-                drawCard2(20 + 48-96 + (logic().activePlayer == 1 && logic().dropped[1] ? 24 : 0),  80, logic().cards[1][1], 90, playerPos, 1);
-                drawCard2(20 + 48-96 + (logic().activePlayer == 1 && logic().dropped[0] ? 24 : 0), 112, logic().cards[0][1], 90, playerPos, 1);
-                drawCard2(20 + 48-96 + (logic().activePlayer == 1 && logic().dropped[2] ? 24 : 0), 144, logic().cards[2][1], 90, playerPos, 1);
-                drawCard2(20 + 48-96 + (logic().activePlayer == 1 && logic().dropped[4] ? 24 : 0), 176, logic().cards[4][1], 90, playerPos, 1);
+                drawCard2(matrixstack, 20 + 48-96 + (logic().activePlayer == 1 && logic().dropped[3] ? 24 : 0),  48, logic().cards[3][1], 90, playerPos, 1);
+                drawCard2(matrixstack, 20 + 48-96 + (logic().activePlayer == 1 && logic().dropped[1] ? 24 : 0),  80, logic().cards[1][1], 90, playerPos, 1);
+                drawCard2(matrixstack, 20 + 48-96 + (logic().activePlayer == 1 && logic().dropped[0] ? 24 : 0), 112, logic().cards[0][1], 90, playerPos, 1);
+                drawCard2(matrixstack, 20 + 48-96 + (logic().activePlayer == 1 && logic().dropped[2] ? 24 : 0), 144, logic().cards[2][1], 90, playerPos, 1);
+                drawCard2(matrixstack, 20 + 48-96 + (logic().activePlayer == 1 && logic().dropped[4] ? 24 : 0), 176, logic().cards[4][1], 90, playerPos, 1);
 
                 // Draw Player 3
-                drawCard2(176 + 32-80, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[3] ? 24 : 0), logic().cards[3][2], 180, playerPos, 2);
-                drawCard2(144 + 32-80, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[1] ? 24 : 0), logic().cards[1][2], 180, playerPos, 2);
-                drawCard2(112 + 32-80, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[0] ? 24 : 0), logic().cards[0][2], 180, playerPos, 2);
-                drawCard2( 80 + 32-80, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[2] ? 24 : 0), logic().cards[2][2], 180, playerPos, 2);
-                drawCard2( 48 + 32-80, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[4] ? 24 : 0), logic().cards[4][2], 180, playerPos, 2);
+                drawCard2(matrixstack, 176 + 32-80, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[3] ? 24 : 0), logic().cards[3][2], 180, playerPos, 2);
+                drawCard2(matrixstack, 144 + 32-80, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[1] ? 24 : 0), logic().cards[1][2], 180, playerPos, 2);
+                drawCard2(matrixstack, 112 + 32-80, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[0] ? 24 : 0), logic().cards[0][2], 180, playerPos, 2);
+                drawCard2(matrixstack,  80 + 32-80, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[2] ? 24 : 0), logic().cards[2][2], 180, playerPos, 2);
+                drawCard2(matrixstack,  48 + 32-80, 20 + 48 + (logic().activePlayer == 2 && logic().dropped[4] ? 24 : 0), logic().cards[4][2], 180, playerPos, 2);
 
                 // Draw Player 4
-                drawCard2(176 + 32+80, 20 + 48 + (logic().activePlayer == 3 && logic().dropped[3] ? 24 : 0), logic().cards[3][3], 180, playerPos, 3);
-                drawCard2(144 + 32+80, 20 + 48 + (logic().activePlayer == 3 && logic().dropped[1] ? 24 : 0), logic().cards[1][3], 180, playerPos, 3);
-                drawCard2(112 + 32+80, 20 + 48 + (logic().activePlayer == 3 && logic().dropped[0] ? 24 : 0), logic().cards[0][3], 180, playerPos, 3);
-                drawCard2( 80 + 32+80, 20 + 48 + (logic().activePlayer == 3 && logic().dropped[2] ? 24 : 0), logic().cards[2][3], 180, playerPos, 3);
-                drawCard2( 48 + 32+80, 20 + 48 + (logic().activePlayer == 3 && logic().dropped[4] ? 24 : 0), logic().cards[4][3], 180, playerPos, 3);
+                drawCard2(matrixstack, 176 + 32+80, 20 + 48 + (logic().activePlayer == 3 && logic().dropped[3] ? 24 : 0), logic().cards[3][3], 180, playerPos, 3);
+                drawCard2(matrixstack, 144 + 32+80, 20 + 48 + (logic().activePlayer == 3 && logic().dropped[1] ? 24 : 0), logic().cards[1][3], 180, playerPos, 3);
+                drawCard2(matrixstack, 112 + 32+80, 20 + 48 + (logic().activePlayer == 3 && logic().dropped[0] ? 24 : 0), logic().cards[0][3], 180, playerPos, 3);
+                drawCard2(matrixstack,  80 + 32+80, 20 + 48 + (logic().activePlayer == 3 && logic().dropped[2] ? 24 : 0), logic().cards[2][3], 180, playerPos, 3);
+                drawCard2(matrixstack,  48 + 32+80, 20 + 48 + (logic().activePlayer == 3 && logic().dropped[4] ? 24 : 0), logic().cards[4][3], 180, playerPos, 3);
 
                 // Draw Player 5
-                drawCard2(188+96 + (logic().activePlayer == 4 && logic().dropped[3] ? -24 : 0), 176 + 32, logic().cards[3][4], 270, playerPos, 4);
-                drawCard2(188+96 + (logic().activePlayer == 4 && logic().dropped[1] ? -24 : 0), 144 + 32, logic().cards[1][4], 270, playerPos, 4);
-                drawCard2(188+96 + (logic().activePlayer == 4 && logic().dropped[0] ? -24 : 0), 112 + 32, logic().cards[0][4], 270, playerPos, 4);
-                drawCard2(188+96 + (logic().activePlayer == 4 && logic().dropped[2] ? -24 : 0),  80 + 32, logic().cards[2][4], 270, playerPos, 4);
-                drawCard2(188+96 + (logic().activePlayer == 4 && logic().dropped[4] ? -24 : 0),  48 + 32, logic().cards[4][4], 270, playerPos, 4);
+                drawCard2(matrixstack, 188+96 + (logic().activePlayer == 4 && logic().dropped[3] ? -24 : 0), 176 + 32, logic().cards[3][4], 270, playerPos, 4);
+                drawCard2(matrixstack, 188+96 + (logic().activePlayer == 4 && logic().dropped[1] ? -24 : 0), 144 + 32, logic().cards[1][4], 270, playerPos, 4);
+                drawCard2(matrixstack, 188+96 + (logic().activePlayer == 4 && logic().dropped[0] ? -24 : 0), 112 + 32, logic().cards[0][4], 270, playerPos, 4);
+                drawCard2(matrixstack, 188+96 + (logic().activePlayer == 4 && logic().dropped[2] ? -24 : 0),  80 + 32, logic().cards[2][4], 270, playerPos, 4);
+                drawCard2(matrixstack, 188+96 + (logic().activePlayer == 4 && logic().dropped[4] ? -24 : 0),  48 + 32, logic().cards[4][4], 270, playerPos, 4);
 
                 // Draw Player 6
-                drawCard2( 48+80, 188 + (logic().activePlayer == 5 && logic().dropped[3] ? -24 : 0), logic().cards[3][5], 0, playerPos, 5);
-                drawCard2( 80+80, 188 + (logic().activePlayer == 5 && logic().dropped[1] ? -24 : 0), logic().cards[1][5], 0, playerPos, 5);
-                drawCard2(112+80, 188 + (logic().activePlayer == 5 && logic().dropped[0] ? -24 : 0), logic().cards[0][5], 0, playerPos, 5);
-                drawCard2(144+80, 188 + (logic().activePlayer == 5 && logic().dropped[2] ? -24 : 0), logic().cards[2][5], 0, playerPos, 5);
-                drawCard2(176+80, 188 + (logic().activePlayer == 5 && logic().dropped[4] ? -24 : 0), logic().cards[4][5], 0, playerPos, 5);
+                drawCard2(matrixstack,  48+80, 188 + (logic().activePlayer == 5 && logic().dropped[3] ? -24 : 0), logic().cards[3][5], 0, playerPos, 5);
+                drawCard2(matrixstack,  80+80, 188 + (logic().activePlayer == 5 && logic().dropped[1] ? -24 : 0), logic().cards[1][5], 0, playerPos, 5);
+                drawCard2(matrixstack, 112+80, 188 + (logic().activePlayer == 5 && logic().dropped[0] ? -24 : 0), logic().cards[0][5], 0, playerPos, 5);
+                drawCard2(matrixstack, 144+80, 188 + (logic().activePlayer == 5 && logic().dropped[2] ? -24 : 0), logic().cards[2][5], 0, playerPos, 5);
+                drawCard2(matrixstack, 176+80, 188 + (logic().activePlayer == 5 && logic().dropped[4] ? -24 : 0), logic().cards[4][5], 0, playerPos, 5);
             }
         }
 
     }
 
-    protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
             if(isActivePlayer()){
                 if(logic().raisedPlayer == -1 && logic().round != 1){
                     if(playerToken >= bet){
-                        blit(guiLeft+11,  guiTop+237, 78, 22*4, 78, 22); // Raise
+                        blit(matrixstack, guiLeft+11,  guiTop+237, 78, 22*4, 78, 22); // Raise
                     }
                 }
                 if(logic().raisedPlayer > -1){
                     if(playerToken >= bet){
-                        blit(guiLeft+89,  guiTop+237, 78, 22*3, 78, 22); // Call
+                        blit(matrixstack, guiLeft+89,  guiTop+237, 78, 22*3, 78, 22); // Call
                     }
                 } else {
-                    blit(guiLeft+89,  guiTop+237, 78*2, 22*3, 78, 22); // Check
+                    blit(matrixstack, guiLeft+89,  guiTop+237, 78*2, 22*3, 78, 22); // Check
                 }
-                blit(guiLeft+167,  guiTop+237, 78*2, 22*4, 78, 22); // Fold
+                blit(matrixstack, guiLeft+167,  guiTop+237, 78*2, 22*4, 78, 22); // Fold
             }
         }
     }
@@ -242,7 +243,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
 
     //----------------------------------------CUSTOM----------------------------------------//
 
-    private void drawCard2(int posX, int posY, Card card, float angle, int playerPos, int cardPos){
+    private void drawCard2(MatrixStack matrixstack, int posX, int posY, Card card, float angle, int playerPos, int cardPos){
         if(card.suit == -1) return;
         if(card.idletimer > 0) return;
         boolean hidden = logic().turnstate > 3 ? false : playerPos != cardPos;
@@ -264,7 +265,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
         GL11.glPushMatrix();
         GL11.glTranslatef(guiLeft + posX + card.shiftX, guiTop + posY + card.shiftY, 0);
         GL11.glRotatef(angle, 0, 0, 1);
-        blit(0, 0, texX * 32, texY * 48, 32, 48-card.deathtimer);
+        blit(matrixstack, 0, 0, texX * 32, texY * 48, 32, 48-card.deathtimer);
         GL11.glPopMatrix();
     }
 

@@ -1,5 +1,6 @@
 package mod.casinocraft.screen.chip;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
@@ -57,18 +58,18 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate >= 2) {
-            drawFontCenter("ENTER          for          RESET", 128, 230);
+            drawFontCenter(matrixstack, "ENTER          for          RESET", 128, 230);
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADEDUMMY);
         if(logic().turnstate < 2){
-            this.blit(guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background
+            this.blit(matrixstack, guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background
         } else {
-            this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
+            this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
         }
 
         if(logic().turnstate >= 2) {
@@ -78,17 +79,17 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
                 for(int y = 0; y < 12; y++){
                     //if(tc.getValue(x + y*16) == 1) this.drawTexturedModalRect(guiLeft + x*16, guiTop + y*16, 32, 64, 16, 16);
                     //if(tc.getValue(x + y*16) == 2) this.drawTexturedModalRect(guiLeft + x*16, guiTop + y*16, 48, 64, 16, 16);
-                    if(logic().grid[x][y] > 0) drawDigi(32 + x*16, 8 + y*16, 0, 0);
+                    if(logic().grid[x][y] > 0) drawDigi(matrixstack, 32 + x*16, 8 + y*16, 0, 0);
                 }
             }
-            for(Ship e : logic().crate){ drawShip(e, 6, false, false); }
-            drawShip(logic().octanom, 2, true, true);
-            for(Ship e : logic().cross){ drawShip(e, 7, false, false); }
+            for(Ship e : logic().crate){ drawShip(matrixstack, e, 6, false, false); }
+            drawShip(matrixstack, logic().octanom, 2, true, true);
+            for(Ship e : logic().cross){ drawShip(matrixstack, e, 7, false, false); }
             if(logic().turnstate == 5) GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

@@ -1,5 +1,6 @@
 package mod.casinocraft.screen.blocks;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import mod.casinocraft.CasinoCraft;
 import mod.casinocraft.blocks.BlockArcade;
@@ -82,40 +83,40 @@ public class ScreenArcade extends ContainerScreen<ContainerMachine> {
     //----------------------------------------DRAW----------------------------------------//
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrixStack);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        //this.renderHoveredToolTip(matrixStack, mouseX, mouseY);
     }
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-        this.font.drawString("Key",    6, 50, 4210752);
-        this.font.drawString("Game", 148, 50, 4210752);
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int mouseX, int mouseY){
+        this.font.drawString(matrixStack, "Key",    6, 50, 4210752);
+        this.font.drawString(matrixStack, "Game", 148, 50, 4210752);
         if(CONTAINER.getBetStorage() > 0) {
             this.itemRenderer.renderItemIntoGUI(CONTAINER.getToken(), 62, 16);
-            this.font.drawString("x" + CONTAINER.getBetStorage(), 80, 20, 4210752);
-            this.font.drawString("bet:" + CONTAINER.getBetLow(), 74, 66, 4210752);
+            this.font.drawString(matrixStack, "x" + CONTAINER.getBetStorage(), 80, 20, 4210752);
+            this.font.drawString(matrixStack, "bet:" + CONTAINER.getBetLow(), 74, 66, 4210752);
         } else {
-            this.font.drawString("NO TOKEN", 65, 20, 4210752);
+            this.font.drawString(matrixStack, "NO TOKEN", 65, 20, 4210752);
         }
     }
 
     /** Draws the background layer of this container (behind the items). */
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y){
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bindTexture(GUI_TEXTURES);
         int i = (this.width  - this.xSize) / 2;
         int j = (this.height - this.ySize) / 2;
-        this.blit(i, j, 0, 0, this.xSize, this.ySize);
+        this.blit(matrixStack, i, j, 0, 0, this.xSize, this.ySize);
 
-        this.blit(i + 80, j +  3, 224, 0, 16, 16);
-        this.blit(i + 80, j + 33, 208, 0, 16, 16);
+        this.blit(matrixStack, i + 80, j +  3, 224, 0, 16, 16);
+        this.blit(matrixStack, i + 80, j + 33, 208, 0, 16, 16);
 
-        this.blit(i +  45, j + 15, 240, CONTAINER.getTransferIn()  ? 16 : 0, 16, 16);
-        this.blit(i + 115, j + 15, 240, CONTAINER.getTransferOut() ? 16 : 0, 16, 16);
+        this.blit(matrixStack, i +  45, j + 15, 240, CONTAINER.getTransferIn()  ? 16 : 0, 16, 16);
+        this.blit(matrixStack, i + 115, j + 15, 240, CONTAINER.getTransferOut() ? 16 : 0, 16, 16);
 
-        this.blit(i + 50, j + 62, 176, didReset ? 48 : 32, 16, 16);
+        this.blit(matrixStack, i + 50, j + 62, 176, didReset ? 48 : 32, 16, 16);
     }
 
 
@@ -132,7 +133,7 @@ public class ScreenArcade extends ContainerScreen<ContainerMachine> {
     }
 
     /** Called when the screen is unloaded. Used to disable keyboard repeat events */
-    public void removed() {
+    public void onClose() {
         if(CONTAINER.world().getBlockState(CONTAINER.getPos()).getBlock() instanceof BlockArcade) {
             CasinoPacketHandler.sendToServer(new MessageModuleServer(CONTAINER.getPos()));
             {

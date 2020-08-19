@@ -8,6 +8,7 @@ import mod.casinocraft.logic.chip.*;
 import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.logic.other.LogicSlotGame;
 import mod.casinocraft.util.LogicData;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ItemStackHelper;
@@ -133,10 +134,10 @@ public abstract class TileEntityBoard extends TileBase {
     //----------------------------------------NETWORK----------------------------------------//
 
     /** ??? */
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        read(pkt.getNbtCompound());
-    }
+    //@Override
+    //public void onDataPacket(net.minecraft.network.NetworkManager net, net.minecraft.network.play.server.SUpdateTileEntityPacket pkt) {
+    //    read(pkt.getNbtCompound());
+    //}
 
     /** Creates a tag containing the TileEntity information, used by vanilla to transmit from server to client */
     @Override
@@ -148,8 +149,8 @@ public abstract class TileEntityBoard extends TileBase {
 
     /** Populates this TileEntity with information from the tag, used by vanilla to transmit from server to client */
     @Override
-    public void handleUpdateTag(CompoundNBT tag){
-        this.read(tag);
+    public void handleUpdateTag(BlockState state, CompoundNBT tag){
+        this.read(state, tag);
     }
 
 
@@ -157,17 +158,17 @@ public abstract class TileEntityBoard extends TileBase {
 
     //----------------------------------------READ/WRITE----------------------------------------//
 
-    public void read(CompoundNBT compound){
-        super.read(compound);
-        bet_storage = compound.getInt("storage");
-        bet_low  = compound.getInt("low");
-        bet_high = compound.getInt("high");
-        isCreative = compound.getBoolean("iscreative");
+    public void read(BlockState state, CompoundNBT nbt){
+        super.read(state, nbt);
+        bet_storage = nbt.getInt("storage");
+        bet_low  = nbt.getInt("low");
+        bet_high = nbt.getInt("high");
+        isCreative = nbt.getBoolean("iscreative");
         this.inventory = NonNullList.withSize(6, ItemStack.EMPTY);
-        ItemStackHelper.loadAllItems(compound, this.inventory);
+        ItemStackHelper.loadAllItems(nbt, this.inventory);
         lastModule = getModule();
         LOGIC = setLogic();
-        LOGIC.load(compound);
+        LOGIC.load(nbt);
     }
 
     public CompoundNBT write(CompoundNBT compound){
