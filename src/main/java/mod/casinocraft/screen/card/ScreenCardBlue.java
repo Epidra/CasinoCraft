@@ -3,6 +3,7 @@ package mod.casinocraft.screen.card;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.card.LogicCardBlue;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -37,6 +38,7 @@ public class ScreenCardBlue extends ScreenCasino {   // FreeCell
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2 && mouseButton == 0){
             for(int x = 0; x < 8; x++){
                 for(int y = 0; y < 20; y++){
@@ -61,6 +63,7 @@ public class ScreenCardBlue extends ScreenCasino {   // FreeCell
     }
 
     protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < logic().cards_field[x].size(); y++){
                 drawCard(matrixstack, x*32, 64+4 + y*(24-logic().compress), logic().cards_field[x].get(y));

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.card.LogicCardPurple;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -36,6 +37,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if (mouseButton == 0){
             for(int y = 0; y < 9; y++) {
                 for(int x = 0; x < 20; x++) {
@@ -58,6 +60,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2){
             drawFont(matrixstack, "POINTS",                 24, 24-3);
             drawFont(matrixstack, "" + logic().scorePoint,  34, 34-3);
@@ -67,6 +70,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
     }
 
     protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2){
 
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);

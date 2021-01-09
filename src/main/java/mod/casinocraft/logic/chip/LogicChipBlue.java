@@ -18,7 +18,7 @@ public class LogicChipBlue extends LogicBase {   // Tetris
     public int[] lines = new int[4];
     public int alpha = 0;
 
-    public Vector2[] tetromino = new Vector2[]{new Vector2(-1,-1), new Vector2(-1,-1), new Vector2(-1,-1), new Vector2(-1,-1)}; // Position of the moving tetromino on the grid
+    public Vector2[] tetromino = new Vector2[]{new Vector2(0,0), new Vector2(0,0), new Vector2(0,0), new Vector2(0,0)}; // Position of the moving tetromino on the grid
 
 
 
@@ -102,9 +102,9 @@ public class LogicChipBlue extends LogicBase {   // Tetris
 
     public void load2(CompoundNBT compound){
         canHold = compound.getBoolean("canhold");
-        container_next = compound.getInt("containernext");
-        container_hold = compound.getInt("containerhold");
-        container_now  = compound.getInt("containernow");
+        container_next = compound.getInt("container_next");
+        container_hold = compound.getInt("container_hold");
+        container_now  = compound.getInt("container_now");
 
         timer_last = compound.getInt("timerlast");
         timer_break = compound.getInt("timerbreak");

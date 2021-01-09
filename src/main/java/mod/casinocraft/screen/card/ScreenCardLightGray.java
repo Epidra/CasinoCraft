@@ -6,6 +6,7 @@ import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.logic.card.LogicCardLightGray;
 import mod.casinocraft.logic.card.LogicCardWhite;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Card;
 import net.minecraft.entity.player.PlayerInventory;
@@ -40,6 +41,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 3){
             if(isActivePlayer()){
                 if(logic().round != 1){
@@ -123,6 +125,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             drawFontCenter(matrixstack, "Waiting for Players", 128, 88);
         }
@@ -138,6 +141,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
     }
 
     protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         int playerPos = getPlayerPosition();
         if(logic().turnstate >= 2){
 
@@ -218,6 +222,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
     }
 
     protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
             if(isActivePlayer()){

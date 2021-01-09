@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.chip.LogicChipOrange;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Ship;
 import net.minecraft.entity.player.PlayerInventory;
@@ -44,6 +45,7 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
     }
 
     protected void keyTyped2(int keyCode){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             if(keyCode == KEY_UP)    { action(1); }
             if(keyCode == KEY_DOWN)  { action(2); }
@@ -58,12 +60,14 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2) {
             drawFontCenter(matrixstack, "" + logic().scorePoint, 128, 230);
         }
     }
 
     protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADEDUMMY);
         if(logic().turnstate < 2){
             this.blit(matrixstack, guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background

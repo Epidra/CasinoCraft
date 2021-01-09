@@ -9,6 +9,7 @@ public class KeyMap {
     public static final int KEY_ENTER = 257;
     public static final int KEY_SPACE = 32;
     public static final int KEY_ESCAPE = 256;
+    public static final int KEY_BACK = 255;
     public static final int KEY_M = 77;
     public static final int KEY_N = 78;
     public static final int KEY_1 = 49;

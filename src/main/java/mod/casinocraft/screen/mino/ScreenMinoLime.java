@@ -5,6 +5,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.logic.mino.LogicMinoLime;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -37,6 +38,7 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2 && mouseButton == 0){
             if(logic().color_player.size() < logic().color_simon.size()){
                 for(int y = 0; y < 2; y++){
@@ -60,11 +62,13 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         drawFont(matrixstack, "POINTS",           75, 25);
         drawFont(matrixstack, "" + logic().scorePoint, 85, 35);
     }
 
     protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SIMON);
         this.blit(matrixstack, guiLeft +  64, guiTop +  64,   0, logic().alpha[0] > 1 ? 64 : 128, 64, 64);
         this.blit(matrixstack, guiLeft + 128, guiTop +  64,  64, logic().alpha[1] > 1 ? 64 : 128, 64, 64);

@@ -324,7 +324,8 @@ public abstract class TileEntityBoard extends TileBase {
             if(getModule() == CasinoKeeper.MODULE_MINO_BLACK.get())      return new LogicMinoBlack(    tableID);
         }
         if(this instanceof TileEntitySlotMachine){
-            if(getModule() != Blocks.AIR.asItem()) return new LogicSlotGame(tableID);
+            //if(getModule() != Blocks.AIR.asItem()) return new LogicSlotGame(tableID);
+            return new LogicSlotGame(tableID);
         }
         return new LogicDummy(tableID);
     }

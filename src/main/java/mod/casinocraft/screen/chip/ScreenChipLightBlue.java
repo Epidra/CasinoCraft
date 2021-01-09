@@ -5,6 +5,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.logic.chip.LogicChipLightBlue;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -43,6 +44,7 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Mean Minos
     }
 
     protected void keyTyped2(int keyCode){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             if(keyCode == KEY_UP)    { action(0); }
             if(keyCode == KEY_DOWN)  { action(1); }
@@ -60,6 +62,7 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Mean Minos
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2) {
             drawFontInvert(matrixstack, "" + logic().scorePoint, 204, 16);
             drawFontInvert(matrixstack, "" + logic().scoreLives, 204, 36);
@@ -68,6 +71,7 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Mean Minos
     }
 
     protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MEANMINOS);
         if(logic().turnstate < 2){
             this.blit(matrixstack, guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background
