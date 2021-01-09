@@ -2,6 +2,7 @@ package mod.casinocraft.screen.other;
 
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.logic.other.LogicSlotGame;
 import net.minecraft.entity.player.PlayerInventory;
@@ -41,6 +42,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
     }
 
     protected void keyTyped2(int keyCode){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             if(keyCode == KEY_ENTER && logic().multiplier < 5){
                 if(playerToken >= bet){
@@ -65,6 +67,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             this.font.drawString("SPACE to SPIN ",  128, 210, 16777215);
             this.font.drawString("ENTER for TOKEN", 128, 225, 16777215);
@@ -76,6 +79,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SLOTGAME);
 
         // Multiplier

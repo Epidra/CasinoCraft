@@ -49,6 +49,8 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
     protected int shift = 1;
     protected int intro = 256;
 
+    protected boolean showDebug = false;
+
 
 
 
@@ -98,6 +100,10 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
     /** Fired when a key is pressed */
     private void keyTyped(int keyCode){
         if(isCurrentPlayer()) keyTyped2(keyCode);
+
+        if(keyCode == KEY_BACK){
+            showDebug = !showDebug;
+        }
 
         if(tableID == 0){
             // Collect Token and start game (Arcade Version) / FROM: Start Screen
@@ -251,7 +257,7 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 
         // Debug Info (shown if Advanced Tooltips are enabled)
-        if(this.minecraft.gameSettings.advancedItemTooltips){
+        if(showDebug){
 
             this.font.drawString("PLAYER1: " + logic().currentPlayer[0],         tableID == 2 ? 355 : 260,  15, 16777215);
             this.font.drawString("PLAYER2: " + logic().currentPlayer[1],         tableID == 2 ? 355 : 260,  25, 16777215);
@@ -350,12 +356,12 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
                 this.itemRenderer.renderItemIntoGUI(CONTAINER.getToken(), 126, 176);
                 if(CONTAINER.getBetLow() > 1) this.font.drawString("x" + CONTAINER.getBetLow(), 145, 180, 16777215);
                 if(playerToken < CONTAINER.getBetLow()) {
-                    this.font.drawString("NOT ENOUGH TOKEN", 80, 210, colour);
+                    this.font.drawString("NOT ENOUGH TOKEN", 80, 220, colour);
                 } else {
-                    this.font.drawString("Press ENTER", 95, 210, colour);
+                    this.font.drawString("Press ENTER", 95, 220, colour);
                 }
             } else {
-                this.font.drawString("Press ENTER", 95, 210, colour);
+                this.font.drawString("Press ENTER", 95, 220, colour);
             }
 
             if(colourUP){
@@ -398,6 +404,25 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
         } else {
 
             drawGuiContainerForegroundLayer2(mouseX, mouseY);
+
+            if(CONTAINER.turnstate() == 5 && tableID == 0){
+                this.font.drawString("GAME OVER", 103, 200, 16777215);
+                this.font.drawString("Press ENTER", 95, 220, colour);
+
+                if(colourUP){
+                    colour += 65793;
+                    if(colour >= 16777215){
+                        colour = 16777215;
+                        colourUP = false;
+                    }
+                } else {
+                    colour -= 65793;
+                    if(colour <= 0){
+                        colour = 0;
+                        colourUP = true;
+                    }
+                }
+            }
 
             if(logic().turnstate == 4){ // ???
                 gameOver();
@@ -447,10 +472,10 @@ public abstract class ScreenCasino extends ContainerScreen<ContainerCasino> {
 
         // Intro Animation (Only on Arcade)
         if(CONTAINER.turnstate() == 1) {
-            intro--;
-            if(intro == 0) {
+            //intro--;
+            //if(intro == 0) {
                 turnstate(2);
-            }
+            //}
         }
 
         // MiniGame BackgroundDrawer

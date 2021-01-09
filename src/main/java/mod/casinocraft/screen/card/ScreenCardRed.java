@@ -3,6 +3,7 @@ package mod.casinocraft.screen.card;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.card.LogicCardRed;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Card;
 import net.minecraft.entity.player.PlayerInventory;
@@ -36,6 +37,7 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2) {
             if(mouseButton == 0){
                 if(mouseRect( 24, 204, 92, 26, mouseX, mouseY)){ action(0); }
@@ -54,12 +56,14 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 3) drawFont("" + logic().value_rouge, 36,  38-8);
         if(logic().turnstate >= 3) drawFont("" + logic().value_noir, 36, 134-8);
         if(logic().turnstate >= 4) drawFont(logic().hand, 65, 115-8);
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         drawCardBack(32,  48-8, 1);
         drawCardBack(32, 144-8, 0);
         int i = 0; for(Card c : logic().cards_rouge){ drawCard(32+8 + 16*i,  48-8, c); i++; }
@@ -67,6 +71,7 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
     }
 
     protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             blit(guiLeft+24+7,  guiTop+204+2, 0, 66, 78, 22); // Button Hit

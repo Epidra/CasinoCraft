@@ -4,6 +4,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.logic.mino.LogicMinoBlue;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -36,6 +37,7 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if (mouseButton == 0){
             for(int y = 0; y < 9; y++) {
                 for(int x = 0; x < 17; x++) {
@@ -59,6 +61,7 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().tableID == 1) {
             drawFont("POINTS",           24, 24);
             drawFont("" + logic().scorePoint, 34, 34);
@@ -73,6 +76,7 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2){
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
             for(int y = 0; y < 9; y++){
@@ -94,6 +98,7 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
     }
 
     protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
             blit(guiLeft+24+7,  guiTop+204+2,  0, 0, 78, 22); // Button Hit

@@ -3,6 +3,7 @@ package mod.casinocraft.screen.mino;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.mino.LogicMinoYellow;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -41,6 +42,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2 && mouseButton == 0){
             for(int y = 0; y < 6; y++){
                 for(int x = 0; x < 12; x++){
@@ -77,6 +79,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 4){
             drawFont(logic().hand, 25, -10);
         }
@@ -88,6 +91,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(tableID == 1){
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SICBO_MIDDLE);
             this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
@@ -123,6 +127,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
     }
 
     protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             if(playerToken == -1) validateBet();

@@ -14,7 +14,7 @@ public class LogicChipOrange extends LogicBase {   // Snake
     public List<Ship> octanom_tail = new ArrayList<Ship>();
     public int temp_player; // Player Input
     public int temp_auto;   // automatic movement
-    public Vector2 point = new Vector2(-1, -1);
+    public Vector2 point = new Vector2(0, 0);
     public boolean active_move_tail;
 
 
@@ -77,9 +77,9 @@ public class LogicChipOrange extends LogicBase {   // Snake
         octanom_head = loadEntity(    compound, 0);
         octanom_tail = loadEntityList(compound, 1);
         temp_player = compound.getInt("tempplayer");
-        temp_auto = compound.getInt("tempauto");
+        temp_auto = compound.getInt("temp_auto");
         point.set(compound.getInt("pointx"), compound.getInt("pointy"));
-        active_move_tail = compound.getBoolean("activemovetail");
+        active_move_tail = compound.getBoolean("active_move_tail");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
