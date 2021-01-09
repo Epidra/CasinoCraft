@@ -6,6 +6,7 @@ import mod.casinocraft.container.mino.ContainerMinoBlack;
 import mod.casinocraft.container.mino.ContainerMinoGreen;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.mino.LogicMinoGreen;
+import mod.casinocraft.logic.other.LogicDummy;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.math.BlockPos;
@@ -43,6 +44,7 @@ public class GuiMinoGreen extends GuiCasino {   // Mystic Square
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if (mouseButton == 0){
             for(int y = 0; y < 4; y++){
                 for(int x = 0; x < 4; x++){
@@ -62,6 +64,7 @@ public class GuiMinoGreen extends GuiCasino {   // Mystic Square
     }
 
     protected void keyTyped2(char typedChar, int keyCode) throws IOException {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(keyCode == Keyboard.KEY_UP)   { action(0); }
         if(keyCode == Keyboard.KEY_DOWN) { action(1); }
         if(keyCode == Keyboard.KEY_LEFT) { action(2); }
@@ -78,6 +81,7 @@ public class GuiMinoGreen extends GuiCasino {   // Mystic Square
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2){
             this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MYSTICSQUARE);
             for(int y = 0; y < 4; y++) {

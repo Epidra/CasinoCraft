@@ -6,6 +6,7 @@ import mod.casinocraft.container.mino.ContainerMinoBlack;
 import mod.casinocraft.container.mino.ContainerMinoRed;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.mino.LogicMinoRed;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.shared.util.Vector2;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -43,6 +44,7 @@ public class GuiMinoRed extends GuiCasino {   // Roulette
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2 && mouseButton == 0 && isActivePlayer()){
             for(int y = 0; y < 7; y++){
                 for(int x = 0; x < 25; x++){
@@ -79,6 +81,7 @@ public class GuiMinoRed extends GuiCasino {   // Roulette
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 4){
             drawFont("" + logic().result,  225, -15);
         }
@@ -90,6 +93,7 @@ public class GuiMinoRed extends GuiCasino {   // Roulette
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(tableID == 1){
             this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ROULETTE_MIDDLE);
             this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
@@ -126,6 +130,7 @@ public class GuiMinoRed extends GuiCasino {   // Roulette
     }
 
     protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2 && isActivePlayer()){
             if(playerToken == -1) validateBet();

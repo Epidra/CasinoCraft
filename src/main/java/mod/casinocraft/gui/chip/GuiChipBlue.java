@@ -6,6 +6,7 @@ import mod.casinocraft.container.chip.ContainerChipBlack;
 import mod.casinocraft.container.chip.ContainerChipBlue;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.chip.LogicChipBlue;
+import mod.casinocraft.logic.other.LogicDummy;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.math.BlockPos;
@@ -47,6 +48,7 @@ public class GuiChipBlue extends GuiCasino {   // Tetris
     }
 
     protected void keyTyped2(char typedChar, int keyCode) throws IOException {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2) {
             if(keyCode == Keyboard.KEY_UP)    { action(0); }
             if(keyCode == Keyboard.KEY_DOWN)  { action(1); }
@@ -64,6 +66,7 @@ public class GuiChipBlue extends GuiCasino {   // Tetris
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2) {
             drawFontInvert("" + logic().scorePoint,  216, 16);
             drawFontInvert("" + logic().scoreLives,  216, 36);
@@ -72,6 +75,7 @@ public class GuiChipBlue extends GuiCasino {   // Tetris
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_TETRIS);
         if(logic().turnstate < 2){
             this.drawTexturedModalRect(guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background

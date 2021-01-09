@@ -393,7 +393,8 @@ public class TileEntityBoard extends TileEntity implements IInventory, ITickable
 			if(getModule() == CasinoKeeper.MODULE_MINO_BLACK)     return new LogicMinoBlack(    tableID);
 		}
 		if(this instanceof TileEntitySlotMachine){
-			if(getModule() != Item.getItemFromBlock(Blocks.AIR)) return new LogicSlotGame(tableID);
+			//if(getModule() != Item.getItemFromBlock(Blocks.AIR)) return new LogicSlotGame(tableID);
+			return new LogicSlotGame(tableID);
 		}
 		return new LogicDummy(tableID);
 	}

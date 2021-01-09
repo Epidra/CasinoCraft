@@ -6,6 +6,7 @@ import mod.casinocraft.container.card.ContainerCardBlack;
 import mod.casinocraft.container.card.ContainerCardLightGray;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.card.LogicCardLightGray;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.util.Card;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -44,6 +45,7 @@ public class GuiCardLightGray extends GuiCasino {   // Draw Poker
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 3){
             if(isActivePlayer()){
                 if(logic().round != 1){
@@ -127,6 +129,7 @@ public class GuiCardLightGray extends GuiCasino {   // Draw Poker
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             drawFontCenter("Waiting for Players", 128, 88);
         }
@@ -142,6 +145,7 @@ public class GuiCardLightGray extends GuiCasino {   // Draw Poker
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         int playerPos = getPlayerPosition();
         if(logic().turnstate >= 2){
 
@@ -222,6 +226,7 @@ public class GuiCardLightGray extends GuiCasino {   // Draw Poker
     }
 
     protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
             if(isActivePlayer()){

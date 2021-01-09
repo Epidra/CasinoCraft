@@ -6,6 +6,7 @@ import mod.casinocraft.container.card.ContainerCardBlack;
 import mod.casinocraft.container.card.ContainerCardMagenta;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.card.LogicCardMagenta;
+import mod.casinocraft.logic.other.LogicDummy;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.math.BlockPos;
@@ -42,6 +43,7 @@ public class GuiCardMagenta extends GuiCasino {   // Pyramid
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if (mouseButton == 0){
             for(int y = 0; y < 9; y++) {
                 for(int x = 0; x < 15; x++) {
@@ -64,6 +66,7 @@ public class GuiCardMagenta extends GuiCasino {   // Pyramid
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2){
             drawFont("POINTS",             24, 24);
             drawFont("" + logic().scorePoint,  34, 34);
@@ -73,6 +76,7 @@ public class GuiCardMagenta extends GuiCasino {   // Pyramid
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2){
 
             this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);

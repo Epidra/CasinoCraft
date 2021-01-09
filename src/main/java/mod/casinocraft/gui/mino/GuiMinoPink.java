@@ -6,6 +6,7 @@ import mod.casinocraft.container.mino.ContainerMinoBlack;
 import mod.casinocraft.container.mino.ContainerMinoPink;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.mino.LogicMinoPink;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.util.Card;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -43,6 +44,7 @@ public class GuiMinoPink extends GuiCasino {   // FanTan
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2 && mouseButton == 0){
             for(int x = 0; x < 4; x++){
                 if(mouseRect(64 + 32*x, 32, 32, 32, mouseX, mouseY)) {
@@ -65,6 +67,7 @@ public class GuiMinoPink extends GuiCasino {   // FanTan
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             if(CasinoKeeper.config_timeout - logic().timeout > 0){
                 drawFontInvert("" + (CasinoKeeper.config_timeout - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
@@ -73,6 +76,7 @@ public class GuiMinoPink extends GuiCasino {   // FanTan
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FANTAN);
         this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
 
@@ -93,6 +97,7 @@ public class GuiMinoPink extends GuiCasino {   // FanTan
     }
 
     protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
             drawTexturedModalRect(guiLeft+89, guiTop+206, 78, 44, 78, 22); // Button SPIN

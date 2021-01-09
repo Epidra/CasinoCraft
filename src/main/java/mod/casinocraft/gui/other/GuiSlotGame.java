@@ -5,6 +5,7 @@ import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.container.mino.ContainerMinoBlack;
 import mod.casinocraft.container.other.ContainerSlotGame;
 import mod.casinocraft.gui.GuiCasino;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.logic.other.LogicSlotGame;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -47,6 +48,7 @@ public class GuiSlotGame extends GuiCasino {   // Slot Game
     }
 
     protected void keyTyped2(char typedChar, int keyCode) throws IOException {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             if(keyCode == Keyboard.KEY_RETURN && logic().multiplier < 5){
                 if(playerToken >= bet){
@@ -71,6 +73,7 @@ public class GuiSlotGame extends GuiCasino {   // Slot Game
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             this.fontRenderer.drawString("SPACE to SPIN ",  128, 210, 16777215);
             this.fontRenderer.drawString("ENTER for TOKEN", 128, 225, 16777215);
@@ -82,6 +85,7 @@ public class GuiSlotGame extends GuiCasino {   // Slot Game
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SLOTGAME);
 
         // Multiplier

@@ -6,6 +6,7 @@ import mod.casinocraft.container.mino.ContainerMinoBlack;
 import mod.casinocraft.container.mino.ContainerMinoLime;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.mino.LogicMinoLime;
+import mod.casinocraft.logic.other.LogicDummy;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.math.BlockPos;
@@ -42,6 +43,7 @@ public class GuiMinoLime extends GuiCasino {   // Simon
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2 && mouseButton == 0){
             if(logic().color_player.size() < logic().color_simon.size()){
                 for(int y = 0; y < 2; y++){
@@ -65,11 +67,13 @@ public class GuiMinoLime extends GuiCasino {   // Simon
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         drawFont("POINTS",           75, 25);
         drawFont("" + logic().scorePoint, 85, 35);
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SIMON);
         drawTexturedModalRect(guiLeft +  64, guiTop +  64,   0, logic().alpha[0] > 1 ? 64 : 128, 64, 64);
         drawTexturedModalRect(guiLeft + 128, guiTop +  64,  64, logic().alpha[1] > 1 ? 64 : 128, 64, 64);

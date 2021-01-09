@@ -6,6 +6,7 @@ import mod.casinocraft.container.card.ContainerCardBlack;
 import mod.casinocraft.container.card.ContainerCardWhite;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.card.LogicCardWhite;
+import mod.casinocraft.logic.other.LogicDummy;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.math.BlockPos;
@@ -42,6 +43,7 @@ public class GuiCardWhite extends GuiCasino {   // Single Poker
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             if(mouseRect(16+4*1+40*0,  24, 46, 26, mouseX, mouseY)){ action(0); } // Hold 1
             if(mouseRect(16+4*2+40*1,  24, 46, 26, mouseX, mouseY)){ action(1); } // Hold 2
@@ -62,10 +64,12 @@ public class GuiCardWhite extends GuiCasino {   // Single Poker
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 4) drawFont(logic().hand, 75, 150);
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2) {
             drawCardBack(16+11*1+32*0, 72, 7); // Card 1
             drawCardBack(16+11*2+32*1, 72, 7); // Card 2
@@ -81,6 +85,7 @@ public class GuiCardWhite extends GuiCasino {   // Single Poker
     }
 
     protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             drawTexturedModalRect(guiLeft+82+7, guiTop+204+2, 78*2, 22, 78, 22); // Button Finish

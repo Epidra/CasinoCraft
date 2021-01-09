@@ -6,6 +6,7 @@ import mod.casinocraft.container.mino.ContainerMinoBlack;
 import mod.casinocraft.container.mino.ContainerMinoOrange;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.mino.LogicMinoOrange;
+import mod.casinocraft.logic.other.LogicDummy;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.math.BlockPos;
@@ -46,6 +47,7 @@ public class GuiMinoOrange extends GuiCasino {   // Craps
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2 && mouseButton == 0) {
             for(int y = 0; y < 5; y++){
                 for(int x = 0; x < 8; x++){
@@ -85,6 +87,7 @@ public class GuiMinoOrange extends GuiCasino {   // Craps
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2) { drawFont(logic().hand,        20, 28); }
         if(logic().result > -1) {    drawFont("" + logic().result,  200, 28); }
         if(logic().point > -1) {     drawFont("" + logic().point,  220, 28); }
@@ -97,6 +100,7 @@ public class GuiMinoOrange extends GuiCasino {   // Craps
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(tableID == 1){
             this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_CRAPS_MIDDLE);
             this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
@@ -141,6 +145,7 @@ public class GuiMinoOrange extends GuiCasino {   // Craps
     }
 
     protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             if(playerToken == -1) validateBet();

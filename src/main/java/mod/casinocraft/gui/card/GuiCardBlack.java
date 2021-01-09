@@ -5,6 +5,7 @@ import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.container.card.ContainerCardBlack;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.card.LogicCardBlack;
+import mod.casinocraft.logic.other.LogicDummy;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.math.BlockPos;
@@ -41,6 +42,7 @@ public class GuiCardBlack extends GuiCasino {   // Black Jack
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2 && mouseRect( 24, 204, 92, 26, mouseX, mouseY)){ action(0); }
         if(logic().turnstate == 2 && mouseRect(140, 204, 92, 26, mouseX, mouseY)){ action(1); }
         if(playerToken >= bet || !CONTAINER.hasToken())
@@ -59,6 +61,7 @@ public class GuiCardBlack extends GuiCasino {   // Black Jack
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().split == 0){
             drawFont("PLAYER:  "   + logic().value_player1,  24, 24);
             if(logic().turnstate >= 4) drawFont(logic().hand, 80, 190);
@@ -71,6 +74,7 @@ public class GuiCardBlack extends GuiCasino {   // Black Jack
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate >= 2){
             for(int z = 0; z < logic().cards_player1.size(); z++){ if(logic().cards_player1.get(z).idletimer == 0) drawCard( 24 + 16*z, 100 + 4*z, logic().cards_player1.get(z)); if(logic().split == 1) drawCardBack( 24 + 16*z, 100 + 4*z, 10); }
             for(int z = 0; z < logic().cards_player2.size(); z++){ if(logic().cards_player2.get(z).idletimer == 0) drawCard(144 + 16*z, 100 + 4*z, logic().cards_player2.get(z)); if(logic().split == 2) drawCardBack(144 + 16*z, 100 + 4*z, 10); }
@@ -79,6 +83,7 @@ public class GuiCardBlack extends GuiCasino {   // Black Jack
     }
 
     protected void drawGuiContainerBackgroundLayer3(float partialTicks, int mouseX, int mouseY) {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             if(playerToken == -1) validateBet();

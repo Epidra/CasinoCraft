@@ -16,7 +16,7 @@ public class LogicChipCyan extends LogicBase {   // Columns
     public double time_last;
     public double time_break;
     public int timer;
-    public Vector2[] tromino = new Vector2[]{new Vector2(-1, -1), new Vector2(-1, -1), new Vector2(-1, -1)};
+    public Vector2[] tromino = new Vector2[]{new Vector2(0, 0), new Vector2(0, 0), new Vector2(0, 0)};
     public List<Vector2> clear = new ArrayList<Vector2>();
     public int alpha;
 
@@ -111,17 +111,17 @@ public class LogicChipCyan extends LogicBase {   // Columns
 
     public void load2(NBTTagCompound compound){
         active_hold = compound.getBoolean("activehold");
-        container_next[0] = compound.getInteger("containernext0");
-        container_next[1] = compound.getInteger("containernext1");
-        container_next[2] = compound.getInteger("containernext2");
+        container_next[0] = compound.getInteger("container_next0");
+        container_next[1] = compound.getInteger("container_next1");
+        container_next[2] = compound.getInteger("container_next2");
 
-        container_hold[0] = compound.getInteger("containerhold0");
-        container_hold[1] = compound.getInteger("containerhold1");
-        container_hold[2] = compound.getInteger("containerhold2");
+        container_hold[0] = compound.getInteger("container_hold0");
+        container_hold[1] = compound.getInteger("container_hold1");
+        container_hold[2] = compound.getInteger("container_hold2");
 
-        container_current[0] = compound.getInteger("containercurrent0");
-        container_current[1] = compound.getInteger("containercurrent1");
-        container_current[2] = compound.getInteger("containercurrent2");
+        container_current[0] = compound.getInteger("container_current0");
+        container_current[1] = compound.getInteger("container_current1");
+        container_current[2] = compound.getInteger("container_current2");
 
         time_last = compound.getDouble("timelast");
         time_break = compound.getDouble("timebreak");

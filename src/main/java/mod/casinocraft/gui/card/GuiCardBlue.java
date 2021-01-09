@@ -5,6 +5,7 @@ import mod.casinocraft.container.card.ContainerCardBlack;
 import mod.casinocraft.container.card.ContainerCardBlue;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.card.LogicCardBlue;
+import mod.casinocraft.logic.other.LogicDummy;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.math.BlockPos;
@@ -42,6 +43,7 @@ public class GuiCardBlue extends GuiCasino {   // FreeCell
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2 && mouseButton == 0){
             for(int x = 0; x < 8; x++){
                 for(int y = 0; y < 20; y++){
@@ -65,6 +67,7 @@ public class GuiCardBlue extends GuiCasino {   // FreeCell
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < logic().cards_field[x].size(); y++){
                 drawCard(x*32, 64+4 + y*(24-logic().compress), logic().cards_field[x].get(y));

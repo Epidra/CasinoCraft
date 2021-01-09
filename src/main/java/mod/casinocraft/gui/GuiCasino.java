@@ -50,6 +50,8 @@ public abstract class GuiCasino extends GuiContainer {
 	protected int camera0 = 0;
 	protected int shift = 1;
 	protected int intro = 256;
+
+	protected boolean showDebug = false;
     
     
     //--------------------CONSTRUCTOR--------------------
@@ -75,6 +77,10 @@ public abstract class GuiCasino extends GuiContainer {
     /** Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code) */
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		if(isCurrentPlayer()) keyTyped2(typedChar, keyCode);
+
+		if(keyCode == Keyboard.KEY_BACK){
+			showDebug = !showDebug;
+		}
 
 		if(tableID == 0){
 			// Collect Token and start game (Arcade Version) / FROM: Start Screen
@@ -212,7 +218,7 @@ public abstract class GuiCasino extends GuiContainer {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
 		// Debug Info (shown if Advanced Tooltips are enabled)
-		if(this.mc.gameSettings.advancedItemTooltips){
+		if(showDebug){
 			this.fontRenderer.drawString("PLAYER1: " + logic().currentPlayer[0],         tableID == 2 ? 355 : 260,  -40+15, 16777215);
 			this.fontRenderer.drawString("PLAYER2: " + logic().currentPlayer[1],         tableID == 2 ? 355 : 260,  -40+25, 16777215);
 			this.fontRenderer.drawString("PLAYER3: " + logic().currentPlayer[2],         tableID == 2 ? 355 : 260,  -40+35, 16777215);
@@ -307,12 +313,12 @@ public abstract class GuiCasino extends GuiContainer {
 				this.itemRender.renderItemIntoGUI(CONTAINER.getToken(), 126, 176);
 				if(CONTAINER.getBetLow() > 1) this.fontRenderer.drawString("x" + CONTAINER.getBetLow(), 145, 180, 16777215);
 				if(playerToken < CONTAINER.getBetLow()) {
-					this.fontRenderer.drawString("NOT ENOUGH TOKEN", 80, 210, colour);
+					this.fontRenderer.drawString("NOT ENOUGH TOKEN", 80, 220, colour);
 				} else {
-					this.fontRenderer.drawString("Press ENTER", 95, 210, colour);
+					this.fontRenderer.drawString("Press ENTER", 95, 220, colour);
 				}
 			} else {
-				this.fontRenderer.drawString("Press ENTER", 95, 210, colour);
+				this.fontRenderer.drawString("Press ENTER", 95, 220, colour);
 			}
 
 			if(colourUP){
@@ -355,6 +361,25 @@ public abstract class GuiCasino extends GuiContainer {
 		} else {
 
 			drawGuiContainerForegroundLayer2(mouseX, mouseY);
+
+			if(CONTAINER.turnstate() == 5 && tableID == 0){
+				this.fontRenderer.drawString("GAME OVER", 103, 200, 16777215);
+				this.fontRenderer.drawString("Press ENTER", 95, 220, colour);
+
+				if(colourUP){
+					colour += 65793;
+					if(colour >= 16777215){
+						colour = 16777215;
+						colourUP = false;
+					}
+				} else {
+					colour -= 65793;
+					if(colour <= 0){
+						colour = 0;
+						colourUP = true;
+					}
+				}
+			}
 
 			if(logic().turnstate == 4){ // ???
 				gameOver();
@@ -404,10 +429,10 @@ public abstract class GuiCasino extends GuiContainer {
 
 		// Intro Animation (Only on Arcade)
 		if(CONTAINER.turnstate() == 1) {
-			intro--;
-			if(intro == 0) {
+			//intro--;
+			//if(intro == 0) {
 				turnstate(2);
-			}
+			//}
 		}
 
 		// MiniGame BackgroundDrawer

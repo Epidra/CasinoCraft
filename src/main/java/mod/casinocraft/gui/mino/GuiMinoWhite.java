@@ -6,6 +6,7 @@ import mod.casinocraft.container.mino.ContainerMinoBlack;
 import mod.casinocraft.container.mino.ContainerMinoWhite;
 import mod.casinocraft.gui.GuiCasino;
 import mod.casinocraft.logic.mino.LogicMinoWhite;
+import mod.casinocraft.logic.other.LogicDummy;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.IInventory;
@@ -44,6 +45,7 @@ public class GuiMinoWhite extends GuiCasino {   // Sudoku
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if (mouseButton == 0){
             for(int y = 0; y < 9; y++) {
                 for(int x = 0; x < 9; x++) {
@@ -56,6 +58,7 @@ public class GuiMinoWhite extends GuiCasino {   // Sudoku
     }
 
     protected void keyTyped2(char typedChar, int keyCode) throws IOException {
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(keyCode == Keyboard.KEY_1) { action(1); }
         if(keyCode == Keyboard.KEY_2) { action(2); }
         if(keyCode == Keyboard.KEY_3) { action(3); }
@@ -77,6 +80,7 @@ public class GuiMinoWhite extends GuiCasino {   // Sudoku
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SUDOKU);
         this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
         this.mc.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
