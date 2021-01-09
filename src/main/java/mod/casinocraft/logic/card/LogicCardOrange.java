@@ -110,9 +110,9 @@ public class LogicCardOrange extends LogicBase {   // Baccarat
 
     public CompoundNBT save2(CompoundNBT compound){
         saveCardList(compound, 0, cards_player);
-        saveCardList(compound, 0, cards_player);
+        saveCardList(compound, 1, cards_player);
         compound.putInt("valueplayer", value_player);
-        compound.putInt("valueplayer", value_dealer);
+        compound.putInt("valuedealer", value_dealer);
         compound.putInt("status", status);
         return compound;
     }

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.mino.LogicMinoWhite;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -38,6 +39,7 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if (mouseButton == 0){
             for(int y = 0; y < 9; y++) {
                 for(int x = 0; x < 9; x++) {
@@ -50,6 +52,7 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
     }
 
     protected void keyTyped2(int keyCode){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(keyCode == KEY_1) { action(1); }
         if(keyCode == KEY_2) { action(2); }
         if(keyCode == KEY_3) { action(3); }
@@ -71,6 +74,7 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SUDOKU);
         this.blit(guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);

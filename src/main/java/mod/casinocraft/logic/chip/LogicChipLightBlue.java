@@ -16,7 +16,7 @@ public class LogicChipLightBlue extends LogicBase {   // Mean Minos
     public double time_last;
     public double time_break;
     public int timer;
-    public Vector2[] domino = new Vector2[]{new Vector2(-1, -1), new Vector2(-1, -1)};
+    public Vector2[] domino = new Vector2[]{new Vector2(0, 0), new Vector2(0, 0)};
     public List<Vector2> clear = new ArrayList<Vector2>();
     public int alpha;
     private List<Vector2> clear_temp = new ArrayList<Vector2>();
@@ -109,14 +109,14 @@ public class LogicChipLightBlue extends LogicBase {   // Mean Minos
 
     public void load2(CompoundNBT compound){
         active_hold = compound.getBoolean("activehold");
-        container_next[0] = compound.getInt("containernext0");
-        container_next[1] = compound.getInt("containernext1");
+        container_next[0] = compound.getInt("container_next0");
+        container_next[1] = compound.getInt("container_next1");
 
-        container_hold[0] = compound.getInt("containerhold0");
-        container_hold[1] = compound.getInt("containerhold1");
+        container_hold[0] = compound.getInt("container_hold0");
+        container_hold[1] = compound.getInt("container_hold1");
 
-        container_current[0] = compound.getInt("containercurrent0");
-        container_current[1] = compound.getInt("containercurrent1");
+        container_current[0] = compound.getInt("container_current0");
+        container_current[1] = compound.getInt("container_current1");
 
         time_last = compound.getDouble("timelast");
         time_break = compound.getDouble("timebreak");

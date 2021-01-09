@@ -2,6 +2,7 @@ package mod.casinocraft.screen.card;
 
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.card.LogicCardLightBlue;
+import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -36,6 +37,7 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2 && mouseButton == 2){
             action(-9);
         }
@@ -65,11 +67,13 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
     //----------------------------------------DRAW----------------------------------------//
 
     protected void drawGuiContainerForegroundLayer2(int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         drawFont("POINTS",           75, 25);
         drawFont("" + logic().scorePoint, 85, 35);
     }
 
     protected void drawGuiContainerBackgroundLayer2(float partialTicks, int mouseX, int mouseY){
+        if(CONTAINER.logic() instanceof LogicDummy){ return; }
         drawCardBack(32*0, 16+4, logic().scoreLives == 0 ? 8 : 10);
         drawCardBack(32*1, 16+4, 7);
         drawCardBack(32*4, 16+4, 7);

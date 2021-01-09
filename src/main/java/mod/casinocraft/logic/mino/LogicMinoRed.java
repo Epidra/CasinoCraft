@@ -97,7 +97,7 @@ public class LogicMinoRed extends LogicBase {   // Roulette
 
     public void load2(CompoundNBT compound){
         rotation_wheel = compound.getFloat("rotationwheel");
-        rotation_ball = compound.getFloat("rotation_ball");
+        rotation_ball = compound.getFloat("rotationball");
         spinning = compound.getBoolean("spinning");
         result = compound.getInt("result");
         timer = compound.getInt("timer");
