@@ -8,6 +8,9 @@ import net.minecraft.nbt.CompoundNBT;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_SHOVE;
+
 public class LogicCardCyan extends LogicBase {   // Spider
 
     public List<Card>[] cards_field   = new ArrayList[10];
@@ -17,11 +20,13 @@ public class LogicCardCyan extends LogicBase {   // Spider
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardCyan(int table){
         super(table);
     }
+
 
 
 
@@ -58,6 +63,7 @@ public class LogicCardCyan extends LogicBase {   // Spider
                 y++;
             }
         }
+        setJingle(SOUND_CARD_SHOVE);
     }
 
 
@@ -75,10 +81,6 @@ public class LogicCardCyan extends LogicBase {   // Spider
 
     //----------------------------------------UPDATE----------------------------------------//
 
-    public void updateMotion(){
-
-    }
-
     public void updateLogic(){
         for(int x = 0; x < 10; x++){
             if(cards_field[x].size() > 0) for(Card c : cards_field[x]){
@@ -89,6 +91,10 @@ public class LogicCardCyan extends LogicBase {   // Spider
             scorePoint = 100;
             turnstate = 4;
         }
+    }
+
+    public void updateMotion(){
+
     }
 
 
@@ -150,6 +156,7 @@ public class LogicCardCyan extends LogicBase {   // Spider
         for(int i = position; i < position + count; i++){
             cards_field2.add(deck.get(position));
             deck.remove(position);
+            setJingle(SOUND_CARD_PLACE);
         }
     }
 
@@ -158,6 +165,7 @@ public class LogicCardCyan extends LogicBase {   // Spider
             deck.get(position).setShift(shiftX, shiftY, 0);
             cards_field2.add(deck.get(position));
             deck.remove(position);
+            setJingle(SOUND_CARD_PLACE);
         }
     }
 
@@ -187,30 +195,35 @@ public class LogicCardCyan extends LogicBase {   // Spider
             for(int x = 0; x < 10; x++) {
                 cards_reserve[0].get(x).setShift(0, 24, 0);
                 cards_field[x].add(cards_reserve[0].get(x));
+                setJingle(SOUND_CARD_SHOVE);
             }
             cards_reserve[0].clear();
         } else if(cards_reserve[1].size() > 0) {
             for(int x = 0; x < 10; x++) {
                 cards_reserve[1].get(x).setShift(0, 24, 0);
                 cards_field[x].add(cards_reserve[1].get(x));
+                setJingle(SOUND_CARD_SHOVE);
             }
             cards_reserve[1].clear();
         } else if(cards_reserve[2].size() > 0) {
             for(int x = 0; x < 10; x++) {
                 cards_reserve[2].get(x).setShift(0, 24, 0);
                 cards_field[x].add(cards_reserve[2].get(x));
+                setJingle(SOUND_CARD_SHOVE);
             }
             cards_reserve[2].clear();
         } else if(cards_reserve[3].size() > 0) {
             for(int x = 0; x < 10; x++) {
                 cards_reserve[3].get(x).setShift(0, 24, 0);
                 cards_field[x].add(cards_reserve[3].get(x));
+                setJingle(SOUND_CARD_SHOVE);
             }
             cards_reserve[3].clear();
         } else if(cards_reserve[4].size() > 0) {
             for(int x = 0; x < 10; x++) {
                 cards_reserve[4].get(x).setShift(0, 24, 0);
                 cards_field[x].add(cards_reserve[4].get(x));
+                setJingle(SOUND_CARD_SHOVE);
             }
             cards_reserve[4].clear();
         }
@@ -246,12 +259,14 @@ public class LogicCardCyan extends LogicBase {   // Spider
             transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
             selector.set(-1, -1);
             clearRow(x2);
+            setJingle(SOUND_CARD_PLACE);
             return true;
         } else {
             if(cards_field[selector.X].get(selector.Y).number + 1 == cards_field[x2].get(y2).number) {
                 transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
                 selector.set(-1, -1);
                 clearRow(x2);
+                setJingle(SOUND_CARD_PLACE);
                 return true;
             }
         }

@@ -2,6 +2,8 @@ package mod.casinocraft.logic.chip;
 
 import mod.casinocraft.logic.LogicBase;
 import net.minecraft.nbt.CompoundNBT;
+import static mod.casinocraft.util.KeyMap.*;
+import static mod.casinocraft.util.SoundMap.SOUND_TETRIS;
 
 public class LogicChipLightGray extends LogicBase {   // 2048
 
@@ -42,10 +44,10 @@ public class LogicChipLightGray extends LogicBase {   // 2048
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        if(action == 0) { move(1); }
-        if(action == 1) { move(2); }
-        if(action == 2) { move(3); }
-        if(action == 3) { move(4); }
+        if(action == KEY_UP)    { move(1); }
+        if(action == KEY_DOWN)  { move(2); }
+        if(action == KEY_LEFT)  { move(3); }
+        if(action == KEY_RIGHT) { move(4); }
     }
 
 
@@ -306,6 +308,7 @@ public class LogicChipLightGray extends LogicBase {   // 2048
         if(i == 14) scorePoint += 16384;
         if(i == 15) scorePoint += 32768;
         if(i == 16) scorePoint += 65536;
+        setJingle(SOUND_TETRIS);
     }
 
 

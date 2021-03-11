@@ -2,7 +2,10 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import mod.casinocraft.util.SoundMap;
 import net.minecraft.nbt.CompoundNBT;
+
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
 
 public class LogicCardYellow extends LogicBase {   // Acey Deucey
 
@@ -50,18 +53,13 @@ public class LogicCardYellow extends LogicBase {   // Acey Deucey
 
     //----------------------------------------UPDATE----------------------------------------//
 
-    public void updateMotion(){
-        for(int i = 0; i < 3; i++) {
-            cards[i].update();
-        }
-    }
-
     public void updateLogic() {
         if(turnstate == 3) {
             if(cards[0].number == cards[1].number) {
                 if(cards[2].number == -1) {
                     if(cards[0].shiftY == 0) {
                         cards[2] = new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), 0, -60);
+                        setJingle(SOUND_CARD_PLACE);
                     }
                 } else {
                     if(cards[2].shiftY == 0) {
@@ -73,6 +71,9 @@ public class LogicCardYellow extends LogicBase {   // Acey Deucey
                             hand = "Tie!";
                             reward[0] = 1;
                             turnstate = 4;
+                        }
+                        if(reward[0] >= 2){
+                            jingle = SoundMap.SOUND_REWARD;
                         }
                     }
                 }
@@ -112,6 +113,12 @@ public class LogicCardYellow extends LogicBase {   // Acey Deucey
         }
     }
 
+    public void updateMotion(){
+        for(int i = 0; i < 3; i++) {
+            cards[i].update();
+        }
+    }
+
 
 
 
@@ -140,6 +147,9 @@ public class LogicCardYellow extends LogicBase {   // Acey Deucey
         if(spread == 2) reward[0] = doublebet ? 10 : 5; // 1:4
         if(spread == 3) reward[0] = doublebet ?  6 : 3; // 1:2
         if(spread >= 4) reward[0] = doublebet ?  4 : 2; // 1:1
+        if(reward[0] >= 2){
+            jingle = SoundMap.SOUND_REWARD;
+        }
     }
 
 
@@ -158,4 +168,5 @@ public class LogicCardYellow extends LogicBase {   // Acey Deucey
     public int getID(){
         return 15;
     }
+
 }

@@ -1,7 +1,7 @@
 package mod.casinocraft.blocks;
 
 import mod.casinocraft.container.ContainerProvider;
-import mod.casinocraft.tileentities.TileEntityBoard;
+import mod.casinocraft.tileentities.TileEntityMachine;
 import mod.casinocraft.tileentities.TileEntityCardTableWide;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -49,19 +49,14 @@ public class BlockCardTableWide extends MachinaDoubleWide {
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (world.isRemote) {
-            return ActionResultType.SUCCESS;
-        } else {
-            if (!world.isRemote() && player instanceof ServerPlayerEntity) {
-                boolean isPrimary = world.getBlockState(pos).get(OFFSET);
-                final BlockPos pos2 = offset(state.get(FACING), isPrimary, pos);
-                TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos2);
-                if (tileEntity instanceof TileEntityCardTableWide) {
-                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider(tileEntity), buf -> buf.writeBlockPos(pos2));
-                }
+        if (!world.isRemote() && player instanceof ServerPlayerEntity) {
+            final BlockPos pos2 = getTilePosition(pos, state.get(OFFSET), state.get(FACING));
+            TileEntityMachine tileEntity = (TileEntityMachine) world.getTileEntity(pos2);
+            if (tileEntity instanceof TileEntityCardTableWide) {
+                NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider(tileEntity), buf -> buf.writeBlockPos(pos2));
             }
-            return ActionResultType.SUCCESS;
         }
+        return ActionResultType.SUCCESS;
     }
 
 
@@ -81,11 +76,6 @@ public class BlockCardTableWide extends MachinaDoubleWide {
             default:
                 return VoxelShapes.fullCube();
         }
-    }
-
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return state.get(OFFSET);
     }
 
     @Nullable

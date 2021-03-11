@@ -2,14 +2,10 @@ package mod.casinocraft.screen.card;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.container.ContainerCasino;
-import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.logic.card.LogicCardLightBlue;
-import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
-
-import static mod.casinocraft.util.KeyMap.*;
 
 public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
 
@@ -38,8 +34,7 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
         if(logic().turnstate == 2 && mouseButton == 2){
             action(-9);
         }
@@ -59,23 +54,17 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
         }
     }
 
-    protected void keyTyped2(int keyCode){
-        if(logic().turnstate == 2 && keyCode == KEY_ENTER){ action(-9); }
-    }
-
 
 
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
         drawFont(matrixstack, "POINTS",           75, 25);
         drawFont(matrixstack, "" + logic().scorePoint, 85, 35);
     }
 
-    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         drawCardBack(matrixstack, 32*0, 16+4, logic().scoreLives == 0 ? 8 : 10);
         drawCardBack(matrixstack, 32*1, 16+4, 7);
         drawCardBack(matrixstack, 32*4, 16+4, 7);
@@ -109,7 +98,7 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

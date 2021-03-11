@@ -2,6 +2,7 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import mod.casinocraft.util.SoundMap;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class LogicCardBlack extends LogicBase {   // Black Jack
         cards_player1.add(new Card(RANDOM, -48, 0,   32, false));
         cards_dealer.add(new Card(RANDOM,   0, -48,  8, false));
         cards_dealer.add(new Card(RANDOM,   0, -48, 32, true));
-
+        setJingle(SoundMap.SOUND_CARD_SHOVE);
         value_player1 = Add_Card(cards_player1, 0, 0, true);
         value_player2 = 0;
         value_dealer  = Add_Card(cards_dealer, 0, 0, true);
@@ -94,12 +95,14 @@ public class LogicCardBlack extends LogicBase {   // Black Jack
             int cardX = cards_player1.get(1).number;
             int cardY = cards_player1.get(1).suit;
             cards_player1.remove(1);
-            cards_player1.add(new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), -48, 0,  32, false));
+            cards_player1.add(new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), -48, 0,  0, false));
             cards_player2.add(new Card(cardX, cardY, -32, 0,   8, false));
-            cards_player2.add(new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), -48, 0,   8, false));
+            cards_player2.add(new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), -48, 0,   0, false));
 
             value_player1 = Add_Card(cards_player1, 0, 0, true);
             value_player2 = Add_Card(cards_player2, 0, 0, true);
+
+            setJingle(SoundMap.SOUND_CARD_SHOVE);
         }
         if(action == 3){ // DoubleDown
             if(split < 2){
@@ -127,12 +130,6 @@ public class LogicCardBlack extends LogicBase {   // Black Jack
 
     //----------------------------------------UPDATE----------------------------------------//
 
-    public void updateMotion(){
-        if(cards_player1.size() > 0) for (Card card : cards_player1) { card.update(); }
-        if(cards_player2.size() > 0) for (Card card : cards_player2) { card.update(); }
-        if(cards_dealer .size() > 0) for (Card card : cards_dealer) { card.update(); }
-    }
-
     public void updateLogic(){
         if(turnstate == 3){ // Execute only on playing Player
             if(cards_player1.get(cards_player1.size() - 1).shiftY >= -16){
@@ -143,6 +140,12 @@ public class LogicCardBlack extends LogicBase {   // Black Jack
                 }
             }
         }
+    }
+
+    public void updateMotion(){
+        if(cards_player1.size() > 0) for (Card card : cards_player1) { card.update(); }
+        if(cards_player2.size() > 0) for (Card card : cards_player2) { card.update(); }
+        if(cards_dealer .size() > 0) for (Card card : cards_dealer)  { card.update(); }
     }
 
 
@@ -198,6 +201,9 @@ public class LogicCardBlack extends LogicBase {   // Black Jack
             } else                                                                                  { hand = hand + " / The House wins!";       reward[0] += 0;
             }
         }
+        if(reward[0] >= 2){
+            jingle = SoundMap.SOUND_REWARD;
+        }
     }
 
     private int Add_Card(List<Card> cards, int shiftX, int shiftY, boolean noCard) {
@@ -223,6 +229,7 @@ public class LogicCardBlack extends LogicBase {   // Black Jack
                 ace--;
             }
         }
+        jingle = SoundMap.SOUND_CARD_SHOVE;
         return value;
     }
 

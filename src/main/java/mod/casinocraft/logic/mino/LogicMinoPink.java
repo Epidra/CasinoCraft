@@ -8,6 +8,8 @@ import net.minecraft.nbt.CompoundNBT;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
+
 public class LogicMinoPink extends LogicBase {   // FanTan
 
     public List<Card> chips = new ArrayList<>();
@@ -34,6 +36,8 @@ public class LogicMinoPink extends LogicBase {   // FanTan
     }
 
 
+
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
@@ -47,6 +51,7 @@ public class LogicMinoPink extends LogicBase {   // FanTan
         } else {
             if(grid[action][0] == 0){
                 selector.set(action, 0);
+                setJingle(SOUND_CHIP);
             }
         }
     }
@@ -55,10 +60,6 @@ public class LogicMinoPink extends LogicBase {   // FanTan
 
 
     //----------------------------------------UPDATE----------------------------------------//
-
-    public void updateMotion() {
-
-    }
 
     public void updateLogic() {
         if(turnstate == 2){
@@ -88,6 +89,10 @@ public class LogicMinoPink extends LogicBase {   // FanTan
                 }
             }
         }
+    }
+
+    public void updateMotion() {
+
     }
 
 
@@ -131,6 +136,9 @@ public class LogicMinoPink extends LogicBase {   // FanTan
         }
 
     }
+
+
+
 
     //----------------------------------------SUPPORT----------------------------------------//
 

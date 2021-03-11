@@ -24,13 +24,14 @@ public abstract class LogicBase {
     /** 0 - bet, 1 - unused, 2 - turn player, 3 - turn computer, 4 - game over, 5 - result **/
     public int turnstate;
     public final int tableID;
-    public int[]    scoreHigh = new int[18];
-    public String[] scoreName = new String[18];
+    public int[]    scoreHigh = new int[20];
+    public String[] scoreName = new String[20];
     public int    scoreLast = 18; // Position of newest entry in highscore, used for highlighting
     public boolean pause = false;
     public int frame = 0;
     public int activePlayer = 0;
     public int timeout = 0;
+    public int jingle = 0;
 
 
 
@@ -56,18 +57,11 @@ public abstract class LogicBase {
 
     public void start(int seed){
         RANDOM.setSeed(seed);
+        pause = false;
         if(turnstate == 0) {
-            if(tableID == 0){
-                turnstate = 1;
-            } else {
-                turnstate = 2;
-            }
+            turnstate = 2;
         } else {
-            if(turnstate >= 5){
-                turnstate = 1;
-            } else {
-                turnstate = 0;
-            }
+            turnstate = 0;
         }
         scorePoint = 0;
         scoreLevel  = 0;
@@ -127,7 +121,7 @@ public abstract class LogicBase {
         }
         { // Highscore
             if(hasHighscore()){
-                for(int i = 0; i < 18; i++) {
+                for(int i = 0; i < 20; i++) {
                     scoreHigh[i] = compound.getInt("points" + i);
                     scoreName[i] = compound.getString("name" + i);
                 }
@@ -169,7 +163,7 @@ public abstract class LogicBase {
         }
         { // Highscore
             if(hasHighscore()){
-                for(int i = 0; i < 18; i++) {
+                for(int i = 0; i < 20; i++) {
                     compound.putInt("points" + i, scoreHigh[i]);
                     compound.putString("name" + i, scoreName[i]);
                 }
@@ -266,7 +260,7 @@ public abstract class LogicBase {
     }
 
     protected CompoundNBT saveEntity(CompoundNBT compound, int index, Ship ent){
-        compound.putIntArray("entity" + index, new int[]{ent.ai, ent.Get_Pos().X, ent.Get_Pos().Y, ent.Get_Next().X, ent.Get_Next().Y, ent.Get_Vel().X, ent.Get_Vel().Y});
+        compound.putIntArray("entity" + index, new int[]{ent.ai, ent.getPos().X, ent.getPos().Y, ent.getNext().X, ent.getNext().Y, ent.getVel().X, ent.getVel().Y});
         return compound;
     }
 
@@ -274,12 +268,12 @@ public abstract class LogicBase {
         int[] array = new int[list.size() * 7];
         for(int pos = 0; pos < list.size(); pos++){
             array[pos*7    ] = list.get(pos).ai;
-            array[pos*7 + 1] = list.get(pos).Get_Pos().X;
-            array[pos*7 + 2] = list.get(pos).Get_Pos().Y;
-            array[pos*7 + 3] = list.get(pos).Get_Next().X;
-            array[pos*7 + 4] = list.get(pos).Get_Next().Y;
-            array[pos*7 + 5] = list.get(pos).Get_Vel().X;
-            array[pos*7 + 6] = list.get(pos).Get_Vel().Y;
+            array[pos*7 + 1] = list.get(pos).getPos().X;
+            array[pos*7 + 2] = list.get(pos).getPos().Y;
+            array[pos*7 + 3] = list.get(pos).getNext().X;
+            array[pos*7 + 4] = list.get(pos).getNext().Y;
+            array[pos*7 + 5] = list.get(pos).getVel().X;
+            array[pos*7 + 6] = list.get(pos).getVel().Y;
         }
         compound.putIntArray("entitylist" + index, array);
         return compound;
@@ -291,19 +285,19 @@ public abstract class LogicBase {
     //----------------------------------------HIGHSCORE----------------------------------------//
 
     public void addScore(String name, int points) {
-        int pos = 18;
-        for(int i = 17; i >= 0; i--) {
+        int pos = 20;
+        for(int i = 19; i >= 0; i--) {
             if(points > scoreHigh[i]) {
                 pos = i;
             }
         }
-        if(pos == 17) {
-            scoreHigh[17] = points;
-            scoreName[17] = name;
-            scoreLast = 17;
+        if(pos == 19) {
+            scoreHigh[19] = points;
+            scoreName[19] = name;
+            scoreLast = 19;
         }
-        if(pos < 17) {
-            for(int i = 16; i >= pos; i--) {
+        if(pos < 19) {
+            for(int i = 18; i >= pos; i--) {
                 scoreHigh[i+1] = scoreHigh[i];
                 scoreName[i+1] = scoreName[i];
             }
@@ -314,8 +308,8 @@ public abstract class LogicBase {
     }
 
     private void setupHighscore() {
-        scoreLast = 18;
-        for(int i = 17; i >= 0; i--) {
+        scoreLast = 20;
+        for(int i = 19; i >= 0; i--) {
             scoreHigh[i] = 0;
             scoreName[i] = "--------";
         }
@@ -383,6 +377,11 @@ public abstract class LogicBase {
             currentPlayer[i] = "void";
         }
     }
+
+    protected void setJingle(int i){
+        jingle = i;
+    }
+
 
 
 

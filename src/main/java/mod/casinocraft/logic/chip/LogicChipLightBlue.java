@@ -3,11 +3,13 @@ package mod.casinocraft.logic.chip;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
-
 import java.util.ArrayList;
 import java.util.List;
+import static mod.casinocraft.util.KeyMap.*;
+import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
+import static mod.casinocraft.util.SoundMap.SOUND_TETRIS;
 
-public class LogicChipLightBlue extends LogicBase {   // Mean Minos
+public class LogicChipLightBlue extends LogicBase {   // Puyo Puyo
 
     public boolean active_hold;
     public int[] container_next    = new int[2];
@@ -61,23 +63,17 @@ public class LogicChipLightBlue extends LogicBase {   // Mean Minos
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        if(action == 0){ commandTurn(true);    } // UP
-        if(action == 1){ dominoDrop();         } // DOWN
-        if(action == 2){ commandStrafe(true);  } // LEFT
-        if(action == 3){ commandStrafe(false); } // RIGHT
-        if(action == 4){ commandTurn(true);    } // ROTATE LEFT
-        if(action == 5){ commandTurn(false);   } // ROTATE RIGHT
-        if(action == 6){ commandHold();        } // HOLD
+        if(action == KEY_UP){    commandTurn(true);    } // UP
+        if(action == KEY_DOWN){  dominoDrop();                 } // DOWN
+        if(action == KEY_LEFT){  commandStrafe(true);  } // LEFT
+        if(action == KEY_RIGHT){ commandStrafe(false); } // RIGHT
+        if(action == KEY_ENTER){ commandHold();                } // HOLD
     }
 
 
 
 
     //----------------------------------------UPDATE----------------------------------------//
-
-    public void updateMotion(){
-
-    }
 
     public void updateLogic(){
         timer+=15;
@@ -97,9 +93,14 @@ public class LogicChipLightBlue extends LogicBase {   // Mean Minos
                         }
                     }
                 }
+                setJingle(SOUND_TETRIS);
                 commandCollapse();
             }
         }
+    }
+
+    public void updateMotion(){
+
     }
 
 
@@ -282,6 +283,7 @@ public class LogicChipLightBlue extends LogicBase {   // Mean Minos
     private void dominoCreate() {
         domino[0] = new Vector2(2, 1);
         domino[1] = new Vector2(2, 0);
+        setJingle(SOUND_IMPACT);
     }
 
     private void dominoFall() {

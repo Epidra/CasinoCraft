@@ -5,9 +5,10 @@ import mod.casinocraft.util.Ship;
 import mod.casinocraft.util.MapRoom;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
-
 import java.util.ArrayList;
 import java.util.List;
+import static mod.casinocraft.util.KeyMap.*;
+import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
 
 public class LogicChipPink extends LogicBase {   // Sokoban
 
@@ -15,6 +16,7 @@ public class LogicChipPink extends LogicBase {   // Sokoban
     public List<Ship> crate = new ArrayList<Ship>();
     public List<Ship> cross = new ArrayList<Ship>();
     public boolean moving;
+    public int mapID;
 
 
 
@@ -22,7 +24,7 @@ public class LogicChipPink extends LogicBase {   // Sokoban
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicChipPink(int tableID){
-        super(tableID, 12, 12);
+        super(tableID, 12, 15);
     }
 
 
@@ -33,7 +35,6 @@ public class LogicChipPink extends LogicBase {   // Sokoban
     public void start2(){
         crate.clear();
         cross.clear();
-        loadMap();
     }
 
 
@@ -42,10 +43,13 @@ public class LogicChipPink extends LogicBase {   // Sokoban
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        if(action == -1){
-            turnstate = 4;
-        } else {
+        if(turnstate == 3){
             commandMove(action);
+        } else if(turnstate == 2){
+            commandSelect(action);
+            if(action == KEY_ENTER){
+                loadMap();
+            }
         }
     }
 
@@ -54,16 +58,12 @@ public class LogicChipPink extends LogicBase {   // Sokoban
 
     //----------------------------------------UPDATE----------------------------------------//
 
-    public void updateMotion(){
-
-    }
-
     public void updateLogic(){
         if(moving) {
             boolean swittch = true;
             for(Ship c : crate) {
-                if(c.Get_Pos().X == c.Get_Next().X * 16 && c.Get_Pos().Y == c.Get_Next().Y * 16) {
-                    c.Set_InMotion(0, 0);
+                if(c.getPos().X == c.getNext().X * 16 && c.getPos().Y == c.getNext().Y * 16) {
+                    c.setInMotion(0, 0);
                 } else {
                     swittch = false;
                 }
@@ -81,21 +81,32 @@ public class LogicChipPink extends LogicBase {   // Sokoban
                 e.update();
                 boolean hp1 = true;
                 for(Ship c : cross) {
-                    if(c.Get_Pos().matches(e.Get_Pos())) {
+                    if(c.getPos().matches(e.getPos())) {
                         hp1 = false;
                     }
                 }
-                if(hp1) { e.Set_HP(1); win = false; } else { e.Set_HP(2); }
+                if(hp1) { e.setHP(1); win = false; } else { e.setHP(2); }
             }
             for(Ship e : cross) {
                 e.update();
             }
-            if(win && turnstate < 4) {
-                scorePoint = crate.size() * 500;
+            if(win && turnstate == 3) {
+                boolean unlocked = false;
+                for(int i = 0; i < 20; i++){
+                    if(scoreHigh[i] == mapID+1){
+                        unlocked = true;
+                    }
+                }
+                if(!unlocked){
+                    scorePoint = mapID+1;
+                }
                 turnstate = 4;
             }
-            //Command_Move();
         }
+    }
+
+    public void updateMotion(){
+
     }
 
 
@@ -107,17 +118,16 @@ public class LogicChipPink extends LogicBase {   // Sokoban
         octanom = loadEntity(compound, 0);
         crate = (loadEntityList(compound, 1));
         cross = (loadEntityList(compound, 2));
-
         moving = compound.getBoolean("moving");
+        mapID = compound.getInt("map_id");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
         saveEntity(    compound, 0, octanom);
         saveEntityList(compound, 1, crate);
         saveEntityList(compound, 2, cross);
-
         compound.putBoolean("moving", moving);
-
+        compound.putInt("map_id", mapID);
         return compound;
     }
 
@@ -127,10 +137,11 @@ public class LogicChipPink extends LogicBase {   // Sokoban
     //----------------------------------------CUSTOM----------------------------------------//
 
     private void loadMap() {
-        List<String> list = MapRoom.loadSokoban(RANDOM);
+        turnstate = 3;
+        List<String> list = MapRoom.loadSokoban(mapID);
         int y = 0;
         for(String s : list) {
-            for(int x = 0; x < 12; x++) {
+            for(int x = 0; x < s.length(); x++) {
                 char c = s.charAt(x);
                 switch(c) {
                     case ' ': break;
@@ -148,34 +159,43 @@ public class LogicChipPink extends LogicBase {   // Sokoban
         if(!octanom.isMoving()){
             int x = 0;
             int y = 0;
-            if(direction == 0){ x =  0; y = -1; }
-            if(direction == 1){ x =  0; y =  1; }
-            if(direction == 2){ x = -1; y =  0; }
-            if(direction == 3){ x =  1; y =  0; }
-            if(grid[octanom.Get_Grid().X + x][octanom.Get_Grid().Y + y] == 0) { // Free space
+            if(direction == KEY_UP){ x =  0; y = -1; }
+            if(direction == KEY_DOWN){ x =  0; y =  1; }
+            if(direction == KEY_LEFT){ x = -1; y =  0; }
+            if(direction == KEY_RIGHT){ x =  1; y =  0; }
+            if(grid[octanom.getGrid().X + x][octanom.getGrid().Y + y] == 0) { // Free space
                 boolean blockedO = false;
                 for(Ship c : crate) {
-                    if(c.Get_Grid().X == octanom.Get_Grid().X + x && c.Get_Grid().Y == octanom.Get_Grid().Y + y) {
+                    if(c.getGrid().X == octanom.getGrid().X + x && c.getGrid().Y == octanom.getGrid().Y + y) {
                         blockedO = true;
-                        if(grid[octanom.Get_Grid().X + x*2][octanom.Get_Grid().Y + y*2] == 0) {
+                        setJingle(SOUND_IMPACT);
+                        if(grid[octanom.getGrid().X + x*2][octanom.getGrid().Y + y*2] == 0) {
                             boolean blockedC = false;
                             for(Ship c2 : crate) {
-                                if(c.Get_Grid().X == octanom.Get_Grid().X + x*2 && c.Get_Grid().Y == octanom.Get_Grid().Y + y*2) {
+                                if(c.getGrid().X == octanom.getGrid().X + x*2 && c.getGrid().Y == octanom.getGrid().Y + y*2) {
                                     blockedC = true;
+                                    setJingle(SOUND_IMPACT);
                                     // crate blocked by crate
                                 }
                             }
                             if(!blockedC) {
                                 moving = true;
-                                c.Set_InMotion(x*4, y*4);
+                                c.setInMotion(x*4, y*4);
                             }
                         }
                     }
                 }
                 if(!blockedO)
-                    octanom.Set_InMotion(x*4, y*4);
+                    octanom.setInMotion(x*4, y*4);
             }
         }
+    }
+
+    private void commandSelect(int direction){
+        if(direction == KEY_UP){ if(mapID / 4 > 0) { mapID -= 4; } }
+        if(direction == KEY_DOWN){ if(mapID / 4 < 4) { mapID += 4; } }
+        if(direction == KEY_LEFT){ if(mapID % 4 > 0) { mapID -= 1; } }
+        if(direction == KEY_RIGHT){ if(mapID % 4 < 3) { mapID += 1; } }
     }
 
 
@@ -184,7 +204,7 @@ public class LogicChipPink extends LogicBase {   // Sokoban
     //----------------------------------------SUPPORT----------------------------------------//
 
     public boolean hasHighscore(){
-        return false;
+        return true;
     }
 
     public boolean isMultiplayer(){

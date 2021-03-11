@@ -8,6 +8,9 @@ import net.minecraft.nbt.CompoundNBT;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_SHOVE;
+
 public class LogicCardPurple extends LogicBase {   // TriPeak
 
     private int combo = 0;
@@ -36,7 +39,6 @@ public class LogicCardPurple extends LogicBase {   // TriPeak
 
         List<Card> deck = shuffleDeck();
 
-
         deck.get( 3).setShift(+16*1, -20*1, 20);
         deck.get( 4).setShift(-16*1, -20*1, 20);
         deck.get( 9).setShift(+16*2, -20*2, 10);
@@ -75,13 +77,14 @@ public class LogicCardPurple extends LogicBase {   // TriPeak
         cards_reserve.addAll(deck);
         cards_stack.clear();
         drawReserve();
+
+        setJingle(SOUND_CARD_SHOVE);
     }
 
     private void restart() {
 
         List<Card> deck = shuffleDeck();
 
-
         deck.get( 3).setShift(+16*1, -20*1, 20);
         deck.get( 4).setShift(-16*1, -20*1, 20);
         deck.get( 9).setShift(+16*2, -20*2, 10);
@@ -120,6 +123,8 @@ public class LogicCardPurple extends LogicBase {   // TriPeak
         cards_reserve.addAll(deck);
         cards_stack.clear();
         drawReserve();
+
+        setJingle(SOUND_CARD_SHOVE);
     }
 
 
@@ -128,9 +133,7 @@ public class LogicCardPurple extends LogicBase {   // TriPeak
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        //	 if(action == -1) CompareCards(28);
         if(action == -2) drawReserve();
-            //else if(action == -3) CompareCards(29);
         else touchField(action % 20, action / 20);
     }
 
@@ -138,6 +141,10 @@ public class LogicCardPurple extends LogicBase {   // TriPeak
 
 
     //----------------------------------------UPDATE----------------------------------------//
+
+    public void updateLogic(){
+
+    }
 
     public void updateMotion(){
         if(turnstate >= 2){
@@ -151,10 +158,6 @@ public class LogicCardPurple extends LogicBase {   // TriPeak
                 cards_field[i].update();
             }
         }
-    }
-
-    public void updateLogic(){
-
     }
 
 
@@ -204,6 +207,7 @@ public class LogicCardPurple extends LogicBase {   // TriPeak
             cards_reserve.get(0).shiftX = 64;
             cards_stack.add(cards_reserve.get(0));
             cards_reserve.remove(0);
+            setJingle(SOUND_CARD_SHOVE);
         } else {
             if(scoreLives == 0){
                 turnstate = 4;
@@ -344,6 +348,7 @@ public class LogicCardPurple extends LogicBase {   // TriPeak
             cards_stack.add(cards_field[id]);
             cards_field[id] = new Card(-1, -1);
             if(cards_field[0].suit == -1 && cards_field[1].suit == -1 && cards_field[2].suit == -1) restart();
+            setJingle(SOUND_CARD_PLACE);
         }
     }
 

@@ -4,9 +4,11 @@ import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Ship;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
-
 import java.util.ArrayList;
 import java.util.List;
+import static mod.casinocraft.util.KeyMap.*;
+import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
+import static mod.casinocraft.util.SoundMap.SOUND_TETRIS;
 
 public class LogicChipOrange extends LogicBase {   // Snake
 
@@ -53,10 +55,6 @@ public class LogicChipOrange extends LogicBase {   // Snake
 
     //----------------------------------------UPDATE----------------------------------------//
 
-    public void updateMotion(){
-
-    }
-
     public void updateLogic(){
         if(turnstate >= 2 && turnstate < 4) {
             octanom_head.update();
@@ -66,6 +64,10 @@ public class LogicChipOrange extends LogicBase {   // Snake
             commandMove();
             commandCollision();
         }
+    }
+
+    public void updateMotion(){
+
     }
 
 
@@ -99,49 +101,51 @@ public class LogicChipOrange extends LogicBase {   // Snake
     //----------------------------------------CUSTOM----------------------------------------//
 
     private void commandMove() {
-        if(octanom_head.Get_Pos().matches(octanom_head.Get_Next())) {
-            Vector2 position = new Vector2(octanom_head.Get_Pos());
+        if(octanom_head.getPos().matches(octanom_head.getNext())) {
+            Vector2 position = new Vector2(octanom_head.getPos());
 
             // Updates Next()
-            if(temp_player == 1 && octanom_head.Get_Next().Y !=   0) { octanom_head.Set_InMotion( 0, -speed()); temp_auto = temp_player; temp_player = 0; }
-            else if(temp_player == 1 && octanom_head.Get_Next().Y ==   0) { octanom_head.Set_InMotion( 0,  0); temp_auto = 0; temp_player = 0; }
-            else if(temp_player == 2 && octanom_head.Get_Next().Y != 224) { octanom_head.Set_InMotion( 0,  speed()); temp_auto = temp_player; temp_player = 0; }
-            else if(temp_player == 2 && octanom_head.Get_Next().Y == 224) { octanom_head.Set_InMotion( 0,  0); temp_auto = 0; temp_player = 0; }
-            else if(temp_player == 3 && octanom_head.Get_Next().X !=   0) { octanom_head.Set_InMotion(-speed(),  0); temp_auto = temp_player; temp_player = 0; }
-            else if(temp_player == 3 && octanom_head.Get_Next().X ==   0) { octanom_head.Set_InMotion( 0,  0); temp_auto = 0; temp_player = 0; }
-            else if(temp_player == 4 && octanom_head.Get_Next().X != 176) { octanom_head.Set_InMotion( speed(),  0); temp_auto = temp_player; temp_player = 0; }
-            else if(temp_player == 4 && octanom_head.Get_Next().X == 176) { octanom_head.Set_InMotion( 0,  0); temp_auto = 0; temp_player = 0; }
-            else if(temp_auto == 1 && octanom_head.Get_Next().Y !=   0) { octanom_head.Set_InMotion( 0, -speed());  }
-            else if(temp_auto == 1 && octanom_head.Get_Next().Y ==   0) { octanom_head.Set_InMotion( 0,  0); temp_auto = 0;  }
-            else if(temp_auto == 2 && octanom_head.Get_Next().Y != 224) { octanom_head.Set_InMotion( 0,  speed());  }
-            else if(temp_auto == 2 && octanom_head.Get_Next().Y == 224) { octanom_head.Set_InMotion( 0,  0); temp_auto = 0;  }
-            else if(temp_auto == 3 && octanom_head.Get_Next().X !=   0) { octanom_head.Set_InMotion(-speed(),  0);  }
-            else if(temp_auto == 3 && octanom_head.Get_Next().X ==   0) { octanom_head.Set_InMotion( 0,  0); temp_auto = 0;  }
-            else if(temp_auto == 4 && octanom_head.Get_Next().X != 176) { octanom_head.Set_InMotion( speed(),  0);  }
-            else if(temp_auto == 4 && octanom_head.Get_Next().X == 176) { octanom_head.Set_InMotion( 0,  0); temp_auto = 0;  }
+                 if(temp_player == KEY_UP    && octanom_head.getNext().Y !=   0) { octanom_head.setInMotion( 0, -speed()); temp_auto = temp_player; temp_player = 0; }
+            else if(temp_player == KEY_UP    && octanom_head.getNext().Y ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
+            else if(temp_player == KEY_DOWN  && octanom_head.getNext().Y != 224) { octanom_head.setInMotion( 0,  speed()); temp_auto = temp_player; temp_player = 0; }
+            else if(temp_player == KEY_DOWN  && octanom_head.getNext().Y == 224) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
+            else if(temp_player == KEY_LEFT  && octanom_head.getNext().X !=   0) { octanom_head.setInMotion(-speed(),  0); temp_auto = temp_player; temp_player = 0; }
+            else if(temp_player == KEY_LEFT  && octanom_head.getNext().X ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
+            else if(temp_player == KEY_RIGHT && octanom_head.getNext().X != 176) { octanom_head.setInMotion( speed(),  0); temp_auto = temp_player; temp_player = 0; }
+            else if(temp_player == KEY_RIGHT && octanom_head.getNext().X == 176) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
+            else if(temp_auto == 1 && octanom_head.getNext().Y !=   0) { octanom_head.setInMotion( 0, -speed());  }
+            else if(temp_auto == 1 && octanom_head.getNext().Y ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0;  }
+            else if(temp_auto == 2 && octanom_head.getNext().Y != 224) { octanom_head.setInMotion( 0,  speed());  }
+            else if(temp_auto == 2 && octanom_head.getNext().Y == 224) { octanom_head.setInMotion( 0,  0); temp_auto = 0;  }
+            else if(temp_auto == 3 && octanom_head.getNext().X !=   0) { octanom_head.setInMotion(-speed(),  0);  }
+            else if(temp_auto == 3 && octanom_head.getNext().X ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0;  }
+            else if(temp_auto == 4 && octanom_head.getNext().X != 176) { octanom_head.setInMotion( speed(),  0);  }
+            else if(temp_auto == 4 && octanom_head.getNext().X == 176) { octanom_head.setInMotion( 0,  0); temp_auto = 0;  }
             for(Ship tail : octanom_tail) {
-                if(position.X > tail.Get_Pos().X) { tail.Set_Pos(position.X - 16, position.Y     ); tail.Set_Vel( speed(),  0); }
-                else if(position.X < tail.Get_Pos().X) { tail.Set_Pos(position.X + 16, position.Y     ); tail.Set_Vel(-speed(),  0); }
-                else if(position.Y > tail.Get_Pos().Y) { tail.Set_Pos(position.X     , position.Y - 16); tail.Set_Vel( 0,  speed()); }
-                else if(position.Y < tail.Get_Pos().Y) { tail.Set_Pos(position.X     , position.Y + 16); tail.Set_Vel( 0, -speed()); }
-                position.set(tail.Get_Pos());
+                if(position.X > tail.getPos().X) { tail.setPos(position.X - 16, position.Y     ); tail.setVel( speed(),  0); }
+                else if(position.X < tail.getPos().X) { tail.setPos(position.X + 16, position.Y     ); tail.setVel(-speed(),  0); }
+                else if(position.Y > tail.getPos().Y) { tail.setPos(position.X     , position.Y - 16); tail.setVel( 0,  speed()); }
+                else if(position.Y < tail.getPos().Y) { tail.setPos(position.X     , position.Y + 16); tail.setVel( 0, -speed()); }
+                position.set(tail.getPos());
             }
-            active_move_tail = !octanom_head.Get_Vel().matches(0, 0);
+            active_move_tail = !octanom_head.getVel().matches(0, 0);
         }
     }
 
     private void commandCollision() {
         for(int i = 0; i < 5; i++) {
-            if(octanom_head.Get_Pos().matches(point.X*16, point.Y*16)) {
+            if(octanom_head.getPos().matches(point.X*16, point.Y*16)) {
                 scorePoint++;
                 commandSpawnPoint();
                 commandSpawnTail();
+                setJingle(SOUND_TETRIS);
             }
         }
         if(octanom_tail.size() > 1) {
             for(Ship tail : octanom_tail) {
-                if(octanom_head.Get_Pos().matches(tail.Get_Pos())) {
+                if(octanom_head.getPos().matches(tail.getPos())) {
                     turnstate = 4;
+                    setJingle(SOUND_IMPACT);
                 }
             }
         }
@@ -162,9 +166,9 @@ public class LogicChipOrange extends LogicBase {   // Snake
             x = RANDOM.nextInt(10)+1;
             y = RANDOM.nextInt(13)+1;
             if(b < 10) {
-                if(!octanom_head.Get_Next().matches(x, y)) {
+                if(!octanom_head.getNext().matches(x, y)) {
                     for(Ship tail : octanom_tail) {
-                        if(tail.Get_Grid().matches(x, y)) {
+                        if(tail.getGrid().matches(x, y)) {
                             temp_internal = true;
                             break;
                         }
@@ -178,7 +182,7 @@ public class LogicChipOrange extends LogicBase {   // Snake
                     }
                 }
             } else {
-                if(!octanom_head.Get_Next().matches(x, y)) {
+                if(!octanom_head.getNext().matches(x, y)) {
                     temp_break = true;
                 }
             }
@@ -187,11 +191,11 @@ public class LogicChipOrange extends LogicBase {   // Snake
     }
 
     private void commandSpawnTail() {
-        Vector2 pos = new Vector2(octanom_head.Get_Pos()/*.offset(octanom_head.Get_Vel().X*-16, octanom_head.Get_Vel().Y*-16)*/);
+        Vector2 pos = new Vector2(octanom_head.getPos()/*.offset(octanom_head.Get_Vel().X*-16, octanom_head.Get_Vel().Y*-16)*/);
         int i = 0;
         for(Ship tail : octanom_tail) {
             if(i + 1 == octanom_tail.size()) {
-                pos.set(tail.Get_Pos()/*.offset(tail.Get_Vel().X*16, tail.Get_Vel().Y*16)*/);
+                pos.set(tail.getPos()/*.offset(tail.Get_Vel().X*16, tail.Get_Vel().Y*16)*/);
             }
             i++;
         }

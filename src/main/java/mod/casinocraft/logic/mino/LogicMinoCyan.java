@@ -3,6 +3,8 @@ package mod.casinocraft.logic.mino;
 import mod.casinocraft.logic.LogicBase;
 import net.minecraft.nbt.CompoundNBT;
 
+import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
+
 public class LogicMinoCyan extends LogicBase {   // Halma
 
     // ...
@@ -61,11 +63,11 @@ public class LogicMinoCyan extends LogicBase {   // Halma
 
     //----------------------------------------UPDATE----------------------------------------//
 
-    public void updateMotion(){
+    public void updateLogic(){
 
     }
 
-    public void updateLogic(){
+    public void updateMotion(){
 
     }
 
@@ -98,6 +100,7 @@ public class LogicMinoCyan extends LogicBase {   // Halma
                 selector.set(x, y);
                 scorePoint += scoreLevel;
                 scoreLevel += 1;
+                setJingle(SOUND_CHIP);
             } else if(y - 2 == selector.Y && grid[selector.X][selector.Y + 1] == 1) { // Jump to DOWN
                 grid[x][y    ] = 1;
                 grid[x][y - 1] = 0;
@@ -105,6 +108,7 @@ public class LogicMinoCyan extends LogicBase {   // Halma
                 selector.set(x, y);
                 scorePoint += scoreLevel;
                 scoreLevel += 1;
+                setJingle(SOUND_CHIP);
             } else if(x + 2 == selector.X && grid[selector.X - 1][selector.Y] == 1) { // Jump to LEFT
                 grid[x    ][y] = 1;
                 grid[x + 1][y] = 0;
@@ -112,6 +116,7 @@ public class LogicMinoCyan extends LogicBase {   // Halma
                 selector.set(x, y);
                 scorePoint += scoreLevel;
                 scoreLevel += 1;
+                setJingle(SOUND_CHIP);
             } else if(x - 2 == selector.X && grid[selector.X + 1][selector.Y] == 1) { // Jump to RIGHT
                 grid[x    ][y] = 1;
                 grid[x - 1][y] = 0;
@@ -119,6 +124,7 @@ public class LogicMinoCyan extends LogicBase {   // Halma
                 selector.set(x, y);
                 scorePoint += scoreLevel;
                 scoreLevel += 1;
+                setJingle(SOUND_CHIP);
             }
             checkForGameOver();
         }

@@ -56,18 +56,18 @@ public class Ship {
 
     //----------------------------------------SUPPORT----------------------------------------//
 
-    public Vector2 Get_Pos() { return position; }
-    public Vector2 Get_Vel() { return velocity; }
-    public Vector2 Get_Next(){ return next; }
-    public int     Get_HP()  { return hp; }
-    public Vector2 Get_Grid(){ return new Vector2(position.X / 16, position.Y / 16); }
-    public int Get_LookDirection() { return lookDirection; }
+    public Vector2 getPos() { return position; }
+    public Vector2 getVel() { return velocity; }
+    public Vector2 getNext(){ return next; }
+    public int getHP()  { return hp; }
+    public Vector2 getGrid(){ return new Vector2(position.X / 16, position.Y / 16); }
+    public int getLookDirection() { return lookDirection; }
 
-    public void Set_Pos(int x, int y) { position.set(x, y); }
-    public void Set_HP(int i) { hp = i; }
-    public void Set_Next(Vector2 i) { next.set(i); }
-    public void Change_HP(int i) { hp = hp + i; }
-    public void Set_InMotion(int x, int y) { // ???
+    public void setPos(int x, int y) { position.set(x, y); }
+    public void setHP(int i) { hp = i; }
+    public void setNext(Vector2 i) { next.set(i); }
+    public void changeHP(int i) { hp = hp + i; }
+    public void setInMotion(int x, int y) { // ???
         velocity.set(x, y);
         if(velocity.X < 0) lookDirection = 2;
         if(velocity.X > 0) lookDirection = 3;
@@ -82,9 +82,8 @@ public class Ship {
         return velocity.X != 0 || velocity.Y != 0;
     }
 
-    public void Set_Vel(int x, int y) {
+    public void setVel(int x, int y) {
         velocity.set(x, y);
-
     }
 
 }

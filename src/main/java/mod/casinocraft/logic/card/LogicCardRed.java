@@ -2,10 +2,13 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import mod.casinocraft.util.SoundMap;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
 
 public class LogicCardRed extends LogicBase {   // Rouge et Noir
 
@@ -53,11 +56,6 @@ public class LogicCardRed extends LogicBase {   // Rouge et Noir
 
     //----------------------------------------UPDATE----------------------------------------//
 
-    public void updateMotion(){
-        for(Card c : cards_rouge) { c.update(); }
-        for(Card c : cards_noir ) { c.update(); }
-    }
-
     public void updateLogic(){
         if(turnstate == 3) {
             if(value_rouge < 31) {
@@ -65,8 +63,10 @@ public class LogicCardRed extends LogicBase {   // Rouge et Noir
                     value_rouge += cards_rouge.get(cards_rouge.size() - 1).number >= 9 ? 10 : (cards_rouge.get(cards_rouge.size() - 1).number + 1);
                     if(value_rouge >= 31) {
                         cards_noir.add(new Card(RANDOM, 0, -50));
+                        setJingle(SOUND_CARD_PLACE);
                     } else {
                         cards_rouge.add(new Card(RANDOM, 0, -50));
+                        setJingle(SOUND_CARD_PLACE);
                     }
                 }
             } else {
@@ -76,10 +76,16 @@ public class LogicCardRed extends LogicBase {   // Rouge et Noir
                         result();
                     } else {
                         cards_noir.add(new Card(RANDOM, 0, -50));
+                        setJingle(SOUND_CARD_PLACE);
                     }
                 }
             }
         }
+    }
+
+    public void updateMotion(){
+        for(Card c : cards_rouge) { c.update(); }
+        for(Card c : cards_noir ) { c.update(); }
     }
 
 
@@ -112,6 +118,9 @@ public class LogicCardRed extends LogicBase {   // Rouge et Noir
         if(value_rouge <  value_noir) { hand = "Rouge Wins!"; if(selector.X == 0) { reward[0] = 2; } }
         if(value_rouge >  value_noir) { hand = "Noir Wins!";  if(selector.X == 1) { reward[0] = 2; } }
         if(value_rouge == value_noir) { hand = "Tie!";                              reward[0] = 1; }
+        if(reward[0] >= 2){
+            jingle = SoundMap.SOUND_REWARD;
+        }
     }
 
 

@@ -40,7 +40,10 @@ public class BlockDice extends BlockBlock {
     //----------------------------------------PLACEMENT----------------------------------------//
 
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+        if(context.getPlayer().isSneaking()){
+            return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+        }
+        return this.getDefaultState().with(FACING, Direction.byIndex(RANDOM.nextInt(4)+2)).with(ROTATION, RANDOM.nextInt(4));
     }
 
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack){

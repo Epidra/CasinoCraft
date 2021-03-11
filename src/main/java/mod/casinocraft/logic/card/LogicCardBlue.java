@@ -2,11 +2,15 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import mod.casinocraft.util.KeyMap;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_SHOVE;
 
 public class LogicCardBlue extends LogicBase {   // FreeCell
 
@@ -15,6 +19,7 @@ public class LogicCardBlue extends LogicBase {   // FreeCell
     public Card[] cards_freecell     = new Card[4];
     public int compress = 1;
     public int timer = 0;
+
 
 
 
@@ -73,6 +78,7 @@ public class LogicCardBlue extends LogicBase {   // FreeCell
 
         compress = 2;
         timer = -1;
+        setJingle(SOUND_CARD_SHOVE);
     }
 
 
@@ -90,7 +96,7 @@ public class LogicCardBlue extends LogicBase {   // FreeCell
             if(action == -6) touchFinish(1);
             if(action == -7) touchFinish(2);
             if(action == -8) touchFinish(3);
-            if(action == -9) timer = 1;
+            if(action == KeyMap.KEY_ENTER) timer = 1;
             if(action >=  0){ touchField(action%8, action/8); }
         }
     }
@@ -233,6 +239,7 @@ public class LogicCardBlue extends LogicBase {   // FreeCell
             cards.add(deck.get(0));
             deck.remove(0);
         }
+        setJingle(SOUND_CARD_PLACE);
     }
 
     private void transferCards(List<Card> cards_field2, List<Card> deck, int position, int count, int shiftX, int shiftY){
@@ -241,6 +248,7 @@ public class LogicCardBlue extends LogicBase {   // FreeCell
             cards_field2.add(deck.get(position));
             deck.remove(position);
         }
+        setJingle(SOUND_CARD_PLACE);
     }
 
     private List<Card> shuffleDeck() {
@@ -275,6 +283,7 @@ public class LogicCardBlue extends LogicBase {   // FreeCell
                     cards_freecell[cell].set(cards_field[selector.X].get(cards_field[selector.X].size() - 1));
                     cards_field[selector.X].remove(cards_field[selector.X].size() - 1);
                     selector.set(-1, -1);
+                    setJingle(SOUND_CARD_PLACE);
                 }
             }
         }
@@ -298,6 +307,7 @@ public class LogicCardBlue extends LogicBase {   // FreeCell
                     cards_finish[slot].add(cards_freecell[selector.X]);
                     cards_freecell[selector.X] = new Card(-1, -1);
                     selector.set(-1,  -1);
+                    setJingle(SOUND_CARD_PLACE);
                 }
             } else { // Field-to-Finish
                 if(selector.Y == cards_field[selector.X].size() - 1) {
@@ -316,6 +326,7 @@ public class LogicCardBlue extends LogicBase {   // FreeCell
                         cards_finish[slot].add(cards_field[selector.X].get(cards_field[selector.X].size() - 1));
                         cards_field[selector.X].remove(cards_field[selector.X].size() - 1);
                         selector.set(-1,  -1);
+                        setJingle(SOUND_CARD_PLACE);
                     }
                 }
             }

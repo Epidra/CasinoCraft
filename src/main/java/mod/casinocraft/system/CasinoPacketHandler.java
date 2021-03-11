@@ -21,10 +21,8 @@ public class CasinoPacketHandler {
 
     public static void register(){
         int disc = 0;
-        INSTANCE.registerMessage(disc++, MessageBlockClient.class,     MessageBlockClient::encode,     MessageBlockClient::decode,     MessageBlockClient.Handler::handle);
-        INSTANCE.registerMessage(disc++, MessageBlockServer.class,     MessageBlockServer::encode,     MessageBlockServer::decode,     MessageBlockServer.Handler::handle);
-        INSTANCE.registerMessage(disc++, MessageBoardClient.class,     MessageBoardClient::encode,     MessageBoardClient::decode,     MessageBoardClient.Handler::handle);
-        INSTANCE.registerMessage(disc++, MessageBoardServer.class,     MessageBoardServer::encode,     MessageBoardServer::decode,     MessageBoardServer.Handler::handle);
+        INSTANCE.registerMessage(disc++, MessageSettingClient.class,   MessageSettingClient::encode,   MessageSettingClient::decode,   MessageSettingClient.Handler::handle);
+        INSTANCE.registerMessage(disc++, MessageSettingServer.class,   MessageSettingServer::encode,   MessageSettingServer::decode,   MessageSettingServer.Handler::handle);
         INSTANCE.registerMessage(disc++, MessagePlayerClient.class,    MessagePlayerClient::encode,    MessagePlayerClient::decode,    MessagePlayerClient.Handler::handle);
         INSTANCE.registerMessage(disc++, MessagePlayerServer.class,    MessagePlayerServer::encode,    MessagePlayerServer::decode,    MessagePlayerServer.Handler::handle);
         INSTANCE.registerMessage(disc++, MessageModuleClient.class,    MessageModuleClient::encode,    MessageModuleClient::decode,    MessageModuleClient.Handler::handle);

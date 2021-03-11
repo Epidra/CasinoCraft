@@ -1,12 +1,9 @@
 package mod.casinocraft.screen.mino;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
-import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.logic.mino.LogicMinoLightGray;
-import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -38,12 +35,18 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
         if(logic().turnstate == 2 && mouseButton == 0){
             for(int y = 0; y < 14; y++){
                 for(int x = 0; x < 26; x++){
-                    if(mouseRect(16-96 + 16*x, 16 + 16*y, 16, 16, mouseX, mouseY)){ action(x + y*26); }
+                    if(mouseRect(-80 + 16*x, 16 + 16*y, 16, 16, mouseX, mouseY)){ action(x + y*26); }
+                }
+            }
+        }
+        if(logic().turnstate == 2 && mouseButton == 1){
+            for(int y = 0; y < 14; y++){
+                for(int x = 0; x < 26; x++){
+                    if(mouseRect(-80 + 16*x, 16 + 16*y, 16, 16, mouseX, mouseY)){ action(x + y*26 + 1000); }
                 }
             }
         }
@@ -53,38 +56,32 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
         }
     }
 
-    protected void keyTyped2(int keyCode){
-
-    }
-
 
 
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
         if(logic().tableID == 1) {
-            drawFont(matrixstack, "POINTS",           24, 24);
+            drawFont(matrixstack, "POINTS",                24, 24);
             drawFont(matrixstack, "" + logic().scorePoint, 34, 34);
-            drawFont(matrixstack, "BOMBS",            205, 24);
-            drawFont(matrixstack, "" + logic().bombs, 214, 34);
+            drawFont(matrixstack, "BOMBS",                205, 24);
+            drawFont(matrixstack, "" + logic().bombs,     214, 34);
         } else {
-            drawFont(matrixstack, "POINTS",           24-76-16, 24);
+            drawFont(matrixstack, "POINTS",                24-76-16, 24);
             drawFont(matrixstack, "" + logic().scorePoint, 34-76-16, 34);
-            drawFont(matrixstack, "BOMBS",            204+76+16, 24);
-            drawFont(matrixstack, "" + logic().bombs, 214+76+16, 34);
+            drawFont(matrixstack, "BOMBS",                204+76+16, 24);
+            drawFont(matrixstack, "" + logic().bombs,     214+76+16, 34);
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
         for(int y = 0; y < 14; y++){
             for(int x = 0; x < 26; x++){
                 int i = logic().grid[x][y];
-                if(i >= 20){ // hidden
-                    drawMinoSmall(matrixstack, -96 + 16 + 16*x,  + 16 + 16*y, 0, false);
+                if(i >= 100){ // hidden
+                    drawMinoSmall(matrixstack, -96 + 16 + 16*x,  + 16 + 16*y, i >= 200 ? 11 : 0, false);
                 } else {
                     if(i == 9) { // Bomb
                         drawMinoSmall(matrixstack, -96 + 16 + 16*x,  + 16 + 16*y, 12, false);
@@ -100,8 +97,7 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
 
     }
 
-    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
             blit(matrixstack, guiLeft+24+7,  guiTop+204+2,  0, 0, 78, 22); // Button Hit
@@ -122,7 +118,7 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
     //----------------------------------------SUPPORT----------------------------------------//
 
     protected String getGameName() {
-        return "minesweeper";
+        return "mine_sweeper";
     }
 
 }

@@ -5,6 +5,9 @@ import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
+import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
+import static mod.casinocraft.util.SoundMap.SOUND_ROULETTE;
+
 public class LogicMinoRed extends LogicBase {   // Roulette
 
     private float rotation_wheel;
@@ -59,6 +62,7 @@ public class LogicMinoRed extends LogicBase {   // Roulette
             int y = action / 25;
             if(grid[x][y] == 0){
                 selector.set(x, y);
+                setJingle(SOUND_CHIP);
             }
         }
     }
@@ -67,10 +71,6 @@ public class LogicMinoRed extends LogicBase {   // Roulette
 
 
     //----------------------------------------UPDATE----------------------------------------//
-
-    public void updateMotion(){
-
-    }
 
     public void updateLogic(){
         if(turnstate == 2){
@@ -82,12 +82,15 @@ public class LogicMinoRed extends LogicBase {   // Roulette
         if(turnstate == 3) {
             if(timer > 0) {
                 if(timer > 20) {
-                    //rotation_wheel += (timer / 5000f);
                     rotation_ball  += (timer / 1000f);
                 }
                 timer--;
             }
         }
+    }
+
+    public void updateMotion(){
+
     }
 
 
@@ -190,6 +193,7 @@ public class LogicMinoRed extends LogicBase {   // Roulette
                 turnstate = 3;
             }
         } else if(turnstate == 3 && !spinning) {
+            setJingle(SOUND_ROULETTE);
             timer = 100 + RANDOM.nextInt(150);
             spinning = true;
         } else if(turnstate == 3 && timer == 0) {

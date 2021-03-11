@@ -4,14 +4,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.mino.LogicMinoOrange;
-import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 
 import java.util.Random;
-
-import static mod.casinocraft.util.KeyMap.*;
 
 public class ScreenMinoOrange extends ScreenCasino {   // Craps
 
@@ -42,8 +39,7 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
         if(logic().turnstate == 2 && mouseButton == 0) {
             for(int y = 0; y < 5; y++){
                 for(int x = 0; x < 8; x++){
@@ -74,21 +70,16 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
         }
     }
 
-    protected void keyTyped2(int keyCode){
-        if(keyCode == KEY_ENTER){ action(-2); }
-    }
-
 
 
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
-        if(logic().turnstate >= 2) { drawFont(matrixstack, logic().hand,        20, 28); }
-        if(logic().result > -1) {    drawFont(matrixstack, "" + logic().result,  200, 28); }
-        if(logic().point > -1) {     drawFont(matrixstack, "" + logic().point,  220, 28); }
-        if(logic().comepoint > -1) { drawFont(matrixstack, "" + logic().comepoint,  240, 28); }
+    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+        if(logic().turnstate >= 2) { drawFont(matrixstack, logic().hand,                 20, 28); }
+        if(logic().result > -1) {    drawFont(matrixstack, "" + logic().result,    200, 28); }
+        if(logic().point > -1) {     drawFont(matrixstack, "" + logic().point,     220, 28); }
+        if(logic().comepoint > -1) { drawFont(matrixstack, "" + logic().comepoint, 240, 28); }
         if(logic().turnstate == 2){
             if(CasinoKeeper.config_timeout.get() - logic().timeout > 0){
                 drawFontInvert(matrixstack, "" + (CasinoKeeper.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
@@ -96,8 +87,7 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(tableID == 1){
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_CRAPS_MIDDLE);
             this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
@@ -125,15 +115,7 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
                         this.blit(matrixstack, guiLeft+posX, guiTop+posY, 224, 32 * (logic().activePlayer+1), 32, 32);
                 }
             }
-
-            //for(int y = 0; y < 5; y++){
-            //    for(int x = 0; x < 8; x++){
-            //        color = logic().grid[x][y];
-            //        if(color != 0) this.blit(guiLeft+-50 + 16*x, guiTop+49 + 32*y, 192, color == 1 ? 224 : color == 2 ? 128 : 32, 32, 32);
-            //    }
-            //}
         }
-        //if(logic().selector.X > -1) this.blit(guiLeft+-50 + 16*logic().selector.X, guiTop+49 + 32*logic().selector.Y, 192, 0, 32, 32);
 
         if(logic().turnstate == 3){
             this.blit(matrixstack, guiLeft + logic().dice[0].posX, guiTop + logic().dice[0].posY, logic().dice[0].number*32, diceColor*32, 32, 32);
@@ -141,8 +123,7 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             if(playerToken == -1) validateBet();

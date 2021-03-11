@@ -2,11 +2,15 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import mod.casinocraft.util.KeyMap;
+import mod.casinocraft.util.SoundMap;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static mod.casinocraft.util.SoundMap.*;
 
 public class LogicCardLightBlue extends LogicBase {   // Klondike
 
@@ -69,6 +73,8 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
         compress = 4;
 
         timer = -1;
+
+        setJingle(SOUND_CARD_SHOVE);
     }
 
 
@@ -78,7 +84,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
 
     public void command(int action){
         if(timer == -1){
-            if(action == -9) timer = 1;
+            if(action == KeyMap.KEY_ENTER) timer = 1;
             if(action == -1) drawReserve();
             if(action == -2) touchStack();
             if(action == -5) touchFinish(0);
@@ -93,10 +99,6 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
 
 
     //----------------------------------------UPDATE----------------------------------------//
-
-    public void updateMotion(){
-
-    }
 
     public void updateLogic(){
         if(timer == 0){
@@ -191,6 +193,10 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
         }
     }
 
+    public void updateMotion(){
+
+    }
+
 
 
 
@@ -249,6 +255,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
         for(int i = position; i < position + count; i++){
             cards_field2.add(deck.get(position));
             deck.remove(position);
+            setJingle(SOUND_CARD_PLACE);
         }
     }
 
@@ -257,6 +264,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
             deck.get(position).setShift(shiftX, shiftY, 0);
             cards_field2.add(deck.get(position));
             deck.remove(position);
+            setJingle(SOUND_CARD_PLACE);
         }
     }
 
@@ -292,6 +300,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
             cards_reserve.get(0).setShift(-32, 0, 0);
             cards_stack.add(cards_reserve.get(0));
             cards_reserve.remove(0);
+            setJingle(SOUND_CARD_SHOVE);
         } else {
             if(scoreLives > 0){
                 cards_reserve.addAll(cards_stack);
@@ -301,6 +310,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
                 //if(difficulty == 3) scoreLives--;
                 scorePoint -= 100;
                 if(scorePoint < 0) scorePoint = 0;
+                setJingle(SOUND_CARD_SHOVE);
             }
         }
     }
@@ -321,6 +331,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
                             selector.set(-1,  -1);
                             uncover();
                             scorePoint+=10;
+                            setJingle(SOUND_CARD_PLACE);
                         }
                     } else {
                         if((cards_stack.get(cards_stack.size() - 1).number - 1 == cards_finish[slot].get(cards_finish[slot].size() - 1).number) && cards_finish[slot].get(cards_finish[slot].size() - 1).suit == cards_stack.get(cards_stack.size() - 1).suit) {
@@ -330,6 +341,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
                             selector.set(-1, -1);
                             uncover();
                             scorePoint+=10;
+                            setJingle(SOUND_CARD_PLACE);
                         }
                     }
                 }
@@ -343,6 +355,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
                             selector.set(-1,  -1);
                             uncover();
                             scorePoint+=10;
+                            setJingle(SOUND_CARD_PLACE);
                         }
                     } else {
                         if((cards_field[selector.X].get(selector.Y).number - 1 == cards_finish[slot].get(cards_finish[slot].size() - 1).number) && cards_finish[slot].get(cards_finish[slot].size() - 1).suit == cards_field[selector.X].get(selector.Y).suit) {
@@ -352,6 +365,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
                             selector.set(-1,  -1);
                             uncover();
                             scorePoint+=10;
+                            setJingle(SOUND_CARD_PLACE);
                         }
                     }
                 }
@@ -414,12 +428,14 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
                 transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
                 selector.set(-1, -1);
                 uncover();
+                setJingle(SOUND_CARD_PLACE);
                 return true;
             } else {
                 if((cards_field[selector.X].get(selector.Y).number + 1 == cards_field[x2].get(y2).number) && differentColors(cards_field[x2].get(y2).suit, cards_field[selector.X].get(selector.Y).suit)) {
                     transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
                     selector.set(-1, -1);
                     uncover();
+                    setJingle(SOUND_CARD_PLACE);
                     return true;
                 }
             }
@@ -432,6 +448,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
                     selector.set(-1, -1);
                     uncover();
                     scorePoint+=5;
+                    setJingle(SOUND_CARD_PLACE);
                     return true;
                 } else {
                     if((cards_stack.get(cards_stack.size() - 1).number + 1 == cards_field[x2].get(y2).number) && differentColors(cards_field[x2].get(y2).suit, cards_stack.get(cards_stack.size() - 1).suit)) {
@@ -441,6 +458,7 @@ public class LogicCardLightBlue extends LogicBase {   // Klondike
                         selector.set(-1, -1);
                         uncover();
                         scorePoint+=5;
+                        setJingle(SOUND_CARD_PLACE);
                         return true;
                     }
                 }

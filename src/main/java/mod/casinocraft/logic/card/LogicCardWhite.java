@@ -2,7 +2,11 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import mod.casinocraft.util.SoundMap;
 import net.minecraft.nbt.CompoundNBT;
+
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_SHOVE;
 
 public class LogicCardWhite extends LogicBase {   // Single Poker
     public boolean[] hold = new boolean[5];
@@ -33,6 +37,7 @@ public class LogicCardWhite extends LogicBase {   // Single Poker
         }
         ticker = 0;
         movestate = 0;
+        setJingle(SOUND_CARD_SHOVE);
     }
 
 
@@ -56,14 +61,6 @@ public class LogicCardWhite extends LogicBase {   // Single Poker
 
 
     //----------------------------------------UPDATE----------------------------------------//
-
-    public void updateMotion(){
-        if(turnstate == 2) {
-            for(int i = 0; i < 5; i++){
-                cards_field[i].update();
-            }
-        }
-    }
 
     public void updateLogic(){
         switch(movestate){
@@ -117,6 +114,14 @@ public class LogicCardWhite extends LogicBase {   // Single Poker
                     movestate = 0;
                 }
                 break;
+        }
+    }
+
+    public void updateMotion(){
+        if(turnstate == 2) {
+            for(int i = 0; i < 5; i++){
+                cards_field[i].update();
+            }
         }
     }
 
@@ -244,6 +249,9 @@ public class LogicCardWhite extends LogicBase {   // Single Poker
         } else if((cards_field[3].number >= 10 || cards_field[3].number == 0) && cards_field[3].number == cards_field[4].number) {
             hand = "Jacks or Better";
             reward[0] = 1;
+        }
+        if(reward[0] >= 2){
+            jingle = SoundMap.SOUND_REWARD;
         }
     }
 

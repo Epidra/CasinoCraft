@@ -14,39 +14,48 @@ import java.util.function.Supplier;
 public class MessagePlayerServer {
 
     static ItemStack stack;
-    static int meta;
     static int amount;
 
-    public MessagePlayerServer(Item item, int meta, int amount) {
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
+    public MessagePlayerServer(Item item, int amount) {
         this.stack = new ItemStack(item, 1);
-        this.meta = meta;
         this.amount = amount;
     }
 
+
+
+
+    //----------------------------------------ENCODE/DECODE----------------------------------------//
+
     public static void encode (MessagePlayerServer msg, PacketBuffer buf) {
         buf.writeItemStack(msg.stack);
-        buf.writeInt(msg.meta);
         buf.writeInt(msg.amount);
     }
 
     public static MessagePlayerServer decode (PacketBuffer buf) {
         ItemStack _stack = buf.readItemStack();
-        int _meta = buf.readInt();
         int _amount = buf.readInt();
-        return new MessagePlayerServer(_stack.getItem(), _meta, _amount);
+        return new MessagePlayerServer(_stack.getItem(), _amount);
     }
+
+
+
+
+    //----------------------------------------HANDLER----------------------------------------//
 
     public static class Handler {
         public static void handle (final MessagePlayerServer message, Supplier<NetworkEvent.Context> context) {
             ServerPlayerEntity serverPlayer = context.get().getSender();
             Item item = message.stack.getItem();
             int amount = message.amount;
-            int meta = message.meta;
 
             context.get().enqueueWork(() ->{
                 if(amount < 0){
                     InventoryUtil.decreaseInventory(serverPlayer.inventory, message.stack, -amount);
-                    //serverPlayer.inventory.clearMatchingItems(Predicate.isEqual(message.stack), -amount);
                     int i = 0;
                     ItemStack itemStack = ItemStack.EMPTY;
                     Predicate<ItemStack> p_195408_1_ = Predicate.isEqual(message.stack);
@@ -62,10 +71,6 @@ public class MessagePlayerServer {
                                 if (itemstack.isEmpty()) {
                                     serverPlayer.inventory.setInventorySlotContents(j, ItemStack.EMPTY);
                                 }
-
-                                if (count > 0 && i >= count) {
-                                    //return i;
-                                }
                             }
                         }
                     }
@@ -77,10 +82,6 @@ public class MessagePlayerServer {
                             itemStack.shrink(l);
                             if (itemStack.isEmpty()) {
                                 itemStack = ItemStack.EMPTY;
-                            }
-
-                            if (count > 0 && i >= count) {
-                                //return i;
                             }
                         }
                     }

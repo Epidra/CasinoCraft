@@ -5,12 +5,9 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.mino.LogicMinoWhite;
-import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
-
-import static mod.casinocraft.util.KeyMap.*;
 
 public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
 
@@ -39,30 +36,16 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
         if (mouseButton == 0){
             for(int y = 0; y < 9; y++) {
                 for(int x = 0; x < 9; x++) {
                     if(mouseRect(20 + 24*x, 20 + 24*y, 24, 24, mouseX, mouseY)){
-                        if(logic().grid[x][y] < 10) action(100 + y*9 + x);
+                        if(logic().grid[x][y] < 10) action(y*9 + x);
                     }
                 }
             }
         }
-    }
-
-    protected void keyTyped2(int keyCode){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
-        if(keyCode == KEY_1) { action(1); }
-        if(keyCode == KEY_2) { action(2); }
-        if(keyCode == KEY_3) { action(3); }
-        if(keyCode == KEY_4) { action(4); }
-        if(keyCode == KEY_5) { action(5); }
-        if(keyCode == KEY_6) { action(6); }
-        if(keyCode == KEY_7) { action(7); }
-        if(keyCode == KEY_8) { action(8); }
-        if(keyCode == KEY_9) { action(9); }
     }
 
 
@@ -70,12 +53,11 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SUDOKU);
         this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
@@ -93,7 +75,7 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

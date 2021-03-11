@@ -14,11 +14,21 @@ public class MessageModuleClient {
     static int y;
     static int z;
 
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
     public MessageModuleClient(BlockPos pos) {
         this.x = pos.getX();
         this.y = pos.getY();
         this.z = pos.getZ();
     }
+
+
+
+
+    //----------------------------------------ENCODE/DECODE----------------------------------------//
 
     public static void encode (MessageModuleClient msg, PacketBuffer buf) {
         buf.writeInt(msg.x);
@@ -32,6 +42,11 @@ public class MessageModuleClient {
         int _z = buf.readInt();
         return new MessageModuleClient(new BlockPos(_x, _y, _z));
     }
+
+
+
+
+    //----------------------------------------HANDLER----------------------------------------//
 
     public static class Handler {
         public static void handle (final MessageModuleClient message, Supplier<NetworkEvent.Context> context) {

@@ -3,7 +3,6 @@ package mod.casinocraft.screen.card;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.card.LogicCardCyan;
-import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Card;
 import net.minecraft.entity.player.PlayerInventory;
@@ -36,8 +35,7 @@ public class ScreenCardCyan extends ScreenCasino {   // Spider
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
         if(logic().turnstate == 2 && mouseButton == 0){
             for(int y = 0; y < 20; y++){
                 for(int x = 0; x < 10; x++){
@@ -48,21 +46,16 @@ public class ScreenCardCyan extends ScreenCasino {   // Spider
         }
     }
 
-    protected void keyTyped2(int keyCode){
-
-    }
-
 
 
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         for(int x = 0; x < 10; x++){
             for(int y = 0; y < logic().cards_field[x].size(); y++){
                 drawCard(matrixstack, -32 + x*32, 16+4 + y*(24-logic().compress), logic().cards_field[x].get(y));
@@ -87,7 +80,7 @@ public class ScreenCardCyan extends ScreenCasino {   // Spider
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

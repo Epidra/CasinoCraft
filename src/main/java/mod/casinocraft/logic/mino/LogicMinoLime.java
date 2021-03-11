@@ -6,6 +6,8 @@ import net.minecraft.nbt.CompoundNBT;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
+
 public class LogicMinoLime extends LogicBase {   // Simon
 
     public int[] alpha = new int[4];
@@ -79,19 +81,13 @@ public class LogicMinoLime extends LogicBase {   // Simon
 
         color_player.add(action);
         alpha[action] = getAlpha();
-        //if(color_player.size() == color_simon.size()){
-        //    turnstate = 3;
-        //}
+        setJingle(SOUND_CHIP);
     }
 
 
 
 
     //----------------------------------------UPDATE----------------------------------------//
-
-    public void updateMotion() {
-
-    }
 
     public void updateLogic() {
 
@@ -127,6 +123,10 @@ public class LogicMinoLime extends LogicBase {   // Simon
                 }
             }
         }
+    }
+
+    public void updateMotion() {
+
     }
 
 

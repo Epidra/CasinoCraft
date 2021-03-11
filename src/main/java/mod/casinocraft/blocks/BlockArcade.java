@@ -3,29 +3,42 @@ package mod.casinocraft.blocks;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerProvider;
 import mod.casinocraft.tileentities.TileEntityArcade;
-import mod.casinocraft.tileentities.TileEntityBoard;
+import mod.casinocraft.tileentities.TileEntityMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.loot.*;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 public class BlockArcade extends MachinaDoubleTall {
 
@@ -55,24 +68,20 @@ public class BlockArcade extends MachinaDoubleTall {
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (world.isRemote) {
-            return ActionResultType.SUCCESS;
-        } else {
-            if (!world.isRemote() && player instanceof ServerPlayerEntity) {
-                boolean isPrimary = world.getBlockState(pos).get(OFFSET);
-                final BlockPos pos2 = isPrimary ? pos : pos.down();
-                TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos2);
-                if (tileEntity instanceof TileEntityArcade) {
-                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider(tileEntity), buf -> buf.writeBlockPos(pos2));
-                }
+        if (!world.isRemote() && player instanceof ServerPlayerEntity){
+            final BlockPos pos2 = getTilePosition(pos, state.get(OFFSET), Direction.DOWN);
+            TileEntityMachine tileEntity = (TileEntityMachine) world.getTileEntity(pos2);
+            if (tileEntity instanceof TileEntityArcade) {
+                NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider(tileEntity), buf -> buf.writeBlockPos(pos2));
             }
-            return ActionResultType.SUCCESS;
+
         }
+        return ActionResultType.SUCCESS;
     }
 
     public static void setModuleState(World world, BlockPos pos){
         BlockState iblockstate = world.getBlockState(pos);
-        TileEntityBoard tileentity = (TileEntityBoard) world.getTileEntity(pos);
+        TileEntityMachine tileentity = (TileEntityMachine) world.getTileEntity(pos);
         if (tileentity != null){
             if(tileentity.inventory.get(0).isEmpty()){
                 world.setBlockState(pos,      iblockstate.with(                    MODULE, 17), 3);
@@ -104,11 +113,6 @@ public class BlockArcade extends MachinaDoubleTall {
 
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING, OFFSET, MODULE);
-    }
-
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return state.get(OFFSET);
     }
 
     @Nullable

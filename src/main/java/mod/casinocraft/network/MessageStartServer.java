@@ -1,11 +1,7 @@
 package mod.casinocraft.network;
 
 import mod.casinocraft.system.CasinoPacketHandler;
-import mod.casinocraft.tileentities.TileEntityBoard;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import mod.casinocraft.tileentities.TileEntityMachine;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -20,6 +16,11 @@ public class MessageStartServer {
     static int y;
     static int z;
 
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
     public MessageStartServer(String name, int seed, BlockPos pos) {
         this.name = name;
         this.seed = seed;
@@ -27,6 +28,11 @@ public class MessageStartServer {
         this.y = pos.getY();
         this.z = pos.getZ();
     }
+
+
+
+
+    //----------------------------------------ENCODE/DECODE----------------------------------------//
 
     public static void encode (MessageStartServer msg, PacketBuffer buf) {
         buf.writeString(msg.name);
@@ -45,12 +51,17 @@ public class MessageStartServer {
         return new MessageStartServer(_name, _seed, new BlockPos(_x, _y, _z));
     }
 
+
+
+
+    //----------------------------------------HANDLER----------------------------------------//
+
     public static class Handler {
         public static void handle (final MessageStartServer message, Supplier<NetworkEvent.Context> context) {
             BlockPos pos = new BlockPos(message.x, message.y, message.z);
             context.get().enqueueWork(() ->{
                 int seed = message.seed;
-                TileEntityBoard te = (TileEntityBoard) context.get().getSender().world.getTileEntity(pos);
+                TileEntityMachine te = (TileEntityMachine) context.get().getSender().world.getTileEntity(pos);
                 te.LOGIC.addPlayer(message.name);
                 if(seed > -1) te.LOGIC.start(seed);
             });

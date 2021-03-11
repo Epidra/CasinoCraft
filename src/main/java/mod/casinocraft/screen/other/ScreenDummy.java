@@ -1,14 +1,11 @@
 package mod.casinocraft.screen.other;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
-
-import java.util.Random;
 
 public class ScreenDummy extends ScreenCasino {   // Dummy
 
@@ -37,11 +34,7 @@ public class ScreenDummy extends ScreenCasino {   // Dummy
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
-
-    }
-
-    protected void keyTyped2(int keyCode){
+    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
     }
 
@@ -50,15 +43,15 @@ public class ScreenDummy extends ScreenCasino {   // Dummy
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

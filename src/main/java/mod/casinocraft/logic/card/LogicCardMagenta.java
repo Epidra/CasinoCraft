@@ -7,6 +7,8 @@ import net.minecraft.nbt.CompoundNBT;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mod.casinocraft.util.SoundMap.*;
+
 public class LogicCardMagenta extends LogicBase {   // Pyramid
 
     public Card[] cards_field       = new Card[28];
@@ -72,6 +74,8 @@ public class LogicCardMagenta extends LogicBase {   // Pyramid
         cards_field[25].setShift(-16*2, -20*6, 0);
         cards_field[26].setShift(-16*4, -20*6, 0);
         cards_field[27].setShift(-16*6, -20*6, 0);
+
+        setJingle(SOUND_CARD_SHOVE);
     }
 
     private void restart() {
@@ -117,6 +121,8 @@ public class LogicCardMagenta extends LogicBase {   // Pyramid
         cards_field[25].setShift(-16*2, -20*6, 0);
         cards_field[26].setShift(-16*4, -20*6, 0);
         cards_field[27].setShift(-16*6, -20*6, 0);
+
+        setJingle(SOUND_CARD_SHOVE);
     }
 
 
@@ -136,10 +142,6 @@ public class LogicCardMagenta extends LogicBase {   // Pyramid
 
     //----------------------------------------UPDATE----------------------------------------//
 
-    public void updateMotion(){
-
-    }
-
     public void updateLogic(){
         if(turnstate >= 2){
             if(cards_stack.size() > 0) for (Card card : cards_stack) {
@@ -158,6 +160,10 @@ public class LogicCardMagenta extends LogicBase {   // Pyramid
             if(cards_stack  .size() > 0) if(cards_stack  .get(cards_stack.size() - 1).deathtimer >= 48) cards_stack  .remove(cards_stack.get(cards_stack.size() - 1));
             if(cards_reserve.size() > 0) if(cards_reserve.get(0                     ).deathtimer >= 48) cards_reserve.remove(0);
         }
+    }
+
+    public void updateMotion(){
+
     }
 
 
@@ -207,6 +213,7 @@ public class LogicCardMagenta extends LogicBase {   // Pyramid
             cards_reserve.get(0).shiftX = 64;
             cards_stack.add(cards_reserve.get(0));
             cards_reserve.remove(0);
+            setJingle(SOUND_CARD_SHOVE);
         } else {
             cards_reserve.addAll(cards_stack);
             cards_stack.clear();
@@ -215,6 +222,7 @@ public class LogicCardMagenta extends LogicBase {   // Pyramid
             } else {
                 scoreLives--;
             }
+            setJingle(SOUND_CARD_SHOVE);
         }
     }
 
@@ -357,6 +365,7 @@ public class LogicCardMagenta extends LogicBase {   // Pyramid
             if(findNumber(id) == 12){
                 setDead(id);
                 scorePoint += 50;
+                setJingle(SOUND_CARD_PLACE);
             } else {
                 selector.X = id;
             }
@@ -366,10 +375,12 @@ public class LogicCardMagenta extends LogicBase {   // Pyramid
                 setDead(selector.X);
                 selector.X = -1;
                 scorePoint += 50;
+                setJingle(SOUND_CARD_PLACE);
 
             } else if(findNumber(id) == 12){ // Set new Selector
                 setDead(id);
                 scorePoint += 50;
+                setJingle(SOUND_CARD_PLACE);
             } else {
                 selector.X = id;
             }

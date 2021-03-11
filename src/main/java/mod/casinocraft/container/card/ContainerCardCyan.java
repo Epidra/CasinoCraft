@@ -2,7 +2,7 @@ package mod.casinocraft.container.card;
 
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
-import mod.casinocraft.tileentities.TileEntityBoard;
+import mod.casinocraft.tileentities.TileEntityMachine;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
 
@@ -16,7 +16,7 @@ public class ContainerCardCyan extends ContainerCasino {
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor **/
-    public ContainerCardCyan(int windowID, PlayerInventory playerInventory, TileEntityBoard board) {
+    public ContainerCardCyan(int windowID, PlayerInventory playerInventory, TileEntityMachine board) {
         super(CasinoKeeper.CONTAINER_CARD_CYAN.get(), windowID, playerInventory, board);
     }
 

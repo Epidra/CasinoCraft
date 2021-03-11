@@ -23,14 +23,14 @@ import javax.annotation.Nullable;
 
 public class ContainerProvider implements INamedContainerProvider {
 
-    public TileEntityBoard board;
+    public TileEntityMachine board;
 
 
 
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ContainerProvider(@Nonnull TileEntityBoard tile) {
+    public ContainerProvider(@Nonnull TileEntityMachine tile) {
         this.board = tile;
     }
 
@@ -42,12 +42,10 @@ public class ContainerProvider implements INamedContainerProvider {
     @Nullable
     @Override
     public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-        Item heldItem = playerInventory.mainInventory.get(playerInventory.currentItem).getItem();
-        Item key = this.board.getKey();
         Item module = this.board.getModule();
+        boolean gainAccess = this.board.getKey() == Blocks.AIR.asItem() || (this.board.getKey() == playerInventory.mainInventory.get(playerInventory.currentItem).getItem() && playerInventory.mainInventory.get(playerInventory.currentItem).getDisplayName().getString().matches(this.board.inventory.get(0).getDisplayName().getString()));
         if(this.board instanceof TileEntityArcade){
-            if(key == heldItem)                                     return new ContainerArcade(       windowId, playerInventory, this.board);
-            if(key == Blocks.AIR.asItem())                          return new ContainerArcade(       windowId, playerInventory, this.board);
+            if(gainAccess)                                          return new ContainerArcade(       windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CHIP_WHITE.get())      return new ContainerChipWhite(    windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CHIP_ORANGE.get())     return new ContainerChipOrange(   windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CHIP_MAGENTA.get())    return new ContainerChipMagenta(  windowId, playerInventory, this.board);
@@ -66,8 +64,7 @@ public class ContainerProvider implements INamedContainerProvider {
             if(module == CasinoKeeper.MODULE_CHIP_BLACK.get())      return new ContainerChipBlack(    windowId, playerInventory, this.board);
         }
         else if(this.board instanceof TileEntityCardTableBase || this.board instanceof TileEntityCardTableWide){
-            if(key == heldItem)                                     return new ContainerCardTable(windowId, playerInventory, this.board);
-            if(key == Blocks.AIR.asItem())                          return new ContainerCardTable(windowId, playerInventory, this.board);
+            if(gainAccess)                                          return new ContainerCardTable(    windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CARD_WHITE.get())      return new ContainerCardWhite(    windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CARD_ORANGE.get())     return new ContainerCardOrange(   windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CARD_MAGENTA.get())    return new ContainerCardMagenta(  windowId, playerInventory, this.board);
@@ -102,9 +99,8 @@ public class ContainerProvider implements INamedContainerProvider {
             if(module == CasinoKeeper.MODULE_MINO_RED.get())        return new ContainerMinoRed(      windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_MINO_BLACK.get())      return new ContainerMinoBlack(    windowId, playerInventory, this.board);
         } else if(this.board instanceof TileEntitySlotMachine) {
-            if (key == heldItem)            return new ContainerSlotMachine(windowId, playerInventory, this.board);
-            if (key == Blocks.AIR.asItem()) return new ContainerSlotMachine(windowId, playerInventory, this.board);
-                                            return new ContainerSlotGame(   windowId, playerInventory, this.board);
+            if(gainAccess)                                          return new ContainerSlotMachine(  windowId, playerInventory, this.board);
+                                                                    return new ContainerSlotGame(     windowId, playerInventory, this.board);
         }
         return new ContainerDummy(windowId, playerInventory, this.board);
     }
@@ -118,5 +114,6 @@ public class ContainerProvider implements INamedContainerProvider {
     public ITextComponent getDisplayName() {
         return this.board.getName();
     }
+
 }
 

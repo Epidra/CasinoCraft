@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class LogicSlotGame extends LogicBase {
 
-    public int multiplier;
     public int wheel; // What wheel will be halted next
     public int[] wheelPos = new int[3];
     public boolean[] lines = new boolean[5];
@@ -29,7 +28,7 @@ public class LogicSlotGame extends LogicBase {
         wheelPos[0] = 0;
         wheelPos[1] = 0;
         wheelPos[2] = 0;
-        multiplier = 1;
+        scoreLevel = 1;
         wheel = 0;
         lines[0] = false;
         lines[1] = false;
@@ -45,7 +44,7 @@ public class LogicSlotGame extends LogicBase {
 
     public void command(int action) {
         if(action == 0){
-            if(multiplier < 5) multiplier++;
+            if(scoreLevel < 5) scoreLevel++;
         } else {
             if(turnstate == 2){
                 turnstate = 3;
@@ -59,10 +58,6 @@ public class LogicSlotGame extends LogicBase {
 
 
     //----------------------------------------UPDATE----------------------------------------//
-
-    public void updateMotion() {
-
-    }
 
     public void updateLogic() {
         int max = 48*9;
@@ -80,6 +75,9 @@ public class LogicSlotGame extends LogicBase {
                 }
             }
         }
+    }
+
+    public void updateMotion() {
 
     }
 
@@ -89,7 +87,6 @@ public class LogicSlotGame extends LogicBase {
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
-        multiplier = compound.getInt("multiplier");
         wheel = compound.getInt("wheel");
         wheelPos[0] = compound.getInt("wheelpos0");
         wheelPos[1] = compound.getInt("wheelpos1");
@@ -102,7 +99,6 @@ public class LogicSlotGame extends LogicBase {
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        compound.putInt("multiplier", multiplier);
         compound.putInt("wheel", wheel);
         compound.putInt("wheelpos0", wheelPos[0]);
         compound.putInt("wheelpos1", wheelPos[1]);
@@ -148,11 +144,11 @@ public class LogicSlotGame extends LogicBase {
         int pos0 = wheelPos[0] / 48;
         int pos1 = wheelPos[1] / 48;
         int pos2 = wheelPos[2] / 48;
-        if(multiplier >= 1) checkWheel(grid[(pos0 + 1) % 9][0], grid[(pos1 + 1) % 9][1], grid[(pos2 + 1) % 9][2], 0);
-        if(multiplier >= 2) checkWheel(grid[(pos0 + 0) % 9][0], grid[(pos1 + 0) % 9][1], grid[(pos2 + 0) % 9][2], 1);
-        if(multiplier >= 3) checkWheel(grid[(pos0 + 2) % 9][0], grid[(pos1 + 2) % 9][1], grid[(pos2 + 2) % 9][2], 2);
-        if(multiplier >= 4) checkWheel(grid[(pos0 + 0) % 9][0], grid[(pos1 + 1) % 9][1], grid[(pos2 + 2) % 9][2], 3);
-        if(multiplier >= 5) checkWheel(grid[(pos0 + 2) % 9][0], grid[(pos1 + 1) % 9][1], grid[(pos2 + 0) % 9][2], 4);
+        if(scoreLevel >= 1) checkWheel(grid[(pos0 + 1) % 9][0], grid[(pos1 + 1) % 9][1], grid[(pos2 + 1) % 9][2], 0);
+        if(scoreLevel >= 2) checkWheel(grid[(pos0 + 0) % 9][0], grid[(pos1 + 0) % 9][1], grid[(pos2 + 0) % 9][2], 1);
+        if(scoreLevel >= 3) checkWheel(grid[(pos0 + 2) % 9][0], grid[(pos1 + 2) % 9][1], grid[(pos2 + 2) % 9][2], 2);
+        if(scoreLevel >= 4) checkWheel(grid[(pos0 + 0) % 9][0], grid[(pos1 + 1) % 9][1], grid[(pos2 + 2) % 9][2], 3);
+        if(scoreLevel >= 5) checkWheel(grid[(pos0 + 2) % 9][0], grid[(pos1 + 1) % 9][1], grid[(pos2 + 0) % 9][2], 4);
         turnstate = 4;
     }
 
@@ -204,4 +200,5 @@ public class LogicSlotGame extends LogicBase {
     public int getID(){
         return 49;
     }
+
 }

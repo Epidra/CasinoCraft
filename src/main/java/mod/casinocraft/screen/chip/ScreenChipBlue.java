@@ -4,12 +4,9 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.chip.LogicChipBlue;
-import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
-
-import static mod.casinocraft.util.KeyMap.*;
 
 public class ScreenChipBlue extends ScreenCasino {   // Tetris
 
@@ -38,21 +35,8 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
-    }
-
-    protected void keyTyped2(int keyCode){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
-        if(logic().turnstate == 2) {
-            if(keyCode == KEY_UP)    { action(0); }
-            if(keyCode == KEY_DOWN)  { action(1); }
-            if(keyCode == KEY_LEFT)  { action(2); }
-            if(keyCode == KEY_RIGHT) { action(3); }
-            if(keyCode == KEY_M)     { action(4); }
-            if(keyCode == KEY_N)     { action(5); }
-            if(keyCode == KEY_ENTER) { action(6); }
-        }
     }
 
 
@@ -60,8 +44,7 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate >= 2) {
             drawFontInvert(matrixstack, "" + logic().scorePoint,  216, 16);
             drawFontInvert(matrixstack, "" + logic().scoreLives,  216, 36);
@@ -69,14 +52,9 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_TETRIS);
-        if(logic().turnstate < 2){
-            this.blit(matrixstack, guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background
-        } else {
-            this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
-        }
+        this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
 
         if(logic().turnstate >= 2){
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADE);
@@ -96,7 +74,7 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

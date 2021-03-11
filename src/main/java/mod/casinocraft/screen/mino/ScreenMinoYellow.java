@@ -4,14 +4,11 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.mino.LogicMinoYellow;
-import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 
 import java.util.Random;
-
-import static mod.casinocraft.util.KeyMap.*;
 
 public class ScreenMinoYellow extends ScreenCasino {   // SicBo
 
@@ -42,8 +39,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
         if(logic().turnstate == 2 && mouseButton == 0){
             for(int y = 0; y < 6; y++){
                 for(int x = 0; x < 12; x++){
@@ -70,17 +66,12 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
         }
     }
 
-    protected void keyTyped2(int keyCode){
-        if(keyCode == KEY_ENTER){ action(-2); }
-    }
-
 
 
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate >= 4){
             drawFont(matrixstack, logic().hand, 25, -10);
         }
@@ -91,8 +82,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(tableID == 1){
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SICBO_MIDDLE);
             this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
@@ -127,8 +117,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
         this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             if(playerToken == -1) validateBet();

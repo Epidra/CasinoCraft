@@ -10,9 +10,7 @@ import mod.casinocraft.container.mino.*;
 import mod.casinocraft.container.chip.*;
 import mod.casinocraft.container.other.ContainerDummy;
 import mod.casinocraft.container.other.ContainerSlotGame;
-import mod.casinocraft.screen.blocks.ScreenArcade;
-import mod.casinocraft.screen.blocks.ScreenCardTable;
-import mod.casinocraft.screen.blocks.ScreenSlotMachine;
+import mod.casinocraft.screen.ScreenMachine;
 import mod.casinocraft.screen.card.*;
 import mod.casinocraft.screen.mino.*;
 import mod.casinocraft.screen.chip.*;
@@ -33,6 +31,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -55,12 +54,13 @@ public class CasinoKeeper {
     private static final DeferredRegister<Item>                 ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,              MODID);
     private static final DeferredRegister<ContainerType<?>>     CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS,         MODID);
     private static final DeferredRegister<TileEntityType<?>>    TILES      = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES,      MODID);
+    private static final DeferredRegister<SoundEvent>           SOUNDS     = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS,       MODID);
 
 
 
 
     // Card Tables
-    public static final RegistryObject<Block> CARDTABLE_BASE_WHITE      = register("cardtable_base_white",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.BLACK),      ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_WHITE      = register("cardtable_base_white",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.WHITE),      ItemGroup.DECORATIONS);
     public static final RegistryObject<Block> CARDTABLE_BASE_ORANGE     = register("cardtable_base_orange",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.ORANGE),     ItemGroup.DECORATIONS);
     public static final RegistryObject<Block> CARDTABLE_BASE_MAGENTA    = register("cardtable_base_magenta",    new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.MAGENTA),    ItemGroup.DECORATIONS);
     public static final RegistryObject<Block> CARDTABLE_BASE_LIGHT_BLUE = register("cardtable_base_light_blue", new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.LIGHT_BLUE), ItemGroup.DECORATIONS);
@@ -195,8 +195,54 @@ public class CasinoKeeper {
     public static final RegistryObject<Item> MODULE_CARD_RED        = register("module_card_red",        new ItemItem(ItemGroup.MISC));
     public static final RegistryObject<Item> MODULE_CARD_BLACK      = register("module_card_black",      new ItemItem(ItemGroup.MISC));
 
-    // Textures
+    // Sounds
+    public static final RegistryObject<SoundEvent> SOUND_PICKUP     = register("casinocraft.pickup",     new SoundEvent(new ResourceLocation(MODID, "casinocraft.pickup")));
+    public static final RegistryObject<SoundEvent> SOUND_IMPACT     = register("casinocraft.impact",     new SoundEvent(new ResourceLocation(MODID, "casinocraft.impact")));
+    public static final RegistryObject<SoundEvent> SOUND_MENU       = register("casinocraft.menu",       new SoundEvent(new ResourceLocation(MODID, "casinocraft.menu")));
+    public static final RegistryObject<SoundEvent> SOUND_PAUSE_ON   = register("casinocraft.pause.on",   new SoundEvent(new ResourceLocation(MODID, "casinocraft.pause.on")));
+    public static final RegistryObject<SoundEvent> SOUND_PAUSE_OFF  = register("casinocraft.pause.off",  new SoundEvent(new ResourceLocation(MODID, "casinocraft.pause.off")));
+    public static final RegistryObject<SoundEvent> SOUND_TETRIS     = register("casinocraft.tetris",     new SoundEvent(new ResourceLocation(MODID, "casinocraft.tetris")));
+    public static final RegistryObject<SoundEvent> SOUND_CARD_PLACE = register("casinocraft.card.place", new SoundEvent(new ResourceLocation(MODID, "casinocraft.card.place")));
+    public static final RegistryObject<SoundEvent> SOUND_CARD_SHOVE = register("casinocraft.card.shove", new SoundEvent(new ResourceLocation(MODID, "casinocraft.card.shove")));
+    public static final RegistryObject<SoundEvent> SOUND_ROULETTE   = register("casinocraft.roulette",   new SoundEvent(new ResourceLocation(MODID, "casinocraft.roulette")));
+    public static final RegistryObject<SoundEvent> SOUND_CHIP       = register("casinocraft.chip",       new SoundEvent(new ResourceLocation(MODID, "casinocraft.chip")));
+    public static final RegistryObject<SoundEvent> SOUND_DICE       = register("casinocraft.dice",       new SoundEvent(new ResourceLocation(MODID, "casinocraft.dice")));
+    public static final RegistryObject<SoundEvent> SOUND_REWARD     = register("casinocraft.reward",     new SoundEvent(new ResourceLocation(MODID, "casinocraft.reward")));
+
+    // Textures Basic
     public static final ResourceLocation TEXTURE_STATIC            = new ResourceLocation(MODID, "textures/gui/static.png");
+    public static final ResourceLocation TEXTURE_ARCADEDUMMY       = new ResourceLocation(MODID, "textures/gui/background/dummy.png");
+    public static final ResourceLocation TEXTURE_SOKOBAN           = new ResourceLocation(MODID, "textures/gui/background/sokoban.png");
+    public static final ResourceLocation TEXTURE_TETRIS            = new ResourceLocation(MODID, "textures/gui/background/tetris.png");
+    public static final ResourceLocation TEXTURE_COLUMNS           = new ResourceLocation(MODID, "textures/gui/background/columns.png");
+    public static final ResourceLocation TEXTURE_MEANMINOS         = new ResourceLocation(MODID, "textures/gui/background/puyo.png");
+    public static final ResourceLocation TEXTURE_SLOTMACHINE       = new ResourceLocation(MODID, "textures/gui/background/slotmachine.png");
+    public static final ResourceLocation TEXTURE_ROULETTE_LEFT     = new ResourceLocation(MODID, "textures/gui/background/roulette_left.png");
+    public static final ResourceLocation TEXTURE_ROULETTE_RIGHT    = new ResourceLocation(MODID, "textures/gui/background/roulette_right.png");
+    public static final ResourceLocation TEXTURE_ROULETTE_MIDDLE   = new ResourceLocation(MODID, "textures/gui/background/roulette_middle.png");
+    public static final ResourceLocation TEXTURE_SICBO_LEFT        = new ResourceLocation(MODID, "textures/gui/background/sicbo_left.png");
+    public static final ResourceLocation TEXTURE_SICBO_RIGHT       = new ResourceLocation(MODID, "textures/gui/background/sicbo_right.png");
+    public static final ResourceLocation TEXTURE_SICBO_MIDDLE      = new ResourceLocation(MODID, "textures/gui/background/sicbo_middle.png");
+    public static final ResourceLocation TEXTURE_CRAPS_LEFT        = new ResourceLocation(MODID, "textures/gui/background/craps_left.png");
+    public static final ResourceLocation TEXTURE_CRAPS_RIGHT       = new ResourceLocation(MODID, "textures/gui/background/craps_right.png");
+    public static final ResourceLocation TEXTURE_CRAPS_MIDDLE      = new ResourceLocation(MODID, "textures/gui/background/craps_middle.png");
+    public static final ResourceLocation TEXTURE_2048_GROUND       = new ResourceLocation(MODID, "textures/gui/background/2048.png");
+    public static final ResourceLocation TEXTURE_MINOFLIP          = new ResourceLocation(MODID, "textures/gui/background/minoflip.png");
+    public static final ResourceLocation TEXTURE_FANTAN            = new ResourceLocation(MODID, "textures/gui/background/fantan.png");
+    public static final ResourceLocation TEXTURE_SUDOKU            = new ResourceLocation(MODID, "textures/gui/background/sudoku.png");
+    public static final ResourceLocation TEXTURE_SIMON             = new ResourceLocation(MODID, "textures/gui/spritesheet/simon.png");
+    public static final ResourceLocation TEXTURE_DICE              = new ResourceLocation(MODID, "textures/gui/spritesheet/dice.png");
+    public static final ResourceLocation TEXTURE_ARCADE            = new ResourceLocation(MODID, "textures/gui/spritesheet/arcade.png");
+    public static final ResourceLocation TEXTURE_BUTTONS           = new ResourceLocation(MODID, "textures/gui/spritesheet/buttons.png");
+    public static final ResourceLocation TEXTURE_MINOS             = new ResourceLocation(MODID, "textures/gui/spritesheet/minos.png");
+    public static final ResourceLocation TEXTURE_SLOTGAME          = new ResourceLocation(MODID, "textures/gui/spritesheet/slotgame.png");
+    public static final ResourceLocation TEXTURE_MYSTICSQUARE      = new ResourceLocation(MODID, "textures/gui/spritesheet/mysticsquare.png");
+    public static final ResourceLocation TEXTURE_2048              = new ResourceLocation(MODID, "textures/gui/spritesheet/2048.png");
+    public static final ResourceLocation TEXTURE_FONT_ARCADE       = new ResourceLocation(MODID, "textures/gui/spritesheet/font_arcade.png");
+    public static final ResourceLocation TEXTURE_FONT_CARDTABLE    = new ResourceLocation(MODID, "textures/gui/spritesheet/font_cardtable.png");
+    public static final ResourceLocation TEXTURE_ROULETTE_WHEEL    = new ResourceLocation(MODID, "textures/gui/spritesheet/roulette_wheel.png");
+
+    // Texture Card Tables
     public static final ResourceLocation TEXTURE_GROUND_BLACK      = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_black.png");
     public static final ResourceLocation TEXTURE_GROUND_BLUE       = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_blue.png");
     public static final ResourceLocation TEXTURE_GROUND_BROWN      = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_brown.png");
@@ -213,40 +259,37 @@ public class CasinoKeeper {
     public static final ResourceLocation TEXTURE_GROUND_LIGHT_GRAY = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_light_gray.png");
     public static final ResourceLocation TEXTURE_GROUND_WHITE      = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_white.png");
     public static final ResourceLocation TEXTURE_GROUND_YELLOW     = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_yellow.png");
-    public static final ResourceLocation TEXTURE_GROUND_ARCADE     = new ResourceLocation(MODID, "textures/gui/arcade/arcade.png");
-    public static final ResourceLocation TEXTURE_GROUND_STARFIELD0 = new ResourceLocation(MODID, "textures/gui/arcade/starfield0.png");
-    public static final ResourceLocation TEXTURE_GROUND_STARFIELD1 = new ResourceLocation(MODID, "textures/gui/arcade/starfield1.png");
-    public static final ResourceLocation TEXTURE_ARCADEDUMMY       = new ResourceLocation(MODID, "textures/gui/background/arcadedummy.png");
-    public static final ResourceLocation TEXTURE_TETRIS            = new ResourceLocation(MODID, "textures/gui/background/tetris.png");
-    public static final ResourceLocation TEXTURE_COLUMNS           = new ResourceLocation(MODID, "textures/gui/background/columns.png");
-    public static final ResourceLocation TEXTURE_MEANMINOS         = new ResourceLocation(MODID, "textures/gui/background/meanminos.png");
-    public static final ResourceLocation TEXTURE_SLOTMACHINE       = new ResourceLocation(MODID, "textures/gui/background/slotmachine.png");
-    public static final ResourceLocation TEXTURE_ROULETTE_LEFT     = new ResourceLocation(MODID, "textures/gui/background/roulette_left.png");
-    public static final ResourceLocation TEXTURE_ROULETTE_RIGHT    = new ResourceLocation(MODID, "textures/gui/background/roulette_right.png");
-    public static final ResourceLocation TEXTURE_ROULETTE_MIDDLE   = new ResourceLocation(MODID, "textures/gui/background/roulette_middle.png");
-    public static final ResourceLocation TEXTURE_SICBO_LEFT        = new ResourceLocation(MODID, "textures/gui/background/sicbo_left.png");
-    public static final ResourceLocation TEXTURE_SICBO_RIGHT       = new ResourceLocation(MODID, "textures/gui/background/sicbo_right.png");
-    public static final ResourceLocation TEXTURE_SICBO_MIDDLE      = new ResourceLocation(MODID, "textures/gui/background/sicbo_middle.png");
-    public static final ResourceLocation TEXTURE_CRAPS_LEFT        = new ResourceLocation(MODID, "textures/gui/background/craps_left.png");
-    public static final ResourceLocation TEXTURE_CRAPS_RIGHT       = new ResourceLocation(MODID, "textures/gui/background/craps_right.png");
-    public static final ResourceLocation TEXTURE_CRAPS_MIDDLE      = new ResourceLocation(MODID, "textures/gui/background/craps_middle.png");
-    public static final ResourceLocation TEXTURE_FANTAN            = new ResourceLocation(MODID, "textures/gui/background/fantan.png");
-    public static final ResourceLocation TEXTURE_SUDOKU            = new ResourceLocation(MODID, "textures/gui/background/sudoku.png");
-    public static final ResourceLocation TEXTURE_SIMON             = new ResourceLocation(MODID, "textures/gui/spritesheet/simon.png");
-    public static final ResourceLocation TEXTURE_DICE              = new ResourceLocation(MODID, "textures/gui/spritesheet/dice.png");
-    public static final ResourceLocation TEXTURE_ARCADE            = new ResourceLocation(MODID, "textures/gui/spritesheet/arcade.png");
-    public static final ResourceLocation TEXTURE_BUTTONS           = new ResourceLocation(MODID, "textures/gui/spritesheet/buttons.png");
-    public static final ResourceLocation TEXTURE_MINOS             = new ResourceLocation(MODID, "textures/gui/spritesheet/minos.png");
-    public static final ResourceLocation TEXTURE_SLOTGAME          = new ResourceLocation(MODID, "textures/gui/spritesheet/slotgame.png");
-    public static final ResourceLocation TEXTURE_ROUGE             = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_rouge.png");
-    public static final ResourceLocation TEXTURE_NOIR              = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_noir.png");
-    public static final ResourceLocation TEXTURE_MYSTICSQUARE      = new ResourceLocation(MODID, "textures/gui/spritesheet/mysticsquare.png");
-    public static final ResourceLocation TEXTURE_2048              = new ResourceLocation(MODID, "textures/gui/spritesheet/2048.png");
-    public static final ResourceLocation TEXTURE_FONT_ARCADE       = new ResourceLocation(MODID, "textures/gui/spritesheet/font_arcade.png");
-    public static final ResourceLocation TEXTURE_FONT_CARDTABLE    = new ResourceLocation(MODID, "textures/gui/spritesheet/font_cardtable.png");
-    public static final ResourceLocation TEXTURE_ROULETTE_WHEEL    = new ResourceLocation(MODID, "textures/gui/spritesheet/roulette_wheel.png");
 
-    // Tile Entities
+    // Arcade Background
+    public static final ResourceLocation TEXTURE_GROUND_ARCADE     = new ResourceLocation(MODID, "textures/gui/arcade/arcade.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_0_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_1_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_0_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_1_high.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_1_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_2_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_1_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_2_high.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_2_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_3_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_2_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_3_high.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_3_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_4_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_3_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_4_high.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_4_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_5_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_4_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_5_high.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_5_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_6_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_5_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_6_high.png");
+
+    // Texture Cards
+    public static final ResourceLocation TEXTURE_CARDS_0_NOIR      = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_1_noir.png");
+    public static final ResourceLocation TEXTURE_CARDS_0_ROUGE     = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_1_rouge.png");
+    public static final ResourceLocation TEXTURE_CARDS_1_NOIR      = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_2_noir.png");
+    public static final ResourceLocation TEXTURE_CARDS_1_ROUGE     = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_2_rouge.png");
+    public static final ResourceLocation TEXTURE_CARDS_2_NOIR      = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_3_noir.png");
+    public static final ResourceLocation TEXTURE_CARDS_2_ROUGE     = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_3_rouge.png");
+    public static final ResourceLocation TEXTURE_CARDS_3_NOIR      = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_4_noir.png");
+    public static final ResourceLocation TEXTURE_CARDS_3_ROUGE     = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_4_rouge.png");
+    public static final ResourceLocation TEXTURE_CARDS_4_NOIR      = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_5_noir.png");
+    public static final ResourceLocation TEXTURE_CARDS_4_ROUGE     = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_5_rouge.png");
+    public static final ResourceLocation TEXTURE_CARDS_5_NOIR      = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_6_noir.png");
+    public static final ResourceLocation TEXTURE_CARDS_5_ROUGE     = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_6_rouge.png");
+
+    // Tile Entity  Arcade Base
     public static  final RegistryObject<TileEntityType<TileEntityArcade>> TILE_ARCADE_BASE = TILES.register("arcade_base", () -> TileEntityType.Builder.create(TileEntityArcade::new,
             ARCADE_BASE_BLACK.get(),
             ARCADE_BASE_BLUE.get(),
@@ -265,6 +308,8 @@ public class CasinoKeeper {
             ARCADE_BASE_WHITE.get(),
             ARCADE_BASE_YELLOW.get()
     ).build(null));
+
+    // Tile Entity  Slot Machine
     public static  final RegistryObject<TileEntityType<TileEntitySlotMachine>> TILE_ARCADE_SLOT = TILES.register("arcade_slot", () -> TileEntityType.Builder.create(TileEntitySlotMachine::new,
             ARCADE_SLOT_BLACK.get(),
             ARCADE_SLOT_BLUE.get(),
@@ -283,6 +328,8 @@ public class CasinoKeeper {
             ARCADE_SLOT_WHITE.get(),
             ARCADE_SLOT_YELLOW.get()
     ).build(null));
+
+    // Tile Entity  Card Table Base
     public static  final RegistryObject<TileEntityType<TileEntityCardTableBase>> TILE_CARDTABLE_BASE = TILES.register("cardtable_base", () -> TileEntityType.Builder.create(TileEntityCardTableBase::new,
             CARDTABLE_BASE_BLACK.get(),
             CARDTABLE_BASE_BLUE.get(),
@@ -301,6 +348,8 @@ public class CasinoKeeper {
             CARDTABLE_BASE_WHITE.get(),
             CARDTABLE_BASE_YELLOW.get()
     ).build(null));
+
+    // Tile Entity  Card Table Wide
     public static  final RegistryObject<TileEntityType<TileEntityCardTableWide>> TILE_CARDTABLE_WIDE = TILES.register("cardtable_wide", () -> TileEntityType.Builder.create(TileEntityCardTableWide::new,
             CARDTABLE_WIDE_BLACK.get(),
             CARDTABLE_WIDE_BLUE.get(),
@@ -321,11 +370,11 @@ public class CasinoKeeper {
     ).build(null));
 
     // Container
-    public static final RegistryObject<ContainerType<ContainerDummy>>       CONTAINER_DUMMY       = CONTAINERS.register("dummy",       () -> IForgeContainerType.create(ContainerDummy::new));
-    public static final RegistryObject<ContainerType<ContainerArcade>>       CONTAINER_ARCADE       = CONTAINERS.register("arcade",       () -> IForgeContainerType.create(ContainerArcade::new));
-    public static final RegistryObject<ContainerType<ContainerCardTable>>    CONTAINER_CARDTABLE    = CONTAINERS.register("cardtable",    () -> IForgeContainerType.create(ContainerCardTable::new));
-    public static final RegistryObject<ContainerType<ContainerSlotMachine>>  CONTAINER_SLOTMACHINE  = CONTAINERS.register("slotmachine",  () -> IForgeContainerType.create(ContainerSlotMachine::new));
-    public static final RegistryObject<ContainerType<ContainerSlotGame>>  CONTAINER_SLOTGAME        = CONTAINERS.register("slotgame",     () -> IForgeContainerType.create(ContainerSlotGame::new));
+    public static final RegistryObject<ContainerType<ContainerDummy>>         CONTAINER_DUMMY           = CONTAINERS.register("dummy",           () -> IForgeContainerType.create(ContainerDummy::new));
+    public static final RegistryObject<ContainerType<ContainerArcade>>        CONTAINER_ARCADE          = CONTAINERS.register("arcade",          () -> IForgeContainerType.create(ContainerArcade::new));
+    public static final RegistryObject<ContainerType<ContainerCardTable>>     CONTAINER_CARDTABLE       = CONTAINERS.register("cardtable",       () -> IForgeContainerType.create(ContainerCardTable::new));
+    public static final RegistryObject<ContainerType<ContainerSlotMachine>>   CONTAINER_SLOTMACHINE     = CONTAINERS.register("slotmachine",     () -> IForgeContainerType.create(ContainerSlotMachine::new));
+    public static final RegistryObject<ContainerType<ContainerSlotGame>>      CONTAINER_SLOTGAME        = CONTAINERS.register("slotgame",        () -> IForgeContainerType.create(ContainerSlotGame::new));
     public static final RegistryObject<ContainerType<ContainerCardWhite>>     CONTAINER_CARD_WHITE      = CONTAINERS.register("card_white",      () -> IForgeContainerType.create(ContainerCardWhite::new));
     public static final RegistryObject<ContainerType<ContainerCardOrange>>    CONTAINER_CARD_ORANGE     = CONTAINERS.register("card_orange",     () -> IForgeContainerType.create(ContainerCardOrange::new));
     public static final RegistryObject<ContainerType<ContainerCardMagenta>>   CONTAINER_CARD_MAGENTA    = CONTAINERS.register("card_magenta",    () -> IForgeContainerType.create(ContainerCardMagenta::new));
@@ -377,8 +426,8 @@ public class CasinoKeeper {
 
     // Config
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-    public static ForgeConfigSpec.BooleanValue config_allowed_creative = BUILDER.comment("Activate Creative Toggle on Card Tables").define("config_allowed_creative", true);
-    public static ForgeConfigSpec.BooleanValue config_fastload         = BUILDER.comment("Transfer Tokens instantly").define("config_fastload", true);
+    public static ForgeConfigSpec.BooleanValue config_creative_token   = BUILDER.comment("Allows Betting Inventory to be set to INFINITE").define("config_creative_token", true);
+    public static ForgeConfigSpec.BooleanValue config_creative_reward  = BUILDER.comment("Allows Reward Inventory to be set to INFINITE").define("config_creative_reward", true);
     public static ForgeConfigSpec.BooleanValue config_animated_cards   = BUILDER.comment("Face Cards do a one frame animation sometimes").define("config_animated_cards", true);
     public static ForgeConfigSpec.IntValue     config_timeout          = BUILDER.comment("How long until a player receives a timeout").defineInRange("config_timeout", 300, 1, 10000);
     /**Reads out Config File**/
@@ -397,6 +446,7 @@ public class CasinoKeeper {
         ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
         TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
+        SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     private static RegistryObject<Block> register(String name, Block block){
@@ -412,6 +462,10 @@ public class CasinoKeeper {
         return ITEMS.register(name, () -> item);
     }
 
+    private static RegistryObject<SoundEvent> register(String name, SoundEvent sound){
+        return SOUNDS.register(name, () -> sound);
+    }
+
 
 
 
@@ -425,9 +479,9 @@ public class CasinoKeeper {
     static void setup(FMLClientSetupEvent event){
         DeferredWorkQueue.runLater(() -> {
             ScreenManager.registerFactory(CONTAINER_DUMMY.get(),           ScreenDummy::new);
-            ScreenManager.registerFactory(CONTAINER_ARCADE.get(),          ScreenArcade::new);
-            ScreenManager.registerFactory(CONTAINER_CARDTABLE.get(),       ScreenCardTable::new);
-            ScreenManager.registerFactory(CONTAINER_SLOTMACHINE.get(),     ScreenSlotMachine::new);
+            ScreenManager.registerFactory(CONTAINER_ARCADE.get(),          ScreenMachine::new);
+            ScreenManager.registerFactory(CONTAINER_CARDTABLE.get(),       ScreenMachine::new);
+            ScreenManager.registerFactory(CONTAINER_SLOTMACHINE.get(),     ScreenMachine::new);
             ScreenManager.registerFactory(CONTAINER_SLOTGAME.get(),        ScreenSlotGame::new);
             ScreenManager.registerFactory(CONTAINER_CARD_WHITE.get(),      ScreenCardWhite::new);
             ScreenManager.registerFactory(CONTAINER_CARD_ORANGE.get(),     ScreenCardOrange::new);

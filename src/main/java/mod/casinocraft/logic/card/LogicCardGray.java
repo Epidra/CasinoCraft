@@ -5,11 +5,20 @@ import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
 import net.minecraft.nbt.CompoundNBT;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
+
+import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
 
 public class LogicCardGray extends LogicBase {   // Hold'em Poker
 
-    public Card[][] cards = new Card[2][6];
+    public List<Card> cardsP1 = new ArrayList<>();
+    public List<Card> cardsP2 = new ArrayList<>();
+    public List<Card> cardsP3 = new ArrayList<>();
+    public List<Card> cardsP4 = new ArrayList<>();
+    public List<Card> cardsP5 = new ArrayList<>();
+    public List<Card> cardsP6 = new ArrayList<>();
     public Card[] comCards = new Card[5];
     public boolean[] folded = new boolean[6];
     public int pot = 0;
@@ -31,8 +40,9 @@ public class LogicCardGray extends LogicBase {   // Hold'em Poker
 
     public void start2() {
         for(int i = 0; i < 6; i++){
-            cards[0][i] = new Card(-1, -1);
-            cards[1][i] = new Card(-1, -1);
+            //cards[0][i] = new Card(-1, -1);
+            //cards[1][i] = new Card(-1, -1);
+            getCards(i).clear();
         }
         for(int i = 0; i < 5; i++){
             comCards[i] = new Card(-1, -1);
@@ -89,8 +99,9 @@ public class LogicCardGray extends LogicBase {   // Hold'em Poker
 
     public void updateMotion() {
         for(int i = 0; i < 6; i++){
-            cards[0][i].update();
-            cards[1][i].update();
+            for(Card c : getCards(i)){
+                c.update();
+            }
         }
         for(int i = 0; i < 5; i++){
             comCards[i].update();
@@ -103,27 +114,37 @@ public class LogicCardGray extends LogicBase {   // Hold'em Poker
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
-        cards[0] = loadCardArray(compound, 0);
-        cards[1] = loadCardArray(compound, 1);
-        comCards = loadCardArray(compound, 2);
+        cardsP1  = loadCardList(compound,  0);
+        cardsP2  = loadCardList(compound,  1);
+        cardsP3  = loadCardList(compound,  2);
+        cardsP4  = loadCardList(compound,  3);
+        cardsP5  = loadCardList(compound,  4);
+        cardsP6  = loadCardList(compound,  5);
+        comCards = loadCardArray(compound, 6);
         folded[0] = compound.getBoolean("folded0");
         folded[1] = compound.getBoolean("folded1");
         folded[2] = compound.getBoolean("folded2");
         folded[3] = compound.getBoolean("folded3");
         folded[4] = compound.getBoolean("folded4");
+        folded[5] = compound.getBoolean("folded5");
         pot = compound.getInt("pot");
         raisedPlayer = compound.getInt("raisedplayer");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveCardArray(compound, 0, cards[0]);
-        saveCardArray(compound, 1, cards[1]);
-        saveCardArray(compound, 2, comCards);
+        saveCardList(compound,  0, cardsP1);
+        saveCardList(compound,  1, cardsP2);
+        saveCardList(compound,  2, cardsP3);
+        saveCardList(compound,  3, cardsP4);
+        saveCardList(compound,  4, cardsP5);
+        saveCardList(compound,  5, cardsP6);
+        saveCardArray(compound, 6, comCards);
         compound.putBoolean("folded0", folded[0]);
         compound.putBoolean("folded1", folded[1]);
         compound.putBoolean("folded2", folded[2]);
         compound.putBoolean("folded3", folded[3]);
         compound.putBoolean("folded4", folded[4]);
+        compound.putBoolean("folded5", folded[5]);
         compound.putInt("pot", pot);
         compound.putInt("raisedplayer", raisedPlayer);
         return compound;
@@ -134,21 +155,25 @@ public class LogicCardGray extends LogicBase {   // Hold'em Poker
 
     //----------------------------------------CUSTOM----------------------------------------//
 
+    public List<Card> getCards(int index){
+        switch (index){
+            case 0: return cardsP1;
+            case 1: return cardsP2;
+            case 2: return cardsP3;
+            case 3: return cardsP4;
+            case 4: return cardsP5;
+            case 5: return cardsP6;
+        }
+        return cardsP1;
+    }
+
     private void draw(){
         turnstate = 3;
         timeout = 0;
         pot = getFirstFreePlayerSlot();
-        if(tableID == 1){
-            for(int y = 0; y < 2; y++){
-                for(int x = 0; x < pot; x++){
-                    cards[y][x] = new Card(RANDOM, x == 1 ? 24 : x == 3 ? -24 : 0, x == 0 ? -24 : x == 2 ? 24 : 0,  8*x + 8*4*y, false);
-                }
-            }
-        } else {
-            for(int y = 0; y < 2; y++){
-                for(int x = 0; x < pot; x++){
-                    cards[y][x] = new Card(RANDOM, x == 1 ? 24 : x == 4 ? -24 : 0, x == 0 || x == 5 ? -24 : x == 2 || x == 3 ? 24 : 0,  8*x+8*6*y, false);
-                }
+        for(int y = 0; y < 2; y++){
+            for(int x = 0; x < pot; x++){
+                getCards(x).add(new Card(RANDOM, 0, 24,  8*x + 8*4*y, false));
             }
         }
         for(int i = 0; i < 6; i++){
@@ -158,6 +183,7 @@ public class LogicCardGray extends LogicBase {   // Hold'em Poker
         }
         comCards[0] = new Card(RANDOM, 0, -16,      8*pot + 8*4*2, false);
         comCards[1] = new Card(RANDOM, 0, -16,  8 + 8*pot + 8*4*2, false);
+        setJingle(SOUND_CARD_PLACE);
     }
 
     private void drawAnother(){
@@ -179,6 +205,7 @@ public class LogicCardGray extends LogicBase {   // Hold'em Poker
         if(activePlayer == raisedPlayer){
             raisedPlayer = -1;
         }
+        setJingle(SOUND_CARD_PLACE);
     }
 
     private int lastStanding(){
@@ -221,7 +248,7 @@ public class LogicCardGray extends LogicBase {   // Hold'em Poker
         } else {
             int[] finalHand = new int[]{0, 0, 0, 0, 0, 0};
             for(int i = 0; i < 6; i++){
-                finalHand[i] = folded[i] ? 0 : sortAndClear(cards[0][i], cards[1][i], comCards[0], comCards[1], comCards[2], comCards[3], comCards[4]);
+                finalHand[i] = folded[i] ? 0 : sortAndClear(getCards(i).get(0), getCards(i).get(1), comCards[0], comCards[1], comCards[2], comCards[3], comCards[4]);
             }
             int winner = 0;
             for(int i = 0; i < 6; i++){

@@ -5,13 +5,22 @@ package mod.casinocraft.logic.card;
         import mod.casinocraft.util.Card;
         import net.minecraft.nbt.CompoundNBT;
 
+        import java.util.ArrayList;
+        import java.util.List;
+
+        import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
+
 public class LogicCardLightGray extends LogicBase {   // Draw Poker
 
-    public Card[][] cards = new Card[5][6];
+    public List<Card> cardsP1 = new ArrayList<>();
+    public List<Card> cardsP2 = new ArrayList<>();
+    public List<Card> cardsP3 = new ArrayList<>();
+    public List<Card> cardsP4 = new ArrayList<>();
+    public List<Card> cardsP5 = new ArrayList<>();
+    public List<Card> cardsP6 = new ArrayList<>();
     public boolean[] folded = new boolean[6];
     public int pot = 0;
     public int raisedPlayer = -1;
-    public boolean[] dropped = new boolean[5];
     public int round = 0;
 
 
@@ -29,13 +38,8 @@ public class LogicCardLightGray extends LogicBase {   // Draw Poker
     //----------------------------------------START/RESTART----------------------------------------//
 
     public void start2() {
-        for(int x = 0; x < 6; x++){
-            for(int y = 0; y < 5; y++){
-                cards[y][x] = new Card(-1, -1);
-            }
-        }
-        for(int i = 0; i < 5; i++){
-            dropped[i] = false;
+        for(int i = 0; i < 6; i++){
+            getCards(i).clear();
         }
         for(int i = 0; i < 6; i++){
             folded[i] = false;
@@ -64,7 +68,9 @@ public class LogicCardLightGray extends LogicBase {   // Draw Poker
             fold();
         }
         if(action >= 4){
-            dropped[action - 4] = !dropped[action - 4];
+            if(action - 4 < getCards(activePlayer).size()){
+                getCards(activePlayer).get(action - 4).hidden = !getCards(activePlayer).get(action - 4).hidden;
+            }
         }
     }
 
@@ -92,9 +98,9 @@ public class LogicCardLightGray extends LogicBase {   // Draw Poker
     }
 
     public void updateMotion() {
-        for(int x = 0; x < 6; x++){
-            for(int y = 0; y < 5; y++){
-                cards[y][x].update();
+        for(int i = 0; i < 6; i++){
+            for(Card c : getCards(i)){
+                c.update();
             }
         }
     }
@@ -105,43 +111,39 @@ public class LogicCardLightGray extends LogicBase {   // Draw Poker
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
-        cards[0] = loadCardArray(compound, 0);
-        cards[1] = loadCardArray(compound, 1);
-        cards[2] = loadCardArray(compound, 2);
-        cards[3] = loadCardArray(compound, 3);
-        cards[4] = loadCardArray(compound, 4);
+        cardsP1  = loadCardList(compound,  0);
+        cardsP2  = loadCardList(compound,  1);
+        cardsP3  = loadCardList(compound,  2);
+        cardsP4  = loadCardList(compound,  3);
+        cardsP5  = loadCardList(compound,  4);
+        cardsP6  = loadCardList(compound,  5);
         folded[0] = compound.getBoolean("folded0");
         folded[1] = compound.getBoolean("folded1");
         folded[2] = compound.getBoolean("folded2");
         folded[3] = compound.getBoolean("folded3");
         folded[4] = compound.getBoolean("folded4");
-        dropped[0] = compound.getBoolean("dropped0");
-        dropped[1] = compound.getBoolean("dropped1");
-        dropped[2] = compound.getBoolean("dropped2");
-        dropped[3] = compound.getBoolean("dropped3");
-        dropped[4] = compound.getBoolean("dropped4");
+        folded[5] = compound.getBoolean("folded5");
         pot = compound.getInt("pot");
         raisedPlayer = compound.getInt("raisedplayer");
+        round = compound.getInt("round");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        saveCardArray(compound, 0, cards[0]);
-        saveCardArray(compound, 1, cards[1]);
-        saveCardArray(compound, 2, cards[2]);
-        saveCardArray(compound, 3, cards[3]);
-        saveCardArray(compound, 4, cards[4]);
+        saveCardList(compound,  0, cardsP1);
+        saveCardList(compound,  1, cardsP2);
+        saveCardList(compound,  2, cardsP3);
+        saveCardList(compound,  3, cardsP4);
+        saveCardList(compound,  4, cardsP5);
+        saveCardList(compound,  5, cardsP6);
         compound.putBoolean("folded0", folded[0]);
         compound.putBoolean("folded1", folded[1]);
         compound.putBoolean("folded2", folded[2]);
         compound.putBoolean("folded3", folded[3]);
         compound.putBoolean("folded4", folded[4]);
-        compound.putBoolean("folded0", folded[0]);
-        compound.putBoolean("dropped1", dropped[1]);
-        compound.putBoolean("dropped2", dropped[2]);
-        compound.putBoolean("dropped3", dropped[3]);
-        compound.putBoolean("dropped4", dropped[4]);
+        compound.putBoolean("folded5", folded[5]);
         compound.putInt("pot", pot);
         compound.putInt("raisedplayer", raisedPlayer);
+        compound.putInt("round", round);
         return compound;
     }
 
@@ -150,21 +152,25 @@ public class LogicCardLightGray extends LogicBase {   // Draw Poker
 
     //----------------------------------------CUSTOM----------------------------------------//
 
+    public List<Card> getCards(int index){
+        switch (index){
+            case 0: return cardsP1;
+            case 1: return cardsP2;
+            case 2: return cardsP3;
+            case 3: return cardsP4;
+            case 4: return cardsP5;
+            case 5: return cardsP6;
+        }
+        return cardsP1;
+    }
+
     private void draw(){
         turnstate = 3;
         timeout = 0;
         pot = getFirstFreePlayerSlot();
-        if(tableID == 1){
-            for(int y = 0; y < 5; y++){
-                for(int x = 0; x < pot; x++){
-                    cards[y][x] = new Card(RANDOM, x == 1 ? 24 : x == 3 ? -24 : 0, x == 0 ? -24 : x == 2 ? 24 : 0,  8*x + 8*4*y, false);
-                }
-            }
-        } else {
-            for(int y = 0; y < 5; y++){
-                for(int x = 0; x < pot; x++){
-                    cards[y][x] = new Card(RANDOM, x == 1 ? 24 : x == 4 ? -24 : 0, x == 0 || x == 5 ? -24 : x == 2 || x == 3 ? 24 : 0,  8*x+8*6*y, false);
-                }
+        for(int y = 0; y < 5; y++){
+            for(int x = 0; x < pot; x++){
+                getCards(x).add(new Card(RANDOM, 0, 24,  8*x + 8*4*y, false));
             }
         }
         for(int i = 0; i < 6; i++){
@@ -172,16 +178,13 @@ public class LogicCardLightGray extends LogicBase {   // Draw Poker
                 folded[i] = true;
             }
         }
+        setJingle(SOUND_CARD_PLACE);
     }
 
     private void drawAnother(){
         for(int y = 0; y < 5; y++){
-            if(dropped[y]){
-                if(tableID == 1)
-                    cards[y][activePlayer] = new Card(RANDOM, activePlayer == 1 ? 24 : activePlayer == 3 ? -24 : 0, activePlayer == 0 ? -24 : activePlayer == 2 ? 24 : 0,  0, false);
-                if(tableID == 2)
-                    cards[y][activePlayer] = new Card(RANDOM, activePlayer == 1 ? 24 : activePlayer == 4 ? -24 : 0, activePlayer == 0 || activePlayer == 5 ? -24 : activePlayer == 2 || activePlayer == 3 ? 24 : 0,  0, false);
-                dropped[y] = false;
+            if(getCards(activePlayer).get(y).hidden){
+                getCards(activePlayer).add(new Card(RANDOM, 0, 24,  0, false));
             }
         }
         timeout = 0;
@@ -197,6 +200,7 @@ public class LogicCardLightGray extends LogicBase {   // Draw Poker
         if(activePlayer == raisedPlayer){
             raisedPlayer = -1;
         }
+        setJingle(SOUND_CARD_PLACE);
     }
 
     private int lastStanding(){
@@ -239,7 +243,10 @@ public class LogicCardLightGray extends LogicBase {   // Draw Poker
         } else {
             int[] finalHand = new int[]{0, 0, 0, 0, 0, 0};
             for(int i = 0; i < 6; i++){
-                finalHand[i] = folded[i] ? 0 : sortAndClear(cards[0][i], cards[1][i], cards[2][i], cards[3][i], cards[4][i]);
+                if(getCards(i).size() < 5){
+                    folded[i] = true;
+                }
+                finalHand[i] = folded[i] ? 0 : sortAndClear(getCards(i).get(0), getCards(i).get(1), getCards(i).get(2), getCards(i).get(3), getCards(i).get(5));
             }
             int winner = 0;
             for(int i = 0; i < 6; i++){

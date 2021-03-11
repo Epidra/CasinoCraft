@@ -3,9 +3,11 @@ package mod.casinocraft.logic.chip;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
-
 import java.util.ArrayList;
 import java.util.List;
+import static mod.casinocraft.util.KeyMap.*;
+import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
+import static mod.casinocraft.util.SoundMap.SOUND_TETRIS;
 
 public class LogicChipCyan extends LogicBase {   // Columns
 
@@ -63,23 +65,17 @@ public class LogicChipCyan extends LogicBase {   // Columns
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        if(action == 0){ commandCycle(true);   } // UP
-        if(action == 1){ columnDrop();         } // DOWN
-        if(action == 2){ commandStrafe(true);  } // LEFT
-        if(action == 3){ commandStrafe(false); } // RIGHT
-        if(action == 4){ commandCycle(true);   } // ROTATE LEFT
-        if(action == 5){ commandCycle(false);  } // ROTATE RIGHT
-        if(action == 6){ commandHold();        } // HOLD
+        if(action == KEY_UP){    commandCycle(true);   } // UP
+        if(action == KEY_DOWN){  columnDrop();                 } // DOWN
+        if(action == KEY_LEFT){  commandStrafe(true);  } // LEFT
+        if(action == KEY_RIGHT){ commandStrafe(false); } // RIGHT
+        if(action == KEY_ENTER){ commandHold();                } // HOLD
     }
 
 
 
 
     //----------------------------------------UPDATE----------------------------------------//
-
-    public void updateMotion(){
-
-    }
 
     public void updateLogic(){
         timer+=15;
@@ -99,9 +95,14 @@ public class LogicChipCyan extends LogicBase {   // Columns
                         }
                     }
                 }
+                setJingle(SOUND_TETRIS);
                 commandCollapse();
             }
         }
+    }
+
+    public void updateMotion(){
+
     }
 
 
@@ -301,6 +302,7 @@ public class LogicChipCyan extends LogicBase {   // Columns
         tromino[0] = new Vector2(2, 0);
         tromino[1] = new Vector2(2, 1);
         tromino[2] = new Vector2(2, 2);
+        setJingle(SOUND_IMPACT);
     }
 
     private void columnFall() {
@@ -372,7 +374,6 @@ public class LogicChipCyan extends LogicBase {   // Columns
                 scoreLevel++;
                 time_break -= (time_break / 10);
             }
-            //Command_Collapse();
         }
     }
 

@@ -1,7 +1,7 @@
 package mod.casinocraft.network;
 
 import mod.casinocraft.system.CasinoPacketHandler;
-import mod.casinocraft.tileentities.TileEntityBoard;
+import mod.casinocraft.tileentities.TileEntityMachine;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -16,6 +16,11 @@ public class MessageStateServer {
     static int y;
     static int z;
 
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
     public MessageStateServer(boolean system, int state, BlockPos pos) {
         this.system = system;
         this.state = state;
@@ -23,6 +28,11 @@ public class MessageStateServer {
         this.y = pos.getY();
         this.z = pos.getZ();
     }
+
+
+
+
+    //----------------------------------------ENCODE/DECODE----------------------------------------//
 
     public static void encode (MessageStateServer msg, PacketBuffer buf) {
         buf.writeBoolean(msg.system);
@@ -41,10 +51,15 @@ public class MessageStateServer {
         return new MessageStateServer(_system, _state, new BlockPos(_x, _y, _z));
     }
 
+
+
+
+    //----------------------------------------HANDLER----------------------------------------//
+
     public static class Handler {
         public static void handle (final MessageStateServer message, Supplier<NetworkEvent.Context> context) {
             BlockPos pos = new BlockPos(message.x, message.y, message.z);
-            TileEntityBoard te = (TileEntityBoard) context.get().getSender().world.getTileEntity(pos);
+            TileEntityMachine te = (TileEntityMachine) context.get().getSender().world.getTileEntity(pos);
             context.get().enqueueWork(() -> {
                 if(message.system){
                     if(message.state == -1){
@@ -52,7 +67,7 @@ public class MessageStateServer {
                     } else if(message.state == -2){
                         te.LOGIC.resetPlayers();
                         te.LOGIC.turnstate = 0;
-                    } else if(message.state == -3){
+                    } else if(message.state == -3) {
                         te.LOGIC.resetPlayers();
                     } else if(message.state >= 10){
                         te.LOGIC.reward[message.state - 10] = 0;

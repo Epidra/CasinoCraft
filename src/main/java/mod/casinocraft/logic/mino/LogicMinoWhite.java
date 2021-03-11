@@ -2,6 +2,8 @@ package mod.casinocraft.logic.mino;
 
 import mod.casinocraft.logic.LogicBase;
 import net.minecraft.nbt.CompoundNBT;
+import static mod.casinocraft.util.KeyMap.*;
+import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 
 public class LogicMinoWhite extends LogicBase {   // Sudoku
 
@@ -43,12 +45,12 @@ public class LogicMinoWhite extends LogicBase {   // Sudoku
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        if(action >= 100){
-            int i = action - 100;
-            selector.set(i%9, i/9);
-        } else {
-            grid[selector.X][selector.Y] = action;
+        if(action >= KEY_1){
+            grid[selector.X][selector.Y] = action - KEY_1;
             check();
+        } else {
+            selector.set(action%9, action/9);
+            setJingle(SOUND_CHIP);
         }
     }
 
@@ -57,14 +59,14 @@ public class LogicMinoWhite extends LogicBase {   // Sudoku
 
     //----------------------------------------UPDATE----------------------------------------//
 
-    public void updateMotion(){
-
-    }
-
     public void updateLogic(){
         if(match && turnstate < 4) {
             turnstate = 4;
         }
+    }
+
+    public void updateMotion(){
+
     }
 
 

@@ -1,17 +1,13 @@
 package mod.casinocraft.screen.chip;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.chip.LogicChipPink;
-import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Ship;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
-
-import static mod.casinocraft.util.KeyMap.*;
 
 public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
@@ -40,19 +36,8 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
+    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
-    }
-
-    protected void keyTyped2(int keyCode){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
-        if(logic().turnstate == 2){
-            if(keyCode == KEY_UP)    { action( 0); }
-            if(keyCode == KEY_DOWN)  { action( 1); }
-            if(keyCode == KEY_LEFT)  { action( 2); }
-            if(keyCode == KEY_RIGHT) { action( 3); }
-            if(keyCode == KEY_ENTER) { action(-1); }
-        }
     }
 
 
@@ -60,40 +45,42 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
-        if(logic().turnstate >= 2) {
-            drawFontCenter(matrixstack, "ENTER          for          RESET", 128, 230);
-        }
+    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+
     }
 
-    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADEDUMMY);
-        if(logic().turnstate < 2){
-            this.blit(matrixstack, guiLeft, guiTop + intro, 0, 0, this.xSize, this.ySize - intro); // Background
-        } else {
+    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        if(logic().turnstate == 2){
+            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SOKOBAN);
             this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
         }
 
         if(logic().turnstate >= 2) {
-            if(logic().turnstate == 5) GlStateManager.color4f(0.25F, 0.25F, 0.25F, 1.0F);
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADE);
-            for(int x = 0; x < 12; x++){
-                for(int y = 0; y < 12; y++){
-                    //if(tc.getValue(x + y*16) == 1) this.drawTexturedModalRect(guiLeft + x*16, guiTop + y*16, 32, 64, 16, 16);
-                    //if(tc.getValue(x + y*16) == 2) this.drawTexturedModalRect(guiLeft + x*16, guiTop + y*16, 48, 64, 16, 16);
-                    if(logic().grid[x][y] > 0) drawDigi(matrixstack, 32 + x*16, 8 + y*16, 0, 0);
+            if(logic().turnstate == 2){
+                this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
+                for(int x = 0; x < 4; x++){
+                    for(int y = 0; y < 5; y++){
+                        int number = y * 4 + x + 1;
+                        drawNumber(matrixstack, guiLeft+34+6 + 48 * x, guiTop+12+2 + 34 * y, (number / 10), (number % 10), hasUnlocked(number), logic().mapID == number - 1);
+                    }
                 }
             }
-            for(Ship e : logic().crate){ drawShip(matrixstack, e, 6, false, false); }
-            drawShip(matrixstack, logic().octanom, 2, true, true);
-            for(Ship e : logic().cross){ drawShip(matrixstack, e, 7, false, false); }
-            if(logic().turnstate == 5) GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            if(logic().turnstate >= 3){
+                this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADE);
+                for(int x = 0; x < 12; x++){
+                    for(int y = 0; y < 15; y++){
+                        if(logic().grid[x][y] > 0) drawDigi(matrixstack, 32 + x*16, 8 + y*16, 0, 0);
+                    }
+                }
+                for(Ship e : logic().cross){ drawShip(matrixstack, e, 4, 2, false); }
+                for(Ship e : logic().crate){ drawShip(matrixstack, e, 4, 1, false); }
+                drawShip(matrixstack, logic().octanom, 2, -1, true);
+
+            }
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 
@@ -102,7 +89,21 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
     //----------------------------------------CUSTOM----------------------------------------//
 
-    // ...
+    private boolean hasUnlocked(int index){
+        for(int i = 0; i < 20; i++){
+            if(logic().scoreHigh[i] == index){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void drawNumber(MatrixStack matrixstack, int x, int y, int left, int right, boolean colored, boolean highlighted){
+
+        int vOffset = 160 + (colored ? 48 : 0) + (highlighted ? 24 : 0);
+        blit(matrixstack, x      , y, 16 * left,  vOffset, 16, 24);
+        blit(matrixstack, x+16, y, 16 * right, vOffset, 16, 24);
+    }
 
 
 

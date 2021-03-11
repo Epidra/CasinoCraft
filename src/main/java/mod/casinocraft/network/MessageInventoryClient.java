@@ -1,6 +1,7 @@
 package mod.casinocraft.network;
 
-import mod.casinocraft.tileentities.TileEntityBoard;
+import mod.casinocraft.tileentities.TileEntityMachine;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -17,22 +18,34 @@ public class MessageInventoryClient {
     static ItemStack stack2;
     static ItemStack stack3;
     static ItemStack stack4;
-    static ItemStack stack5;
+    static int storageToken;
+    static int storagePrize;
     static int x;
     static int y;
     static int z;
 
-    public MessageInventoryClient(NonNullList<ItemStack> inventory, BlockPos pos) {
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
+    public MessageInventoryClient(NonNullList<ItemStack> inventory, int storageToken, int storagePrize, BlockPos pos) {
         this.stack0 = inventory.get(0);
         this.stack1 = inventory.get(1);
         this.stack2 = inventory.get(2);
         this.stack3 = inventory.get(3);
         this.stack4 = inventory.get(4);
-        this.stack5 = inventory.get(5);
+        this.storageToken = storageToken;
+        this.storagePrize = storagePrize;
         this.x = pos.getX();
         this.y = pos.getY();
         this.z = pos.getZ();
     }
+
+
+
+
+    //----------------------------------------ENCODE/DECODE----------------------------------------//
 
     public static void encode (MessageInventoryClient msg, PacketBuffer buf) {
         buf.writeItemStack(msg.stack0);
@@ -40,7 +53,8 @@ public class MessageInventoryClient {
         buf.writeItemStack(msg.stack2);
         buf.writeItemStack(msg.stack3);
         buf.writeItemStack(msg.stack4);
-        buf.writeItemStack(msg.stack5);
+        buf.writeInt(msg.storageToken);
+        buf.writeInt(msg.storagePrize);
         buf.writeInt(msg.x);
         buf.writeInt(msg.y);
         buf.writeInt(msg.z);
@@ -52,31 +66,47 @@ public class MessageInventoryClient {
         ItemStack _stack2 = buf.readItemStack();
         ItemStack _stack3 = buf.readItemStack();
         ItemStack _stack4 = buf.readItemStack();
-        ItemStack _stack5 = buf.readItemStack();
+        int _storageToken = buf.readInt();
+        int _storagePrize = buf.readInt();
         int _x = buf.readInt();
         int _y = buf.readInt();
         int _z = buf.readInt();
-        NonNullList<ItemStack> inv = NonNullList.withSize(6, ItemStack.EMPTY);
+        NonNullList<ItemStack> inv = NonNullList.withSize(5, ItemStack.EMPTY);
         inv.set(0, _stack0);
         inv.set(1, _stack1);
         inv.set(2, _stack2);
         inv.set(3, _stack3);
         inv.set(4, _stack4);
-        inv.set(5, _stack5);
-        return new MessageInventoryClient(inv, new BlockPos(_x, _y, _z));
+        return new MessageInventoryClient(inv, _storageToken, _storagePrize, new BlockPos(_x, _y, _z));
     }
+
+
+
+
+    //----------------------------------------HANDLER----------------------------------------//
 
     public static class Handler {
         public static void handle (final MessageInventoryClient message, Supplier<NetworkEvent.Context> context) {
             BlockPos pos = new BlockPos(message.x, message.y, message.z);
-            TileEntityBoard te = (TileEntityBoard) Minecraft.getInstance().world.getTileEntity(pos);
+            TileEntityMachine te = (TileEntityMachine) Minecraft.getInstance().world.getTileEntity(pos);
             context.get().enqueueWork(() -> {
+
                 te.inventory.set(0, message.stack0);
                 te.inventory.set(1, message.stack1);
                 te.inventory.set(2, message.stack2);
                 te.inventory.set(3, message.stack3);
                 te.inventory.set(4, message.stack4);
-                te.inventory.set(5, message.stack5);
+                te.storageToken = message.storageToken;
+                te.storageReward = message.storagePrize;
+
+                if(message.storageToken <= 0) {
+                    te.storageToken = 0;
+                    te.setTokenBET(new ItemStack(Blocks.AIR));
+                }
+                if(message.storagePrize <= 0) {
+                    te.storageReward = 0;
+                    te.setTokenREW(new ItemStack(Blocks.AIR));
+                }
                 te.changeLogic();
             });
             context.get().setPacketHandled(true);

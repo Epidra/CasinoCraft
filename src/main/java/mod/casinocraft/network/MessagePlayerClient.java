@@ -12,27 +12,38 @@ import java.util.function.Supplier;
 public class MessagePlayerClient {
 
     static ItemStack stack;
-    static int meta;
     static int amount;
 
-    public MessagePlayerClient(Item item, int meta, int amount) {
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
+    public MessagePlayerClient(Item item, int amount) {
         this.stack = new ItemStack(item, 1);
-        this.meta = meta;
         this.amount = amount;
     }
 
+
+
+
+    //----------------------------------------ENCODE/DECODE----------------------------------------//
+
     public static void encode (MessagePlayerClient msg, PacketBuffer buf) {
         buf.writeItemStack(msg.stack);
-        buf.writeInt(msg.meta);
         buf.writeInt(msg.amount);
     }
 
     public static MessagePlayerClient decode (PacketBuffer buf) {
         ItemStack _stack = buf.readItemStack();
-        int _meta = buf.readInt();
         int _amount = buf.readInt();
-        return new MessagePlayerClient(_stack.getItem(), _meta, _amount);
+        return new MessagePlayerClient(_stack.getItem(), _amount);
     }
+
+
+
+
+    //----------------------------------------HANDLER----------------------------------------//
 
     public static class Handler {
         public static void handle (final MessagePlayerClient message, Supplier<NetworkEvent.Context> context) {
@@ -41,7 +52,6 @@ public class MessagePlayerClient {
 
             if(amount < 0){
                 context.get().enqueueWork(() -> {
-                    //Minecraft.getInstance().player.inventory.clearMatchingItems(Predicate.isEqual(message.stack), -amount);
                     int i = 0;
                     ItemStack itemStack = ItemStack.EMPTY;
                     Predicate<ItemStack> p_195408_1_ = Predicate.isEqual(message.stack);
@@ -57,10 +67,6 @@ public class MessagePlayerClient {
                                 if (itemstack.isEmpty()) {
                                     Minecraft.getInstance().player.inventory.setInventorySlotContents(j, ItemStack.EMPTY);
                                 }
-
-                                if (count > 0 && i >= count) {
-                                    //return i;
-                                }
                             }
                         }
                     }
@@ -72,10 +78,6 @@ public class MessagePlayerClient {
                             itemStack.shrink(l);
                             if (itemStack.isEmpty()) {
                                 itemStack = ItemStack.EMPTY;
-                            }
-
-                            if (count > 0 && i >= count) {
-                                //return i;
                             }
                         }
                     }

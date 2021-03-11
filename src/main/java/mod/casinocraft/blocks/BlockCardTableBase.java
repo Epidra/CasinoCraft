@@ -1,7 +1,7 @@
 package mod.casinocraft.blocks;
 
 import mod.casinocraft.container.ContainerProvider;
-import mod.casinocraft.tileentities.TileEntityBoard;
+import mod.casinocraft.tileentities.TileEntityMachine;
 import mod.casinocraft.tileentities.TileEntityCardTableBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -44,17 +44,13 @@ public class BlockCardTableBase extends MachinaBasic {
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (world.isRemote) {
-            return ActionResultType.SUCCESS;
-        } else {
-            if (!world.isRemote() && player instanceof ServerPlayerEntity) {
-                TileEntityBoard tileEntity = (TileEntityBoard) world.getTileEntity(pos);
-                if (tileEntity instanceof TileEntityCardTableBase) {
-                    NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider(tileEntity), buf -> buf.writeBlockPos(pos));
-                }
+        if (!world.isRemote() && player instanceof ServerPlayerEntity) {
+            TileEntityMachine tileEntity = (TileEntityMachine) world.getTileEntity(pos);
+            if (tileEntity instanceof TileEntityCardTableBase) {
+                NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider(tileEntity), buf -> buf.writeBlockPos(pos));
             }
-            return ActionResultType.SUCCESS;
         }
+        return ActionResultType.SUCCESS;
     }
 
 
@@ -65,11 +61,6 @@ public class BlockCardTableBase extends MachinaBasic {
     @Deprecated
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         return AABB;
-    }
-
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
     }
 
     @Nullable

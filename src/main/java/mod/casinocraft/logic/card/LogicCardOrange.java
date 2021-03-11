@@ -2,10 +2,13 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Card;
+import mod.casinocraft.util.SoundMap;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static mod.casinocraft.util.SoundMap.*;
 
 public class LogicCardOrange extends LogicBase {   // Baccarat
 
@@ -69,6 +72,7 @@ public class LogicCardOrange extends LogicBase {   // Baccarat
         } else {
             status = 2;
         }
+        setJingle(SOUND_CARD_SHOVE);
     }
 
 
@@ -86,13 +90,13 @@ public class LogicCardOrange extends LogicBase {   // Baccarat
 
     //----------------------------------------UPDATE----------------------------------------//
 
+    public void updateLogic(){
+
+    }
+
     public void updateMotion(){
         if(cards_player.size() > 0) for (Card card : cards_player) { card.update(); }
         if(cards_dealer.size() > 0) for (Card card : cards_dealer) { card.update(); }
-    }
-
-    public void updateLogic(){
-
     }
 
 
@@ -148,6 +152,7 @@ public class LogicCardOrange extends LogicBase {   // Baccarat
             }
             value_dealer %= 10;
         }
+        setJingle(SOUND_CARD_PLACE);
         result();
     }
 
@@ -157,6 +162,9 @@ public class LogicCardOrange extends LogicBase {   // Baccarat
         if(value_dealer <  value_player){ hand = "The Player Wins!"; reward[0] = 2; }
         if(value_dealer >  value_player){ hand = "The House Wins!";  reward[0] = 0; }
         if(value_dealer == value_player){ hand = "DRAW!";            reward[0] = 1; }
+        if(reward[0] >= 2){
+            jingle = SoundMap.SOUND_REWARD;
+        }
     }
 
 

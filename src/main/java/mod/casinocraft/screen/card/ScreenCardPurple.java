@@ -4,7 +4,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.card.LogicCardPurple;
-import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -36,22 +35,17 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClicked2(double mouseX, double mouseY, int mouseButton){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
         if (mouseButton == 0){
             for(int y = 0; y < 9; y++) {
                 for(int x = 0; x < 20; x++) {
-                    if(mouseRect(-32 + 16*x, 0 + 20*y, 16, 20, mouseX, mouseY)){ action(x + y * 20); }
+                    if(mouseRect(-32 + 16*x, 20*y, 16, 20, mouseX, mouseY)){ action(x + y * 20); }
                 }
             }
-            if(mouseRect(0 + 16*5, 192, 32, 48, mouseX, mouseY)){ if(logic().cards_stack.size() > 0) action(-1); }
-            if(mouseRect(0 + 16*7, 192, 32, 48, mouseX, mouseY)){                                action(-2); }
-            if(mouseRect(0 + 16*9, 192, 32, 48, mouseX, mouseY)){ if(logic().cards_reserve.size() > 0) action(-3); }
+            if(mouseRect(16*5, 192, 32, 48, mouseX, mouseY)){ if(logic().cards_stack.size() > 0)   action(-1); }
+            if(mouseRect(16*7, 192, 32, 48, mouseX, mouseY)){           highlight(3);        action(-2); }
+            if(mouseRect(16*9, 192, 32, 48, mouseX, mouseY)){ if(logic().cards_reserve.size() > 0) action(-3); }
         }
-    }
-
-    protected void keyTyped2(int keyCode){
-
     }
 
 
@@ -59,8 +53,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayer2(MatrixStack matrixstack, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate >= 2){
             drawFont(matrixstack, "POINTS",                 24, 24-3);
             drawFont(matrixstack, "" + logic().scorePoint,  34, 34-3);
@@ -69,12 +62,11 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer2(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        if(CONTAINER.logic() instanceof LogicDummy){ return; }
+    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate >= 2){
 
             this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
-            blit(matrixstack, guiLeft + 16*7 + 3+2, guiTop +2+ 20 * 10, 234, 0, 22, 22); // Button Stack
+            blit(matrixstack, guiLeft + 16*7 + 3+2, guiTop +2+ 20 * 10, 234, 176 + (highlightIndex == 3 ? 22 : 0), 22, 22); // Button Stack
 
             drawCard(matrixstack, 16 *  3-32, 20 * 2, logic().cards_field[ 0]);
             drawCard(matrixstack, 16 *  9-32, 20 * 2, logic().cards_field[ 1]);
@@ -118,7 +110,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
         }
     }
 
-    protected void drawGuiContainerBackgroundLayer3(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

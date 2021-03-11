@@ -1,6 +1,6 @@
 package mod.casinocraft.network;
 
-import mod.casinocraft.tileentities.TileEntityBoard;
+import mod.casinocraft.tileentities.TileEntityMachine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +16,11 @@ public class MessageStateClient {
     static int y;
     static int z;
 
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
     public MessageStateClient(boolean system, int state, BlockPos pos) {
         this.system = system;
         this.state = state;
@@ -23,6 +28,11 @@ public class MessageStateClient {
         this.y = pos.getY();
         this.z = pos.getZ();
     }
+
+
+
+
+    //----------------------------------------ENCODE/DECODE----------------------------------------//
 
     public static void encode (MessageStateClient msg, PacketBuffer buf) {
         buf.writeBoolean(msg.system);
@@ -41,10 +51,15 @@ public class MessageStateClient {
         return new MessageStateClient(_system, _state, new BlockPos(_x, _y, _z));
     }
 
+
+
+
+    //----------------------------------------HANDLER----------------------------------------//
+
     public static class Handler {
         public static void handle (final MessageStateClient message, Supplier<NetworkEvent.Context> context) {
             BlockPos pos = new BlockPos(message.x, message.y, message.z);
-            TileEntityBoard te = (TileEntityBoard) Minecraft.getInstance().world.getTileEntity(pos);
+            TileEntityMachine te = (TileEntityMachine) Minecraft.getInstance().world.getTileEntity(pos);
             context.get().enqueueWork(() -> {
                 if(message.system){
                     if(message.state == -1){

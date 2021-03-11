@@ -1,15 +1,11 @@
 package mod.casinocraft.network;
 
 import mod.casinocraft.system.CasinoPacketHandler;
-import mod.casinocraft.tileentities.TileEntityBoard;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import mod.casinocraft.tileentities.TileEntityMachine;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.nio.charset.Charset;
 import java.util.function.Supplier;
 
 public class MessageScoreServer {
@@ -20,6 +16,11 @@ public class MessageScoreServer {
     static int y;
     static int z;
 
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
     public MessageScoreServer(String scoreName, int scorePoints, BlockPos pos) {
         points = scorePoints;
         names  = scoreName;
@@ -27,6 +28,11 @@ public class MessageScoreServer {
         this.y = pos.getY();
         this.z = pos.getZ();
     }
+
+
+
+
+    //----------------------------------------ENCODE/DECODE----------------------------------------//
 
     public static void encode (MessageScoreServer msg, PacketBuffer buf) {
         buf.writeInt(msg.points);
@@ -45,10 +51,15 @@ public class MessageScoreServer {
         return new MessageScoreServer(_names, _points, new BlockPos(_x, _y, _z));
     }
 
+
+
+
+    //----------------------------------------HANDLER----------------------------------------//
+
     public static class Handler {
         public static void handle (final MessageScoreServer message, Supplier<NetworkEvent.Context> context) {
             BlockPos pos = new BlockPos(message.x, message.y, message.z);
-            TileEntityBoard te = (TileEntityBoard) context.get().getSender().world.getTileEntity(pos);
+            TileEntityMachine te = (TileEntityMachine) context.get().getSender().world.getTileEntity(pos);
             context.get().enqueueWork(() ->{
                 te.LOGIC.addScore(message.names, message.points);
                 te.LOGIC.resetPlayers();

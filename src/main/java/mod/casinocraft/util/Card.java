@@ -108,9 +108,13 @@ public class Card {
 
     //----------------------------------------UPDATE----------------------------------------//
 
-    public void update(){
+    /** Update Function, RETURN value tells if the card is appering NOW on screen **/
+    public boolean update(){
         if(idletimer > 0){
             idletimer-=2;
+            if(idletimer >= 0){
+                return true;
+            }
         } else {
             if(shiftX < 0) shiftX+=2;
             if(shiftX > 0) shiftX-=2;
@@ -118,6 +122,7 @@ public class Card {
             if(shiftY > 0) shiftY-=2;
             if(dead) deathtimer+=2;
         }
+        return false;
     }
 
 
@@ -149,6 +154,7 @@ public class Card {
         shiftX = c.shiftX;
         shiftY = c.shiftY;
         idletimer = c.idletimer;
+        hidden = c.hidden;
     }
 
     public boolean equals(int x, int y) {

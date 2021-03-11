@@ -9,10 +9,12 @@ public class ItemItem extends Item {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor */
     public ItemItem(ItemGroup group){
         super(new Properties().group(group));
     }
+
 }

@@ -1,0 +1,103 @@
+{
+    "casinocraft.card.place": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:card_place_1",
+            "casinocraft:card_place_2",
+            "casinocraft:card_place_3",
+            "casinocraft:card_place_4"
+        ],
+        "subtitle": "casinocraft:subtitles.card.place"
+    },
+    "casinocraft.card.shove": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:card_shove_1",
+            "casinocraft:card_shove_2",
+            "casinocraft:card_shove_3",
+            "casinocraft:card_shove_4"
+        ],
+        "subtitle": "casinocraft:subtitles.card.shove"
+    },
+    "casinocraft.chip": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:chips_1",
+            "casinocraft:chips_2",
+            "casinocraft:chips_3",
+            "casinocraft:chips_4"
+        ],
+        "subtitle": "casinocraft:subtitles.chip"
+    },
+    "casinocraft.pickup": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:coin_1",
+            "casinocraft:coin_2",
+            "casinocraft:coin_3",
+            "casinocraft:coin_4"
+        ],
+        "subtitle": "casinocraft:subtitles.pickup"
+    },
+    "casinocraft.dice": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:dice_1",
+            "casinocraft:dice_2",
+            "casinocraft:dice_3",
+            "casinocraft:dice_4"
+        ],
+        "subtitle": "casinocraft:subtitles.dice"
+    },
+    "casinocraft.impact": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:impact"
+        ],
+        "subtitle": "casinocraft:subtitles.impact"
+    },
+    "casinocraft.menu": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:menu"
+        ],
+        "subtitle": "casinocraft:subtitles.menu"
+    },
+    "casinocraft.pause.off": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:pause_off"
+        ],
+        "subtitle": "casinocraft:subtitles.pause.off"
+    },
+    "casinocraft.pause.on": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:pause_on"
+        ],
+        "subtitle": "casinocraft:subtitles.pause.on"
+    },
+    "casinocraft.reward": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:reward_1",
+            "casinocraft:reward_2"
+        ],
+        "subtitle": "casinocraft:subtitles.reward"
+    },
+    "casinocraft.roulette": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:roulette_1",
+            "casinocraft:roulette_2"
+        ],
+        "subtitle": "casinocraft:subtitles.roulette"
+    },
+    "casinocraft.tetris": {
+        "category": "neutral",
+        "sounds": [
+            "casinocraft:tetris"
+        ],
+        "subtitle": "casinocraft:subtitles.tetris"
+    }
+}

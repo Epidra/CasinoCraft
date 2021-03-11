@@ -3,6 +3,9 @@ package mod.casinocraft.logic.chip;
 import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
+import static mod.casinocraft.util.KeyMap.*;
+import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
+import static mod.casinocraft.util.SoundMap.SOUND_TETRIS;
 
 public class LogicChipBlue extends LogicBase {   // Tetris
 
@@ -62,23 +65,17 @@ public class LogicChipBlue extends LogicBase {   // Tetris
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        if(action == 0){ commandTurn(true);      } // UP
-        if(action == 1){ tetrominoDrop();      } // DOWN
-        if(action == 2){ commandStrafe(true);  } // LEFT
-        if(action == 3){ commandStrafe(false); } // RIGHT
-        if(action == 4){ commandTurn(true);    } // ROTATE LEFT
-        if(action == 5){ commandTurn(false);   } // ROTATE RIGHT
-        if(action == 6){ commandHold();        } // HOLD
+        if(action == KEY_UP){    commandTurn(true);    } // UP
+        if(action == KEY_DOWN){  tetrominoDrop();              } // DOWN
+        if(action == KEY_LEFT){  commandStrafe(true);  } // LEFT
+        if(action == KEY_RIGHT){ commandStrafe(false); } // RIGHT
+        if(action == KEY_ENTER){ commandHold();                } // HOLD
     }
 
 
 
 
     //----------------------------------------UPDATE----------------------------------------//
-
-    public void updateMotion() {
-        timer+=15;
-    }
 
     public void updateLogic(){
         if(alpha == 255) {
@@ -91,8 +88,13 @@ public class LogicChipBlue extends LogicBase {   // Tetris
             if(alpha <= 0) {
                 alpha = 250;
                 commandCollapse();
+                setJingle(SOUND_TETRIS);
             }
         }
+    }
+
+    public void updateMotion() {
+        timer+=15;
     }
 
 
@@ -338,7 +340,6 @@ public class LogicChipBlue extends LogicBase {   // Tetris
                 }
             }
         }
-
     }
 
     private void commandHold() {
@@ -405,6 +406,7 @@ public class LogicChipBlue extends LogicBase {   // Tetris
             tetromino[2].set(6, 0); // OOXO
             tetromino[3].set(5, 1); // OOOO
         }
+        setJingle(SOUND_IMPACT);
     }
 
     private void tetrominoDrop() {

@@ -4,6 +4,9 @@ import mod.casinocraft.logic.LogicBase;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
+import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
+import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
+
 public class LogicMinoBlue extends LogicBase {   // Memory
 
     public boolean selectA = false;
@@ -78,8 +81,6 @@ public class LogicMinoBlue extends LogicBase {   // Memory
                 grid[positionB.X][positionB.Y] = -1;
             } else {
                 scoreLives--;
-                //ChangeName(selected_A_pos.X, selected_A_pos.Y, grid[selected_A_pos.X][selected_A_pos.Y]);
-                //ChangeName(selected_B_pos.X, selected_B_pos.Y, grid[selected_B_pos.X][selected_B_pos.Y]);
             }
             boolean temp = false;
             for(int x = 0; x < 17; x++) {
@@ -146,6 +147,7 @@ public class LogicMinoBlue extends LogicBase {   // Memory
             if(grid[x][y] != -1) {
                 selectA = true;
                 positionA.set(x, y);
+                setJingle(SOUND_CHIP);
             }
         } else if(!selectB) {
             if(grid[x][y] != -1 && !positionA.matches(x, y)) {
@@ -153,6 +155,7 @@ public class LogicMinoBlue extends LogicBase {   // Memory
                 positionB.set(x, y);
                 //ChangeName(x, y, grid[x][y]);
                 timer = 200 - scoreLevel*10;
+                setJingle(SOUND_CHIP);
             }
         }
     }
@@ -172,9 +175,6 @@ public class LogicMinoBlue extends LogicBase {   // Memory
             int z = RANDOM.nextInt(8);
             color[z] += 2;
             filler -= 2;
-            //for(int i = 0; i < 8; i++) {
-            //	if(filler > 0) { color[i] += 2; filler -= 2; }
-            //}
         }
 
         while(filler2 > 0) {

@@ -1,6 +1,6 @@
 package mod.casinocraft.network;
 
-import mod.casinocraft.tileentities.TileEntityBoard;
+import mod.casinocraft.tileentities.TileEntityMachine;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +16,11 @@ public class MessageStartClient {
     static int y;
     static int z;
 
+
+
+
+    //----------------------------------------CONSTRUCTOR----------------------------------------//
+
     public MessageStartClient(String name, int seed, BlockPos pos) {
         this.name = name;
         this.seed = seed;
@@ -23,6 +28,11 @@ public class MessageStartClient {
         this.y = pos.getY();
         this.z = pos.getZ();
     }
+
+
+
+
+    //----------------------------------------ENCODE/DECODE----------------------------------------//
 
     public static void encode (MessageStartClient msg, PacketBuffer buf) {
         buf.writeString(msg.name);
@@ -41,11 +51,16 @@ public class MessageStartClient {
         return new MessageStartClient(_name, _seed, new BlockPos(_x, _y, _z));
     }
 
+
+
+
+    //----------------------------------------HANDLER----------------------------------------//
+
     public static class Handler {
         public static void handle (final MessageStartClient message, Supplier<NetworkEvent.Context> context) {
             int seed = message.seed;
             BlockPos pos = new BlockPos(message.x, message.y, message.z);
-            TileEntityBoard te = (TileEntityBoard) Minecraft.getInstance().world.getTileEntity(pos);
+            TileEntityMachine te = (TileEntityMachine) Minecraft.getInstance().world.getTileEntity(pos);
             context.get().enqueueWork(() -> {
                 if(seed > -1) te.LOGIC.start(seed);
                 te.LOGIC.addPlayer(name);

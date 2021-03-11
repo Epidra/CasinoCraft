@@ -6,6 +6,9 @@ import mod.casinocraft.util.Dice;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
+import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
+import static mod.casinocraft.util.SoundMap.SOUND_DICE;
+
 public class LogicMinoOrange extends LogicBase {   // Craps
 
     public Dice[] dice = new Dice[2];
@@ -61,6 +64,7 @@ public class LogicMinoOrange extends LogicBase {   // Craps
             int y = action / 8;
             if(grid[x][y] == 0){
                 selector.set(x, y);
+                setJingle(SOUND_CHIP);
             }
         }
     }
@@ -75,10 +79,6 @@ public class LogicMinoOrange extends LogicBase {   // Craps
 
 
     //----------------------------------------UPDATE----------------------------------------//
-
-    public void updateMotion(){
-
-    }
 
     public void updateLogic(){
         if(turnstate == 2){
@@ -100,6 +100,10 @@ public class LogicMinoOrange extends LogicBase {   // Craps
         if(turnstate == 4) {
             selector  = new Vector2(-1, -1);
         }
+    }
+
+    public void updateMotion(){
+
     }
 
 
@@ -131,13 +135,10 @@ public class LogicMinoOrange extends LogicBase {   // Craps
         if(turnstate == 2) {
             activePlayer++;
             if(activePlayer >= getFirstFreePlayerSlot()){
+                setJingle(SOUND_DICE);
                 dice[0].setUp(200 + RANDOM.nextInt( 50),  50 + RANDOM.nextInt(200), RANDOM.nextInt(2) == 0);
                 dice[1].setUp( 50 + RANDOM.nextInt(200), 200 + RANDOM.nextInt( 50), RANDOM.nextInt(2) == 0);
                 if(selector.X > -1) {
-                    //if(point != -1 && gridI[(int)selector.X][(int)selector.Y] == 0) {
-                    //FM.coins       -= bet;
-                    //FM.coins_bonus -= bet;
-                    //}
                     grid[selector.X][selector.Y] = 1;
                     selector = new Vector2(-1, -1);
                 }

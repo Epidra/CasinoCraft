@@ -6,6 +6,9 @@ import mod.casinocraft.util.Dice;
 import mod.casinocraft.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
+import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
+import static mod.casinocraft.util.SoundMap.SOUND_DICE;
+
 public class LogicMinoYellow extends LogicBase {   // SicBo
 
     public Dice[] dice = new Dice[3];
@@ -54,6 +57,7 @@ public class LogicMinoYellow extends LogicBase {   // SicBo
             int y = action / 12;
             if(grid[x][y] == 0){
                 selector.set(x, y);
+                setJingle(SOUND_CHIP);
             }
         }
     }
@@ -112,6 +116,7 @@ public class LogicMinoYellow extends LogicBase {   // SicBo
         if(turnstate == 2) {
             activePlayer++;
             if(activePlayer >= getFirstFreePlayerSlot()){
+                setJingle(SOUND_DICE);
                 dice[0].setUp(200 + RANDOM.nextInt( 50),  50 + RANDOM.nextInt(200), RANDOM.nextInt(2) == 0);
                 dice[1].setUp(100 + RANDOM.nextInt(100), 100 + RANDOM.nextInt(100), RANDOM.nextInt(2) == 0);
                 dice[2].setUp( 50 + RANDOM.nextInt(200), 200 + RANDOM.nextInt( 50), RANDOM.nextInt(2) == 0);
