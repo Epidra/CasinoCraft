@@ -27,7 +27,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardPurple logic(){
-        return (LogicCardPurple) CONTAINER.logic();
+        return (LogicCardPurple) menu.logic();
     }
 
 
@@ -65,8 +65,8 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate >= 2){
 
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
-            blit(matrixstack, guiLeft + 16*7 + 3+2, guiTop +2+ 20 * 10, 234, 176 + (highlightIndex == 3 ? 22 : 0), 22, 22); // Button Stack
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
+            blit(matrixstack, leftPos + 16*7 + 3+2, topPos +2+ 20 * 10, 234, 176 + (highlightIndex == 3 ? 22 : 0), 22, 22); // Button Stack
 
             drawCard(matrixstack, 16 *  3-32, 20 * 2, logic().cards_field[ 0]);
             drawCard(matrixstack, 16 *  9-32, 20 * 2, logic().cards_field[ 1]);

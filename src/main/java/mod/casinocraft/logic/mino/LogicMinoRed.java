@@ -1,14 +1,14 @@
 package mod.casinocraft.logic.mino;
 
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.logic.LogicBase;
-import mod.casinocraft.util.Vector2;
+import mod.casinocraft.logic.LogicModule;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 import static mod.casinocraft.util.SoundMap.SOUND_ROULETTE;
 
-public class LogicMinoRed extends LogicBase {   // Roulette
+public class LogicMinoRed extends LogicModule {   // Roulette
 
     private float rotation_wheel;
     private float rotation_ball;

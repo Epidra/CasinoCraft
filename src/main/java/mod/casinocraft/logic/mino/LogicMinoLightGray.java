@@ -1,7 +1,7 @@
 package mod.casinocraft.logic.mino;
 
-import mod.casinocraft.logic.LogicBase;
-import mod.casinocraft.util.Vector2;
+import mod.casinocraft.logic.LogicModule;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 
-public class LogicMinoLightGray extends LogicBase {   // Minesweeper
+public class LogicMinoLightGray extends LogicModule {   // Minesweeper
 
     private List<Vector2> FieldList = new ArrayList<Vector2>();
     public int bombs = 0;

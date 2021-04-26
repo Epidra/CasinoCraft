@@ -28,7 +28,7 @@ public class ContainerChipGreen extends ContainerCasino {
 
 
 
-    //----------------------------------------CONSTRUCTOR----------------------------------------//
+    //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){

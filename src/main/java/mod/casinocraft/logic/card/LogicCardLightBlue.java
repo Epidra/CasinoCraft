@@ -1,10 +1,9 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.KeyMap;
-import mod.casinocraft.util.SoundMap;
-import mod.casinocraft.util.Vector2;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.List;
 
 import static mod.casinocraft.util.SoundMap.*;
 
-public class LogicCardLightBlue extends LogicBase {   // Klondike
+public class LogicCardLightBlue extends LogicModule {   // Klondike
 
     public List<Card>[] cards_field   = new ArrayList[8];
     public List<Card>   cards_reserve = new ArrayList<Card>();

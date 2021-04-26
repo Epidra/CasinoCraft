@@ -1,13 +1,13 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.SoundMap;
 import net.minecraft.nbt.CompoundNBT;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
 
-public class LogicCardYellow extends LogicBase {   // Acey Deucey
+public class LogicCardYellow extends LogicModule {   // Acey Deucey
 
     public Card[] cards = new Card[3];
     public int spread = 0;

@@ -31,7 +31,7 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoOrange logic(){
-        return (LogicMinoOrange) CONTAINER.logic();
+        return (LogicMinoOrange) menu.logic();
     }
 
 
@@ -89,16 +89,16 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(tableID == 1){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_CRAPS_MIDDLE);
-            this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_CRAPS_MIDDLE);
+            this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background SMALL
         } else {
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_CRAPS_LEFT);
-            this.blit(matrixstack, guiLeft-128, guiTop, 0, 0, this.xSize, this.ySize); // Background Left
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_CRAPS_RIGHT);
-            this.blit(matrixstack, guiLeft+128, guiTop, 0, 0, this.xSize, this.ySize); // Background Right
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_CRAPS_LEFT);
+            this.blit(matrixstack, leftPos-128, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background Left
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_CRAPS_RIGHT);
+            this.blit(matrixstack, leftPos+128, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background Right
         }
 
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_DICE);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_DICE);
         if(logic().turnstate >= 2){
             int color = 0;
 
@@ -110,29 +110,29 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
                     int posY = 48 + 32*y;
                     color = logic().grid[x][y];
                     if(color != 0)
-                        this.blit(matrixstack, guiLeft+posX, guiTop+posY, 192, 32 * color, 32, 32);
+                        this.blit(matrixstack, leftPos+posX, topPos+posY, 192, 32 * color, 32, 32);
                     if(logic().selector.matches(x, y))
-                        this.blit(matrixstack, guiLeft+posX, guiTop+posY, 224, 32 * (logic().activePlayer+1), 32, 32);
+                        this.blit(matrixstack, leftPos+posX, topPos+posY, 224, 32 * (logic().activePlayer+1), 32, 32);
                 }
             }
         }
 
         if(logic().turnstate == 3){
-            this.blit(matrixstack, guiLeft + logic().dice[0].posX, guiTop + logic().dice[0].posY, logic().dice[0].number*32, diceColor*32, 32, 32);
-            this.blit(matrixstack, guiLeft + logic().dice[1].posX, guiTop + logic().dice[1].posY, logic().dice[1].number*32, diceColor*32, 32, 32);
+            this.blit(matrixstack, leftPos + logic().dice[0].posX, topPos + logic().dice[0].posY, logic().dice[0].number*32, diceColor*32, 32, 32);
+            this.blit(matrixstack, leftPos + logic().dice[1].posX, topPos + logic().dice[1].posY, logic().dice[1].number*32, diceColor*32, 32, 32);
         }
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             if(playerToken == -1) validateBet();
             if(playerToken >= bet)
-                blit(matrixstack, guiLeft+24+7,  guiTop+251-16,  0, 0, 78, 22); // Button Hit
-            blit(matrixstack, guiLeft+140+7, guiTop+251-16, 78, 0, 78, 22); // Button Stand
+                blit(matrixstack, leftPos+24+7,  topPos+251-16,  0, 0, 78, 22); // Button Hit
+            blit(matrixstack, leftPos+140+7, topPos+251-16, 78, 0, 78, 22); // Button Stand
         }
         if(logic().turnstate == 3 && logic().dice[0].shiftX == 0 && logic().dice[1].shiftX == 0){
-            blit(matrixstack, guiLeft+89, guiTop+251-16, 78, 44, 78, 22); // Button Spin
+            blit(matrixstack, leftPos+89, topPos+251-16, 78, 44, 78, 22); // Button Spin
         }
     }
 

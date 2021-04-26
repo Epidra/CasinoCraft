@@ -27,7 +27,7 @@ public class ScreenMinoGray extends ScreenCasino {   // Mino Flip
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoGray logic(){
-        return (LogicMinoGray) CONTAINER.logic();
+        return (LogicMinoGray) menu.logic();
     }
 
 
@@ -77,10 +77,10 @@ public class ScreenMinoGray extends ScreenCasino {   // Mino Flip
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOFLIP);
-        this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOFLIP);
+        this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
 
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
         for(int y = 0; y < 5; y++){
             for(int x = 0; x < 5; x++){
                 int i = logic().grid[x][y];
@@ -94,10 +94,10 @@ public class ScreenMinoGray extends ScreenCasino {   // Mino Flip
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
-            blit(matrixstack, guiLeft+24+7,  guiTop+204+2,  0, 0, 78, 22); // Button Hit
-            blit(matrixstack, guiLeft+140+7, guiTop+204+2, 78, 0, 78, 22); // Button Stand
+            blit(matrixstack, leftPos+24+7,  topPos+204+2,  0, 0, 78, 22); // Button Hit
+            blit(matrixstack, leftPos+140+7, topPos+204+2, 78, 0, 78, 22); // Button Stand
         }
     }
 

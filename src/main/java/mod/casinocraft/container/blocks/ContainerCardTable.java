@@ -28,7 +28,7 @@ public class ContainerCardTable extends ContainerMachine {
 
 
 
-    //----------------------------------------CONSTRUCTOR----------------------------------------//
+    //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){

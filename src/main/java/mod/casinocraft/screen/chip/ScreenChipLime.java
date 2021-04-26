@@ -26,7 +26,7 @@ public class ScreenChipLime extends ScreenCasino {   // -----
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicChipLime logic(){
-        return (LogicChipLime) CONTAINER.logic();
+        return (LogicChipLime) menu.logic();
     }
 
 

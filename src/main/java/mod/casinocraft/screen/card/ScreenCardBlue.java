@@ -26,7 +26,7 @@ public class ScreenCardBlue extends ScreenCasino {   // FreeCell
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardBlue logic(){
-        return (LogicCardBlue) CONTAINER.logic();
+        return (LogicCardBlue) menu.logic();
     }
 
 

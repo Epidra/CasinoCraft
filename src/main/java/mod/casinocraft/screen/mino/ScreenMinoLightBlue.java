@@ -27,7 +27,7 @@ public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoLightBlue logic(){
-        return (LogicMinoLightBlue) CONTAINER.logic();
+        return (LogicMinoLightBlue) menu.logic();
     }
 
 
@@ -65,7 +65,7 @@ public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
         if(logic().reserve.size() > 0){
             drawMino(matrixstack, 128-12, 16+2, logic().reserve.get(0).number + 1, logic().reserve.get(0).suit);
         }

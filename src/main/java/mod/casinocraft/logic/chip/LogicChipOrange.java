@@ -1,8 +1,8 @@
 package mod.casinocraft.logic.chip;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Ship;
-import mod.casinocraft.util.Vector2;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +10,7 @@ import static mod.casinocraft.util.KeyMap.*;
 import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
 import static mod.casinocraft.util.SoundMap.SOUND_TETRIS;
 
-public class LogicChipOrange extends LogicBase {   // Snake
+public class LogicChipOrange extends LogicModule {   // Snake
 
     public Ship octanom_head = new Ship(1, new Vector2(0, 0), new Vector2(0, 0));
     public List<Ship> octanom_tail = new ArrayList<Ship>();

@@ -27,7 +27,7 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicChipBlue logic(){
-        return (LogicChipBlue) CONTAINER.logic();
+        return (LogicChipBlue) menu.logic();
     }
 
 
@@ -53,11 +53,11 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_TETRIS);
-        this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_TETRIS);
+        this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
 
         if(logic().turnstate >= 2){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADE);
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ARCADE);
             for(int y = 0; y < 20; y++){
                 for(int x = 0; x < 10; x++){
                     if(logic().grid[x][y] != -1) drawDigiSmall(matrixstack, 32 + 12*x, 8 + 12*y, logic().turnstate >= 4 ? 8 : tetroColor(x, y));

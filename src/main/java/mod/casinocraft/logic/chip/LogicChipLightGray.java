@@ -1,11 +1,11 @@
 package mod.casinocraft.logic.chip;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 import static mod.casinocraft.util.KeyMap.*;
 import static mod.casinocraft.util.SoundMap.SOUND_TETRIS;
 
-public class LogicChipLightGray extends LogicBase {   // 2048
+public class LogicChipLightGray extends LogicModule {   // 2048
 
     public boolean placing = false;
     public boolean timerActive = false;

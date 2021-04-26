@@ -28,7 +28,7 @@ public class ContainerMinoWhite extends ContainerCasino {
 
 
 
-    //----------------------------------------CONSTRUCTOR----------------------------------------//
+    //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){

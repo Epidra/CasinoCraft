@@ -4,14 +4,18 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerProvider;
 import mod.casinocraft.tileentities.TileEntityArcade;
 import mod.casinocraft.tileentities.TileEntityMachine;
+import mod.lucky77.blocks.MachinaTall;
+import mod.lucky77.tileentities.TileBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,14 +44,14 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class BlockArcade extends MachinaDoubleTall {
+public class BlockArcade extends MachinaTall {
 
     private static final IntegerProperty MODULE = IntegerProperty.create("module", 0, 17);
     private DyeColor color;
-    private static final VoxelShape AABB0 = Block.makeCuboidShape(2, 0, 1, 16, 16, 15);
-    private static final VoxelShape AABB1 = Block.makeCuboidShape(1, 0, 2, 16, 16, 15);
-    private static final VoxelShape AABB2 = Block.makeCuboidShape(0, 0, 1, 14, 16, 15);
-    private static final VoxelShape AABB3 = Block.makeCuboidShape(1, 0, 0, 15, 16, 14);
+    private static final VoxelShape AABB0 = Block.box(2, 0, 1, 16, 16, 15);
+    private static final VoxelShape AABB1 = Block.box(1, 0, 2, 16, 16, 15);
+    private static final VoxelShape AABB2 = Block.box(0, 0, 1, 14, 16, 15);
+    private static final VoxelShape AABB3 = Block.box(1, 0, 0, 15, 16, 14);
 
 
 
@@ -58,7 +62,22 @@ public class BlockArcade extends MachinaDoubleTall {
     public BlockArcade(Block block, DyeColor color) {
         super(block);
         this.color = color;
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(OFFSET, Boolean.TRUE).with(MODULE, 17));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OFFSET, Boolean.TRUE).setValue(MODULE, 17));
+    }
+
+
+
+
+    //----------------------------------------PLACEMENT----------------------------------------//
+
+    public void onRemove(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+        boolean isPrimary = state.getValue(OFFSET);
+        TileEntityMachine tile = (TileEntityMachine) world.getBlockEntity(getTilePosition(pos, isPrimary, Direction.DOWN));
+        if(tile != null && tile.settingDropItemsOnBreak) {
+            tile.setItem(3, new ItemStack(tile.getItem(3).getItem(), tile.storageToken));
+            tile.setItem(4, new ItemStack(tile.getItem(4).getItem(), tile.storageToken));
+        }
+        super.onRemove(state, world, pos, newState, isMoving);
     }
 
 
@@ -67,29 +86,21 @@ public class BlockArcade extends MachinaDoubleTall {
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (!world.isRemote() && player instanceof ServerPlayerEntity){
-            final BlockPos pos2 = getTilePosition(pos, state.get(OFFSET), Direction.DOWN);
-            TileEntityMachine tileEntity = (TileEntityMachine) world.getTileEntity(pos2);
-            if (tileEntity instanceof TileEntityArcade) {
-                NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider(tileEntity), buf -> buf.writeBlockPos(pos2));
-            }
-
-        }
-        return ActionResultType.SUCCESS;
+    public void interact(World world, BlockPos pos, PlayerEntity player, TileBase tile) {
+        NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityMachine)tile), buf -> buf.writeBlockPos(pos));
     }
 
     public static void setModuleState(World world, BlockPos pos){
         BlockState iblockstate = world.getBlockState(pos);
-        TileEntityMachine tileentity = (TileEntityMachine) world.getTileEntity(pos);
+        TileEntityMachine tileentity = (TileEntityMachine) world.getBlockEntity(pos);
         if (tileentity != null){
-            if(tileentity.inventory.get(0).isEmpty()){
-                world.setBlockState(pos,      iblockstate.with(                    MODULE, 17), 3);
-                world.setBlockState(pos.up(), iblockstate.with(OFFSET, false).with(MODULE, 17), 3);
+            if(tileentity.getItem(0).isEmpty()){
+                world.setBlock(pos,         iblockstate.setValue(                                  MODULE, 17), 3);
+                world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, 17), 3);
             }
             else {
-                world.setBlockState(pos,      iblockstate.with(                    MODULE, itemToInt(tileentity.inventory.get(1).getItem())), 3);
-                world.setBlockState(pos.up(), iblockstate.with(OFFSET, false).with(MODULE, itemToInt(tileentity.inventory.get(1).getItem())), 3);
+                world.setBlock(pos,         iblockstate.setValue(                                  MODULE, itemToInt(tileentity.getItem(1).getItem())), 3);
+                world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, itemToInt(tileentity.getItem(1).getItem())), 3);
             }
         }
     }
@@ -100,25 +111,46 @@ public class BlockArcade extends MachinaDoubleTall {
     //----------------------------------------SUPPORT----------------------------------------//
 
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        Direction enumfacing = state.get(FACING);
+        Direction enumfacing = state.getValue(FACING);
         switch(enumfacing) {
             case NORTH: return AABB1;
             case SOUTH: return AABB3;
             case EAST:  return AABB2;
             case WEST:  return AABB0;
             default:
-                return VoxelShapes.fullCube();
+                return VoxelShapes.block();
         }
     }
 
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING, OFFSET, MODULE);
     }
 
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return state.get(OFFSET) ? new TileEntityArcade(color, 0) : null;
+        return state.getValue(OFFSET) ? new TileEntityArcade(color, 0) : null;
+    }
+
+    public float getDestroyProgress(BlockState state, PlayerEntity player, IBlockReader worldIn, BlockPos pos) {
+        final BlockPos pos2 = getTilePosition(pos, state.getValue(OFFSET), Direction.DOWN);
+        TileEntityMachine tileEntity = (TileEntityMachine) worldIn.getBlockEntity(pos2);
+        boolean unbreakable = tileEntity.settingIndestructableBlock;
+        float f = state.getDestroySpeed(worldIn, pos);
+        if(unbreakable) f *= 1000;
+        if (f == -1.0F) {
+            return 0.0F;
+        } else {
+            int i = net.minecraftforge.common.ForgeHooks.canHarvestBlock(state, player, worldIn, pos) ? 30 : 100;
+            return player.getDigSpeed(state, pos) / f / (float)i;
+        }
+    }
+
+    public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion){
+        final BlockPos pos2 = getTilePosition(pos, state.getValue(OFFSET), Direction.DOWN);
+        TileEntityMachine tileEntity = (TileEntityMachine) world.getBlockEntity(pos2);
+        boolean unbreakable = tileEntity.settingIndestructableBlock;
+        return this.getBlock().getExplosionResistance() * (unbreakable ? 1000 : 1);
     }
 
 

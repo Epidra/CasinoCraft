@@ -1,6 +1,6 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.SoundMap;
 import net.minecraft.nbt.CompoundNBT;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
 
-public class LogicCardRed extends LogicBase {   // Rouge et Noir
+public class LogicCardRed extends LogicModule {   // Rouge et Noir
 
     public List<Card> cards_rouge  = new ArrayList<Card>();
     public List<Card>   cards_noir = new ArrayList<Card>();

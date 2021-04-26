@@ -1,15 +1,15 @@
 package mod.casinocraft.logic.mino;
 
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Dice;
-import mod.casinocraft.util.Vector2;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 import static mod.casinocraft.util.SoundMap.SOUND_DICE;
 
-public class LogicMinoYellow extends LogicBase {   // SicBo
+public class LogicMinoYellow extends LogicModule {   // SicBo
 
     public Dice[] dice = new Dice[3];
 

@@ -2,7 +2,7 @@ package mod.casinocraft.tileentities;
 
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.blocks.BlockArcade;
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.logic.card.*;
 import mod.casinocraft.logic.mino.*;
 import mod.casinocraft.logic.chip.*;
@@ -10,7 +10,7 @@ import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.logic.other.LogicSlotGame;
 import mod.casinocraft.network.MessageModuleServer;
 import mod.casinocraft.system.CasinoPacketHandler;
-import mod.casinocraft.util.LogicData;
+import mod.lucky77.tileentities.TileBase;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,10 +26,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 
-public abstract class TileEntityMachine extends TileBase {
-
-    /** 0 - KEY, 1 - MODULE, 2 - TOKEN, 3 - STORAGE-TOKEN, 4 - STORAGE_PRIZE **/
-    public NonNullList<ItemStack> inventory = NonNullList.withSize(5, ItemStack.EMPTY);
+public abstract class TileEntityMachine extends TileBase<LogicModule> {
 
     public boolean settingInfiniteToken = false;
     public boolean settingInfiniteReward = false;
@@ -58,10 +55,8 @@ public abstract class TileEntityMachine extends TileBase {
     public boolean prizeMode3 = false;
 
     private Item lastModule = Items.FLINT;
-    public LogicBase LOGIC;
     public DyeColor color;
     public final int tableID;
-    public final LogicData logicData = () -> TileEntityMachine.this.LOGIC;
     public final IIntArray casinoData = new IIntArray() {
         public int get(int index) {
             switch(index) {
@@ -117,7 +112,7 @@ public abstract class TileEntityMachine extends TileBase {
                 case 21: TileEntityMachine.this.settingAlternateColor = value; break;
             }
         }
-        public int size() {
+        public int getCount() {
             return 19;
         }
     };
@@ -127,9 +122,9 @@ public abstract class TileEntityMachine extends TileBase {
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
+    /** 0 - KEY, 1 - MODULE, 2 - TOKEN, 3 - STORAGE-TOKEN, 4 - STORAGE_PRIZE **/
     public TileEntityMachine(TileEntityType<?> tileEntityTypeIn, DyeColor color, int tableID) {
-        super(tileEntityTypeIn);
-        LOGIC = new LogicDummy(tableID);
+        super(tileEntityTypeIn, 5, new LogicDummy(tableID));
         this.color = color;
         this.tableID = tableID;
     }
@@ -175,7 +170,7 @@ public abstract class TileEntityMachine extends TileBase {
         // Reward Transfer
         else if(transferRewardIN) {
             if(inventory.get(2).getCount() > 0 && (storageReward == 0 || isTokenREW(inventory.get(2)))) {
-                if(getTokenREW() == Item.getItemFromBlock(Blocks.AIR)) setTokenREW(inventory.get(2));
+                if(getTokenREW() == Item.byBlock(Blocks.AIR)) setTokenREW(inventory.get(2));
                 int count = inventory.get(2).getCount();
                 inventory.get(2).shrink(count);
                 storageReward+=count;
@@ -203,15 +198,15 @@ public abstract class TileEntityMachine extends TileBase {
         }
 
         if (isDirty){
-            this.markDirty();
+            this.setChanged();
         }
 
-        if(LOGIC.jingle > 0){
+        if(logic.jingle > 0){
             playSound();
         }
 
-        if(LOGIC.turnstate > 1 && LOGIC.turnstate < 6){
-            LOGIC.update();
+        if(logic.turnstate > 1 && logic.turnstate < 6){
+            logic.update();
         }
     }
 
@@ -220,27 +215,15 @@ public abstract class TileEntityMachine extends TileBase {
 
     //----------------------------------------NETWORK----------------------------------------//
 
-    /** Creates a tag containing the TileEntity information, used by vanilla to transmit from server to client */
-    @Override
-    public CompoundNBT getUpdateTag(){
-        CompoundNBT nbtTagCompound = new CompoundNBT();
-        write(nbtTagCompound);
-        return nbtTagCompound;
-    }
-
-    /** Populates this TileEntity with information from the tag, used by vanilla to transmit from server to client */
-    @Override
-    public void handleUpdateTag(BlockState state, CompoundNBT tag){
-        this.read(state, tag);
-    }
+    // ...
 
 
 
 
-    //----------------------------------------READ/WRITE----------------------------------------//
+    //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void read(BlockState state, CompoundNBT nbt){
-        super.read(state, nbt);
+    public void load(BlockState state, CompoundNBT nbt){
+        super.load(state, nbt);
 
         storageToken = nbt.getInt("storage_token");
         storageReward = nbt.getInt("storage_reward");
@@ -268,12 +251,12 @@ public abstract class TileEntityMachine extends TileBase {
         this.inventory = NonNullList.withSize(5, ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(nbt, this.inventory);
         lastModule = getModule();
-        LOGIC = setLogic();
-        LOGIC.load(nbt);
+        logic = setLogic();
+        logic.load(nbt);
     }
 
-    public CompoundNBT write(CompoundNBT compound){
-        super.write(compound);
+    public CompoundNBT save(CompoundNBT compound){
+        super.save(compound);
 
         compound.putInt("storage_token", storageToken);
         compound.putInt("storage_reward", storageReward);
@@ -299,7 +282,7 @@ public abstract class TileEntityMachine extends TileBase {
         compound.putInt("setting_alternate_color", settingAlternateColor);
 
         ItemStackHelper.saveAllItems(compound, this.inventory);
-        LOGIC.save(compound);
+        logic.save(compound);
         return compound;
     }
 
@@ -308,27 +291,12 @@ public abstract class TileEntityMachine extends TileBase {
 
     //----------------------------------------SUPPORT----------------------------------------//
 
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public boolean isUsableByPlayer(PlayerEntity player) {
-        return this.world.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
-    }
-
-    @Override
-    public void clear() {
-
-    }
-
     public void changeLogic(){
         if(lastModule != getModule()){
             lastModule = getModule();
-            LOGIC = setLogic();
-            if(world.getBlockState(pos).getBlock() instanceof BlockArcade) {
-                CasinoPacketHandler.sendToServer(new MessageModuleServer(pos));
+            logic = setLogic();
+            if(level.getBlockState(worldPosition).getBlock() instanceof BlockArcade) {
+                CasinoPacketHandler.sendToServer(new MessageModuleServer(worldPosition));
             }
         }
     }
@@ -374,41 +342,12 @@ public abstract class TileEntityMachine extends TileBase {
         inventory.set(4, new ItemStack(itemstack.getItem(), 1));
     }
 
-    /** Returns the number of slots in the inventory. */
-    public int getSizeInventory(){
-        return this.inventory.size();
-    }
-    /** Returns the stack in the given slot. */
-    public ItemStack getStackInSlot(int index){
-        return this.inventory.get(index);
-    }
-    /** Removes up to a specified number of items from an inventory slot and returns them in a new stack. */
-    public ItemStack decrStackSize(int index, int count){
-        return ItemStackHelper.getAndSplit(this.inventory, index, count);
-    }
-    /** Removes a stack from the given slot and returns it. */
-    public ItemStack removeStackFromSlot(int index){
-        return ItemStackHelper.getAndRemove(this.inventory, index);
-    }
-    /** Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections). */
-    public void setInventorySlotContents(int index, ItemStack stack){
-        ItemStack itemstack = this.inventory.get(index);
-        boolean flag = !stack.isEmpty() && stack.isItemEqual(itemstack) && ItemStack.areItemStackTagsEqual(stack, itemstack);
-        this.inventory.set(index, stack);
-        if (stack.getCount() > this.getInventoryStackLimit()){
-            stack.setCount(this.getInventoryStackLimit());
-        }
-        if (index == 0 && !flag){
-            this.markDirty();
-        }
-    }
-
     /** Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be extended. */
     public int getInventoryStackLimit(){
         return 64;
     }
 
-    private LogicBase setLogic(){
+    private LogicModule setLogic(){
         if(this instanceof TileEntityArcade){
             if(getModule() == CasinoKeeper.MODULE_CHIP_WHITE.get())      return new LogicChipWhite(    tableID);
             if(getModule() == CasinoKeeper.MODULE_CHIP_ORANGE.get())     return new LogicChipOrange(   tableID);
@@ -469,10 +408,10 @@ public abstract class TileEntityMachine extends TileBase {
     }
 
     private void playSound(){
-        if(!world.isRemote()){
-            world.playSound(null, pos, getSound(LOGIC.jingle), SoundCategory.AMBIENT, 10, 1);
+        if(!level.isClientSide()){
+            level.playSound(null, worldPosition, getSound(logic.jingle), SoundCategory.AMBIENT, 10, 1);
         }
-        LOGIC.jingle = 0;
+        logic.jingle = 0;
     }
 
     private SoundEvent getSound(int index){
@@ -491,6 +430,11 @@ public abstract class TileEntityMachine extends TileBase {
             case 11: return CasinoKeeper.SOUND_ROULETTE.get();
             case 12: return CasinoKeeper.SOUND_TETRIS.get();
         }
+    }
+
+    @Override
+    public IIntArray getIntArray() {
+        return casinoData;
     }
 
 }

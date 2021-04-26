@@ -1,5 +1,7 @@
 package mod.casinocraft.util;
 
+import mod.lucky77.util.Vector2;
+
 public class Ship {
 
     Vector2 position = new Vector2(0, 0); // The actual Position of the Entity

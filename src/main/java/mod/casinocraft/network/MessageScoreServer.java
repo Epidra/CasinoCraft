@@ -12,9 +12,7 @@ public class MessageScoreServer {
 
     static int points;
     static String names;
-    static int x;
-    static int y;
-    static int z;
+    static BlockPos pos;
 
 
 
@@ -22,11 +20,9 @@ public class MessageScoreServer {
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageScoreServer(String scoreName, int scorePoints, BlockPos pos) {
-        points = scorePoints;
-        names  = scoreName;
-        this.x = pos.getX();
-        this.y = pos.getY();
-        this.z = pos.getZ();
+        this.points = scorePoints;
+        this.names  = scoreName;
+        this.pos = pos;
     }
 
 
@@ -36,19 +32,15 @@ public class MessageScoreServer {
 
     public static void encode (MessageScoreServer msg, PacketBuffer buf) {
         buf.writeInt(msg.points);
-        buf.writeString(msg.names, 24);
-        buf.writeInt(msg.x);
-        buf.writeInt(msg.y);
-        buf.writeInt(msg.z);
+        buf.writeUtf(msg.names, 24);
+        buf.writeBlockPos(msg.pos);
     }
 
     public static MessageScoreServer decode (PacketBuffer buf) {
         int _points = buf.readInt();
-        String _names = buf.readString(24);
-        int _x = buf.readInt();
-        int _y = buf.readInt();
-        int _z = buf.readInt();
-        return new MessageScoreServer(_names, _points, new BlockPos(_x, _y, _z));
+        String _names = buf.readUtf(24);
+        BlockPos _pos = buf.readBlockPos();
+        return new MessageScoreServer(_names, _points, _pos);
     }
 
 
@@ -58,13 +50,12 @@ public class MessageScoreServer {
 
     public static class Handler {
         public static void handle (final MessageScoreServer message, Supplier<NetworkEvent.Context> context) {
-            BlockPos pos = new BlockPos(message.x, message.y, message.z);
-            TileEntityMachine te = (TileEntityMachine) context.get().getSender().world.getTileEntity(pos);
+            TileEntityMachine te = (TileEntityMachine) context.get().getSender().level.getBlockEntity(message.pos);
             context.get().enqueueWork(() ->{
-                te.LOGIC.addScore(message.names, message.points);
-                te.LOGIC.resetPlayers();
+                te.logic.addScore(message.names, message.points);
+                te.logic.resetPlayers();
             });
-            CasinoPacketHandler.sendToChunk(new MessageScoreClient(message.names, message.points, te.getPos()), context.get().getSender().world.getChunkAt(pos));
+            CasinoPacketHandler.sendToChunk(new MessageScoreClient(message.names, message.points, message.pos), context.get().getSender().level.getChunkAt(message.pos));
             context.get().setPacketHandled(true);
         }
     }

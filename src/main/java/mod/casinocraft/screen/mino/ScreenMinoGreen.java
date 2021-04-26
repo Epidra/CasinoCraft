@@ -27,7 +27,7 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoGreen logic(){
-        return (LogicMinoGreen) CONTAINER.logic();
+        return (LogicMinoGreen) menu.logic();
     }
 
 
@@ -61,12 +61,12 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate >= 2){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MYSTICSQUARE);
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MYSTICSQUARE);
             for(int y = 0; y < 4; y++) {
                 for(int x = 0; x < 4; x++) {
                     int i = logic().grid[x][y] % 20;
                     if(i != -1) {
-                        this.blit(matrixstack, guiLeft + 32 + 48*x, guiTop + 32 + 48*y, (i % 4)*48, (i / 4)*48, 48, 48);
+                        this.blit(matrixstack, leftPos + 32 + 48*x, topPos + 32 + 48*y, (i % 4)*48, (i / 4)*48, 48, 48);
                     }
                 }
             }

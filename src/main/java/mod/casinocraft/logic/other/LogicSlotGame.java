@@ -1,9 +1,9 @@
 package mod.casinocraft.logic.other;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 
-public class LogicSlotGame extends LogicBase {
+public class LogicSlotGame extends LogicModule {
 
     public int wheel; // What wheel will be halted next
     public int[] wheelPos = new int[3];

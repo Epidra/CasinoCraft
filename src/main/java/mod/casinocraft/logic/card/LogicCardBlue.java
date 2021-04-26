@@ -1,9 +1,9 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.KeyMap;
-import mod.casinocraft.util.Vector2;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
 import static mod.casinocraft.util.SoundMap.SOUND_CARD_SHOVE;
 
-public class LogicCardBlue extends LogicBase {   // FreeCell
+public class LogicCardBlue extends LogicModule {   // FreeCell
 
     public List<Card>[] cards_field  = new ArrayList[8];
     public List<Card>[] cards_finish = new ArrayList[4];

@@ -1,7 +1,7 @@
 package mod.casinocraft.logic.mino;
 
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import net.minecraft.nbt.CompoundNBT;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 
-public class LogicMinoPink extends LogicBase {   // FanTan
+public class LogicMinoPink extends LogicModule {   // FanTan
 
     public List<Card> chips = new ArrayList<>();
     private int max_chips;

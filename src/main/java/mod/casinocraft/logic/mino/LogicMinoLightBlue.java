@@ -1,6 +1,6 @@
 package mod.casinocraft.logic.mino;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import net.minecraft.nbt.CompoundNBT;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 
-public class LogicMinoLightBlue extends LogicBase {   // Ishido
+public class LogicMinoLightBlue extends LogicModule {   // Ishido
 
     public List<Card> reserve = new ArrayList<Card>();
 

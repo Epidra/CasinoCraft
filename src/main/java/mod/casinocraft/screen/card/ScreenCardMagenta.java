@@ -27,7 +27,7 @@ public class ScreenCardMagenta extends ScreenCasino {   // Pyramid
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardMagenta logic(){
-        return (LogicCardMagenta) CONTAINER.logic();
+        return (LogicCardMagenta) menu.logic();
     }
 
 
@@ -65,8 +65,8 @@ public class ScreenCardMagenta extends ScreenCasino {   // Pyramid
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate >= 2){
 
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
-            blit(matrixstack, guiLeft + 16*7 + 3+2, guiTop +2+ 20 * 10, 234, 176 + (highlightIndex == 3 ? 22 : 0), 22, 22); // Button Stack
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
+            blit(matrixstack, leftPos + 16*7 + 3+2, topPos +2+ 20 * 10, 234, 176 + (highlightIndex == 3 ? 22 : 0), 22, 22); // Button Stack
 
             drawCard(matrixstack, 16 *  7, 20 * 1, logic().cards_field[ 0]); if(logic().selector.X ==  0) drawCardBack(matrixstack, 16 *  7, 20 * 1, 9);
 

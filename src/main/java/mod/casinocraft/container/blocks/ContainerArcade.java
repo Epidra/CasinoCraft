@@ -3,6 +3,7 @@ package mod.casinocraft.container.blocks;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerMachine;
 import mod.casinocraft.tileentities.TileEntityMachine;
+import mod.lucky77.tileentities.TileBase;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.network.PacketBuffer;
 
@@ -28,7 +29,7 @@ public class ContainerArcade extends ContainerMachine {
 
 
 
-    //----------------------------------------CONSTRUCTOR----------------------------------------//
+    //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){

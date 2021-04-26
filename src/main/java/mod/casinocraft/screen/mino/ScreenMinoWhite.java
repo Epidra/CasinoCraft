@@ -2,6 +2,7 @@ package mod.casinocraft.screen.mino;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.mino.LogicMinoWhite;
@@ -28,7 +29,7 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoWhite logic(){
-        return (LogicMinoWhite) CONTAINER.logic();
+        return (LogicMinoWhite) menu.logic();
     }
 
 
@@ -58,18 +59,18 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SUDOKU);
-        this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SUDOKU);
+        this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
 
         drawMino(matrixstack, 20 + 24*logic().selector.X, 20 + 24*logic().selector.Y, 8, 0);
 
         for(int y = 0; y < 9; y++) {
             for(int x = 0; x < 9; x++) {
                 if(logic().grid[x][y] > 0) {
-                    if(logic().grid[x][y] > 10) GlStateManager.color4f(0.5f, 0.5f, 0.5f, 1.0F);
+                    if(logic().grid[x][y] > 10) RenderSystem.color4f(0.5f, 0.5f, 0.5f, 1.0F);
                     drawMinoSmall(matrixstack, 20+4 + 24*x, 20+4 + 24*y, logic().grid[x][y] % 10, true);
-                    GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 }
             }
         }

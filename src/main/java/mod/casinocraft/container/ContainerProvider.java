@@ -10,6 +10,7 @@ import mod.casinocraft.container.mino.*;
 import mod.casinocraft.container.other.ContainerDummy;
 import mod.casinocraft.container.other.ContainerSlotGame;
 import mod.casinocraft.tileentities.*;
+import mod.lucky77.tileentities.TileBase;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -30,6 +31,7 @@ public class ContainerProvider implements INamedContainerProvider {
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
+
     public ContainerProvider(@Nonnull TileEntityMachine tile) {
         this.board = tile;
     }
@@ -37,13 +39,13 @@ public class ContainerProvider implements INamedContainerProvider {
 
 
 
-    //----------------------------------------FUNCTION----------------------------------------//
+    //----------------------------------------MENU----------------------------------------//
 
     @Nullable
     @Override
     public Container createMenu(int windowId, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-        Item module = this.board.getModule();
-        boolean gainAccess = this.board.getKey() == Blocks.AIR.asItem() || (this.board.getKey() == playerInventory.mainInventory.get(playerInventory.currentItem).getItem() && playerInventory.mainInventory.get(playerInventory.currentItem).getDisplayName().getString().matches(this.board.inventory.get(0).getDisplayName().getString()));
+        Item module = this.board.getItem(1).getItem();
+        boolean gainAccess = this.board.getItem(0).getItem() == Blocks.AIR.asItem() || (this.board.getItem(0).getItem() == playerInventory.getItem(playerInventory.selected).getItem() && playerInventory.getItem(playerInventory.selected).getHoverName().getString().matches(this.board.getItem(0).getHoverName().getString()));
         if(this.board instanceof TileEntityArcade){
             if(gainAccess)                                          return new ContainerArcade(       windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_CHIP_WHITE.get())      return new ContainerChipWhite(    windowId, playerInventory, this.board);

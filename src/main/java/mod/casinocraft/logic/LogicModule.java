@@ -3,14 +3,15 @@ package mod.casinocraft.logic;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.Dice;
 import mod.casinocraft.util.Ship;
-import mod.casinocraft.util.Vector2;
+import mod.lucky77.util.LogicBase;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class LogicBase {
+public abstract class LogicModule extends LogicBase {
 
     public final Random RANDOM = new Random();
     public int scorePoint = -1;
@@ -39,12 +40,12 @@ public abstract class LogicBase {
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Constructor without Grid **/
-    public LogicBase(int table){
+    public LogicModule(int table){
         this(table, 1, 1);
     }
 
     /** Default Constructor **/
-    public LogicBase(int tableID, int gridX, int gridY){
+    public LogicModule(int tableID, int gridX, int gridY){
         this.tableID = tableID;
         if(hasHighscore()) setupHighscore();
         grid = new int[gridX][gridY];

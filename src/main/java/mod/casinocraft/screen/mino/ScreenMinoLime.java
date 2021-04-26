@@ -27,7 +27,7 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoLime logic(){
-        return (LogicMinoLime) CONTAINER.logic();
+        return (LogicMinoLime) menu.logic();
     }
 
 
@@ -60,12 +60,12 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SIMON);
-        this.blit(matrixstack, guiLeft +  64, guiTop +  64,   0, logic().alpha[0] > 1 ? 64 : 128, 64, 64);
-        this.blit(matrixstack, guiLeft + 128, guiTop +  64,  64, logic().alpha[1] > 1 ? 64 : 128, 64, 64);
-        this.blit(matrixstack, guiLeft +  64, guiTop + 128, 128, logic().alpha[2] > 1 ? 64 : 128, 64, 64);
-        this.blit(matrixstack, guiLeft + 128, guiTop + 128, 192, logic().alpha[3] > 1 ? 64 : 128, 64, 64);
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SIMON);
+        this.blit(matrixstack, leftPos +  64, topPos +  64,   0, logic().alpha[0] > 1 ? 64 : 128, 64, 64);
+        this.blit(matrixstack, leftPos + 128, topPos +  64,  64, logic().alpha[1] > 1 ? 64 : 128, 64, 64);
+        this.blit(matrixstack, leftPos +  64, topPos + 128, 128, logic().alpha[2] > 1 ? 64 : 128, 64, 64);
+        this.blit(matrixstack, leftPos + 128, topPos + 128, 192, logic().alpha[3] > 1 ? 64 : 128, 64, 64);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
         for(int i = 0; i < logic().color_player.size(); i++){
             drawMino(matrixstack, 22, 22 + 12*i, logic().color_player.get(i), 0);
         }

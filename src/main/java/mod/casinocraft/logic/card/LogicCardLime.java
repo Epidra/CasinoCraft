@@ -1,9 +1,9 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 
-public class LogicCardLime extends LogicBase {   // -----
+public class LogicCardLime extends LogicModule {   // -----
 
     // ...
 

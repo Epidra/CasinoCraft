@@ -1,9 +1,9 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 
-public class LogicCardPink extends LogicBase {   // -----
+public class LogicCardPink extends LogicModule {   // -----
 
     // ...
 

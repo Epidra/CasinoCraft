@@ -1,6 +1,6 @@
 package mod.casinocraft.logic.mino;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.List;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 
-public class LogicMinoLime extends LogicBase {   // Simon
+public class LogicMinoLime extends LogicModule {   // Simon
 
     public int[] alpha = new int[4];
     public List<Integer> color_simon  = new ArrayList<>();

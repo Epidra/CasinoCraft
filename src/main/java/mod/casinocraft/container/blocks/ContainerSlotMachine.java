@@ -28,7 +28,7 @@ public class ContainerSlotMachine extends ContainerMachine {
 
 
 
-    //----------------------------------------CONSTRUCTOR----------------------------------------//
+    //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){

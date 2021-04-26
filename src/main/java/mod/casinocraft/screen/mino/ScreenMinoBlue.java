@@ -27,7 +27,7 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoBlue logic(){
-        return (LogicMinoBlue) CONTAINER.logic();
+        return (LogicMinoBlue) menu.logic();
     }
 
 
@@ -70,7 +70,7 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate >= 2){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
             for(int y = 0; y < 9; y++){
                 for(int x = 0; x < 17; x++){
                     if(logic().grid[x][y] != -1){
@@ -90,10 +90,10 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
-            blit(matrixstack, guiLeft+24+7,  guiTop+204+2,  0, 0, 78, 22); // Button Hit
-            blit(matrixstack, guiLeft+140+7, guiTop+204+2, 78, 0, 78, 22); // Button Stand
+            blit(matrixstack, leftPos+24+7,  topPos+204+2,  0, 0, 78, 22); // Button Hit
+            blit(matrixstack, leftPos+140+7, topPos+204+2, 78, 0, 78, 22); // Button Stand
         }
     }
 

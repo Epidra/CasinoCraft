@@ -1,9 +1,9 @@
 package mod.casinocraft.logic.mino;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 
-public class LogicMinoBlack extends LogicBase {   // -----
+public class LogicMinoBlack extends LogicModule {   // -----
 
     // ...
 

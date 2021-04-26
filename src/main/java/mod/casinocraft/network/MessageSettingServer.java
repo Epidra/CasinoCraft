@@ -19,8 +19,8 @@ public class MessageSettingServer {
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageSettingServer(BlockPos _pos, int[] _packetData) {
-        pos = _pos;
-        packetData = _packetData;
+        this.pos = _pos;
+        this.packetData = _packetData;
     }
 
 
@@ -47,7 +47,7 @@ public class MessageSettingServer {
     public static class Handler {
         public static void handle (final MessageSettingServer message, Supplier<NetworkEvent.Context> context) {
             context.get().enqueueWork(() ->{
-                TileEntityMachine te = (TileEntityMachine) context.get().getSender().world.getTileEntity(message.pos);
+                TileEntityMachine te = (TileEntityMachine) context.get().getSender().level.getBlockEntity(message.pos);
                 te.bettingLow                  = message.packetData[ 0];
                 te.bettingHigh                 = message.packetData[ 1];
                 te.rewardScore1                = message.packetData[ 2];
@@ -69,7 +69,7 @@ public class MessageSettingServer {
                 te.settingIndestructableBlock  = message.packetData[18] == 1;
                 te.settingAlternateColor       = message.packetData[19];
             });
-            CasinoPacketHandler.sendToChunk(new MessageSettingClient(message.pos, message.packetData), context.get().getSender().world.getChunkAt(pos));
+            CasinoPacketHandler.sendToChunk(new MessageSettingClient(message.pos, message.packetData), context.get().getSender().level.getChunkAt(message.pos));
             context.get().setPacketHandled(true);
         }
     }

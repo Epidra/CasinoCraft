@@ -26,7 +26,7 @@ public class ScreenMinoPurple extends ScreenCasino {   // -----
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoPurple logic(){
-        return (LogicMinoPurple) CONTAINER.logic();
+        return (LogicMinoPurple) menu.logic();
     }
 
 

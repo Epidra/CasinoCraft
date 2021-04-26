@@ -28,7 +28,7 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicChipOrange logic(){
-        return (LogicChipOrange) CONTAINER.logic();
+        return (LogicChipOrange) menu.logic();
     }
 
 
@@ -52,11 +52,11 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADEDUMMY);
-        this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ARCADEDUMMY);
+        this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
 
         if(logic().turnstate >= 2) {
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADE);
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ARCADE);
             drawShip(matrixstack, logic().point, 5);
             drawShip(matrixstack, logic().octanom_head, 0, -1, true);
             for(Ship tail : logic().octanom_tail){

@@ -1,11 +1,11 @@
 package mod.casinocraft.logic.mino;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 
-public class LogicMinoCyan extends LogicBase {   // Halma
+public class LogicMinoCyan extends LogicModule {   // Halma
 
     // ...
 

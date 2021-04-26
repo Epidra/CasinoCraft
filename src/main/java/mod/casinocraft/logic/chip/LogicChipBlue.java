@@ -1,13 +1,13 @@
 package mod.casinocraft.logic.chip;
 
-import mod.casinocraft.logic.LogicBase;
-import mod.casinocraft.util.Vector2;
+import mod.casinocraft.logic.LogicModule;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 import static mod.casinocraft.util.KeyMap.*;
 import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
 import static mod.casinocraft.util.SoundMap.SOUND_TETRIS;
 
-public class LogicChipBlue extends LogicBase {   // Tetris
+public class LogicChipBlue extends LogicModule {   // Tetris
 
     public boolean canHold = false;
 

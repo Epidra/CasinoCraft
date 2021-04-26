@@ -29,7 +29,7 @@ public class ScreenCardGreen extends ScreenCasino {   // Mau-Mau
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardGreen logic(){
-        return (LogicCardGreen) CONTAINER.logic();
+        return (LogicCardGreen) menu.logic();
     }
 
 
@@ -138,16 +138,16 @@ public class ScreenCardGreen extends ScreenCasino {   // Mau-Mau
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
             if(isActivePlayer()){
 
                 if(logic().forcedAction == 3){
-                    blit(matrixstack, guiLeft+89-39,  guiTop+237, 0, 22*5, 78+78, 22); // COLOR
+                    blit(matrixstack, leftPos+89-39,  topPos+237, 0, 22*5, 78+78, 22); // COLOR
                 } else if(logic().forcedAction == 1){
-                    blit(matrixstack, guiLeft+89,  guiTop+237, 78, 22*6, 78, 22); // WAIT
+                    blit(matrixstack, leftPos+89,  topPos+237, 78, 22*6, 78, 22); // WAIT
                 } else {
-                    blit(matrixstack, guiLeft+89,  guiTop+237, 0, 22*6, 78, 22); // DRAW
+                    blit(matrixstack, leftPos+89,  topPos+237, 0, 22*6, 78, 22); // DRAW
                 }
             }
         }
@@ -163,7 +163,7 @@ public class ScreenCardGreen extends ScreenCasino {   // Mau-Mau
         for(Card card : logic().getCards(cardPos)){
             if(card.suit != -1 && card.idletimer == 0){
                 boolean hidden = logic().turnstate > 3 ? false : playerPos != cardPos;
-                this.minecraft.getTextureManager().bindTexture(getCardsTexture(hidden || card.suit >= 2));
+                this.minecraft.getTextureManager().bind(getCardsTexture(hidden || card.suit >= 2));
                 int texX = card.suit == -1 || hidden ? cardPos+1 : card.number % 8;
                 int texY = card.suit == -1 || hidden ?         4 : (card.suit  % 2) * 2 + card.number / 8;
                 if(CasinoKeeper.config_animated_cards.get() && !hidden){
@@ -174,7 +174,7 @@ public class ScreenCardGreen extends ScreenCasino {   // Mau-Mau
                     }
                 }
                 GL11.glPushMatrix();
-                GL11.glTranslatef(guiLeft + posX, guiTop + posY, 0);
+                GL11.glTranslatef(leftPos + posX, topPos + posY, 0);
                 GL11.glRotatef(angle, 0, 0, 1);
                 blit(matrixstack, card.shiftX - logic().getCards(cardPos).size()*16 + i*32, card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
                 GL11.glPopMatrix();

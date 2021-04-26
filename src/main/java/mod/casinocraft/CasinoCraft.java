@@ -24,7 +24,7 @@ public class CasinoCraft {
 
     public CasinoCraft() {
        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupCommon);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
+       FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
        MinecraftForge.EVENT_BUS.register(this);
        CasinoKeeper.register();
     }

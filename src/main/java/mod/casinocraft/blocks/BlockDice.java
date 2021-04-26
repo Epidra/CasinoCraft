@@ -1,9 +1,12 @@
 package mod.casinocraft.blocks;
 
+import mod.lucky77.blocks.BlockBlock;
+import mod.lucky77.tileentities.TileBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
@@ -16,10 +19,12 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 public class BlockDice extends BlockBlock {
 
-    private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
-    private static final IntegerProperty ROTATION = BlockStateProperties.LEVEL_0_3;
+    private static final DirectionProperty FACING = HorizontalBlock.FACING;
+    private static final IntegerProperty ROTATION = BlockStateProperties.LEVEL_CAULDRON;
 
 
 
@@ -29,7 +34,7 @@ public class BlockDice extends BlockBlock {
     /** Default Constructor */
     public BlockDice(Block block) {
         super(block);
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(ROTATION, 0));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ROTATION, 0));
     }
 
 
@@ -40,13 +45,13 @@ public class BlockDice extends BlockBlock {
     //----------------------------------------PLACEMENT----------------------------------------//
 
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        if(context.getPlayer().isSneaking()){
-            return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+        if(context.getPlayer().isCrouching()){
+            return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
         }
-        return this.getDefaultState().with(FACING, Direction.byIndex(RANDOM.nextInt(4)+2)).with(ROTATION, RANDOM.nextInt(4));
+        return this.defaultBlockState().setValue(FACING, Direction.from3DDataValue(RANDOM.nextInt(4)+2)).setValue(ROTATION, RANDOM.nextInt(4));
     }
 
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack){
+    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 
     }
 
@@ -55,7 +60,9 @@ public class BlockDice extends BlockBlock {
 
     //----------------------------------------INTERACTION----------------------------------------//
 
-    // ...
+    public void interact(World world, BlockPos pos, PlayerEntity player, TileBase tile){
+
+    }
 
 
 
@@ -63,14 +70,14 @@ public class BlockDice extends BlockBlock {
     //----------------------------------------SUPPORT----------------------------------------//
 
     public BlockState rotate(BlockState state, Rotation rot) {
-        return state.with(FACING, rot.rotate(state.get(FACING)));
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     public BlockState mirror(BlockState state, Mirror mirrorIn) {
-        return state.rotate(mirrorIn.toRotation(state.get(FACING)));
+        return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
     }
 
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(ROTATION, FACING);
     }
 

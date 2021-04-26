@@ -28,7 +28,7 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicChipPink logic(){
-        return (LogicChipPink) CONTAINER.logic();
+        return (LogicChipPink) menu.logic();
     }
 
 
@@ -51,22 +51,22 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate == 2){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_SOKOBAN);
-            this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SOKOBAN);
+            this.blit(matrixstack, leftPos, tableID, 0, 0, this.imageWidth, this.imageHeight); // Background
         }
 
         if(logic().turnstate >= 2) {
             if(logic().turnstate == 2){
-                this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FONT_ARCADE);
+                this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_FONT_ARCADE);
                 for(int x = 0; x < 4; x++){
                     for(int y = 0; y < 5; y++){
                         int number = y * 4 + x + 1;
-                        drawNumber(matrixstack, guiLeft+34+6 + 48 * x, guiTop+12+2 + 34 * y, (number / 10), (number % 10), hasUnlocked(number), logic().mapID == number - 1);
+                        drawNumber(matrixstack, leftPos+34+6 + 48 * x, topPos+12+2 + 34 * y, (number / 10), (number % 10), hasUnlocked(number), logic().mapID == number - 1);
                     }
                 }
             }
             if(logic().turnstate >= 3){
-                this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADE);
+                this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ARCADE);
                 for(int x = 0; x < 12; x++){
                     for(int y = 0; y < 15; y++){
                         if(logic().grid[x][y] > 0) drawDigi(matrixstack, 32 + x*16, 8 + y*16, 0, 0);

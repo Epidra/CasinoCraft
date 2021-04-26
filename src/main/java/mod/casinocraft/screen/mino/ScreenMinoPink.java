@@ -28,7 +28,7 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoPink logic(){
-        return (LogicMinoPink) CONTAINER.logic();
+        return (LogicMinoPink) menu.logic();
     }
 
 
@@ -63,20 +63,20 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_FANTAN);
-        this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_FANTAN);
+        this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background SMALL
 
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_DICE);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_DICE);
         if(logic().turnstate == 2){
-            this.blit(matrixstack, guiLeft+64 + 32*logic().selector.X, guiTop+32, 224, 32 + 32*logic().activePlayer, 32, 32);
+            this.blit(matrixstack, leftPos+64 + 32*logic().selector.X, topPos+32, 224, 32 + 32*logic().activePlayer, 32, 32);
         }
         for(int i = 0; i < 4; i++){
             if(logic().grid[i][0] > 0){
-                this.blit(matrixstack, guiLeft+64 + 32*i, guiTop+32, 192, 32*logic().grid[i][0], 32, 32);
+                this.blit(matrixstack, leftPos+64 + 32*i, topPos+32, 192, 32*logic().grid[i][0], 32, 32);
             }
         }
 
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
         for(Card v : logic().chips){
             drawMino(matrixstack, v.number - 12, v.suit - 12);
         }
@@ -84,8 +84,8 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
 
     protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
         if(logic().turnstate == 2){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
-            blit(matrixstack, guiLeft+89, guiTop+206, 78, 44, 78, 22); // Button SPIN
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
+            blit(matrixstack, leftPos+89, topPos+206, 78, 44, 78, 22); // Button SPIN
         }
     }
 

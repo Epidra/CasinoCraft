@@ -26,7 +26,7 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardLightBlue logic(){
-        return (LogicCardLightBlue) CONTAINER.logic();
+        return (LogicCardLightBlue) menu.logic();
     }
 
 

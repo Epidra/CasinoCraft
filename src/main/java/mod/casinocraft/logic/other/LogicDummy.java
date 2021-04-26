@@ -1,9 +1,9 @@
 package mod.casinocraft.logic.other;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 
-public class LogicDummy extends LogicBase {
+public class LogicDummy extends LogicModule {
 
     // ...
 

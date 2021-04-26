@@ -12,9 +12,7 @@ public class MessageStartClient {
 
     static String name;
     static int seed;
-    static int x;
-    static int y;
-    static int z;
+    static BlockPos pos;
 
 
 
@@ -24,9 +22,7 @@ public class MessageStartClient {
     public MessageStartClient(String name, int seed, BlockPos pos) {
         this.name = name;
         this.seed = seed;
-        this.x = pos.getX();
-        this.y = pos.getY();
-        this.z = pos.getZ();
+        this.pos = pos;
     }
 
 
@@ -35,20 +31,16 @@ public class MessageStartClient {
     //----------------------------------------ENCODE/DECODE----------------------------------------//
 
     public static void encode (MessageStartClient msg, PacketBuffer buf) {
-        buf.writeString(msg.name);
+        buf.writeUtf(msg.name);
         buf.writeInt(msg.seed);
-        buf.writeInt(msg.x);
-        buf.writeInt(msg.y);
-        buf.writeInt(msg.z);
+        buf.writeBlockPos(msg.pos);
     }
 
     public static MessageStartClient decode (PacketBuffer buf) {
-        String _name = buf.readString(24);
+        String _name = buf.readUtf(24);
         int _seed = buf.readInt();
-        int _x = buf.readInt();
-        int _y = buf.readInt();
-        int _z = buf.readInt();
-        return new MessageStartClient(_name, _seed, new BlockPos(_x, _y, _z));
+        BlockPos _pos = buf.readBlockPos();
+        return new MessageStartClient(_name, _seed, _pos);
     }
 
 
@@ -58,12 +50,10 @@ public class MessageStartClient {
 
     public static class Handler {
         public static void handle (final MessageStartClient message, Supplier<NetworkEvent.Context> context) {
-            int seed = message.seed;
-            BlockPos pos = new BlockPos(message.x, message.y, message.z);
-            TileEntityMachine te = (TileEntityMachine) Minecraft.getInstance().world.getTileEntity(pos);
+            TileEntityMachine te = (TileEntityMachine) Minecraft.getInstance().level.getBlockEntity(message.pos);
             context.get().enqueueWork(() -> {
-                if(seed > -1) te.LOGIC.start(seed);
-                te.LOGIC.addPlayer(name);
+                if(message.seed > -1) te.logic.start(message.seed);
+                te.logic.addPlayer(message.name);
             });
             context.get().setPacketHandled(true);
         }

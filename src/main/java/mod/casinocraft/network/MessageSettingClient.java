@@ -19,8 +19,8 @@ public class MessageSettingClient {
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageSettingClient(BlockPos _pos, int[] _packetData) {
-        pos = _pos;
-        packetData = _packetData;
+        this.pos = _pos;
+        this.packetData = _packetData;
     }
 
 
@@ -46,7 +46,7 @@ public class MessageSettingClient {
 
     public static class Handler {
         public static void handle (final MessageSettingClient message, Supplier<NetworkEvent.Context> context) {
-            TileEntityMachine te = (TileEntityMachine) Minecraft.getInstance().world.getTileEntity(message.pos);
+            TileEntityMachine te = (TileEntityMachine) Minecraft.getInstance().level.getBlockEntity(message.pos);
             context.get().enqueueWork(() -> {
                 te.bettingLow                  = message.packetData[ 0];
                 te.bettingHigh                 = message.packetData[ 1];

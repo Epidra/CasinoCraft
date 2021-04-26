@@ -1,16 +1,16 @@
 package mod.casinocraft.logic.chip;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Ship;
 import mod.casinocraft.util.MapRoom;
-import mod.casinocraft.util.Vector2;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 import java.util.ArrayList;
 import java.util.List;
 import static mod.casinocraft.util.KeyMap.*;
 import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
 
-public class LogicChipPink extends LogicBase {   // Sokoban
+public class LogicChipPink extends LogicModule {   // Sokoban
 
     public Ship octanom = new Ship(1, new Vector2(16 * 15, 16 * 15), new Vector2(16 * 15, 16 * 15));
     public List<Ship> crate = new ArrayList<Ship>();

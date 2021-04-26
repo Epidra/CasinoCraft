@@ -1,8 +1,8 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
-import mod.casinocraft.util.Vector2;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
 import static mod.casinocraft.util.SoundMap.SOUND_CARD_SHOVE;
 
-public class LogicCardCyan extends LogicBase {   // Spider
+public class LogicCardCyan extends LogicModule {   // Spider
 
     public List<Card>[] cards_field   = new ArrayList[10];
     public List<Card>[] cards_reserve = new ArrayList[5];

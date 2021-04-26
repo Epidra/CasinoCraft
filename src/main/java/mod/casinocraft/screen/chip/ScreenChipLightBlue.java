@@ -27,7 +27,7 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Puyo Puyo
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicChipLightBlue logic(){
-        return (LogicChipLightBlue) CONTAINER.logic();
+        return (LogicChipLightBlue) menu.logic();
     }
 
 
@@ -53,10 +53,10 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Puyo Puyo
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MEANMINOS);
-        this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MEANMINOS);
+        this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
         if(logic().turnstate >= 2){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ARCADE);
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ARCADE);
             for(int y = 0; y < 15; y++){
                 for(int x = 0; x < 6; x++){
                     if(logic().grid[x][y] != -1) drawDigiSymbol(matrixstack, 32 + 16*x, 8 + 16*y, logic().turnstate >= 4 ? 8 : tetroColor(x, y));

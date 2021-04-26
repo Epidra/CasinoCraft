@@ -1,14 +1,13 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.SoundMap;
 import net.minecraft.nbt.CompoundNBT;
 
-import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
 import static mod.casinocraft.util.SoundMap.SOUND_CARD_SHOVE;
 
-public class LogicCardWhite extends LogicBase {   // Single Poker
+public class LogicCardWhite extends LogicModule {   // Single Poker
     public boolean[] hold = new boolean[5];
 
     public Card[] cards_field = new Card[5];

@@ -1,7 +1,7 @@
 package mod.casinocraft.logic.card;
 
         import mod.casinocraft.CasinoKeeper;
-        import mod.casinocraft.logic.LogicBase;
+        import mod.casinocraft.logic.LogicModule;
         import mod.casinocraft.util.Card;
         import net.minecraft.nbt.CompoundNBT;
 
@@ -10,7 +10,7 @@ package mod.casinocraft.logic.card;
 
         import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
 
-public class LogicCardLightGray extends LogicBase {   // Draw Poker
+public class LogicCardLightGray extends LogicModule {   // Draw Poker
 
     public List<Card> cardsP1 = new ArrayList<>();
     public List<Card> cardsP2 = new ArrayList<>();

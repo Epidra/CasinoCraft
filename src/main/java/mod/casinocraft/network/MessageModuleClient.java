@@ -10,9 +10,7 @@ import java.util.function.Supplier;
 
 public class MessageModuleClient {
 
-    static int x;
-    static int y;
-    static int z;
+    static BlockPos pos;
 
 
 
@@ -20,9 +18,7 @@ public class MessageModuleClient {
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageModuleClient(BlockPos pos) {
-        this.x = pos.getX();
-        this.y = pos.getY();
-        this.z = pos.getZ();
+        this.pos = pos;
     }
 
 
@@ -31,16 +27,12 @@ public class MessageModuleClient {
     //----------------------------------------ENCODE/DECODE----------------------------------------//
 
     public static void encode (MessageModuleClient msg, PacketBuffer buf) {
-        buf.writeInt(msg.x);
-        buf.writeInt(msg.y);
-        buf.writeInt(msg.z);
+        buf.writeBlockPos(msg.pos);
     }
 
     public static MessageModuleClient decode (PacketBuffer buf) {
-        int _x = buf.readInt();
-        int _y = buf.readInt();
-        int _z = buf.readInt();
-        return new MessageModuleClient(new BlockPos(_x, _y, _z));
+        BlockPos _pos = buf.readBlockPos();
+        return new MessageModuleClient(_pos);
     }
 
 
@@ -50,9 +42,8 @@ public class MessageModuleClient {
 
     public static class Handler {
         public static void handle (final MessageModuleClient message, Supplier<NetworkEvent.Context> context) {
-            BlockPos pos = new BlockPos(message.x, message.y, message.z);
             context.get().enqueueWork(() -> {
-                BlockArcade.setModuleState(Minecraft.getInstance().player.world, pos);
+                BlockArcade.setModuleState(Minecraft.getInstance().player.level, message.pos);
             });
             context.get().setPacketHandled(true);
         }

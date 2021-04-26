@@ -27,7 +27,7 @@ public class ScreenCardCyan extends ScreenCasino {   // Spider
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardCyan logic(){
-        return (LogicCardCyan) CONTAINER.logic();
+        return (LogicCardCyan) menu.logic();
     }
 
 

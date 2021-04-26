@@ -20,7 +20,7 @@ import mod.casinocraft.tileentities.TileEntityArcade;
 import mod.casinocraft.tileentities.TileEntityCardTableBase;
 import mod.casinocraft.tileentities.TileEntityCardTableWide;
 import mod.casinocraft.tileentities.TileEntitySlotMachine;
-import mod.casinocraft.items.ItemItem;
+import mod.lucky77.items.ItemItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.ScreenManager;
@@ -48,6 +48,7 @@ import java.nio.file.Path;
 
 import static mod.casinocraft.CasinoCraft.MODID;
 
+@SuppressWarnings({"unused", "deprecation"})
 public class CasinoKeeper {
 
     private static final DeferredRegister<Block>                BLOCKS     = DeferredRegister.create(ForgeRegistries.BLOCKS,             MODID);
@@ -60,140 +61,140 @@ public class CasinoKeeper {
 
 
     // Card Tables
-    public static final RegistryObject<Block> CARDTABLE_BASE_WHITE      = register("cardtable_base_white",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.WHITE),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_ORANGE     = register("cardtable_base_orange",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.ORANGE),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_MAGENTA    = register("cardtable_base_magenta",    new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.MAGENTA),    ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_LIGHT_BLUE = register("cardtable_base_light_blue", new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.LIGHT_BLUE), ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_YELLOW     = register("cardtable_base_yellow",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.YELLOW),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_LIME       = register("cardtable_base_lime",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.LIME),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_PINK       = register("cardtable_base_pink",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.PINK),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_GRAY       = register("cardtable_base_gray",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.GRAY),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_LIGHT_GRAY = register("cardtable_base_light_gray", new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.LIGHT_GRAY), ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_CYAN       = register("cardtable_base_cyan",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.CYAN),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_PURPLE     = register("cardtable_base_purple",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.PURPLE),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_BLUE       = register("cardtable_base_blue",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.BLUE),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_BROWN      = register("cardtable_base_brown",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.BROWN),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_GREEN      = register("cardtable_base_green",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.GREEN),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_RED        = register("cardtable_base_red",        new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.RED),        ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_BLACK      = register("cardtable_base_black",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.BLACK),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_WHITE      = register("cardtable_wide_white",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.WHITE),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_ORANGE     = register("cardtable_wide_orange",     new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.ORANGE),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_MAGENTA    = register("cardtable_wide_magenta",    new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.MAGENTA),    ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_LIGHT_BLUE = register("cardtable_wide_light_blue", new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.LIGHT_BLUE), ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_YELLOW     = register("cardtable_wide_yellow",     new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.YELLOW),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_LIME       = register("cardtable_wide_lime",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.LIME),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_PINK       = register("cardtable_wide_pink",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.PINK),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_GRAY       = register("cardtable_wide_gray",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.GRAY),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_LIGHT_GRAY = register("cardtable_wide_light_gray", new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.LIGHT_GRAY), ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_CYAN       = register("cardtable_wide_cyan",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.CYAN),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_PURPLE     = register("cardtable_wide_purple",     new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.PURPLE),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_BLUE       = register("cardtable_wide_blue",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.BLUE),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_BROWN      = register("cardtable_wide_brown",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.BROWN),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_GREEN      = register("cardtable_wide_green",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.GREEN),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_RED        = register("cardtable_wide_red",        new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.RED),        ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_BLACK      = register("cardtable_wide_black",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.BLACK),      ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_WHITE      = register("cardtable_base_white",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.WHITE),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_ORANGE     = register("cardtable_base_orange",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.ORANGE),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_MAGENTA    = register("cardtable_base_magenta",    new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.MAGENTA),    ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_LIGHT_BLUE = register("cardtable_base_light_blue", new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.LIGHT_BLUE), ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_YELLOW     = register("cardtable_base_yellow",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.YELLOW),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_LIME       = register("cardtable_base_lime",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.LIME),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_PINK       = register("cardtable_base_pink",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.PINK),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_GRAY       = register("cardtable_base_gray",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.GRAY),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_LIGHT_GRAY = register("cardtable_base_light_gray", new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.LIGHT_GRAY), ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_CYAN       = register("cardtable_base_cyan",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.CYAN),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_PURPLE     = register("cardtable_base_purple",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.PURPLE),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_BLUE       = register("cardtable_base_blue",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.BLUE),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_BROWN      = register("cardtable_base_brown",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.BROWN),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_GREEN      = register("cardtable_base_green",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.GREEN),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_RED        = register("cardtable_base_red",        new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.RED),        ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_BLACK      = register("cardtable_base_black",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.BLACK),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_WHITE      = register("cardtable_wide_white",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.WHITE),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_ORANGE     = register("cardtable_wide_orange",     new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.ORANGE),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_MAGENTA    = register("cardtable_wide_magenta",    new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.MAGENTA),    ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_LIGHT_BLUE = register("cardtable_wide_light_blue", new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.LIGHT_BLUE), ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_YELLOW     = register("cardtable_wide_yellow",     new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.YELLOW),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_LIME       = register("cardtable_wide_lime",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.LIME),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_PINK       = register("cardtable_wide_pink",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.PINK),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_GRAY       = register("cardtable_wide_gray",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.GRAY),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_LIGHT_GRAY = register("cardtable_wide_light_gray", new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.LIGHT_GRAY), ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_CYAN       = register("cardtable_wide_cyan",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.CYAN),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_PURPLE     = register("cardtable_wide_purple",     new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.PURPLE),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_BLUE       = register("cardtable_wide_blue",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.BLUE),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_BROWN      = register("cardtable_wide_brown",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.BROWN),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_GREEN      = register("cardtable_wide_green",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.GREEN),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_RED        = register("cardtable_wide_red",        new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.RED),        ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_BLACK      = register("cardtable_wide_black",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.BLACK),      ItemGroup.TAB_DECORATIONS);
 
     // Arcades
-    public static final RegistryObject<Block> ARCADE_BASE_WHITE      = register("arcade_base_white",      new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.WHITE),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_ORANGE     = register("arcade_base_orange",     new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.ORANGE),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_MAGENTA    = register("arcade_base_magenta",    new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.MAGENTA),    ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_LIGHT_BLUE = register("arcade_base_light_blue", new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.LIGHT_BLUE), ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_YELLOW     = register("arcade_base_yellow",     new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.YELLOW),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_LIME       = register("arcade_base_lime",       new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.LIME),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_PINK       = register("arcade_base_pink",       new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.PINK),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_GRAY       = register("arcade_base_gray",       new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.GRAY),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_LIGHT_GRAY = register("arcade_base_light_gray", new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.LIGHT_GRAY), ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_CYAN       = register("arcade_base_cyan",       new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.CYAN),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_PURPLE     = register("arcade_base_purple",     new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.PURPLE),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_BLUE       = register("arcade_base_blue",       new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.BLUE),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_BROWN      = register("arcade_base_brown",      new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.BROWN),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_GREEN      = register("arcade_base_green",      new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.GREEN),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_RED        = register("arcade_base_red",        new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.RED),        ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_BLACK      = register("arcade_base_black",      new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.BLACK),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_WHITE      = register("arcade_slot_white",      new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.WHITE),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_ORANGE     = register("arcade_slot_orange",     new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.ORANGE),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_MAGENTA    = register("arcade_slot_magenta",    new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.MAGENTA),    ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_LIGHT_BLUE = register("arcade_slot_light_blue", new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.LIGHT_BLUE), ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_YELLOW     = register("arcade_slot_yellow",     new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.YELLOW),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_LIME       = register("arcade_slot_lime",       new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.LIME),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_PINK       = register("arcade_slot_pink",       new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.PINK),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_GRAY       = register("arcade_slot_gray",       new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.GRAY),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_LIGHT_GRAY = register("arcade_slot_light_gray", new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.LIGHT_GRAY), ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_CYAN       = register("arcade_slot_cyan",       new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.CYAN),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_PURPLE     = register("arcade_slot_purple",     new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.PURPLE),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_BLUE       = register("arcade_slot_blue",       new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BLUE),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_BROWN      = register("arcade_slot_brown",      new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BROWN),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_GREEN      = register("arcade_slot_green",      new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.GREEN),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_RED        = register("arcade_slot_red",        new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.RED),        ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_BLACK      = register("arcade_slot_black",      new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BLACK),      ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_WHITE      = register("arcade_base_white",      new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.WHITE),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_ORANGE     = register("arcade_base_orange",     new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.ORANGE),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_MAGENTA    = register("arcade_base_magenta",    new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.MAGENTA),    ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_LIGHT_BLUE = register("arcade_base_light_blue", new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.LIGHT_BLUE), ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_YELLOW     = register("arcade_base_yellow",     new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.YELLOW),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_LIME       = register("arcade_base_lime",       new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.LIME),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_PINK       = register("arcade_base_pink",       new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.PINK),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_GRAY       = register("arcade_base_gray",       new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.GRAY),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_LIGHT_GRAY = register("arcade_base_light_gray", new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.LIGHT_GRAY), ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_CYAN       = register("arcade_base_cyan",       new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.CYAN),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_PURPLE     = register("arcade_base_purple",     new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.PURPLE),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_BLUE       = register("arcade_base_blue",       new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.BLUE),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_BROWN      = register("arcade_base_brown",      new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.BROWN),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_GREEN      = register("arcade_base_green",      new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.GREEN),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_RED        = register("arcade_base_red",        new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.RED),        ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_BLACK      = register("arcade_base_black",      new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.BLACK),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_WHITE      = register("arcade_slot_white",      new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.WHITE),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_ORANGE     = register("arcade_slot_orange",     new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.ORANGE),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_MAGENTA    = register("arcade_slot_magenta",    new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.MAGENTA),    ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_LIGHT_BLUE = register("arcade_slot_light_blue", new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.LIGHT_BLUE), ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_YELLOW     = register("arcade_slot_yellow",     new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.YELLOW),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_LIME       = register("arcade_slot_lime",       new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.LIME),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_PINK       = register("arcade_slot_pink",       new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.PINK),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_GRAY       = register("arcade_slot_gray",       new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.GRAY),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_LIGHT_GRAY = register("arcade_slot_light_gray", new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.LIGHT_GRAY), ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_CYAN       = register("arcade_slot_cyan",       new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.CYAN),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_PURPLE     = register("arcade_slot_purple",     new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.PURPLE),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_BLUE       = register("arcade_slot_blue",       new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BLUE),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_BROWN      = register("arcade_slot_brown",      new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BROWN),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_GREEN      = register("arcade_slot_green",      new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.GREEN),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_RED        = register("arcade_slot_red",        new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.RED),        ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_BLACK      = register("arcade_slot_black",      new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BLACK),      ItemGroup.TAB_DECORATIONS);
 
     // Dice Blocks
-    public static final RegistryObject<Block> DICE_BASIC_WHITE      = register("dice_basic_white",      new BlockDice(Blocks.WHITE_TERRACOTTA),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_ORANGE     = register("dice_basic_orange",     new BlockDice(Blocks.ORANGE_TERRACOTTA),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_MAGENTA    = register("dice_basic_magenta",    new BlockDice(Blocks.MAGENTA_TERRACOTTA),    ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_LIGHT_BLUE = register("dice_basic_light_blue", new BlockDice(Blocks.LIGHT_BLUE_TERRACOTTA), ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_YELLOW     = register("dice_basic_yellow",     new BlockDice(Blocks.YELLOW_TERRACOTTA),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_LIME       = register("dice_basic_lime",       new BlockDice(Blocks.LIME_TERRACOTTA),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_PINK       = register("dice_basic_pink",       new BlockDice(Blocks.PINK_TERRACOTTA),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_GRAY       = register("dice_basic_gray",       new BlockDice(Blocks.GRAY_TERRACOTTA),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_LIGHT_GRAY = register("dice_basic_light_gray", new BlockDice(Blocks.LIGHT_GRAY_TERRACOTTA), ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_CYAN       = register("dice_basic_cyan",       new BlockDice(Blocks.CYAN_TERRACOTTA),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_PURPLE     = register("dice_basic_purple",     new BlockDice(Blocks.PURPLE_TERRACOTTA),     ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_BLUE       = register("dice_basic_blue",       new BlockDice(Blocks.BLUE_TERRACOTTA),       ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_BROWN      = register("dice_basic_brown",      new BlockDice(Blocks.BROWN_TERRACOTTA),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_GREEN      = register("dice_basic_green",      new BlockDice(Blocks.GREEN_TERRACOTTA),      ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_RED        = register("dice_basic_red",        new BlockDice(Blocks.RED_TERRACOTTA),        ItemGroup.DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_BLACK      = register("dice_basic_black",      new BlockDice(Blocks.BLACK_TERRACOTTA),      ItemGroup.DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_WHITE      = register("dice_basic_white",      new BlockDice(Blocks.WHITE_TERRACOTTA),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_ORANGE     = register("dice_basic_orange",     new BlockDice(Blocks.ORANGE_TERRACOTTA),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_MAGENTA    = register("dice_basic_magenta",    new BlockDice(Blocks.MAGENTA_TERRACOTTA),    ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_LIGHT_BLUE = register("dice_basic_light_blue", new BlockDice(Blocks.LIGHT_BLUE_TERRACOTTA), ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_YELLOW     = register("dice_basic_yellow",     new BlockDice(Blocks.YELLOW_TERRACOTTA),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_LIME       = register("dice_basic_lime",       new BlockDice(Blocks.LIME_TERRACOTTA),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_PINK       = register("dice_basic_pink",       new BlockDice(Blocks.PINK_TERRACOTTA),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_GRAY       = register("dice_basic_gray",       new BlockDice(Blocks.GRAY_TERRACOTTA),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_LIGHT_GRAY = register("dice_basic_light_gray", new BlockDice(Blocks.LIGHT_GRAY_TERRACOTTA), ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_CYAN       = register("dice_basic_cyan",       new BlockDice(Blocks.CYAN_TERRACOTTA),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_PURPLE     = register("dice_basic_purple",     new BlockDice(Blocks.PURPLE_TERRACOTTA),     ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_BLUE       = register("dice_basic_blue",       new BlockDice(Blocks.BLUE_TERRACOTTA),       ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_BROWN      = register("dice_basic_brown",      new BlockDice(Blocks.BROWN_TERRACOTTA),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_GREEN      = register("dice_basic_green",      new BlockDice(Blocks.GREEN_TERRACOTTA),      ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_RED        = register("dice_basic_red",        new BlockDice(Blocks.RED_TERRACOTTA),        ItemGroup.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_BLACK      = register("dice_basic_black",      new BlockDice(Blocks.BLACK_TERRACOTTA),      ItemGroup.TAB_DECORATIONS);
 
     // Modules
-    public static final RegistryObject<Item> MODULE_MINO_WHITE      = register("module_mino_white",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_ORANGE     = register("module_mino_orange",     new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_MAGENTA    = register("module_mino_magenta",    new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_LIGHT_BLUE = register("module_mino_light_blue", new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_YELLOW     = register("module_mino_yellow",     new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_LIME       = register("module_mino_lime",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_PINK       = register("module_mino_pink",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_GRAY       = register("module_mino_gray",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_LIGHT_GRAY = register("module_mino_light_gray", new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_CYAN       = register("module_mino_cyan",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_PURPLE     = register("module_mino_purple",     new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_BLUE       = register("module_mino_blue",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_BROWN      = register("module_mino_brown",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_GREEN      = register("module_mino_green",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_RED        = register("module_mino_red",        new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_MINO_BLACK      = register("module_mino_black",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_WHITE      = register("module_chip_white",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_ORANGE     = register("module_chip_orange",     new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_MAGENTA    = register("module_chip_magenta",    new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_LIGHT_BLUE = register("module_chip_light_blue", new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_YELLOW     = register("module_chip_yellow",     new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_LIME       = register("module_chip_lime",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_PINK       = register("module_chip_pink",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_GRAY       = register("module_chip_gray",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_LIGHT_GRAY = register("module_chip_light_gray", new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_CYAN       = register("module_chip_cyan",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_PURPLE     = register("module_chip_purple",     new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_BLUE       = register("module_chip_blue",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_BROWN      = register("module_chip_brown",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_GREEN      = register("module_chip_green",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_RED        = register("module_chip_red",        new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_BLACK      = register("module_chip_black",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_WHITE      = register("module_card_white",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_ORANGE     = register("module_card_orange",     new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_MAGENTA    = register("module_card_magenta",    new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_LIGHT_BLUE = register("module_card_light_blue", new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_YELLOW     = register("module_card_yellow",     new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_LIME       = register("module_card_lime",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_PINK       = register("module_card_pink",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_GRAY       = register("module_card_gray",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_LIGHT_GRAY = register("module_card_light_gray", new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_CYAN       = register("module_card_cyan",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_PURPLE     = register("module_card_purple",     new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_BLUE       = register("module_card_blue",       new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_BROWN      = register("module_card_brown",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_GREEN      = register("module_card_green",      new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_RED        = register("module_card_red",        new ItemItem(ItemGroup.MISC));
-    public static final RegistryObject<Item> MODULE_CARD_BLACK      = register("module_card_black",      new ItemItem(ItemGroup.MISC));
+    public static final RegistryObject<Item> MODULE_MINO_WHITE      = register("module_mino_white",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_ORANGE     = register("module_mino_orange",     new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_MAGENTA    = register("module_mino_magenta",    new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_LIGHT_BLUE = register("module_mino_light_blue", new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_YELLOW     = register("module_mino_yellow",     new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_LIME       = register("module_mino_lime",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_PINK       = register("module_mino_pink",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_GRAY       = register("module_mino_gray",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_LIGHT_GRAY = register("module_mino_light_gray", new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_CYAN       = register("module_mino_cyan",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_PURPLE     = register("module_mino_purple",     new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_BLUE       = register("module_mino_blue",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_BROWN      = register("module_mino_brown",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_GREEN      = register("module_mino_green",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_RED        = register("module_mino_red",        new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_BLACK      = register("module_mino_black",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_WHITE      = register("module_chip_white",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_ORANGE     = register("module_chip_orange",     new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_MAGENTA    = register("module_chip_magenta",    new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_LIGHT_BLUE = register("module_chip_light_blue", new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_YELLOW     = register("module_chip_yellow",     new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_LIME       = register("module_chip_lime",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_PINK       = register("module_chip_pink",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_GRAY       = register("module_chip_gray",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_LIGHT_GRAY = register("module_chip_light_gray", new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_CYAN       = register("module_chip_cyan",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_PURPLE     = register("module_chip_purple",     new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_BLUE       = register("module_chip_blue",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_BROWN      = register("module_chip_brown",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_GREEN      = register("module_chip_green",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_RED        = register("module_chip_red",        new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_BLACK      = register("module_chip_black",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_WHITE      = register("module_card_white",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_ORANGE     = register("module_card_orange",     new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_MAGENTA    = register("module_card_magenta",    new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_LIGHT_BLUE = register("module_card_light_blue", new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_YELLOW     = register("module_card_yellow",     new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_LIME       = register("module_card_lime",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_PINK       = register("module_card_pink",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_GRAY       = register("module_card_gray",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_LIGHT_GRAY = register("module_card_light_gray", new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_CYAN       = register("module_card_cyan",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_PURPLE     = register("module_card_purple",     new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_BLUE       = register("module_card_blue",       new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_BROWN      = register("module_card_brown",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_GREEN      = register("module_card_green",      new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_RED        = register("module_card_red",        new ItemItem(ItemGroup.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_BLACK      = register("module_card_black",      new ItemItem(ItemGroup.TAB_MISC));
 
     // Sounds
     public static final RegistryObject<SoundEvent> SOUND_PICKUP     = register("casinocraft.pickup",     new SoundEvent(new ResourceLocation(MODID, "casinocraft.pickup")));
@@ -290,7 +291,7 @@ public class CasinoKeeper {
     public static final ResourceLocation TEXTURE_CARDS_5_ROUGE     = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_6_rouge.png");
 
     // Tile Entity  Arcade Base
-    public static  final RegistryObject<TileEntityType<TileEntityArcade>> TILE_ARCADE_BASE = TILES.register("arcade_base", () -> TileEntityType.Builder.create(TileEntityArcade::new,
+    public static  final RegistryObject<TileEntityType<TileEntityArcade>> TILE_ARCADE_BASE = TILES.register("arcade_base", () -> TileEntityType.Builder.of(TileEntityArcade::new,
             ARCADE_BASE_BLACK.get(),
             ARCADE_BASE_BLUE.get(),
             ARCADE_BASE_BROWN.get(),
@@ -310,7 +311,7 @@ public class CasinoKeeper {
     ).build(null));
 
     // Tile Entity  Slot Machine
-    public static  final RegistryObject<TileEntityType<TileEntitySlotMachine>> TILE_ARCADE_SLOT = TILES.register("arcade_slot", () -> TileEntityType.Builder.create(TileEntitySlotMachine::new,
+    public static  final RegistryObject<TileEntityType<TileEntitySlotMachine>> TILE_ARCADE_SLOT = TILES.register("arcade_slot", () -> TileEntityType.Builder.of(TileEntitySlotMachine::new,
             ARCADE_SLOT_BLACK.get(),
             ARCADE_SLOT_BLUE.get(),
             ARCADE_SLOT_BROWN.get(),
@@ -330,7 +331,7 @@ public class CasinoKeeper {
     ).build(null));
 
     // Tile Entity  Card Table Base
-    public static  final RegistryObject<TileEntityType<TileEntityCardTableBase>> TILE_CARDTABLE_BASE = TILES.register("cardtable_base", () -> TileEntityType.Builder.create(TileEntityCardTableBase::new,
+    public static  final RegistryObject<TileEntityType<TileEntityCardTableBase>> TILE_CARDTABLE_BASE = TILES.register("cardtable_base", () -> TileEntityType.Builder.of(TileEntityCardTableBase::new,
             CARDTABLE_BASE_BLACK.get(),
             CARDTABLE_BASE_BLUE.get(),
             CARDTABLE_BASE_BROWN.get(),
@@ -350,7 +351,7 @@ public class CasinoKeeper {
     ).build(null));
 
     // Tile Entity  Card Table Wide
-    public static  final RegistryObject<TileEntityType<TileEntityCardTableWide>> TILE_CARDTABLE_WIDE = TILES.register("cardtable_wide", () -> TileEntityType.Builder.create(TileEntityCardTableWide::new,
+    public static  final RegistryObject<TileEntityType<TileEntityCardTableWide>> TILE_CARDTABLE_WIDE = TILES.register("cardtable_wide", () -> TileEntityType.Builder.of(TileEntityCardTableWide::new,
             CARDTABLE_WIDE_BLACK.get(),
             CARDTABLE_WIDE_BLUE.get(),
             CARDTABLE_WIDE_BROWN.get(),
@@ -454,7 +455,7 @@ public class CasinoKeeper {
     }
 
     private static RegistryObject<Block> register(String name, Block block, ItemGroup itemGroup){
-        if(itemGroup != null){ ITEMS.register(name, () -> new BlockItem(block, (new Item.Properties()).group(itemGroup))); }
+        if(itemGroup != null){ ITEMS.register(name, () -> new BlockItem(block, (new Item.Properties()).tab(itemGroup))); }
         return BLOCKS.register(name, () -> block);
     }
 
@@ -478,59 +479,59 @@ public class CasinoKeeper {
     @OnlyIn(Dist.CLIENT)
     static void setup(FMLClientSetupEvent event){
         DeferredWorkQueue.runLater(() -> {
-            ScreenManager.registerFactory(CONTAINER_DUMMY.get(),           ScreenDummy::new);
-            ScreenManager.registerFactory(CONTAINER_ARCADE.get(),          ScreenMachine::new);
-            ScreenManager.registerFactory(CONTAINER_CARDTABLE.get(),       ScreenMachine::new);
-            ScreenManager.registerFactory(CONTAINER_SLOTMACHINE.get(),     ScreenMachine::new);
-            ScreenManager.registerFactory(CONTAINER_SLOTGAME.get(),        ScreenSlotGame::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_WHITE.get(),      ScreenCardWhite::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_ORANGE.get(),     ScreenCardOrange::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_MAGENTA.get(),    ScreenCardMagenta::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_LIGHT_BLUE.get(), ScreenCardLightBlue::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_YELLOW.get(),     ScreenCardYellow::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_LIME.get(),       ScreenCardLime::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_PINK.get(),       ScreenCardPink::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_GRAY.get(),       ScreenCardGray::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_LIGHT_GRAY.get(), ScreenCardLightGray::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_CYAN.get(),       ScreenCardCyan::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_PURPLE.get(),     ScreenCardPurple::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_BLUE.get(),       ScreenCardBlue::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_BROWN.get(),      ScreenCardBrown::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_GREEN.get(),      ScreenCardGreen::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_RED.get(),        ScreenCardRed::new);
-            ScreenManager.registerFactory(CONTAINER_CARD_BLACK.get(),      ScreenCardBlack::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_WHITE.get(),      ScreenMinoWhite::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_ORANGE.get(),     ScreenMinoOrange::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_MAGENTA.get(),    ScreenMinoMagenta::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_LIGHT_BLUE.get(), ScreenMinoLightBlue::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_YELLOW.get(),     ScreenMinoYellow::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_LIME.get(),       ScreenMinoLime::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_PINK.get(),       ScreenMinoPink::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_GRAY.get(),       ScreenMinoGray::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_LIGHT_GRAY.get(), ScreenMinoLightGray::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_CYAN.get(),       ScreenMinoCyan::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_PURPLE.get(),     ScreenMinoPurple::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_BLUE.get(),       ScreenMinoBlue::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_BROWN.get(),      ScreenMinoBrown::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_GREEN.get(),      ScreenMinoGreen::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_RED.get(),        ScreenMinoRed::new);
-            ScreenManager.registerFactory(CONTAINER_MINO_BLACK.get(),      ScreenMinoBlack::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_WHITE.get(),      ScreenChipWhite::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_ORANGE.get(),     ScreenChipOrange::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_MAGENTA.get(),    ScreenChipMagenta::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_LIGHT_BLUE.get(), ScreenChipLightBlue::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_YELLOW.get(),     ScreenChipYellow::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_LIME.get(),       ScreenChipLime::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_PINK.get(),       ScreenChipPink::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_GRAY.get(),       ScreenChipGray::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_LIGHT_GRAY.get(), ScreenChipLightGray::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_CYAN.get(),       ScreenChipCyan::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_PURPLE.get(),     ScreenChipPurple::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_BLUE.get(),       ScreenChipBlue::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_BROWN.get(),      ScreenChipBrown::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_GREEN.get(),      ScreenChipGreen::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_RED.get(),        ScreenChipRed::new);
-            ScreenManager.registerFactory(CONTAINER_CHIP_BLACK.get(),      ScreenChipBlack::new);
+            ScreenManager.register(CONTAINER_DUMMY.get(),           ScreenDummy::new);
+            ScreenManager.register(CONTAINER_ARCADE.get(),          ScreenMachine::new);
+            ScreenManager.register(CONTAINER_CARDTABLE.get(),       ScreenMachine::new);
+            ScreenManager.register(CONTAINER_SLOTMACHINE.get(),     ScreenMachine::new);
+            ScreenManager.register(CONTAINER_SLOTGAME.get(),        ScreenSlotGame::new);
+            ScreenManager.register(CONTAINER_CARD_WHITE.get(),      ScreenCardWhite::new);
+            ScreenManager.register(CONTAINER_CARD_ORANGE.get(),     ScreenCardOrange::new);
+            ScreenManager.register(CONTAINER_CARD_MAGENTA.get(),    ScreenCardMagenta::new);
+            ScreenManager.register(CONTAINER_CARD_LIGHT_BLUE.get(), ScreenCardLightBlue::new);
+            ScreenManager.register(CONTAINER_CARD_YELLOW.get(),     ScreenCardYellow::new);
+            ScreenManager.register(CONTAINER_CARD_LIME.get(),       ScreenCardLime::new);
+            ScreenManager.register(CONTAINER_CARD_PINK.get(),       ScreenCardPink::new);
+            ScreenManager.register(CONTAINER_CARD_GRAY.get(),       ScreenCardGray::new);
+            ScreenManager.register(CONTAINER_CARD_LIGHT_GRAY.get(), ScreenCardLightGray::new);
+            ScreenManager.register(CONTAINER_CARD_CYAN.get(),       ScreenCardCyan::new);
+            ScreenManager.register(CONTAINER_CARD_PURPLE.get(),     ScreenCardPurple::new);
+            ScreenManager.register(CONTAINER_CARD_BLUE.get(),       ScreenCardBlue::new);
+            ScreenManager.register(CONTAINER_CARD_BROWN.get(),      ScreenCardBrown::new);
+            ScreenManager.register(CONTAINER_CARD_GREEN.get(),      ScreenCardGreen::new);
+            ScreenManager.register(CONTAINER_CARD_RED.get(),        ScreenCardRed::new);
+            ScreenManager.register(CONTAINER_CARD_BLACK.get(),      ScreenCardBlack::new);
+            ScreenManager.register(CONTAINER_MINO_WHITE.get(),      ScreenMinoWhite::new);
+            ScreenManager.register(CONTAINER_MINO_ORANGE.get(),     ScreenMinoOrange::new);
+            ScreenManager.register(CONTAINER_MINO_MAGENTA.get(),    ScreenMinoMagenta::new);
+            ScreenManager.register(CONTAINER_MINO_LIGHT_BLUE.get(), ScreenMinoLightBlue::new);
+            ScreenManager.register(CONTAINER_MINO_YELLOW.get(),     ScreenMinoYellow::new);
+            ScreenManager.register(CONTAINER_MINO_LIME.get(),       ScreenMinoLime::new);
+            ScreenManager.register(CONTAINER_MINO_PINK.get(),       ScreenMinoPink::new);
+            ScreenManager.register(CONTAINER_MINO_GRAY.get(),       ScreenMinoGray::new);
+            ScreenManager.register(CONTAINER_MINO_LIGHT_GRAY.get(), ScreenMinoLightGray::new);
+            ScreenManager.register(CONTAINER_MINO_CYAN.get(),       ScreenMinoCyan::new);
+            ScreenManager.register(CONTAINER_MINO_PURPLE.get(),     ScreenMinoPurple::new);
+            ScreenManager.register(CONTAINER_MINO_BLUE.get(),       ScreenMinoBlue::new);
+            ScreenManager.register(CONTAINER_MINO_BROWN.get(),      ScreenMinoBrown::new);
+            ScreenManager.register(CONTAINER_MINO_GREEN.get(),      ScreenMinoGreen::new);
+            ScreenManager.register(CONTAINER_MINO_RED.get(),        ScreenMinoRed::new);
+            ScreenManager.register(CONTAINER_MINO_BLACK.get(),      ScreenMinoBlack::new);
+            ScreenManager.register(CONTAINER_CHIP_WHITE.get(),      ScreenChipWhite::new);
+            ScreenManager.register(CONTAINER_CHIP_ORANGE.get(),     ScreenChipOrange::new);
+            ScreenManager.register(CONTAINER_CHIP_MAGENTA.get(),    ScreenChipMagenta::new);
+            ScreenManager.register(CONTAINER_CHIP_LIGHT_BLUE.get(), ScreenChipLightBlue::new);
+            ScreenManager.register(CONTAINER_CHIP_YELLOW.get(),     ScreenChipYellow::new);
+            ScreenManager.register(CONTAINER_CHIP_LIME.get(),       ScreenChipLime::new);
+            ScreenManager.register(CONTAINER_CHIP_PINK.get(),       ScreenChipPink::new);
+            ScreenManager.register(CONTAINER_CHIP_GRAY.get(),       ScreenChipGray::new);
+            ScreenManager.register(CONTAINER_CHIP_LIGHT_GRAY.get(), ScreenChipLightGray::new);
+            ScreenManager.register(CONTAINER_CHIP_CYAN.get(),       ScreenChipCyan::new);
+            ScreenManager.register(CONTAINER_CHIP_PURPLE.get(),     ScreenChipPurple::new);
+            ScreenManager.register(CONTAINER_CHIP_BLUE.get(),       ScreenChipBlue::new);
+            ScreenManager.register(CONTAINER_CHIP_BROWN.get(),      ScreenChipBrown::new);
+            ScreenManager.register(CONTAINER_CHIP_GREEN.get(),      ScreenChipGreen::new);
+            ScreenManager.register(CONTAINER_CHIP_RED.get(),        ScreenChipRed::new);
+            ScreenManager.register(CONTAINER_CHIP_BLACK.get(),      ScreenChipBlack::new);
         });
     }
 

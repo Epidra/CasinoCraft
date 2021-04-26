@@ -26,7 +26,7 @@ public class ScreenCardLime extends ScreenCasino {   // -----
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardLime logic(){
-        return (LogicCardLime) CONTAINER.logic();
+        return (LogicCardLime) menu.logic();
     }
 
 

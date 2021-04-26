@@ -29,7 +29,7 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardGray logic(){
-        return (LogicCardGray) CONTAINER.logic();
+        return (LogicCardGray) menu.logic();
     }
 
 
@@ -137,22 +137,22 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
             if(isActivePlayer()){
                 if(logic().raisedPlayer == -1){
                     if(playerToken >= bet){
-                        blit(matrixstack, guiLeft+11,  guiTop+237, 78, 22*4, 78, 22); // Raise
+                        blit(matrixstack, leftPos+11,  topPos+237, 78, 22*4, 78, 22); // Raise
                     }
                 }
                 if(logic().raisedPlayer > -1){
                     if(playerToken >= bet){
-                        blit(matrixstack, guiLeft+89,  guiTop+237, 78, 22*3, 78, 22); // Call
+                        blit(matrixstack, leftPos+89,  topPos+237, 78, 22*3, 78, 22); // Call
                     }
                 } else {
-                    blit(matrixstack, guiLeft+89,  guiTop+237, 78*2, 22*3, 78, 22); // Check
+                    blit(matrixstack, leftPos+89,  topPos+237, 78*2, 22*3, 78, 22); // Check
                 }
-                blit(matrixstack, guiLeft+167,  guiTop+237, 78*2, 22*4, 78, 22); // Fold
+                blit(matrixstack, leftPos+167,  topPos+237, 78*2, 22*4, 78, 22); // Fold
             }
         }
     }
@@ -167,7 +167,7 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
         for(Card card : logic().getCards(cardPos)){
             if(card.suit != -1 && card.idletimer == 0){
                 boolean hidden = logic().turnstate > 3 ? false : playerPos != cardPos;
-                this.minecraft.getTextureManager().bindTexture(getCardsTexture(hidden || card.suit >= 2));
+                this.minecraft.getTextureManager().bind(getCardsTexture(hidden || card.suit >= 2));
                 int texX = card.suit == -1 || hidden ? cardPos+1 : card.number % 8;
                 int texY = card.suit == -1 || hidden ?         4 : (card.suit  % 2) * 2 + card.number / 8;
                 if(CasinoKeeper.config_animated_cards.get() && !hidden){
@@ -178,7 +178,7 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
                     }
                 }
                 GL11.glPushMatrix();
-                GL11.glTranslatef(guiLeft + posX, guiTop + posY, 0);
+                GL11.glTranslatef(leftPos + posX, topPos + posY, 0);
                 GL11.glRotatef(angle, 0, 0, 1);
                 blit(matrixstack, card.shiftX - logic().getCards(cardPos).size()*16 + i*32, card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
                 GL11.glPopMatrix();

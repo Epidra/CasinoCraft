@@ -26,7 +26,7 @@ public class ScreenMinoMagenta extends ScreenCasino {   // -----
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoMagenta logic(){
-        return (LogicMinoMagenta) CONTAINER.logic();
+        return (LogicMinoMagenta) menu.logic();
     }
 
 

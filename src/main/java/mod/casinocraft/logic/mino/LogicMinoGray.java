@@ -1,12 +1,11 @@
 package mod.casinocraft.logic.mino;
 
-import mod.casinocraft.logic.LogicBase;
-import mod.casinocraft.util.Vector2;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 
-public class LogicMinoGray extends LogicBase {   // Mino Flip
+public class LogicMinoGray extends LogicModule {   // Mino Flip
 
     // ...
 

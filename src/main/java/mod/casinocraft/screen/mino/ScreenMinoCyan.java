@@ -27,7 +27,7 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoCyan logic(){
-        return (LogicMinoCyan) CONTAINER.logic();
+        return (LogicMinoCyan) menu.logic();
     }
 
 
@@ -61,7 +61,7 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
         for(int y = 0; y < 9; y++) {
             for(int x = 0; x < 17; x++) {
                 if(logic().grid[x][y] == 0) drawMino(matrixstack, -4-24*3 + 24*x, -4+24 + 24*y, 9, 0);

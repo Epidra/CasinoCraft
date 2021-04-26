@@ -1,6 +1,6 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import net.minecraft.nbt.CompoundNBT;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 import static mod.casinocraft.util.SoundMap.*;
 
-public class LogicCardMagenta extends LogicBase {   // Pyramid
+public class LogicCardMagenta extends LogicModule {   // Pyramid
 
     public Card[] cards_field       = new Card[28];
     public List<Card> cards_stack   = new ArrayList<Card>();

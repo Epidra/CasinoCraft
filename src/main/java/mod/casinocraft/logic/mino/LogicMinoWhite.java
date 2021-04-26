@@ -1,11 +1,11 @@
 package mod.casinocraft.logic.mino;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 import static mod.casinocraft.util.KeyMap.*;
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 
-public class LogicMinoWhite extends LogicBase {   // Sudoku
+public class LogicMinoWhite extends LogicModule {   // Sudoku
 
     private boolean match;
 

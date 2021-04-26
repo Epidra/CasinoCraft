@@ -27,7 +27,7 @@ public class ScreenCardBlack extends ScreenCasino {   // Black Jack
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardBlack logic(){
-        return (LogicCardBlack) CONTAINER.logic();
+        return (LogicCardBlack) menu.logic();
     }
 
 
@@ -38,7 +38,7 @@ public class ScreenCardBlack extends ScreenCasino {   // Black Jack
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
         if(logic().turnstate == 2 && mouseRect( 24, 204, 92, 26, mouseX, mouseY)){ action(0); }
         if(logic().turnstate == 2 && mouseRect(140, 204, 92, 26, mouseX, mouseY)){ action(1); }
-        if(playerToken >= bet || !CONTAINER.hasToken())
+        if(playerToken >= bet || !menu.hasToken())
             if(logic().turnstate == 2 && mouseRect( 24, 164, 92, 26, mouseX, mouseY)){ collectBet(); action(2); }
         if(playerToken >= bet)
             if(logic().turnstate == 2 && mouseRect(140, 164, 92, 26, mouseX, mouseY)){ collectBet(); action(3); }
@@ -70,18 +70,18 @@ public class ScreenCardBlack extends ScreenCasino {   // Black Jack
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             if(playerToken == -1) validateBet();
-            blit(matrixstack, guiLeft+24+7,  guiTop+204+2,  0, 0, 78, 22); // Button Hit
-            blit(matrixstack, guiLeft+140+7, guiTop+204+2, 78, 0, 78, 22); // Button Stand
+            blit(matrixstack, leftPos+24+7,  topPos+204+2,  0, 0, 78, 22); // Button Hit
+            blit(matrixstack, leftPos+140+7, topPos+204+2, 78, 0, 78, 22); // Button Stand
             if((logic().cards_player1.get(0).number >= 9 && logic().cards_player1.get(1).number >= 9) || (logic().cards_player1.get(0).number == logic().cards_player1.get(1).number)){
-                if(playerToken >= bet || !CONTAINER.hasToken()){
-                    blit(matrixstack, guiLeft+24+7, guiTop+204-40+2, 78*2, 0, 78, 22); // Button Split
+                if(playerToken >= bet || !menu.hasToken()){
+                    blit(matrixstack, leftPos+24+7, topPos+204-40+2, 78*2, 0, 78, 22); // Button Split
                 }
             }
             if(playerToken >= bet){
-                blit(matrixstack, guiLeft+140+7, guiTop+204-40+2, 0, 44, 78, 22); // Button DoubleDown
+                blit(matrixstack, leftPos+140+7, topPos+204-40+2, 0, 44, 78, 22); // Button DoubleDown
             }
 
         }

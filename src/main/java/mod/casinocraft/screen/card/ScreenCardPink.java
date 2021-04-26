@@ -26,7 +26,7 @@ public class ScreenCardPink extends ScreenCasino {   // -----
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardPink logic(){
-        return (LogicCardPink) CONTAINER.logic();
+        return (LogicCardPink) menu.logic();
     }
 
 

@@ -27,7 +27,7 @@ public class ScreenCardYellow extends ScreenCasino {   // Acey Deucey
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardYellow logic(){
-        return (LogicCardYellow) CONTAINER.logic();
+        return (LogicCardYellow) menu.logic();
     }
 
 
@@ -57,10 +57,10 @@ public class ScreenCardYellow extends ScreenCasino {   // Acey Deucey
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
-            blit(matrixstack, guiLeft+24+7,  guiTop+204+2,  0, 0, 78, 22); // Button Hit
-            blit(matrixstack, guiLeft+140+7, guiTop+204+2, 78, 0, 78, 22); // Button Stand
+            blit(matrixstack, leftPos+24+7,  topPos+204+2,  0, 0, 78, 22); // Button Hit
+            blit(matrixstack, leftPos+140+7, topPos+204+2, 78, 0, 78, 22); // Button Stand
         }
     }
 

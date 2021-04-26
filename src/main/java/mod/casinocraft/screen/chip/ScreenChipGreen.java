@@ -26,7 +26,7 @@ public class ScreenChipGreen extends ScreenCasino {   // -----
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicChipGreen logic(){
-        return (LogicChipGreen) CONTAINER.logic();
+        return (LogicChipGreen) menu.logic();
     }
 
 

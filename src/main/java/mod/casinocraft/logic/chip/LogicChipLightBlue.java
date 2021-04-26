@@ -1,7 +1,7 @@
 package mod.casinocraft.logic.chip;
 
-import mod.casinocraft.logic.LogicBase;
-import mod.casinocraft.util.Vector2;
+import mod.casinocraft.logic.LogicModule;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import static mod.casinocraft.util.KeyMap.*;
 import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
 import static mod.casinocraft.util.SoundMap.SOUND_TETRIS;
 
-public class LogicChipLightBlue extends LogicBase {   // Puyo Puyo
+public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
 
     public boolean active_hold;
     public int[] container_next    = new int[2];

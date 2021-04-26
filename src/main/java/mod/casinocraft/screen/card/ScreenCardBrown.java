@@ -26,7 +26,7 @@ public class ScreenCardBrown extends ScreenCasino {   // -----
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardBrown logic(){
-        return (LogicCardBrown) CONTAINER.logic();
+        return (LogicCardBrown) menu.logic();
     }
 
 

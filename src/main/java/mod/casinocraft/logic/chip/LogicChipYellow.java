@@ -1,9 +1,9 @@
 package mod.casinocraft.logic.chip;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 
-public class LogicChipYellow extends LogicBase {   // -----
+public class LogicChipYellow extends LogicModule {   // -----
 
     // ...
 

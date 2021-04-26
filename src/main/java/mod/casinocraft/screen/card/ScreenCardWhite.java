@@ -27,7 +27,7 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardWhite logic(){
-        return (LogicCardWhite) CONTAINER.logic();
+        return (LogicCardWhite) menu.logic();
     }
 
 
@@ -71,14 +71,14 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
-            blit(matrixstack, guiLeft+82+7, guiTop+204+2, 78*2, 22, 78, 22); // Button Finish
-            if(logic().hold[0]){blit(matrixstack, guiLeft+16+4*1+40*0, guiTop+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, guiLeft+16+4*1+40*0, guiTop+2+24, 78*2+39, 44, 39, 22);} // Button Hold 1
-            if(logic().hold[1]){blit(matrixstack, guiLeft+16+4*2+40*1, guiTop+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, guiLeft+16+4*2+40*1, guiTop+2+24, 78*2+39, 44, 39, 22);} // Button Hold 2
-            if(logic().hold[2]){blit(matrixstack, guiLeft+16+4*3+40*2, guiTop+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, guiLeft+16+4*3+40*2, guiTop+2+24, 78*2+39, 44, 39, 22);} // Button Hold 3
-            if(logic().hold[3]){blit(matrixstack, guiLeft+16+4*4+40*3, guiTop+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, guiLeft+16+4*4+40*3, guiTop+2+24, 78*2+39, 44, 39, 22);} // Button Hold 4
-            if(logic().hold[4]){blit(matrixstack, guiLeft+16+4*5+40*4, guiTop+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, guiLeft+16+4*5+40*4, guiTop+2+24, 78*2+39, 44, 39, 22);} // Button Hold 5
+            blit(matrixstack, leftPos+82+7, topPos+204+2, 78*2, 22, 78, 22); // Button Finish
+            if(logic().hold[0]){blit(matrixstack, leftPos+16+4*1+40*0, topPos+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, leftPos+16+4*1+40*0, topPos+2+24, 78*2+39, 44, 39, 22);} // Button Hold 1
+            if(logic().hold[1]){blit(matrixstack, leftPos+16+4*2+40*1, topPos+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, leftPos+16+4*2+40*1, topPos+2+24, 78*2+39, 44, 39, 22);} // Button Hold 2
+            if(logic().hold[2]){blit(matrixstack, leftPos+16+4*3+40*2, topPos+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, leftPos+16+4*3+40*2, topPos+2+24, 78*2+39, 44, 39, 22);} // Button Hold 3
+            if(logic().hold[3]){blit(matrixstack, leftPos+16+4*4+40*3, topPos+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, leftPos+16+4*4+40*3, topPos+2+24, 78*2+39, 44, 39, 22);} // Button Hold 4
+            if(logic().hold[4]){blit(matrixstack, leftPos+16+4*5+40*4, topPos+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, leftPos+16+4*5+40*4, topPos+2+24, 78*2+39, 44, 39, 22);} // Button Hold 5
         }
     }
 

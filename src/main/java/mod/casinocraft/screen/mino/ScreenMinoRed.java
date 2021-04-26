@@ -5,7 +5,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.mino.LogicMinoRed;
 import mod.casinocraft.screen.ScreenCasino;
-import mod.casinocraft.util.Vector2;
+import mod.lucky77.util.Vector2;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 
@@ -28,7 +28,7 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoRed logic(){
-        return (LogicMinoRed) CONTAINER.logic();
+        return (LogicMinoRed) menu.logic();
     }
 
 
@@ -81,16 +81,16 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
 
     protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(tableID == 1){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ROULETTE_MIDDLE);
-            this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize); // Background SMALL
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ROULETTE_MIDDLE);
+            this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background SMALL
         } else {
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ROULETTE_LEFT);
-            this.blit(matrixstack, guiLeft-128, guiTop, 0, 0, this.xSize, this.ySize); // Background Left
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ROULETTE_RIGHT);
-            this.blit(matrixstack, guiLeft+128, guiTop, 0, 0, this.xSize, this.ySize); // Background Right
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ROULETTE_LEFT);
+            this.blit(matrixstack, leftPos-128, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background Left
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ROULETTE_RIGHT);
+            this.blit(matrixstack, leftPos+128, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background Right
         }
 
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_DICE);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_DICE);
 
         if(logic().turnstate >= 2){
             for(int y = 0; y < 7; y++){
@@ -99,32 +99,32 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
                     int posX = tableID == 1 ? -128+152+6-6-16+8 + 8*x : -128+56+8-8 + 16*x;
                     int posY = y == 6 ? 200 : y == 5 ? 168 : 24+12-4 + 24*y;
                     if(color != 0)
-                        this.blit(matrixstack, guiLeft+posX, guiTop+posY, 192, 32 * color, 32, 32);
+                        this.blit(matrixstack, leftPos+posX, topPos+posY, 192, 32 * color, 32, 32);
                     if(logic().selector.matches(x, y))
-                        this.blit(matrixstack, guiLeft+posX, guiTop+posY, 224, 32 * (logic().activePlayer+1), 32, 32);
+                        this.blit(matrixstack, leftPos+posX, topPos+posY, 224, 32 * (logic().activePlayer+1), 32, 32);
                 }
             }
         }
 
         if(logic().turnstate == 3){
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_ROULETTE_WHEEL);
-            this.blit(matrixstack, guiLeft, guiTop, 0, 0, this.xSize, this.ySize);
-            this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_MINOS);
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ROULETTE_WHEEL);
+            this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
             Vector2 v = logic().vectorWheel();
             drawMinoSmall(matrixstack, v.X, v.Y, 0, false);
         }
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bindTexture(CasinoKeeper.TEXTURE_BUTTONS);
+        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2 && isActivePlayer()){
             if(playerToken == -1) validateBet();
             if(playerToken >= bet)
-                blit(matrixstack, guiLeft+24+7,  guiTop+251-16,  0, 0, 78, 22); // Button Hit
-            blit(matrixstack, guiLeft+140+7, guiTop+251-16, 78, 0, 78, 22); // Button Stand
+                blit(matrixstack, leftPos+24+7,  topPos+251-16,  0, 0, 78, 22); // Button Hit
+            blit(matrixstack, leftPos+140+7, topPos+251-16, 78, 0, 78, 22); // Button Stand
         }
         if(logic().turnstate == 3 && ( (!logic().spinning) || (logic().spinning && logic().timer == 0) )){
-            blit(matrixstack, guiLeft+89, guiTop+251-16, 78, 44, 78, 22); // Button Spin
+            blit(matrixstack, leftPos+89, topPos+251-16, 78, 44, 78, 22); // Button Spin
         }
     }
 

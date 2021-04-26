@@ -1,6 +1,6 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.logic.LogicBase;
+import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.SoundMap;
 import net.minecraft.nbt.CompoundNBT;
@@ -8,7 +8,7 @@ import net.minecraft.nbt.CompoundNBT;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LogicCardBlack extends LogicBase {   // Black Jack
+public class LogicCardBlack extends LogicModule {   // Black Jack
 
     public List<Card> cards_player1 = new ArrayList<Card>();
     public List<Card> cards_player2 = new ArrayList<Card>();

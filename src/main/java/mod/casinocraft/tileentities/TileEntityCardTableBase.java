@@ -37,8 +37,8 @@ public class TileEntityCardTableBase extends TileEntityMachine {
     @Nullable
     public SUpdateTileEntityPacket getUpdatePacket(){
         CompoundNBT nbtTagCompound = new CompoundNBT();
-        write(nbtTagCompound);
-        return new SUpdateTileEntityPacket(this.pos, CasinoKeeper.TILE_CARDTABLE_BASE.get().hashCode(), nbtTagCompound);
+        save(nbtTagCompound);
+        return new SUpdateTileEntityPacket(this.worldPosition, CasinoKeeper.TILE_CARDTABLE_BASE.get().hashCode(), nbtTagCompound);
     }
 
 
@@ -49,16 +49,6 @@ public class TileEntityCardTableBase extends TileEntityMachine {
     @Override
     public ITextComponent getName() {
         return new TranslationTextComponent("tile.cardtablebase.name");
-    }
-
-    @Override
-    public IIntArray getIntArray() {
-        return casinoData;
-    }
-
-    @Override
-    public boolean isItemValid(ItemStack stack) {
-        return false;
     }
 
 }

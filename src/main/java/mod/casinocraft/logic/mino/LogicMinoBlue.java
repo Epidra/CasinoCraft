@@ -1,13 +1,12 @@
 package mod.casinocraft.logic.mino;
 
-import mod.casinocraft.logic.LogicBase;
-import mod.casinocraft.util.Vector2;
+import mod.casinocraft.logic.LogicModule;
+import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
-import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
 
-public class LogicMinoBlue extends LogicBase {   // Memory
+public class LogicMinoBlue extends LogicModule {   // Memory
 
     public boolean selectA = false;
     public boolean selectB = false;
