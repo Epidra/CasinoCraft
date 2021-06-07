@@ -296,7 +296,9 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
             lastModule = getModule();
             logic = setLogic();
             if(level.getBlockState(worldPosition).getBlock() instanceof BlockArcade) {
-                CasinoPacketHandler.sendToServer(new MessageModuleServer(worldPosition));
+                if(level.isClientSide()){
+                    CasinoPacketHandler.sendToServer(new MessageModuleServer(worldPosition));
+                }
             }
         }
     }
