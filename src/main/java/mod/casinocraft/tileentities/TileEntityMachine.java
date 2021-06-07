@@ -13,7 +13,6 @@ import mod.casinocraft.system.CasinoPacketHandler;
 import mod.lucky77.tileentities.TileBase;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -296,7 +295,9 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
             lastModule = getModule();
             logic = setLogic();
             if(level.getBlockState(worldPosition).getBlock() instanceof BlockArcade) {
-                CasinoPacketHandler.sendToServer(new MessageModuleServer(worldPosition));
+                if(level.isClientSide()){
+                    CasinoPacketHandler.sendToServer(new MessageModuleServer(worldPosition));
+                }
             }
         }
     }
@@ -435,6 +436,20 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
     @Override
     public IIntArray getIntArray() {
         return casinoData;
+    }
+
+    protected NonNullList<ItemStack> getItems() {
+        return this.inventory;
+    }
+
+    public void setItem(int p_70299_1_, ItemStack p_70299_2_) {
+        //this.unpackLootTable((PlayerEntity)null);
+        this.getItems().set(p_70299_1_, p_70299_2_);
+        if (p_70299_2_.getCount() > this.getMaxStackSize()) {
+            p_70299_2_.setCount(this.getMaxStackSize());
+        }
+
+        this.setChanged();
     }
 
 }
