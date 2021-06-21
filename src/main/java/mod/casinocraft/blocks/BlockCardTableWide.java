@@ -97,7 +97,7 @@ public class BlockCardTableWide extends MachinaWide {
     }
 
     public float getDestroyProgress(BlockState state, PlayerEntity player, IBlockReader worldIn, BlockPos pos) {
-        final BlockPos pos2 = getTilePosition(pos, state.getValue(OFFSET), Direction.DOWN);
+        final BlockPos pos2 = getTilePosition(pos, state.getValue(OFFSET), state.getValue(FACING));
         TileEntityMachine tileEntity = (TileEntityMachine) worldIn.getBlockEntity(pos2);
         boolean unbreakable = tileEntity.settingIndestructableBlock;
         float f = state.getDestroySpeed(worldIn, pos);
