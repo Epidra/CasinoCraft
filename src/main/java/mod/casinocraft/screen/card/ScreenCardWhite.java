@@ -1,12 +1,14 @@
 package mod.casinocraft.screen.card;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.card.LogicCardWhite;
 import mod.casinocraft.screen.ScreenCasino;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenCardWhite extends ScreenCasino {   // Single Poker
 
@@ -17,7 +19,7 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenCardWhite(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenCardWhite(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -51,11 +53,11 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate >= 4) drawFont(matrixstack, logic().hand, 75, 150);
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate >= 2) {
             drawCardBack(matrixstack, 16+11*1+32*0, 72, 7); // Card 1
             drawCardBack(matrixstack, 16+11*2+32*1, 72, 7); // Card 2
@@ -70,8 +72,8 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             blit(matrixstack, leftPos+82+7, topPos+204+2, 78*2, 22, 78, 22); // Button Finish
             if(logic().hold[0]){blit(matrixstack, leftPos+16+4*1+40*0, topPos+2+24, 78*2, 44, 39, 22);} else {blit(matrixstack, leftPos+16+4*1+40*0, topPos+2+24, 78*2+39, 44, 39, 22);} // Button Hold 1

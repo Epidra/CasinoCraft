@@ -1,20 +1,20 @@
 {
     "variants": {
-        "level=0,facing=north": { "model": "casinocraft:block/dice_basic_green", "x":   0, "y": 180, "uvlock": true },
-        "level=0,facing=south": { "model": "casinocraft:block/dice_basic_green", "x":   0, "y":   0, "uvlock": true },
-        "level=0,facing=west":  { "model": "casinocraft:block/dice_basic_green", "x":   0, "y":  90, "uvlock": true },
-        "level=0,facing=east":  { "model": "casinocraft:block/dice_basic_green", "x":   0, "y": 270, "uvlock": true },
-        "level=1,facing=north": { "model": "casinocraft:block/dice_basic_green", "x":  90, "y": 180, "uvlock": true },
-        "level=1,facing=south": { "model": "casinocraft:block/dice_basic_green", "x":  90, "y":   0, "uvlock": true },
-        "level=1,facing=west":  { "model": "casinocraft:block/dice_basic_green", "x":  90, "y":  90, "uvlock": true },
-        "level=1,facing=east":  { "model": "casinocraft:block/dice_basic_green", "x":  90, "y": 270, "uvlock": true },
-        "level=2,facing=north": { "model": "casinocraft:block/dice_basic_green", "x": 180, "y": 180, "uvlock": true },
-        "level=2,facing=south": { "model": "casinocraft:block/dice_basic_green", "x": 180, "y":   0, "uvlock": true },
-        "level=2,facing=west":  { "model": "casinocraft:block/dice_basic_green", "x": 180, "y":  90, "uvlock": true },
-        "level=2,facing=east":  { "model": "casinocraft:block/dice_basic_green", "x": 180, "y": 270, "uvlock": true },
-        "level=3,facing=north": { "model": "casinocraft:block/dice_basic_green", "x": 270, "y": 180, "uvlock": true },
-        "level=3,facing=south": { "model": "casinocraft:block/dice_basic_green", "x": 270, "y":   0, "uvlock": true },
-        "level=3,facing=west":  { "model": "casinocraft:block/dice_basic_green", "x": 270, "y":  90, "uvlock": true },
-        "level=3,facing=east":  { "model": "casinocraft:block/dice_basic_green", "x": 270, "y": 270, "uvlock": true }
+        "age=0,facing=north": { "model": "casinocraft:block/dice_basic_green", "x":   0, "y": 180, "uvlock": true },
+        "age=0,facing=south": { "model": "casinocraft:block/dice_basic_green", "x":   0, "y":   0, "uvlock": true },
+        "age=0,facing=west":  { "model": "casinocraft:block/dice_basic_green", "x":   0, "y":  90, "uvlock": true },
+        "age=0,facing=east":  { "model": "casinocraft:block/dice_basic_green", "x":   0, "y": 270, "uvlock": true },
+        "age=1,facing=north": { "model": "casinocraft:block/dice_basic_green", "x":  90, "y": 180, "uvlock": true },
+        "age=1,facing=south": { "model": "casinocraft:block/dice_basic_green", "x":  90, "y":   0, "uvlock": true },
+        "age=1,facing=west":  { "model": "casinocraft:block/dice_basic_green", "x":  90, "y":  90, "uvlock": true },
+        "age=1,facing=east":  { "model": "casinocraft:block/dice_basic_green", "x":  90, "y": 270, "uvlock": true },
+        "age=2,facing=north": { "model": "casinocraft:block/dice_basic_green", "x": 180, "y": 180, "uvlock": true },
+        "age=2,facing=south": { "model": "casinocraft:block/dice_basic_green", "x": 180, "y":   0, "uvlock": true },
+        "age=2,facing=west":  { "model": "casinocraft:block/dice_basic_green", "x": 180, "y":  90, "uvlock": true },
+        "age=2,facing=east":  { "model": "casinocraft:block/dice_basic_green", "x": 180, "y": 270, "uvlock": true },
+        "age=3,facing=north": { "model": "casinocraft:block/dice_basic_green", "x": 270, "y": 180, "uvlock": true },
+        "age=3,facing=south": { "model": "casinocraft:block/dice_basic_green", "x": 270, "y":   0, "uvlock": true },
+        "age=3,facing=west":  { "model": "casinocraft:block/dice_basic_green", "x": 270, "y":  90, "uvlock": true },
+        "age=3,facing=east":  { "model": "casinocraft:block/dice_basic_green", "x": 270, "y": 270, "uvlock": true }
     }
 }

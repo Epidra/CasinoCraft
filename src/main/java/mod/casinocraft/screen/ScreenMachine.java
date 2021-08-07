@@ -1,25 +1,24 @@
 package mod.casinocraft.screen;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoCraft;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerMachine;
+import mod.casinocraft.menu.MenuMachine;
 import mod.casinocraft.network.MessageSettingServer;
 import mod.casinocraft.network.MessageStateServer;
 import mod.casinocraft.system.CasinoPacketHandler;
 import mod.lucky77.screen.ScreenBase;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ClickType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
 
 import static mod.casinocraft.util.KeyMap.*;
 
-public class ScreenMachine extends ScreenBase<ContainerMachine> {
+public class ScreenMachine extends ScreenBase<MenuMachine> {
 
     private static final ResourceLocation GUI_TEXTURE0 = new ResourceLocation(CasinoCraft.MODID + ":" + "textures/gui/inventory0.png");
     private static final ResourceLocation GUI_TEXTURE1 = new ResourceLocation(CasinoCraft.MODID + ":" + "textures/gui/inventory1.png");
@@ -39,7 +38,7 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenMachine(ContainerMachine container, PlayerInventory player, ITextComponent name) {
+    public ScreenMachine(MenuMachine container, Inventory player, Component name) {
         super(container, player, name, 176, 204);
     }
 
@@ -50,7 +49,7 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
 
     /** Overwritten keyPressed function (only used for rerouting keyCode) */
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        InputMappings.Input mouseKey = InputMappings.getKey(keyCode, scanCode);
+        InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
         keyTyped(keyCode);
         if (super.keyPressed(keyCode, scanCode, modifiers)) {
             return true;
@@ -161,7 +160,7 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
     //----------------------------------------DRAW----------------------------------------//
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
-    protected void renderLabels(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void renderLabels(PoseStack matrixstack, int mouseX, int mouseY){
 
         // Page Body
         if(activeInput == 0){
@@ -190,9 +189,9 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
     }
 
     /** Draws the background layer of this container (behind the items). */
-    protected void renderBg(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bind(getTexture());
+    protected void renderBg(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, getTexture());
         int i = (this.width  - this.imageWidth) / 2 - 56;
         int j = (this.height - this.imageHeight) / 2;
         this.blit(matrixstack, i, j, 0, 0, this.imageWidth+56, this.imageHeight);

@@ -2,7 +2,7 @@ package mod.casinocraft.logic.mino;
 
 import mod.casinocraft.logic.LogicModule;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 
@@ -117,7 +117,7 @@ public class LogicMinoBlue extends LogicModule {   // Memory
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         selectA = compound.getBoolean("selecta");
         selectB = compound.getBoolean("selectb");
         positionA.set(compound.getInt("positionax"), compound.getInt("positionay"));
@@ -125,7 +125,7 @@ public class LogicMinoBlue extends LogicModule {   // Memory
         timer = compound.getInt("timer");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         compound.putBoolean("selecta", selectA);
         compound.putBoolean("selectb", selectB);
         compound.putInt("positionax", positionA.X);

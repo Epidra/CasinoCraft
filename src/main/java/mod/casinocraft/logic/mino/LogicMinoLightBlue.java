@@ -2,7 +2,7 @@ package mod.casinocraft.logic.mino;
 
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,11 +73,11 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         reserve.addAll(loadCardList(compound, 0));
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveCardList(compound, 0, reserve);
         return compound;
     }

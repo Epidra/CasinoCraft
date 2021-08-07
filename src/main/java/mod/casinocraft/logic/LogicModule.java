@@ -3,9 +3,9 @@ package mod.casinocraft.logic;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.Dice;
 import mod.casinocraft.util.Ship;
-import mod.lucky77.util.LogicBase;
+import mod.lucky77.logic.LogicBase;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +94,7 @@ public abstract class LogicModule extends LogicBase {
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load(CompoundNBT compound){
+    public void load(CompoundTag compound){
         { // Basic
             int[] baseValues = compound.getIntArray("basevalues");
             turnstate  = baseValues[0];
@@ -133,7 +133,7 @@ public abstract class LogicModule extends LogicBase {
         }
     }
 
-    public CompoundNBT save(CompoundNBT compound){
+    public CompoundTag save(CompoundTag compound){
         { // Basic
             compound.putIntArray("basevalues", new int[]{
                     turnstate,
@@ -182,7 +182,7 @@ public abstract class LogicModule extends LogicBase {
 
     //----------------------------------------LOAD_HELPER----------------------------------------//
 
-    protected Card[] loadCardArray(CompoundNBT compound, int index){
+    protected Card[] loadCardArray(CompoundTag compound, int index){
         int[] array = compound.getIntArray("cardstack" + index);
         Card[] cards = new Card[array.length / 3];
         for(int i = 0; i < array.length; i += 3){
@@ -191,7 +191,7 @@ public abstract class LogicModule extends LogicBase {
         return cards;
     }
 
-    protected List<Card> loadCardList(CompoundNBT compound, int index){
+    protected List<Card> loadCardList(CompoundTag compound, int index){
         int[] array = compound.getIntArray("cardstack" + index);
         List<Card> cards = new ArrayList<Card>();
         for(int i = 0; i < array.length; i += 3){
@@ -200,7 +200,7 @@ public abstract class LogicModule extends LogicBase {
         return cards;
     }
 
-    protected Dice[] loadDice(CompoundNBT compound){
+    protected Dice[] loadDice(CompoundTag compound){
         int[] array = compound.getIntArray("diceset");
         Dice[] dice = new Dice[array.length / 2];
         for(int i = 0; i < array.length; i += 2){
@@ -209,12 +209,12 @@ public abstract class LogicModule extends LogicBase {
         return dice;
     }
 
-    protected Ship loadEntity(CompoundNBT compound, int index){
+    protected Ship loadEntity(CompoundTag compound, int index){
         int[] array = compound.getIntArray("entity" + index);
         return new Ship(array[0], new Vector2(array[1], array[2]), new Vector2(array[3], array[4]), new Vector2(array[5], array[6]));
     }
 
-    protected List<Ship> loadEntityList(CompoundNBT compound, int index){
+    protected List<Ship> loadEntityList(CompoundTag compound, int index){
         int[] array = compound.getIntArray("entitylist" + index);
         List<Ship> list = new ArrayList<Ship>();
         for(int i = 0; i < array.length; i += 7){
@@ -228,7 +228,7 @@ public abstract class LogicModule extends LogicBase {
 
     //----------------------------------------SAVE_HELPER----------------------------------------//
 
-    protected CompoundNBT saveCardArray(CompoundNBT compound, int index, Card[] cards){
+    protected CompoundTag saveCardArray(CompoundTag compound, int index, Card[] cards){
         int[] array = new int[cards.length * 3];
         for(int pos = 0; pos < cards.length; pos++){
             array[pos*3    ] = cards[pos].number;
@@ -239,7 +239,7 @@ public abstract class LogicModule extends LogicBase {
         return compound;
     }
 
-    protected CompoundNBT saveCardList(CompoundNBT compound, int index, List<Card> cards){
+    protected CompoundTag saveCardList(CompoundTag compound, int index, List<Card> cards){
         int[] array = new int[cards.size() * 3];
         for(int pos = 0; pos < cards.size(); pos++){
             array[pos*3    ] = cards.get(pos).number;
@@ -250,7 +250,7 @@ public abstract class LogicModule extends LogicBase {
         return compound;
     }
 
-    protected CompoundNBT saveDice(CompoundNBT compound, Dice[] dice){
+    protected CompoundTag saveDice(CompoundTag compound, Dice[] dice){
         int[] array = new int[dice.length * 2];
         for(int pos = 0; pos < dice.length; pos++){
             array[pos*2    ] = dice[pos].number;
@@ -260,12 +260,12 @@ public abstract class LogicModule extends LogicBase {
         return compound;
     }
 
-    protected CompoundNBT saveEntity(CompoundNBT compound, int index, Ship ent){
+    protected CompoundTag saveEntity(CompoundTag compound, int index, Ship ent){
         compound.putIntArray("entity" + index, new int[]{ent.ai, ent.getPos().X, ent.getPos().Y, ent.getNext().X, ent.getNext().Y, ent.getVel().X, ent.getVel().Y});
         return compound;
     }
 
-    protected CompoundNBT saveEntityList(CompoundNBT compound, int index, List<Ship> list){
+    protected CompoundTag saveEntityList(CompoundTag compound, int index, List<Ship> list){
         int[] array = new int[list.size() * 7];
         for(int pos = 0; pos < list.size(); pos++){
             array[pos*7    ] = list.get(pos).ai;
@@ -392,8 +392,8 @@ public abstract class LogicModule extends LogicBase {
     public abstract void updateMotion();
     public abstract void updateLogic();
     public abstract void start2();
-    public abstract void load2(CompoundNBT compound);
-    public abstract CompoundNBT save2(CompoundNBT compound);
+    public abstract void load2(CompoundTag compound);
+    public abstract CompoundTag save2(CompoundTag compound);
 
     public abstract boolean hasHighscore();
     public abstract boolean isMultiplayer();

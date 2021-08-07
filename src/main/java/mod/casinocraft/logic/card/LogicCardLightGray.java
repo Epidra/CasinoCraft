@@ -3,7 +3,7 @@ package mod.casinocraft.logic.card;
         import mod.casinocraft.CasinoKeeper;
         import mod.casinocraft.logic.LogicModule;
         import mod.casinocraft.util.Card;
-        import net.minecraft.nbt.CompoundNBT;
+        import net.minecraft.nbt.CompoundTag;
 
         import java.util.ArrayList;
         import java.util.List;
@@ -110,7 +110,7 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         cardsP1  = loadCardList(compound,  0);
         cardsP2  = loadCardList(compound,  1);
         cardsP3  = loadCardList(compound,  2);
@@ -128,7 +128,7 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
         round = compound.getInt("round");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveCardList(compound,  0, cardsP1);
         saveCardList(compound,  1, cardsP2);
         saveCardList(compound,  2, cardsP3);

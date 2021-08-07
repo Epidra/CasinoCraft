@@ -3,7 +3,7 @@ package mod.casinocraft.logic.chip;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Ship;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import java.util.ArrayList;
 import java.util.List;
 import static mod.casinocraft.util.KeyMap.*;
@@ -75,7 +75,7 @@ public class LogicChipOrange extends LogicModule {   // Snake
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         octanom_head = loadEntity(    compound, 0);
         octanom_tail = loadEntityList(compound, 1);
         temp_player = compound.getInt("tempplayer");
@@ -84,7 +84,7 @@ public class LogicChipOrange extends LogicModule {   // Snake
         active_move_tail = compound.getBoolean("active_move_tail");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveEntity(    compound, 0, octanom_head);
         saveEntityList(compound, 1, octanom_tail);
         compound.putInt("tempplayer", temp_player);

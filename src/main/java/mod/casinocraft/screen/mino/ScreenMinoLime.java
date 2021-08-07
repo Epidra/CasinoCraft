@@ -1,12 +1,14 @@
 package mod.casinocraft.screen.mino;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoLime;
 import mod.casinocraft.screen.ScreenCasino;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenMinoLime extends ScreenCasino {   // Simon
 
@@ -17,7 +19,7 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenMinoLime(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenMinoLime(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -54,18 +56,18 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         drawFont(matrixstack, "POINTS",                75, 25);
         drawFont(matrixstack, "" + logic().scorePoint, 85, 35);
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SIMON);
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SIMON);
         this.blit(matrixstack, leftPos +  64, topPos +  64,   0, logic().alpha[0] > 1 ? 64 : 128, 64, 64);
         this.blit(matrixstack, leftPos + 128, topPos +  64,  64, logic().alpha[1] > 1 ? 64 : 128, 64, 64);
         this.blit(matrixstack, leftPos +  64, topPos + 128, 128, logic().alpha[2] > 1 ? 64 : 128, 64, 64);
         this.blit(matrixstack, leftPos + 128, topPos + 128, 192, logic().alpha[3] > 1 ? 64 : 128, 64, 64);
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
         for(int i = 0; i < logic().color_player.size(); i++){
             drawMino(matrixstack, 22, 22 + 12*i, logic().color_player.get(i), 0);
         }
@@ -74,7 +76,7 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

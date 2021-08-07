@@ -3,7 +3,7 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.SoundMap;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,7 +153,7 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         cards_player1 = loadCardList(compound, 0);
         cards_player2 = loadCardList(compound, 1);
         cards_dealer  = loadCardList(compound, 2);
@@ -163,7 +163,7 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
         split = compound.getInt("split");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveCardList(compound, 0, cards_player1);
         saveCardList(compound, 1, cards_player2);
         saveCardList(compound, 2, cards_dealer );

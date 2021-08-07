@@ -1,10 +1,10 @@
 package mod.casinocraft.network;
 
 import mod.casinocraft.system.CasinoPacketHandler;
-import mod.casinocraft.tileentities.TileEntityMachine;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import mod.casinocraft.blockentity.BlockEntityMachine;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -30,13 +30,13 @@ public class MessageStartServer {
 
     //----------------------------------------ENCODE/DECODE----------------------------------------//
 
-    public static void encode (MessageStartServer msg, PacketBuffer buf) {
+    public static void encode (MessageStartServer msg, FriendlyByteBuf buf) {
         buf.writeUtf(msg.name);
         buf.writeInt(msg.seed);
         buf.writeBlockPos(msg.pos);
     }
 
-    public static MessageStartServer decode (PacketBuffer buf) {
+    public static MessageStartServer decode (FriendlyByteBuf buf) {
         String _name = buf.readUtf(24);
         int _seed = buf.readInt();
         BlockPos _pos = buf.readBlockPos();
@@ -51,7 +51,7 @@ public class MessageStartServer {
     public static class Handler {
         public static void handle (final MessageStartServer message, Supplier<NetworkEvent.Context> context) {
             context.get().enqueueWork(() ->{
-                TileEntityMachine te = (TileEntityMachine) context.get().getSender().level.getBlockEntity(message.pos);
+                BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().level.getBlockEntity(message.pos);
                 te.logic.addPlayer(message.name);
                 if(message.seed > -1) te.logic.start(message.seed);
             });

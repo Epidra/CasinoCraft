@@ -1,12 +1,14 @@
 package mod.casinocraft.screen.mino;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoYellow;
 import mod.casinocraft.screen.ScreenCasino;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 import java.util.Random;
 
@@ -19,7 +21,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenMinoYellow(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenMinoYellow(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
         Random rand = new Random();
         diceColor = rand.nextInt(8);
@@ -71,7 +73,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate >= 4){
             drawFont(matrixstack, logic().hand, 25, -10);
         }
@@ -82,18 +84,18 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(tableID == 1){
-            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SICBO_MIDDLE);
+            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SICBO_MIDDLE);
             this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background SMALL
         } else {
-            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SICBO_LEFT);
+            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SICBO_LEFT);
             this.blit(matrixstack, leftPos-128, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background Left
-            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SICBO_RIGHT);
+            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SICBO_RIGHT);
             this.blit(matrixstack, leftPos+128, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background Right
         }
 
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_DICE);
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_DICE);
 
         if(logic().turnstate >= 2){
             int color = 0;
@@ -117,8 +119,8 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 2){
             if(playerToken == -1) validateBet();
             if(playerToken >= bet)

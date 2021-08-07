@@ -2,7 +2,7 @@ package mod.casinocraft.logic.chip;
 
 import mod.casinocraft.logic.LogicModule;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import static mod.casinocraft.util.KeyMap.*;
 import static mod.casinocraft.util.SoundMap.SOUND_IMPACT;
 import static mod.casinocraft.util.SoundMap.SOUND_TETRIS;
@@ -102,7 +102,7 @@ public class LogicChipBlue extends LogicModule {   // Tetris
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         canHold = compound.getBoolean("canhold");
         container_next = compound.getInt("container_next");
         container_hold = compound.getInt("container_hold");
@@ -133,7 +133,7 @@ public class LogicChipBlue extends LogicModule {   // Tetris
         alpha = compound.getInt("alpha");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         compound.putBoolean("canhold", canHold);
         compound.putInt("container_next", container_next);
         compound.putInt("container_last", container_hold);

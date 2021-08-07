@@ -3,7 +3,7 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.SoundMap;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,14 +93,14 @@ public class LogicCardRed extends LogicModule {   // Rouge et Noir
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         cards_rouge = loadCardList(compound, 0);
         cards_noir  = loadCardList(compound, 1);
         value_rouge = compound.getInt("valuerouge");
         value_noir  = compound.getInt("valuenoir");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveCardList(compound, 0, cards_rouge);
         saveCardList(compound, 1, cards_noir);
         compound.putInt("valuerouge", value_rouge);

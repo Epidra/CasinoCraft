@@ -3,7 +3,7 @@ package mod.casinocraft.logic.mino;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,14 +100,14 @@ public class LogicMinoPink extends LogicModule {   // FanTan
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         chips = loadCardList(compound, 0);
         max_chips = compound.getInt("maxchips");
         alpha = compound.getInt("alpha");
         chips_up = compound.getBoolean("chipsup");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveCardList(compound, 0, chips);
         compound.putInt("maxchips", max_chips);
         compound.putInt("alpha", alpha);

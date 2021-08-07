@@ -1,14 +1,14 @@
 package mod.casinocraft.screen.mino;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoWhite;
 import mod.casinocraft.screen.ScreenCasino;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
 
@@ -19,7 +19,7 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenMinoWhite(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenMinoWhite(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -54,29 +54,29 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SUDOKU);
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SUDOKU);
         this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
 
         drawMino(matrixstack, 20 + 24*logic().selector.X, 20 + 24*logic().selector.Y, 8, 0);
 
         for(int y = 0; y < 9; y++) {
             for(int x = 0; x < 9; x++) {
                 if(logic().grid[x][y] > 0) {
-                    if(logic().grid[x][y] > 10) RenderSystem.color4f(0.5f, 0.5f, 0.5f, 1.0F);
+                    if(logic().grid[x][y] > 10) RenderSystem.setShaderColor(0.5f, 0.5f, 0.5f, 1.0F);
                     drawMinoSmall(matrixstack, 20+4 + 24*x, 20+4 + 24*y, logic().grid[x][y] % 10, true);
-                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                 }
             }
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

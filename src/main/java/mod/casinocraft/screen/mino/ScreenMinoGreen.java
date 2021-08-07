@@ -1,12 +1,14 @@
 package mod.casinocraft.screen.mino;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoGreen;
 import mod.casinocraft.screen.ScreenCasino;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
 
@@ -17,7 +19,7 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenMinoGreen(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenMinoGreen(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -55,13 +57,13 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate >= 2){
-            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MYSTICSQUARE);
+            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MYSTICSQUARE);
             for(int y = 0; y < 4; y++) {
                 for(int x = 0; x < 4; x++) {
                     int i = logic().grid[x][y] % 20;
@@ -73,7 +75,7 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

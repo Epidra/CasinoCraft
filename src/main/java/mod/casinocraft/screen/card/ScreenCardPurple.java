@@ -1,12 +1,14 @@
 package mod.casinocraft.screen.card;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.card.LogicCardPurple;
 import mod.casinocraft.screen.ScreenCasino;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenCardPurple extends ScreenCasino {   // TriPeak
 
@@ -17,7 +19,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenCardPurple(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenCardPurple(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -53,7 +55,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate >= 2){
             drawFont(matrixstack, "POINTS",                 24, 24-3);
             drawFont(matrixstack, "" + logic().scorePoint,  34, 34-3);
@@ -62,10 +64,10 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate >= 2){
 
-            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
+            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
             blit(matrixstack, leftPos + 16*7 + 3+2, topPos +2+ 20 * 10, 234, 176 + (highlightIndex == 3 ? 22 : 0), 22, 22); // Button Stack
 
             drawCard(matrixstack, 16 *  3-32, 20 * 2, logic().cards_field[ 0]);
@@ -110,7 +112,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

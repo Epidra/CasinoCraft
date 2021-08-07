@@ -1,13 +1,15 @@
 package mod.casinocraft.screen.card;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.card.LogicCardLightGray;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Card;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 import org.lwjgl.opengl.GL11;
 
 public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
@@ -19,7 +21,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenCardLightGray(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenCardLightGray(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -80,7 +82,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate == 2){
             drawFontCenter(matrixstack, "Waiting for Players", 128, 88);
         }
@@ -95,7 +97,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
             drawFontInvert(matrixstack, "" + (CasinoKeeper.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
         int playerPos = getPlayerPosition();
         if(logic().turnstate >= 2){
             int  left = tableID == 1 ? 68 : 20 + 48-96;
@@ -138,8 +140,8 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
             if(isActivePlayer()){
                 if(logic().raisedPlayer == -1 && logic().round != 1){
@@ -164,12 +166,12 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
 
     //----------------------------------------CUSTOM----------------------------------------//
 
-    private void drawCard2(MatrixStack matrixstack, int posX, int posY, float angle, int playerPos, int cardPos){
+    private void drawCard2(PoseStack matrixstack, int posX, int posY, float angle, int playerPos, int cardPos){
         int i = 0;
         for(Card card : logic().getCards(cardPos)){
             if(card.suit != -1 && card.idletimer == 0){
                 boolean hidden = logic().turnstate > 3 ? false : playerPos != cardPos;
-                this.minecraft.getTextureManager().bind(getCardsTexture(hidden || card.suit >= 2));
+                RenderSystem.setShaderTexture(0, getCardsTexture(hidden || card.suit >= 2));
                 int texX = card.suit == -1 || hidden ? cardPos+1 : card.number % 8;
                 int texY = card.suit == -1 || hidden ?         4 : (card.suit  % 2) * 2 + card.number / 8;
                 if(CasinoKeeper.config_animated_cards.get() && !hidden){

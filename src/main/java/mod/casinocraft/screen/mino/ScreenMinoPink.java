@@ -1,13 +1,15 @@
 package mod.casinocraft.screen.mino;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoPink;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Card;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenMinoPink extends ScreenCasino {   // FanTan
 
@@ -18,7 +20,7 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenMinoPink(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenMinoPink(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -54,7 +56,7 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate == 2){
             if(CasinoKeeper.config_timeout.get() - logic().timeout > 0){
                 drawFontInvert(matrixstack, "" + (CasinoKeeper.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
@@ -62,11 +64,11 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_FANTAN);
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_FANTAN);
         this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background SMALL
 
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_DICE);
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_DICE);
         if(logic().turnstate == 2){
             this.blit(matrixstack, leftPos+64 + 32*logic().selector.X, topPos+32, 224, 32 + 32*logic().activePlayer, 32, 32);
         }
@@ -76,15 +78,15 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
             }
         }
 
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
         for(Card v : logic().chips){
             drawMino(matrixstack, v.number - 12, v.suit - 12);
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
         if(logic().turnstate == 2){
-            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
+            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
             blit(matrixstack, leftPos+89, topPos+206, 78, 44, 78, 22); // Button SPIN
         }
     }

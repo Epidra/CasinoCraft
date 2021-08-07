@@ -1,7 +1,7 @@
 package mod.casinocraft.logic.mino;
 
 import mod.casinocraft.logic.LogicModule;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import static mod.casinocraft.util.KeyMap.*;
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 
@@ -74,10 +74,10 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         return compound;
     }
 

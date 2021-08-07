@@ -1,13 +1,15 @@
 package mod.casinocraft.screen.other;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.logic.other.LogicSlotGame;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenSlotGame extends ScreenCasino {   // Slot Game
 
@@ -18,7 +20,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenSlotGame(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenSlotGame(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -45,7 +47,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(menu.logic() instanceof LogicDummy){ return; }
         if(logic().turnstate == 2){
             this.font.draw(matrixstack, "SPACE to SPIN ",  128, 210, 16777215);
@@ -57,9 +59,9 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(menu.logic() instanceof LogicDummy){ return; }
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SLOTGAME);
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SLOTGAME);
 
         // Multiplier
         int m = logic().scoreLevel;
@@ -110,7 +112,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
         this.blit(matrixstack, leftPos + 160, topPos + 136, 96, 144, 48, 48);
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 
@@ -119,7 +121,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
 
     //----------------------------------------CUSTOM----------------------------------------//
 
-    private void drawIcon(MatrixStack matrixstack, int posX, int posY, int index){
+    private void drawIcon(PoseStack matrixstack, int posX, int posY, int index){
         for(int i = 0; i < 4; i++){
             int z = logic().grid[(logic().wheelPos[index]/48 + i) % 9][index];
             int mod = logic().wheelPos[index] % 48;

@@ -1,10 +1,10 @@
 package mod.casinocraft.network;
 
-import mod.casinocraft.blocks.BlockArcade;
+import mod.casinocraft.block.BlockArcade;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -26,11 +26,11 @@ public class MessageModuleClient {
 
     //----------------------------------------ENCODE/DECODE----------------------------------------//
 
-    public static void encode (MessageModuleClient msg, PacketBuffer buf) {
+    public static void encode (MessageModuleClient msg, FriendlyByteBuf buf) {
         buf.writeBlockPos(msg.pos);
     }
 
-    public static MessageModuleClient decode (PacketBuffer buf) {
+    public static MessageModuleClient decode (FriendlyByteBuf buf) {
         BlockPos _pos = buf.readBlockPos();
         return new MessageModuleClient(_pos);
     }

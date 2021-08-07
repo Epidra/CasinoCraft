@@ -1,7 +1,7 @@
 package mod.casinocraft.logic.mino;
 
 import mod.casinocraft.logic.LogicModule;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,7 +134,7 @@ public class LogicMinoLime extends LogicModule {   // Simon
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         alpha[0] = compound.getInt("alpha0");
         alpha[1] = compound.getInt("alpha1");
         alpha[2] = compound.getInt("alpha2");
@@ -161,7 +161,7 @@ public class LogicMinoLime extends LogicModule {   // Simon
         result = compound.getBoolean("result");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         compound.putInt("alpha0", alpha[0]);
         compound.putInt("alpha1", alpha[1]);
         compound.putInt("alpha2", alpha[2]);

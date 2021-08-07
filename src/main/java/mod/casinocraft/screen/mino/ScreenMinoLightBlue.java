@@ -1,12 +1,14 @@
 package mod.casinocraft.screen.mino;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoLightBlue;
 import mod.casinocraft.screen.ScreenCasino;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
 
@@ -17,7 +19,7 @@ public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenMinoLightBlue(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenMinoLightBlue(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -50,7 +52,7 @@ public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().tableID == 1) {
             drawFont(matrixstack, "POINTS",                    24, 24);
             drawFont(matrixstack, "" + logic().scorePoint,     34, 34);
@@ -64,8 +66,8 @@ public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
         if(logic().reserve.size() > 0){
             drawMino(matrixstack, 128-12, 16+2, logic().reserve.get(0).number + 1, logic().reserve.get(0).suit);
         }
@@ -82,7 +84,7 @@ public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

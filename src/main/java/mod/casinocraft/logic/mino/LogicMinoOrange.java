@@ -4,7 +4,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Dice;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 import static mod.casinocraft.util.SoundMap.SOUND_DICE;
@@ -111,14 +111,14 @@ public class LogicMinoOrange extends LogicModule {   // Craps
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         dice = loadDice(compound);
         result = compound.getInt("result");
         point = compound.getInt("point");
         comepoint = compound.getInt("comepoint");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveDice(compound, dice);
         compound.putInt("result", result);
         compound.putInt("point", point);

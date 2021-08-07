@@ -1,7 +1,7 @@
 package mod.casinocraft.logic.other;
 
 import mod.casinocraft.logic.LogicModule;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 public class LogicDummy extends LogicModule {
 
@@ -52,11 +52,11 @@ public class LogicDummy extends LogicModule {
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
 
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         return compound;
     }
 

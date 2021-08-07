@@ -1,13 +1,15 @@
 package mod.casinocraft.screen.chip;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.chip.LogicChipPink;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Ship;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
@@ -18,7 +20,7 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenChipPink(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenChipPink(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -45,19 +47,19 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate == 2){
-            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SOKOBAN);
+            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SOKOBAN);
             this.blit(matrixstack, leftPos, tableID, 0, 0, this.imageWidth, this.imageHeight); // Background
         }
 
         if(logic().turnstate >= 2) {
             if(logic().turnstate == 2){
-                this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_FONT_ARCADE);
+                RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_FONT_ARCADE);
                 for(int x = 0; x < 4; x++){
                     for(int y = 0; y < 5; y++){
                         int number = y * 4 + x + 1;
@@ -66,7 +68,7 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
                 }
             }
             if(logic().turnstate >= 3){
-                this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ARCADE);
+                RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ARCADE);
                 for(int x = 0; x < 12; x++){
                     for(int y = 0; y < 15; y++){
                         if(logic().grid[x][y] > 0) drawDigi(matrixstack, 32 + x*16, 8 + y*16, 0, 0);
@@ -80,7 +82,7 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 
@@ -98,7 +100,7 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
         return false;
     }
 
-    private void drawNumber(MatrixStack matrixstack, int x, int y, int left, int right, boolean colored, boolean highlighted){
+    private void drawNumber(PoseStack matrixstack, int x, int y, int left, int right, boolean colored, boolean highlighted){
 
         int vOffset = 160 + (colored ? 48 : 0) + (highlighted ? 24 : 0);
         blit(matrixstack, x      , y, 16 * left,  vOffset, 16, 24);

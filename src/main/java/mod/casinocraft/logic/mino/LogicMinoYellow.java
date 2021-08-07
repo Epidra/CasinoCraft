@@ -4,7 +4,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Dice;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 import static mod.casinocraft.util.SoundMap.SOUND_DICE;
@@ -98,11 +98,11 @@ public class LogicMinoYellow extends LogicModule {   // SicBo
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         dice = loadDice(compound);
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveDice(compound, dice);
         return compound;
     }

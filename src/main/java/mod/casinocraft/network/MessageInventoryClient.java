@@ -1,13 +1,13 @@
 package mod.casinocraft.network;
 
-import mod.casinocraft.tileentities.TileEntityMachine;
-import net.minecraft.block.Blocks;
+import mod.casinocraft.blockentity.BlockEntityMachine;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -43,7 +43,7 @@ public class MessageInventoryClient {
 
     //----------------------------------------ENCODE/DECODE----------------------------------------//
 
-    public static void encode (MessageInventoryClient msg, PacketBuffer buf) {
+    public static void encode (MessageInventoryClient msg, FriendlyByteBuf buf) {
         buf.writeItem(msg.stack0);
         buf.writeItem(msg.stack1);
         buf.writeItem(msg.stack2);
@@ -54,7 +54,7 @@ public class MessageInventoryClient {
         buf.writeBlockPos(msg.pos);
     }
 
-    public static MessageInventoryClient decode (PacketBuffer buf) {
+    public static MessageInventoryClient decode (FriendlyByteBuf buf) {
         ItemStack _stack0 = buf.readItem();
         ItemStack _stack1 = buf.readItem();
         ItemStack _stack2 = buf.readItem();
@@ -79,7 +79,7 @@ public class MessageInventoryClient {
 
     public static class Handler {
         public static void handle (final MessageInventoryClient message, Supplier<NetworkEvent.Context> context) {
-            TileEntityMachine te = (TileEntityMachine) Minecraft.getInstance().level.getBlockEntity(message.pos);
+            BlockEntityMachine te = (BlockEntityMachine) Minecraft.getInstance().level.getBlockEntity(message.pos);
             context.get().enqueueWork(() -> {
 
                 te.setItem(0, message.stack0);

@@ -2,7 +2,7 @@ package mod.casinocraft.logic.card;
 
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,13 +171,13 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         cards_reserve = loadCardList(compound, 0);
         cards_stack   = loadCardList(compound, 1);
         cards_field = loadCardArray(compound, 2);
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveCardList(compound, 0, cards_reserve);
         saveCardList(compound, 1, cards_stack);
         saveCardArray(compound, 2, cards_field);

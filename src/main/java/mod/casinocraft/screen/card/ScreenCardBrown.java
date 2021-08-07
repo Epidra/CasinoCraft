@@ -1,11 +1,12 @@
 package mod.casinocraft.screen.card;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import mod.casinocraft.container.ContainerCasino;
+import com.mojang.blaze3d.vertex.PoseStack;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.card.LogicCardBrown;
 import mod.casinocraft.screen.ScreenCasino;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenCardBrown extends ScreenCasino {   // -----
 
@@ -16,7 +17,7 @@ public class ScreenCardBrown extends ScreenCasino {   // -----
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenCardBrown(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenCardBrown(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -43,15 +44,15 @@ public class ScreenCardBrown extends ScreenCasino {   // -----
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

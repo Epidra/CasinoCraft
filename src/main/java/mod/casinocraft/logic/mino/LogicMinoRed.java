@@ -3,7 +3,7 @@ package mod.casinocraft.logic.mino;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicModule;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CHIP;
 import static mod.casinocraft.util.SoundMap.SOUND_ROULETTE;
@@ -98,7 +98,7 @@ public class LogicMinoRed extends LogicModule {   // Roulette
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         rotation_wheel = compound.getFloat("rotation_wheel");
         rotation_ball = compound.getFloat("rotation_ball");
         spinning = compound.getBoolean("spinning");
@@ -106,7 +106,7 @@ public class LogicMinoRed extends LogicModule {   // Roulette
         timer = compound.getInt("timer");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         compound.putFloat("rotationwheel", rotation_wheel);
         compound.putFloat("rotationball", rotation_ball);
         compound.putBoolean("spinning", spinning);

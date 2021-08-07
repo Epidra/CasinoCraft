@@ -1,7 +1,7 @@
 package mod.casinocraft.logic.other;
 
 import mod.casinocraft.logic.LogicModule;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 public class LogicSlotGame extends LogicModule {
 
@@ -86,7 +86,7 @@ public class LogicSlotGame extends LogicModule {
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         wheel = compound.getInt("wheel");
         wheelPos[0] = compound.getInt("wheelpos0");
         wheelPos[1] = compound.getInt("wheelpos1");
@@ -98,7 +98,7 @@ public class LogicSlotGame extends LogicModule {
         lines[4] = compound.getBoolean("lines4");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         compound.putInt("wheel", wheel);
         compound.putInt("wheelpos0", wheelPos[0]);
         compound.putInt("wheelpos1", wheelPos[1]);

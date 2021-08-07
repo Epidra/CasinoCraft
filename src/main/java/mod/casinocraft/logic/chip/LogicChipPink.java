@@ -4,7 +4,7 @@ import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Ship;
 import mod.casinocraft.util.MapRoom;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import java.util.ArrayList;
 import java.util.List;
 import static mod.casinocraft.util.KeyMap.*;
@@ -114,7 +114,7 @@ public class LogicChipPink extends LogicModule {   // Sokoban
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         octanom = loadEntity(compound, 0);
         crate = (loadEntityList(compound, 1));
         cross = (loadEntityList(compound, 2));
@@ -122,7 +122,7 @@ public class LogicChipPink extends LogicModule {   // Sokoban
         mapID = compound.getInt("map_id");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveEntity(    compound, 0, octanom);
         saveEntityList(compound, 1, crate);
         saveEntityList(compound, 2, cross);

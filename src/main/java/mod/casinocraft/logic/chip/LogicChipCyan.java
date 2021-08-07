@@ -2,7 +2,7 @@ package mod.casinocraft.logic.chip;
 
 import mod.casinocraft.logic.LogicModule;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 import java.util.ArrayList;
 import java.util.List;
 import static mod.casinocraft.util.KeyMap.*;
@@ -110,7 +110,7 @@ public class LogicChipCyan extends LogicModule {   // Columns
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         active_hold = compound.getBoolean("activehold");
         container_next[0] = compound.getInt("container_next0");
         container_next[1] = compound.getInt("container_next1");
@@ -135,7 +135,7 @@ public class LogicChipCyan extends LogicModule {   // Columns
         alpha = compound.getInt("alpha");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         compound.putBoolean("activehold", active_hold);
         compound.putInt("container_next0", container_next[0]);
         compound.putInt("container_next1", container_next[1]);

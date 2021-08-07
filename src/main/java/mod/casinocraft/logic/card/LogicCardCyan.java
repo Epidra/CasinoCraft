@@ -3,7 +3,7 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +102,7 @@ public class LogicCardCyan extends LogicModule {   // Spider
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         cards_field[0] = loadCardList(compound, 0);
         cards_field[1] = loadCardList(compound, 1);
         cards_field[2] = loadCardList(compound, 2);
@@ -124,7 +124,7 @@ public class LogicCardCyan extends LogicModule {   // Spider
         compress = compound.getInt("compress");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveCardList(compound, 0, cards_field[0]);
         saveCardList(compound, 1, cards_field[1]);
         saveCardList(compound, 2, cards_field[2]);

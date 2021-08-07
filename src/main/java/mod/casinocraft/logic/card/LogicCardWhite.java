@@ -3,7 +3,7 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.SoundMap;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CARD_SHOVE;
 
@@ -129,7 +129,7 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         cards_field = loadCardArray(compound, 0);
         hold[0] = compound.getBoolean("hold0");
         hold[1] = compound.getBoolean("hold1");
@@ -140,7 +140,7 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
         movestate = compound.getInt("movestate");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveCardArray(compound, 0, cards_field);
         compound.putBoolean("hold0", hold[0]);
         compound.putBoolean("hold1", hold[1]);

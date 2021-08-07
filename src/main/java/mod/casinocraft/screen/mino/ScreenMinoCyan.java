@@ -1,12 +1,14 @@
 package mod.casinocraft.screen.mino;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoCyan;
 import mod.casinocraft.screen.ScreenCasino;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenMinoCyan extends ScreenCasino {   // Halma
 
@@ -17,7 +19,7 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenMinoCyan(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenMinoCyan(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -50,7 +52,7 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().tableID == 1) {
             drawFont(matrixstack, "POINTS",                24, 24);
             drawFont(matrixstack, "" + logic().scorePoint, 34, 34);
@@ -60,8 +62,8 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
         for(int y = 0; y < 9; y++) {
             for(int x = 0; x < 17; x++) {
                 if(logic().grid[x][y] == 0) drawMino(matrixstack, -4-24*3 + 24*x, -4+24 + 24*y, 9, 0);
@@ -71,7 +73,7 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
         drawMino(matrixstack, -4-24*3 + 24*logic().selector.X, -4+24 + 24*logic().selector.Y, 3, 0);
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

@@ -2,7 +2,7 @@ package mod.casinocraft.logic.mino;
 
 import mod.casinocraft.logic.LogicModule;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,11 +80,11 @@ public class LogicMinoLightGray extends LogicModule {   // Minesweeper
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         bombs = compound.getInt("bombs");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         compound.putInt("bombs", bombs);
         return compound;
     }

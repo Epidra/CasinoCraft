@@ -1,11 +1,11 @@
 package mod.casinocraft.network;
 
-import mod.lucky77.util.Inventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import mod.lucky77.util.InventoryUtil;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -30,12 +30,12 @@ public class MessagePlayerServer {
 
     //----------------------------------------ENCODE/DECODE----------------------------------------//
 
-    public static void encode (MessagePlayerServer msg, PacketBuffer buf) {
+    public static void encode (MessagePlayerServer msg, FriendlyByteBuf buf) {
         buf.writeItem(msg.stack);
         buf.writeInt(msg.amount);
     }
 
-    public static MessagePlayerServer decode (PacketBuffer buf) {
+    public static MessagePlayerServer decode (FriendlyByteBuf buf) {
         ItemStack _stack = buf.readItem();
         int _amount = buf.readInt();
         return new MessagePlayerServer(_stack.getItem(), _amount);
@@ -48,26 +48,26 @@ public class MessagePlayerServer {
 
     public static class Handler {
         public static void handle (final MessagePlayerServer message, Supplier<NetworkEvent.Context> context) {
-            ServerPlayerEntity serverPlayer = context.get().getSender();
+            ServerPlayer serverPlayer = context.get().getSender();
             Item item = message.stack.getItem();
 
             context.get().enqueueWork(() ->{
                 if(message.amount < 0){
-                    Inventory.decreaseInventory(serverPlayer.inventory, message.stack, -message.amount);
+                    InventoryUtil.decreaseInventory(serverPlayer.getInventory(), message.stack, -message.amount);
                     int i = 0;
                     ItemStack itemStack = ItemStack.EMPTY;
                     Predicate<ItemStack> p_195408_1_ = Predicate.isEqual(message.stack);
                     int count = -message.amount;
 
-                    for(int j = 0; j < serverPlayer.inventory.getContainerSize(); ++j) {
-                        ItemStack itemstack = serverPlayer.inventory.getItem(j);
+                    for(int j = 0; j < serverPlayer.getInventory().getContainerSize(); ++j) {
+                        ItemStack itemstack = serverPlayer.getInventory().getItem(j);
                         if (!itemstack.isEmpty() && p_195408_1_.test(itemstack)) {
                             int k = count <= 0 ? itemstack.getCount() : Math.min(count - i, itemstack.getCount());
                             i += k;
                             if (count != 0) {
                                 itemstack.shrink(k);
                                 if (itemstack.isEmpty()) {
-                                    serverPlayer.inventory.setItem(j, ItemStack.EMPTY);
+                                    serverPlayer.getInventory().setItem(j, ItemStack.EMPTY);
                                 }
                             }
                         }
@@ -84,7 +84,7 @@ public class MessagePlayerServer {
                         }
                     }
                 } else {
-                    serverPlayer.inventory.add(new ItemStack(item, message.amount));
+                    serverPlayer.getInventory().add(new ItemStack(item, message.amount));
                 }
             });
             context.get().setPacketHandled(true);

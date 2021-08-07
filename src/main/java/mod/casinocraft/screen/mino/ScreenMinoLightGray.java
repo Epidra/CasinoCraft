@@ -1,12 +1,14 @@
 package mod.casinocraft.screen.mino;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoLightGray;
 import mod.casinocraft.screen.ScreenCasino;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
 
@@ -17,7 +19,7 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenMinoLightGray(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenMinoLightGray(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -61,7 +63,7 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().tableID == 1) {
             drawFont(matrixstack, "POINTS",                24, 24);
             drawFont(matrixstack, "" + logic().scorePoint, 34, 34);
@@ -75,8 +77,8 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
         for(int y = 0; y < 14; y++){
             for(int x = 0; x < 26; x++){
                 int i = logic().grid[x][y];
@@ -97,8 +99,8 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
 
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
         if(logic().turnstate == 3){
             blit(matrixstack, leftPos+24+7,  topPos+204+2,  0, 0, 78, 22); // Button Hit
             blit(matrixstack, leftPos+140+7, topPos+204+2, 78, 0, 78, 22); // Button Stand

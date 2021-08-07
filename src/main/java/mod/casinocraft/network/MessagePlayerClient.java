@@ -1,10 +1,10 @@
 package mod.casinocraft.network;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -29,12 +29,12 @@ public class MessagePlayerClient {
 
     //----------------------------------------ENCODE/DECODE----------------------------------------//
 
-    public static void encode (MessagePlayerClient msg, PacketBuffer buf) {
+    public static void encode (MessagePlayerClient msg, FriendlyByteBuf buf) {
         buf.writeItem(msg.stack);
         buf.writeInt(msg.amount);
     }
 
-    public static MessagePlayerClient decode (PacketBuffer buf) {
+    public static MessagePlayerClient decode (FriendlyByteBuf buf) {
         ItemStack _stack = buf.readItem();
         int _amount = buf.readInt();
         return new MessagePlayerClient(_stack.getItem(), _amount);
@@ -56,15 +56,15 @@ public class MessagePlayerClient {
                     Predicate<ItemStack> p_195408_1_ = Predicate.isEqual(message.stack);
                     int count = -message.amount;
 
-                    for(int j = 0; j < Minecraft.getInstance().player.inventory.getContainerSize(); ++j) {
-                        ItemStack itemstack = Minecraft.getInstance().player.inventory.getItem(j);
+                    for(int j = 0; j < Minecraft.getInstance().player.getInventory().getContainerSize(); ++j) {
+                        ItemStack itemstack = Minecraft.getInstance().player.getInventory().getItem(j);
                         if (!itemstack.isEmpty() && p_195408_1_.test(itemstack)) {
                             int k = count <= 0 ? itemstack.getCount() : Math.min(count - i, itemstack.getCount());
                             i += k;
                             if (count != 0) {
                                 itemstack.shrink(k);
                                 if (itemstack.isEmpty()) {
-                                    Minecraft.getInstance().player.inventory.setItem(j, ItemStack.EMPTY);
+                                    Minecraft.getInstance().player.getInventory().setItem(j, ItemStack.EMPTY);
                                 }
                             }
                         }
@@ -83,7 +83,7 @@ public class MessagePlayerClient {
                 });
             } else {
                 context.get().enqueueWork(() -> {
-                    Minecraft.getInstance().player.inventory.add(new ItemStack(item, message.amount));
+                    Minecraft.getInstance().player.getInventory().add(new ItemStack(item, message.amount));
                 });
             }
             context.get().setPacketHandled(true);

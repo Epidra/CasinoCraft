@@ -1,13 +1,15 @@
 package mod.casinocraft.screen.chip;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.container.ContainerCasino;
+import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.chip.LogicChipOrange;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Ship;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenChipOrange extends ScreenCasino {   // Snake
 
@@ -18,7 +20,7 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
 
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
-    public ScreenChipOrange(ContainerCasino container, PlayerInventory player, ITextComponent name) {
+    public ScreenChipOrange(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
 
@@ -45,18 +47,18 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate >= 2) {
             drawFontCenter(matrixstack, "" + logic().scorePoint, 128, 230);
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ARCADEDUMMY);
+    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ARCADEDUMMY);
         this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
 
         if(logic().turnstate >= 2) {
-            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ARCADE);
+            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ARCADE);
             drawShip(matrixstack, logic().point, 5);
             drawShip(matrixstack, logic().octanom_head, 0, -1, true);
             for(Ship tail : logic().octanom_tail){
@@ -65,7 +67,7 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
         }
     }
 
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
 
     }
 

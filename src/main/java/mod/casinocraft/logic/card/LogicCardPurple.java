@@ -3,7 +3,7 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.lucky77.util.Vector2;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,13 +165,13 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         cards_field = loadCardArray(      compound, 0);
         cards_stack   = loadCardList(compound, 1);
         cards_reserve = loadCardList(compound, 2);
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveCardArray(compound, 0, cards_field);
         saveCardList(compound,  1, cards_stack);
         saveCardList(compound,  2, cards_reserve);

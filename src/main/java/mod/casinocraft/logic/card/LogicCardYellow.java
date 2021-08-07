@@ -3,7 +3,7 @@ package mod.casinocraft.logic.card;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.SoundMap;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import static mod.casinocraft.util.SoundMap.SOUND_CARD_PLACE;
 
@@ -124,13 +124,13 @@ public class LogicCardYellow extends LogicModule {   // Acey Deucey
 
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
-    public void load2(CompoundNBT compound){
+    public void load2(CompoundTag compound){
         cards = loadCardArray(compound, 0);
         spread = compound.getInt("spread");
         doublebet = compound.getBoolean("doublebet");
     }
 
-    public CompoundNBT save2(CompoundNBT compound){
+    public CompoundTag save2(CompoundTag compound){
         saveCardArray(compound, 0, cards);
         compound.putInt("spread", spread);
         compound.putBoolean("doublebet", doublebet);
