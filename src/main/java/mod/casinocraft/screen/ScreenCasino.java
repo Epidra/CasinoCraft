@@ -402,6 +402,7 @@ public abstract class ScreenCasino extends ScreenBase<ContainerCasino> {
         } else { // Slot Machine Background
             this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_SLOTMACHINE);
             this.blit(matrixStack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background SMALL
+            if(menu.turnstate() < 1) { drawGuiContainerBackgroundLayerSUB(matrixStack, partialTicks, mouseX, mouseY); }
         }
 
 

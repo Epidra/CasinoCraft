@@ -322,8 +322,8 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
 
     /** ??? **/
     public void commandToggleSettings(int settingID){
-        if(settingID == 0){ if(CasinoKeeper.config_creative_token.get()){  menu.setSettingInfiniteToken(!menu.getSettingInfiniteToken());             } }
-        if(settingID == 1){ if(CasinoKeeper.config_creative_reward.get()){ menu.setSettingInfinitePrize(!menu.getSettingInfinitePrize());           } }
+        if(settingID == 0){ if(CasinoKeeper.config_creative_token.get() && inventory.player.isCreative()){  menu.setSettingInfiniteToken(!menu.getSettingInfiniteToken());             } }
+        if(settingID == 1){ if(CasinoKeeper.config_creative_reward.get() && inventory.player.isCreative()){ menu.setSettingInfinitePrize(!menu.getSettingInfinitePrize());           } }
         if(settingID == 2){                                                menu.setSettingDropOnBreak(!menu.getSettingDropOnBreak());       }
         if(settingID == 3){                                                menu.setSettingIndestructable(!menu.getSettingIndestructable()); }
         if(settingID == 4){                                                menu.setSettingAlternateColor((menu.getSettingAlternateColor() + 1) % 6);  }

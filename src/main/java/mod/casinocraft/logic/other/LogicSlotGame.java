@@ -6,8 +6,8 @@ import net.minecraft.nbt.CompoundNBT;
 public class LogicSlotGame extends LogicModule {
 
     public int wheel; // What wheel will be halted next
-    public int[] wheelPos = new int[3];
-    public boolean[] lines = new boolean[5];
+    public int[] wheelPos = {0, 0, 0};
+    public boolean[] lines = {false, false, false, false, false};
 
 
 
@@ -25,9 +25,6 @@ public class LogicSlotGame extends LogicModule {
 
     public void start2() {
         fillGrid();
-        wheelPos[0] = 0;
-        wheelPos[1] = 0;
-        wheelPos[2] = 0;
         scoreLevel = 1;
         wheel = 0;
         lines[0] = false;
@@ -45,7 +42,7 @@ public class LogicSlotGame extends LogicModule {
     public void command(int action) {
         if(action == 0){
             if(scoreLevel < 5) scoreLevel++;
-        } else {
+        } else if (action == 1) {
             if(turnstate == 2){
                 turnstate = 3;
             } else if(turnstate == 3){
