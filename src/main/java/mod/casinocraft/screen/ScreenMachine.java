@@ -400,8 +400,8 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
                 menu.getTransferTokenOUT() ? 1 : 0,
                 menu.getTransferPrizeIN() ? 1 : 0,
                 menu.getTransferPrizeOUT() ? 1 : 0,
-                menu.getSettingInfiniteToken() ? 1 : 0,
-                menu.getSettingInfinitePrize() ? 1 : 0,
+                menu.getSettingInfiniteToken() && inventory.player.isCreative() ? 1 : 0,
+                menu.getSettingInfinitePrize() && inventory.player.isCreative() ? 1 : 0,
                 menu.getSettingDropOnBreak() ? 1 : 0,
                 menu.getSettingIndestructable() ? 1 : 0,
                 menu.getSettingAlternateColor()
