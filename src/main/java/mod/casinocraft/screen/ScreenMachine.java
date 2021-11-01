@@ -36,11 +36,13 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMachine(MenuMachine container, Inventory player, Component name) {
         super(container, player, name, 176, 204);
     }
+
 
 
 
@@ -157,12 +159,13 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 
 
 
+
     //----------------------------------------DRAW----------------------------------------//
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     protected void renderLabels(PoseStack matrixstack, int mouseX, int mouseY){
 
-        // Page Body
+        // ----- Page Body ----- //
         if(activeInput == 0){
             if(hasKey()){
                 if(page == 1){ // PAGE: Betting
@@ -196,7 +199,7 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
         int j = (this.height - this.imageHeight) / 2;
         this.blit(matrixstack, i, j, 0, 0, this.imageWidth+56, this.imageHeight);
 
-        // Page Body
+        // ----- Page Body ----- //
         if(activeInput == 0 && hasKey()){
             if(page == 0){ // PAGE: Settings
                 if(menu.getSettingInfiniteToken())       this.blit(matrixstack,  i + 60, j + 30, 108, 244, 12, 12);
@@ -238,6 +241,7 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
             }
         }
     }
+
 
 
 
@@ -365,6 +369,7 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     private ResourceLocation getTexture(){
@@ -410,5 +415,7 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
     protected boolean hasKey(){
         return menu.hasKey();
     }
+
+
 
 }

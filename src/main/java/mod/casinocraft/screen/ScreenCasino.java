@@ -55,6 +55,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCasino(MenuCasino container, Inventory player, Component name) {
@@ -66,11 +67,13 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     private LogicModule logic(){
         return menu.logic();
     }
+
 
 
 
@@ -227,6 +230,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         }
         return false;
     }
+
 
 
 
@@ -495,6 +499,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         }
 
     }
+
 
 
 
@@ -1009,13 +1014,16 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 
 
 
-    //----------------------------------------OVERRIDES----------------------------------------//
+
+    //----------------------------------------ABSTRACT----------------------------------------//
 
     protected abstract void mouseClickedSUB(double mouseX, double mouseY, int mouseButton);
     protected abstract void drawGuiContainerForegroundLayerSUB(PoseStack matrixStack, int mouseX, int mouseY);
     protected abstract void drawGuiContainerBackgroundLayerSUB(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY);
     protected abstract void drawGuiContainerBackgroundLayerGUI(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY);
     protected abstract String getGameName();
+
+
 
 }
 

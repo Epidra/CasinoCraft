@@ -17,6 +17,7 @@ public class BlockEntityCardTableBase extends BlockEntityMachine {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public BlockEntityCardTableBase(BlockPos blockpos, BlockState blockstate, DyeColor color, int id) {
@@ -26,6 +27,7 @@ public class BlockEntityCardTableBase extends BlockEntityMachine {
     public BlockEntityCardTableBase(BlockPos blockpos, BlockState blockstate) {
         this(blockpos, blockstate, DyeColor.BLACK, 1);
     }
+
 
 
 
@@ -43,11 +45,14 @@ public class BlockEntityCardTableBase extends BlockEntityMachine {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public TextComponent getName() {
         return new TextComponent("tile.cardtablebase.name");
     }
+
+
 
 }

@@ -13,6 +13,7 @@ public class MenuMinoBrown extends MenuCasino {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor **/
@@ -28,11 +29,14 @@ public class MenuMinoBrown extends MenuCasino {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){
         return 34;
     }
+
+
 
 }

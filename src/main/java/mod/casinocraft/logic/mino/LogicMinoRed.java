@@ -19,11 +19,13 @@ public class LogicMinoRed extends LogicModule {   // Roulette
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoRed(int tableID){
         super(tableID, 25, 7);
     }
+
 
 
 
@@ -38,6 +40,7 @@ public class LogicMinoRed extends LogicModule {   // Roulette
         result = 0;
         timer = -1;
     }
+
 
 
 
@@ -70,6 +73,7 @@ public class LogicMinoRed extends LogicModule {   // Roulette
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     public void updateLogic(){
@@ -92,6 +96,7 @@ public class LogicMinoRed extends LogicModule {   // Roulette
     public void updateMotion(){
 
     }
+
 
 
 
@@ -119,7 +124,8 @@ public class LogicMinoRed extends LogicModule {   // Roulette
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     public Vector2 vectorWheel(){
         // 1 Number == 0,1698... Radian
@@ -332,7 +338,8 @@ public class LogicMinoRed extends LogicModule {   // Roulette
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -345,5 +352,7 @@ public class LogicMinoRed extends LogicModule {   // Roulette
     public int getID(){
         return 45;
     }
+
+
 
 }

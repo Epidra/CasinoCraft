@@ -13,6 +13,7 @@ public class MenuSlotMachine extends MenuMachine {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor **/
@@ -28,11 +29,14 @@ public class MenuSlotMachine extends MenuMachine {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){
         return 102;
     }
+
+
 
 }

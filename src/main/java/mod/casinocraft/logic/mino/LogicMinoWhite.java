@@ -12,11 +12,13 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoWhite(int tableID){
         super(tableID, 9, 9);
     }
+
 
 
 
@@ -42,6 +44,7 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
@@ -53,6 +56,7 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
             setJingle(SOUND_CHIP);
         }
     }
+
 
 
 
@@ -72,6 +76,7 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundTag compound){
@@ -84,7 +89,8 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void generateSquare(int count, int xi, int yi) {
         int index = 0;
@@ -150,7 +156,8 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -163,5 +170,7 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
     public int getID(){
         return 46;
     }
+
+
 
 }

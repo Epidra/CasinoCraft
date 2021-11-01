@@ -18,11 +18,13 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenChipOrange(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
+
 
 
 
@@ -36,11 +38,13 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
     }
+
 
 
 
@@ -74,17 +78,21 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "snake";
     }
+
+
 
 }

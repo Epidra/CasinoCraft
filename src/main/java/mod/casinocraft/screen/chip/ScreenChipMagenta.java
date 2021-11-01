@@ -15,11 +15,13 @@ public class ScreenChipMagenta extends ScreenCasino {   // -----
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenChipMagenta(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
+
 
 
 
@@ -33,11 +35,13 @@ public class ScreenChipMagenta extends ScreenCasino {   // -----
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
     }
+
 
 
 
@@ -59,17 +63,21 @@ public class ScreenChipMagenta extends ScreenCasino {   // -----
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "";
     }
+
+
 
 }

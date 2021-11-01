@@ -17,6 +17,7 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoLime(MenuCasino container, Inventory player, Component name) {
@@ -26,11 +27,13 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoLime logic(){
         return (LogicMinoLime) menu.logic();
     }
+
 
 
 
@@ -50,6 +53,7 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
             }
         }
     }
+
 
 
 
@@ -83,17 +87,21 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "simon";
     }
+
+
 
 }

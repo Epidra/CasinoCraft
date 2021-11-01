@@ -17,6 +17,7 @@ public class BlockEntitySlotMachine extends BlockEntityMachine {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public BlockEntitySlotMachine(BlockPos blockpos, BlockState blockstate, DyeColor color, int id) {
@@ -26,6 +27,7 @@ public class BlockEntitySlotMachine extends BlockEntityMachine {
     public BlockEntitySlotMachine(BlockPos blockpos, BlockState blockstate) {
         this(blockpos, blockstate, DyeColor.BLACK, 3);
     }
+
 
 
 
@@ -43,11 +45,14 @@ public class BlockEntitySlotMachine extends BlockEntityMachine {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public TextComponent getName() {
         return new TextComponent("tile.slotmachine.name");
     }
+
+
 
 }

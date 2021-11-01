@@ -13,6 +13,7 @@ public class MenuCardLightGray extends MenuCasino {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor **/
@@ -28,12 +29,14 @@ public class MenuCardLightGray extends MenuCasino {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){
         return 7;
     }
+
 
 
 }

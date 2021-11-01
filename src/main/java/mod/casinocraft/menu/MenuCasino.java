@@ -14,6 +14,7 @@ public abstract class MenuCasino extends MenuBase {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MenuCasino(MenuType<?> type, int windowID, Inventory playerInventory, FriendlyByteBuf packetBuffer) {
@@ -32,10 +33,13 @@ public abstract class MenuCasino extends MenuBase {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     protected void createInventory(BlockEntityBase tile, Inventory playerInventory){
 
     }
+
+
 
 }

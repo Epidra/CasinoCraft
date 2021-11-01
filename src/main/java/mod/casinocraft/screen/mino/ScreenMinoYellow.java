@@ -19,6 +19,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoYellow(MenuCasino container, Inventory player, Component name) {
@@ -30,11 +31,13 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoYellow logic(){
         return (LogicMinoYellow) menu.logic();
     }
+
 
 
 
@@ -67,6 +70,7 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
             action(-2);
         }
     }
+
 
 
 
@@ -135,17 +139,21 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "sicbo";
     }
+
+
 
 }

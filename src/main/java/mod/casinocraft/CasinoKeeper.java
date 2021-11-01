@@ -1,7 +1,6 @@
 package mod.casinocraft;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
-import com.mojang.blaze3d.platform.ScreenManager;
 import mod.casinocraft.block.*;
 import mod.casinocraft.menu.block.MenuArcade;
 import mod.casinocraft.menu.block.MenuCardTable;
@@ -37,10 +36,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -49,16 +46,16 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.nio.file.Path;
 
 import static mod.casinocraft.CasinoCraft.MODID;
-import static net.minecraft.world.inventory.MenuType.GENERIC_9x1;
 
 @SuppressWarnings({"unused", "deprecation"})
 public class CasinoKeeper {
 
-    private static final DeferredRegister<Block>                BLOCKS     = DeferredRegister.create(ForgeRegistries.BLOCKS,             MODID);
-    private static final DeferredRegister<Item>                 ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,              MODID);
-    private static final DeferredRegister<MenuType<?>>     CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS,         MODID);
-    private static final DeferredRegister<BlockEntityType<?>>    TILES      = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES,      MODID);
-    private static final DeferredRegister<SoundEvent>           SOUNDS     = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS,       MODID);
+    private static final DeferredRegister<Block>              BLOCKS     = DeferredRegister.create(ForgeRegistries.BLOCKS,             MODID);
+    private static final DeferredRegister<Item>               ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,              MODID);
+    private static final DeferredRegister<MenuType<?>>        CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS,         MODID);
+    private static final DeferredRegister<BlockEntityType<?>> TILES      = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES,     MODID);
+    private static final DeferredRegister<SoundEvent>         SOUNDS     = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS,       MODID);
+
 
 
 
@@ -443,6 +440,7 @@ public class CasinoKeeper {
 
 
 
+
     //----------------------------------------REGISTER----------------------------------------//
 
     static void register(){
@@ -469,6 +467,7 @@ public class CasinoKeeper {
     private static RegistryObject<SoundEvent> register(String name, SoundEvent sound){
         return SOUNDS.register(name, () -> sound);
     }
+
 
 
 
@@ -538,5 +537,7 @@ public class CasinoKeeper {
             MenuScreens.register(CONTAINER_CHIP_BLACK.get(),      ScreenChipBlack::new);
         //});
     }
+
+
 
 }

@@ -28,6 +28,7 @@ public class BlockDice extends BlockBase {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor */
@@ -35,7 +36,6 @@ public class BlockDice extends BlockBase {
         super(block);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ROTATION, 0));
     }
-
 
 
 
@@ -57,11 +57,13 @@ public class BlockDice extends BlockBase {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     public void interact(Level world, BlockPos pos, Player player, BlockEntityBase tile) {
 
     }
+
 
 
 
@@ -79,5 +81,7 @@ public class BlockDice extends BlockBase {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(ROTATION, FACING);
     }
+
+
 
 }

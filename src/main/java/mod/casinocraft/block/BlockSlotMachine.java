@@ -1,7 +1,6 @@
 package mod.casinocraft.block;
 
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.blockentity.BlockEntityArcade;
 import mod.casinocraft.menu.MenuProvider;
 import mod.casinocraft.blockentity.BlockEntityMachine;
 import mod.casinocraft.blockentity.BlockEntitySlotMachine;
@@ -38,6 +37,7 @@ public class BlockSlotMachine extends MachinaTall implements EntityBlock {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Contructor with predefined BlockProperty */
@@ -45,6 +45,7 @@ public class BlockSlotMachine extends MachinaTall implements EntityBlock {
         super(block);
         this.color = color;
     }
+
 
 
 
@@ -64,12 +65,14 @@ public class BlockSlotMachine extends MachinaTall implements EntityBlock {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
     public void interact(Level world, BlockPos pos, Player player, BlockEntityBase tile) {
         NetworkHooks.openGui((ServerPlayer) player, new MenuProvider((BlockEntityMachine)tile), buf -> buf.writeBlockPos(pos));
     }
+
 
 
 
@@ -88,12 +91,6 @@ public class BlockSlotMachine extends MachinaTall implements EntityBlock {
                 return Shapes.block();
         }
     }
-
-    //@Nullable
-    //@Override
-    //public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-    //    return state.getValue(OFFSET) ? new BlockEntitySlotMachine(color, 3) : null;
-    //}
 
     public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos) {
         final BlockPos pos2 = getTilePosition(pos, state.getValue(OFFSET), Direction.DOWN);
@@ -119,6 +116,7 @@ public class BlockSlotMachine extends MachinaTall implements EntityBlock {
 
 
 
+
     //----------------------------------------BLOCKENTITY----------------------------------------//
 
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
@@ -132,8 +130,9 @@ public class BlockSlotMachine extends MachinaTall implements EntityBlock {
 
     @Nullable
     protected static <T extends BlockEntity> BlockEntityTicker<T> createTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends BlockEntitySlotMachine> typeCustom) {
-        //return level.isClientSide ? null : createTickerHelper(type, typeCustom, BlockEntitySlotMachine::serverTick);
         return createTickerHelper(type, typeCustom, BlockEntitySlotMachine::serverTick);
     }
+
+
 
 }

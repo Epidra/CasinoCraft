@@ -10,11 +10,13 @@ public class LogicChipMagenta extends LogicModule {   // -----
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicChipMagenta(int tableID) {
         super(tableID);
     }
+
 
 
 
@@ -28,11 +30,13 @@ public class LogicChipMagenta extends LogicModule {   // -----
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
 
     }
+
 
 
 
@@ -50,6 +54,7 @@ public class LogicChipMagenta extends LogicModule {   // -----
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundTag compound){
@@ -63,14 +68,15 @@ public class LogicChipMagenta extends LogicModule {   // -----
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -83,5 +89,7 @@ public class LogicChipMagenta extends LogicModule {   // -----
     public int getID(){
         return 25;
     }
+
+
 
 }

@@ -19,6 +19,7 @@ public class ScreenCardGreen extends ScreenCasino {   // Mau-Mau
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardGreen(MenuCasino container, Inventory player, Component name) {
@@ -28,11 +29,13 @@ public class ScreenCardGreen extends ScreenCasino {   // Mau-Mau
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardGreen logic(){
         return (LogicCardGreen) menu.logic();
     }
+
 
 
 
@@ -71,6 +74,7 @@ public class ScreenCardGreen extends ScreenCasino {   // Mau-Mau
             }
         }
     }
+
 
 
 
@@ -158,7 +162,8 @@ public class ScreenCardGreen extends ScreenCasino {   // Mau-Mau
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void drawCard2(PoseStack matrixstack, int posX, int posY, float angle, int playerPos, int cardPos){
         int i = 0;
@@ -188,10 +193,13 @@ public class ScreenCardGreen extends ScreenCasino {   // Mau-Mau
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "maumau";
     }
+
+
 
 }

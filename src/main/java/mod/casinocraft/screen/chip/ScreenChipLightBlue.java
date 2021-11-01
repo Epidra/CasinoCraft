@@ -17,11 +17,13 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Puyo Puyo
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenChipLightBlue(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
+
 
 
 
@@ -35,11 +37,13 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Puyo Puyo
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
     }
+
 
 
 
@@ -80,7 +84,8 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Puyo Puyo
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private int tetroColor(int x, int y){
         return logic().inLine(x, y) && (logic().alpha/75)%2==0 ? logic().grid[x][y] + 8 : logic().grid[x][y];
@@ -94,10 +99,13 @@ public class ScreenChipLightBlue extends ScreenCasino {   // Puyo Puyo
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "puyopuyo";
     }
+
+
 
 }

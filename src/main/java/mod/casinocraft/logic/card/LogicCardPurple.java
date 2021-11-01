@@ -21,11 +21,13 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardPurple(int table){
         super(table);
     }
+
 
 
 
@@ -130,12 +132,14 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
         if(action == -2) drawReserve();
         else touchField(action % 20, action / 20);
     }
+
 
 
 
@@ -163,6 +167,7 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundTag compound){
@@ -181,7 +186,8 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private List<Card> shuffleDeck() {
         List<Card> stack = new ArrayList<Card>();
@@ -355,7 +361,8 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -368,5 +375,7 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
     public int getID(){
         return 12;
     }
+
+
 
 }

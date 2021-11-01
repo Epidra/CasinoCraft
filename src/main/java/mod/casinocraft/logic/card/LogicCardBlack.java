@@ -21,11 +21,13 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardBlack(int table){
         super(table);
     }
+
 
 
 
@@ -60,7 +62,9 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        if(action == 0){ // Hit
+
+        // ----- Hit ----- //
+        if(action == 0){
             if(split < 2){
                 value_player1 = Add_Card(cards_player1, -48, 0, false);
                 if(value_player1 > 21) {
@@ -82,7 +86,9 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
                 }
             }
         }
-        if(action == 1){ // Stand
+
+        // ----- Stand ----- //
+        if(action == 1){
             if(split == 1){
                 split = 2;
             } else {
@@ -90,7 +96,9 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
                 cards_dealer.get(1).hidden = false;
             }
         }
-        if(action == 2){ // Split
+
+        // ----- Split ----- //
+        if(action == 2){
             split = 1;
             int cardX = cards_player1.get(1).number;
             int cardY = cards_player1.get(1).suit;
@@ -104,7 +112,9 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
 
             setJingle(SoundMap.SOUND_CARD_SHOVE);
         }
-        if(action == 3){ // DoubleDown
+
+        // ----- Double Down ----- //
+        if(action == 3){
             if(split < 2){
                 value_player1 = Add_Card(cards_player1, -48, 0, false);
                 if(split == 1){
@@ -124,6 +134,7 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
             }
         }
     }
+
 
 
 
@@ -159,8 +170,8 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
         cards_dealer  = loadCardList(compound, 2);
         value_player1 = compound.getInt("valueplayer1");
         value_player2 = compound.getInt("valueplayer2");
-        value_dealer = compound.getInt("valuedealer");
-        split = compound.getInt("split");
+        value_dealer  = compound.getInt("valuedealer");
+        split         = compound.getInt("split");
     }
 
     public CompoundTag save2(CompoundTag compound){
@@ -177,7 +188,7 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void result(){
         turnstate = 4;
@@ -236,7 +247,7 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -249,5 +260,7 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
     public int getID(){
         return 0;
     }
+
+
 
 }

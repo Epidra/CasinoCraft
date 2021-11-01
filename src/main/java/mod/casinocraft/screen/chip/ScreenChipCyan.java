@@ -17,11 +17,13 @@ public class ScreenChipCyan extends ScreenCasino {   // Columns
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenChipCyan(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
+
 
 
 
@@ -35,11 +37,13 @@ public class ScreenChipCyan extends ScreenCasino {   // Columns
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
     }
+
 
 
 
@@ -82,7 +86,8 @@ public class ScreenChipCyan extends ScreenCasino {   // Columns
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private int tetroColor(int x, int y){
         return logic().inLine(x, y) && (logic().alpha/75)%2==0 ? logic().grid[x][y] + 8 : logic().grid[x][y];
@@ -97,10 +102,13 @@ public class ScreenChipCyan extends ScreenCasino {   // Columns
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "columns";
     }
+
+
 
 }

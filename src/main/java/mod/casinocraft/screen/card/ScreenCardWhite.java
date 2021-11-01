@@ -17,6 +17,7 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardWhite(MenuCasino container, Inventory player, Component name) {
@@ -26,11 +27,13 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardWhite logic(){
         return (LogicCardWhite) menu.logic();
     }
+
 
 
 
@@ -47,6 +50,7 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
             if(mouseRect(         82, 204, 92, 26, mouseX, mouseY)){ action(5); } // Finish
         }
     }
+
 
 
 
@@ -87,17 +91,21 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "single_poker";
     }
+
+
 
 }

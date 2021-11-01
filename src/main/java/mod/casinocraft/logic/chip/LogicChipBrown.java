@@ -10,11 +10,13 @@ public class LogicChipBrown extends LogicModule {   // -----
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicChipBrown(int tableID) {
         super(tableID);
     }
+
 
 
 
@@ -28,11 +30,13 @@ public class LogicChipBrown extends LogicModule {   // -----
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
 
     }
+
 
 
 
@@ -50,6 +54,7 @@ public class LogicChipBrown extends LogicModule {   // -----
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundTag compound){
@@ -63,14 +68,16 @@ public class LogicChipBrown extends LogicModule {   // -----
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -83,5 +90,7 @@ public class LogicChipBrown extends LogicModule {   // -----
     public int getID(){
         return 18;
     }
+
+
 
 }

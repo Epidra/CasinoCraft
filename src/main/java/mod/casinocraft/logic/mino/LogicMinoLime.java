@@ -20,11 +20,13 @@ public class LogicMinoLime extends LogicModule {   // Simon
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoLime(int tableID) {
         super(tableID);
     }
+
 
 
 
@@ -75,6 +77,7 @@ public class LogicMinoLime extends LogicModule {   // Simon
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
@@ -83,6 +86,7 @@ public class LogicMinoLime extends LogicModule {   // Simon
         alpha[action] = getAlpha();
         setJingle(SOUND_CHIP);
     }
+
 
 
 
@@ -128,6 +132,7 @@ public class LogicMinoLime extends LogicModule {   // Simon
     public void updateMotion() {
 
     }
+
 
 
 
@@ -180,7 +185,8 @@ public class LogicMinoLime extends LogicModule {   // Simon
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     public int getAlpha(){
         return Math.max(10 - scoreLevel, 2);
@@ -189,7 +195,8 @@ public class LogicMinoLime extends LogicModule {   // Simon
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -202,5 +209,7 @@ public class LogicMinoLime extends LogicModule {   // Simon
     public int getID(){
         return 40;
     }
+
+
 
 }

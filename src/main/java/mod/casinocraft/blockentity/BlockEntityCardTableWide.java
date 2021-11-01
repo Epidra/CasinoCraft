@@ -17,6 +17,7 @@ public class BlockEntityCardTableWide extends BlockEntityMachine {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     public BlockEntityCardTableWide(BlockPos blockpos, BlockState blockstate, DyeColor color, int id) {
@@ -26,6 +27,7 @@ public class BlockEntityCardTableWide extends BlockEntityMachine {
     public BlockEntityCardTableWide(BlockPos blockpos, BlockState blockstate) {
         this(blockpos, blockstate, DyeColor.BLACK, 2);
     }
+
 
 
 
@@ -43,11 +45,14 @@ public class BlockEntityCardTableWide extends BlockEntityMachine {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public TextComponent getName() {
         return new TextComponent("tile.cardtablewide.name");
     }
+
+
 
 }

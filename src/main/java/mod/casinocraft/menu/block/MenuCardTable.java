@@ -13,6 +13,7 @@ public class MenuCardTable extends MenuMachine {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor **/
@@ -28,11 +29,14 @@ public class MenuCardTable extends MenuMachine {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){
         return 101;
     }
+
+
 
 }

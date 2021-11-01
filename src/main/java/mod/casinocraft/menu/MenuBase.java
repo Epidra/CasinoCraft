@@ -18,6 +18,7 @@ public abstract class MenuBase extends mod.lucky77.menu.MenuBase {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MenuBase(MenuType<?> type, int windowID, Inventory playerInventory, FriendlyByteBuf packetBuffer) {
@@ -38,9 +39,11 @@ public abstract class MenuBase extends mod.lucky77.menu.MenuBase {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
+
 
 
 
@@ -118,5 +121,7 @@ public abstract class MenuBase extends mod.lucky77.menu.MenuBase {
     public String getCurrentPlayer(int index){
         return logic().currentPlayer[index];
     }
+
+
 
 }

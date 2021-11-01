@@ -15,11 +15,13 @@ public class MessageModuleServer {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageModuleServer(BlockPos pos) {
         this.pos = pos;
     }
+
 
 
 
@@ -38,6 +40,7 @@ public class MessageModuleServer {
 
 
 
+
     //----------------------------------------HANDLER----------------------------------------//
 
     public static class Handler {
@@ -49,5 +52,7 @@ public class MessageModuleServer {
             context.get().setPacketHandled(true);
         }
     }
+
+
 
 }

@@ -15,6 +15,7 @@ public class ScreenCardBlue extends ScreenCasino {   // FreeCell
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardBlue(MenuCasino container, Inventory player, Component name) {
@@ -24,11 +25,13 @@ public class ScreenCardBlue extends ScreenCasino {   // FreeCell
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardBlue logic(){
         return (LogicCardBlue) menu.logic();
     }
+
 
 
 
@@ -45,6 +48,7 @@ public class ScreenCardBlue extends ScreenCasino {   // FreeCell
             }
         }
     }
+
 
 
 
@@ -98,17 +102,21 @@ public class ScreenCardBlue extends ScreenCasino {   // FreeCell
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "freecell";
     }
+
+
 
 }

@@ -17,6 +17,7 @@ public class MessageStartServer {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageStartServer(String name, int seed, BlockPos pos) {
@@ -24,6 +25,7 @@ public class MessageStartServer {
         this.seed = seed;
         this.pos = pos;
     }
+
 
 
 
@@ -46,6 +48,7 @@ public class MessageStartServer {
 
 
 
+
     //----------------------------------------HANDLER----------------------------------------//
 
     public static class Handler {
@@ -63,5 +66,7 @@ public class MessageStartServer {
             context.get().setPacketHandled(true);
         }
     }
+
+
 
 }

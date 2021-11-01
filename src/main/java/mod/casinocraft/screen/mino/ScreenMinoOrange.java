@@ -19,6 +19,7 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoOrange(MenuCasino container, Inventory player, Component name) {
@@ -30,11 +31,13 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoOrange logic(){
         return (LogicMinoOrange) menu.logic();
     }
+
 
 
 
@@ -71,6 +74,7 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
             action(-2);
         }
     }
+
 
 
 
@@ -141,17 +145,21 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "craps";
     }
+
+
 
 }

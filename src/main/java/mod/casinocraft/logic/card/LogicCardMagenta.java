@@ -18,11 +18,13 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardMagenta(int table){
         super(table);
     }
+
 
 
 
@@ -128,6 +130,7 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
@@ -136,6 +139,7 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
         else if(action == -3) compareCards(29);
         else touchField(action % 20, action / 20);
     }
+
 
 
 
@@ -169,17 +173,18 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundTag compound){
         cards_reserve = loadCardList(compound, 0);
         cards_stack   = loadCardList(compound, 1);
-        cards_field = loadCardArray(compound, 2);
+        cards_field   = loadCardArray(compound, 2);
     }
 
     public CompoundTag save2(CompoundTag compound){
-        saveCardList(compound, 0, cards_reserve);
-        saveCardList(compound, 1, cards_stack);
+        saveCardList(compound,  0, cards_reserve);
+        saveCardList(compound,  1, cards_stack);
         saveCardArray(compound, 2, cards_field);
         return compound;
     }
@@ -187,7 +192,8 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private List<Card> shuffleDeck() {
         List<Card> stack = new ArrayList<Card>();
@@ -400,7 +406,8 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -413,5 +420,7 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
     public int getID(){
         return 9;
     }
+
+
 
 }

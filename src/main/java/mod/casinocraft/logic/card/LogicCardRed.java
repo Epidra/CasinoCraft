@@ -21,11 +21,13 @@ public class LogicCardRed extends LogicModule {   // Rouge et Noir
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardRed(int table){
         super(table);
     }
+
 
 
 
@@ -43,6 +45,7 @@ public class LogicCardRed extends LogicModule {   // Rouge et Noir
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
@@ -50,6 +53,7 @@ public class LogicCardRed extends LogicModule {   // Rouge et Noir
         turnstate = 3;
         cards_rouge.add(new Card(RANDOM, 0, -50));
     }
+
 
 
 
@@ -91,6 +95,7 @@ public class LogicCardRed extends LogicModule {   // Rouge et Noir
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundTag compound){
@@ -111,7 +116,8 @@ public class LogicCardRed extends LogicModule {   // Rouge et Noir
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     public void result(){
         turnstate = 4;
@@ -126,7 +132,8 @@ public class LogicCardRed extends LogicModule {   // Rouge et Noir
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -139,5 +146,7 @@ public class LogicCardRed extends LogicModule {   // Rouge et Noir
     public int getID(){
         return 13;
     }
+
+
 
 }

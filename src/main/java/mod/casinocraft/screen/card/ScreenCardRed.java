@@ -18,6 +18,7 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardRed(MenuCasino container, Inventory player, Component name) {
@@ -27,11 +28,13 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardRed logic(){
         return (LogicCardRed) menu.logic();
     }
+
 
 
 
@@ -46,6 +49,7 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
             }
         }
     }
+
 
 
 
@@ -77,17 +81,21 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "rouge_etnoir";
     }
+
+
 
 }

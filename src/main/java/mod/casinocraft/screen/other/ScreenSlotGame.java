@@ -18,11 +18,13 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenSlotGame(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
+
 
 
 
@@ -36,11 +38,13 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
     }
+
 
 
 
@@ -63,7 +67,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
         if(menu.logic() instanceof LogicDummy){ return; }
         RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SLOTGAME);
 
-        // Multiplier
+        // ----- Multiplier ----- //
         int m = logic().scoreLevel;
         this.blit(matrixstack, leftPos + 8, topPos +  34, 192 + (m >= 4 ? 32 : 0), 48, 32, 16);
         this.blit(matrixstack, leftPos + 8, topPos +  69, 192 + (m >= 2 ? 32 : 0), 16, 32, 16);
@@ -71,12 +75,12 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
         this.blit(matrixstack, leftPos + 8, topPos + 139, 192 + (m >= 3 ? 32 : 0), 32, 32, 16);
         this.blit(matrixstack, leftPos + 8, topPos + 174, 192 + (m >= 5 ? 32 : 0), 64, 32, 16);
 
-        // Icons
+        // ----- Icons ----- //
         drawIcon(matrixstack, leftPos +  48, topPos + 40, 0);
         drawIcon(matrixstack, leftPos + 104, topPos + 40, 1);
         drawIcon(matrixstack, leftPos + 160, topPos + 40, 2);
 
-        // Lines
+        // ----- Lines ----- //
         if(logic().lines[0]){
             this.blit(matrixstack, leftPos +  48, topPos +  88, 0, 192, 48, 48);
             this.blit(matrixstack, leftPos + 104, topPos +  88, 0, 192, 48, 48);
@@ -103,7 +107,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
             this.blit(matrixstack, leftPos + 160, topPos +  40, 192, 192, 48, 48);
         }
 
-        // Shadows
+        // ----- Shadows ----- //
         this.blit(matrixstack, leftPos +  48, topPos +  40, 96,  96, 48, 48);
         this.blit(matrixstack, leftPos + 104, topPos +  40, 96,  96, 48, 48);
         this.blit(matrixstack, leftPos + 160, topPos +  40, 96,  96, 48, 48);
@@ -119,7 +123,8 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void drawIcon(PoseStack matrixstack, int posX, int posY, int index){
         for(int i = 0; i < 4; i++){
@@ -137,10 +142,13 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "";
     }
+
+
 
 }

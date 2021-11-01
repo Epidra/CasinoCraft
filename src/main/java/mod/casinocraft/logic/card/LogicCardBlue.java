@@ -23,11 +23,13 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardBlue(int table){
         super(table);
     }
+
 
 
 
@@ -84,6 +86,7 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
@@ -100,6 +103,7 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
             if(action >=  0){ touchField(action%8, action/8); }
         }
     }
+
 
 
 
@@ -187,6 +191,7 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundTag compound){
@@ -203,9 +208,9 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
         cards_finish[1] = loadCardList(compound,  9);
         cards_finish[2] = loadCardList(compound, 10);
         cards_finish[3] = loadCardList(compound, 11);
-        cards_freecell = loadCardArray(compound, 12);
-        compress = compound.getInt("compress");
-        timer = compound.getInt("timer");
+        cards_freecell  = loadCardArray(compound, 12);
+        compress        = compound.getInt("compress");
+        timer           = compound.getInt("timer");
     }
 
     public CompoundTag save2(CompoundTag compound){
@@ -232,7 +237,8 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void transferCards(List<Card> cards, List<Card> deck, int position, int count){
         for(int i = 0; i < count; i++){
@@ -406,7 +412,8 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -419,5 +426,7 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
     public int getID(){
         return 1;
     }
+
+
 
 }

@@ -16,11 +16,13 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoLightBlue(int tableID) {
         super(tableID, 12, 8);
     }
+
 
 
 
@@ -49,11 +51,13 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
         place(action);
     }
+
 
 
 
@@ -67,6 +71,7 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
     public void updateMotion() {
 
     }
+
 
 
 
@@ -85,7 +90,8 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void place(int action){
         int x = action % 12;
@@ -178,7 +184,8 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -191,5 +198,7 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
     public int getID(){
         return 38;
     }
+
+
 
 }

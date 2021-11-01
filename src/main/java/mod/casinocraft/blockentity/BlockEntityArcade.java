@@ -17,6 +17,7 @@ public class BlockEntityArcade extends BlockEntityMachine {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public BlockEntityArcade(BlockPos blockpos, BlockState blockstate, DyeColor color, int id) {
@@ -26,6 +27,7 @@ public class BlockEntityArcade extends BlockEntityMachine {
     public BlockEntityArcade(BlockPos blockpos, BlockState blockstate) {
         this(blockpos, blockstate, DyeColor.BLACK, 0);
     }
+
 
 
 
@@ -43,11 +45,14 @@ public class BlockEntityArcade extends BlockEntityMachine {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public TextComponent getName() {
         return new TextComponent("tile.arcade.name");
     }
+
+
 
 }

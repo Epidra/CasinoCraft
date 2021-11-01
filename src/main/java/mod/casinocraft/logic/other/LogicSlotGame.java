@@ -12,11 +12,13 @@ public class LogicSlotGame extends LogicModule {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicSlotGame(int tableID) {
         super(tableID, 9, 3);
     }
+
 
 
 
@@ -40,6 +42,7 @@ public class LogicSlotGame extends LogicModule {
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
@@ -53,6 +56,7 @@ public class LogicSlotGame extends LogicModule {
             }
         }
     }
+
 
 
 
@@ -80,6 +84,7 @@ public class LogicSlotGame extends LogicModule {
     public void updateMotion() {
 
     }
+
 
 
 
@@ -114,7 +119,8 @@ public class LogicSlotGame extends LogicModule {
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void fillGrid() {
         for(int y = 0; y < 3; y++) {
@@ -187,7 +193,8 @@ public class LogicSlotGame extends LogicModule {
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -200,5 +207,7 @@ public class LogicSlotGame extends LogicModule {
     public int getID(){
         return 49;
     }
+
+
 
 }

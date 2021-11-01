@@ -17,11 +17,13 @@ public class ScreenChipLightGray extends ScreenCasino {   // 2048
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenChipLightGray(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
+
 
 
 
@@ -35,11 +37,13 @@ public class ScreenChipLightGray extends ScreenCasino {   // 2048
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
     }
+
 
 
 
@@ -78,17 +82,21 @@ public class ScreenChipLightGray extends ScreenCasino {   // 2048
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "2048";
     }
+
+
 
 }

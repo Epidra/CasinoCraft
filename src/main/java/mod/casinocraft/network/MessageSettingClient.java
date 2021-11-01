@@ -16,12 +16,14 @@ public class MessageSettingClient {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageSettingClient(BlockPos _pos, int[] _packetData) {
         this.pos = _pos;
         this.packetData = _packetData;
     }
+
 
 
 
@@ -38,6 +40,7 @@ public class MessageSettingClient {
         int[] _packet = buf.readVarIntArray();
         return new MessageSettingClient(_pos, _packet);
     }
+
 
 
 
@@ -72,6 +75,8 @@ public class MessageSettingClient {
             context.get().setPacketHandled(true);
         }
     }
+
+
 
 }
 

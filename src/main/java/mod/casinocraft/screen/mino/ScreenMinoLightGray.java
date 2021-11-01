@@ -17,6 +17,7 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoLightGray(MenuCasino container, Inventory player, Component name) {
@@ -26,11 +27,13 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoLightGray logic(){
         return (LogicMinoLightGray) menu.logic();
     }
+
 
 
 
@@ -57,6 +60,7 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
             if(mouseRect(140, 204, 92, 26, mouseX, mouseY)){ action(-2); }
         }
     }
+
 
 
 
@@ -95,8 +99,6 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
                 }
             }
         }
-
-
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
@@ -110,17 +112,21 @@ public class ScreenMinoLightGray extends ScreenCasino {   // Minesweeper
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "mine_sweeper";
     }
+
+
 
 }

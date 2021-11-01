@@ -16,11 +16,13 @@ public class LogicChipLightGray extends LogicModule {   // 2048
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicChipLightGray(int tableID){
         super(tableID, 4, 4);
     }
+
 
 
 
@@ -41,6 +43,7 @@ public class LogicChipLightGray extends LogicModule {   // 2048
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
@@ -49,6 +52,7 @@ public class LogicChipLightGray extends LogicModule {   // 2048
         if(action == KEY_LEFT)  { move(3); }
         if(action == KEY_RIGHT) { move(4); }
     }
+
 
 
 
@@ -81,6 +85,7 @@ public class LogicChipLightGray extends LogicModule {   // 2048
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundTag compound){
@@ -104,10 +109,13 @@ public class LogicChipLightGray extends LogicModule {   // 2048
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void move(int s) {
-        if(s == 1) { // up
+
+        // ----- UP ----- //
+        if(s == 1) {
             for(int y = 1; y < 4; y++) {
                 for(int x = 0; x < 4; x++) {
                     if(grid[x][y] != 0) {
@@ -120,7 +128,9 @@ public class LogicChipLightGray extends LogicModule {   // 2048
                 }
             }
         }
-        if(s == 2) { // down
+
+        // ----- DOWN ----- //
+        if(s == 2) {
             for(int y = 2; y > -1; y--) {
                 for(int x = 3; x > -1; x--) {
                     if(grid[x][y] != 0) {
@@ -133,7 +143,9 @@ public class LogicChipLightGray extends LogicModule {   // 2048
                 }
             }
         }
-        if(s == 3) { // left
+
+        // ----- LEFT ----- //
+        if(s == 3) {
             for(int x = 1; x < 4; x++) {
                 for(int y = 0; y < 4; y++) {
                     if(grid[x][y] != 0) {
@@ -146,7 +158,9 @@ public class LogicChipLightGray extends LogicModule {   // 2048
                 }
             }
         }
-        if(s == 4) { // right
+
+        // ----- RIGHT ----- //
+        if(s == 4) {
             for(int x = 2; x > -1; x--) {
                 for(int y = 3; y > -1; y--) {
                     if(grid[x][y] != 0) {
@@ -162,7 +176,9 @@ public class LogicChipLightGray extends LogicModule {   // 2048
     }
 
     private void change() {
-        if(direction == 1) { // up
+
+        // ----- UP ----- //
+        if(direction == 1) {
             for(int y = 1; y < 4; y++) {
                 for(int x = 0; x < 4; x++) {
                     if(grid[x][y] >= 100) {
@@ -178,7 +194,9 @@ public class LogicChipLightGray extends LogicModule {   // 2048
                 }
             }
         }
-        if(direction == 2) { // down
+
+        // ----- DOWN ----- //
+        if(direction == 2) {
             for(int y = 2; y > -1; y--) {
                 for(int x = 3; x > -1; x--) {
                     if(grid[x][y] >= 100) {
@@ -194,7 +212,9 @@ public class LogicChipLightGray extends LogicModule {   // 2048
                 }
             }
         }
-        if(direction == 3) { // left
+
+        // ----- LEFT ----- //
+        if(direction == 3) {
             for(int x = 1; x < 4; x++) {
                 for(int y = 0; y < 4; y++) {
                     if(grid[x][y] >= 100) {
@@ -210,7 +230,9 @@ public class LogicChipLightGray extends LogicModule {   // 2048
                 }
             }
         }
-        if(direction == 4) { // right
+
+        // ----- RIGHT ----- //
+        if(direction == 4) {
             for(int x = 2; x > -1; x--) {
                 for(int y = 3; y > -1; y--) {
                     if(grid[x][y] >= 100) {
@@ -314,7 +336,8 @@ public class LogicChipLightGray extends LogicModule {   // 2048
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -327,5 +350,7 @@ public class LogicChipLightGray extends LogicModule {   // 2048
     public int getID(){
         return 23;
     }
+
+
 
 }

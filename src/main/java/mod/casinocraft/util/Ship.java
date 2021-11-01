@@ -14,6 +14,7 @@ public class Ship {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public Ship(int _ai, Vector2 _position, Vector2 _next) {
@@ -37,6 +38,7 @@ public class Ship {
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     public void update() {
@@ -52,6 +54,7 @@ public class Ship {
             }
         }
     }
+
 
 
 
@@ -87,5 +90,7 @@ public class Ship {
     public void setVel(int x, int y) {
         velocity.set(x, y);
     }
+
+
 
 }

@@ -15,11 +15,13 @@ public class ScreenDummy extends ScreenCasino {   // Dummy
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenDummy(MenuCasino container, Inventory player, Component name) {
         super(container, player, name);
     }
+
 
 
 
@@ -33,11 +35,13 @@ public class ScreenDummy extends ScreenCasino {   // Dummy
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
     }
+
 
 
 
@@ -59,9 +63,11 @@ public class ScreenDummy extends ScreenCasino {   // Dummy
 
 
 
+
     //----------------------------------------CUSTOM----------------------------------------//
 
     // ...
+
 
 
 
@@ -71,5 +77,7 @@ public class ScreenDummy extends ScreenCasino {   // Dummy
     protected String getGameName() {
         return "";
     }
+
+
 
 }

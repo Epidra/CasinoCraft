@@ -27,12 +27,14 @@ public class MenuProvider implements net.minecraft.world.MenuProvider {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
 
     public MenuProvider(@Nonnull BlockEntityMachine tile) {
         this.board = tile;
     }
+
 
 
 
@@ -108,12 +110,15 @@ public class MenuProvider implements net.minecraft.world.MenuProvider {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public TextComponent getDisplayName() {
         return this.board.getName();
     }
+
+
 
 }
 

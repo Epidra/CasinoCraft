@@ -16,11 +16,13 @@ public class LogicCardYellow extends LogicModule {   // Acey Deucey
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardYellow(int table){
         super(table);
     }
+
 
 
 
@@ -40,6 +42,7 @@ public class LogicCardYellow extends LogicModule {   // Acey Deucey
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
@@ -47,6 +50,7 @@ public class LogicCardYellow extends LogicModule {   // Acey Deucey
         cards[2] = new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), 0, -50);
         turnstate = 3;
     }
+
 
 
 
@@ -122,6 +126,7 @@ public class LogicCardYellow extends LogicModule {   // Acey Deucey
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundTag compound){
@@ -140,7 +145,8 @@ public class LogicCardYellow extends LogicModule {   // Acey Deucey
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void result(){
         if(spread == 1) reward[0] = doublebet ? 12 : 6; // 1:5
@@ -155,7 +161,8 @@ public class LogicCardYellow extends LogicModule {   // Acey Deucey
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -168,5 +175,7 @@ public class LogicCardYellow extends LogicModule {   // Acey Deucey
     public int getID(){
         return 15;
     }
+
+
 
 }

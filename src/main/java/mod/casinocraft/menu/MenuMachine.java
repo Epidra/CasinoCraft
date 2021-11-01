@@ -15,6 +15,7 @@ public abstract class MenuMachine extends MenuBase {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MenuMachine(MenuType<?> type, int windowID, Inventory playerInventory, FriendlyByteBuf packetBuffer) {
@@ -30,6 +31,7 @@ public abstract class MenuMachine extends MenuBase {
         super(type, windowID, playerInventory, machine);
 
     }
+
 
 
 
@@ -92,5 +94,7 @@ public abstract class MenuMachine extends MenuBase {
 
         return itemstack;
     }
+
+
 
 }

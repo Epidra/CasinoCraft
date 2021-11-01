@@ -17,6 +17,7 @@ public class MessageStateServer {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageStateServer(boolean system, int state, BlockPos pos) {
@@ -24,6 +25,7 @@ public class MessageStateServer {
         this.state = state;
         this.pos = pos;
     }
+
 
 
 
@@ -42,6 +44,7 @@ public class MessageStateServer {
         BlockPos _pos = buf.readBlockPos();
         return new MessageStateServer(_system, _state, _pos);
     }
+
 
 
 
@@ -78,5 +81,7 @@ public class MessageStateServer {
             context.get().setPacketHandled(true);
         }
     }
+
+
 
 }

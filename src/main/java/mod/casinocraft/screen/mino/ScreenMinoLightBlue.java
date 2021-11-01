@@ -17,6 +17,7 @@ public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoLightBlue(MenuCasino container, Inventory player, Component name) {
@@ -26,11 +27,13 @@ public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoLightBlue logic(){
         return (LogicMinoLightBlue) menu.logic();
     }
+
 
 
 
@@ -46,6 +49,7 @@ public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
             }
         }
     }
+
 
 
 
@@ -91,17 +95,21 @@ public class ScreenMinoLightBlue extends ScreenCasino {   // Ishido
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "ishido";
     }
+
+
 
 }

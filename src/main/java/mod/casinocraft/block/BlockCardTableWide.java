@@ -1,7 +1,6 @@
 package mod.casinocraft.block;
 
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.blockentity.BlockEntityArcade;
 import mod.casinocraft.menu.MenuProvider;
 import mod.casinocraft.blockentity.BlockEntityMachine;
 import mod.casinocraft.blockentity.BlockEntityCardTableWide;
@@ -29,11 +28,12 @@ import javax.annotation.Nullable;
 
 public class BlockCardTableWide extends MachinaWide implements EntityBlock {
 
-    private DyeColor color;
+    private        final DyeColor color;
     private static final VoxelShape AABB0 = Block.box(1, 0, 1, 15, 16, 16);
     private static final VoxelShape AABB1 = Block.box(0, 0, 1, 15, 16, 15);
     private static final VoxelShape AABB2 = Block.box(1, 0, 0, 15, 16, 15);
     private static final VoxelShape AABB3 = Block.box(1, 0, 1, 16, 16, 15);
+
 
 
 
@@ -45,6 +45,7 @@ public class BlockCardTableWide extends MachinaWide implements EntityBlock {
         super(block);
         this.color = color;
     }
+
 
 
 
@@ -64,12 +65,34 @@ public class BlockCardTableWide extends MachinaWide implements EntityBlock {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
     public void interact(Level world, BlockPos pos, Player player, BlockEntityBase tile) {
         NetworkHooks.openGui((ServerPlayer) player, new MenuProvider((BlockEntityMachine)tile), buf -> buf.writeBlockPos(pos));
     }
+
+
+
+
+
+    //----------------------------------------BLOCKENTITY----------------------------------------//
+
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return state.getValue(OFFSET) ? new BlockEntityCardTableWide(pos, state) : null;
+    }
+
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTicker(level, type, CasinoKeeper.TILE_CARDTABLE_WIDE.get());
+    }
+
+    @Nullable
+    protected static <T extends BlockEntity> BlockEntityTicker<T> createTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends BlockEntityCardTableWide> typeCustom) {
+        return createTickerHelper(type, typeCustom, BlockEntityCardTableWide::serverTick);
+    }
+
 
 
 
@@ -89,12 +112,6 @@ public class BlockCardTableWide extends MachinaWide implements EntityBlock {
                 return Shapes.block();
         }
     }
-
-    //@Nullable
-    //@Override
-    //public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-    //    return state.getValue(OFFSET) ? new BlockEntityCardTableWide(color, 2) : null;
-    //}
 
     public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos) {
         final BlockPos pos2 = getTilePosition(pos, state.getValue(OFFSET), state.getValue(FACING));
@@ -118,34 +135,5 @@ public class BlockCardTableWide extends MachinaWide implements EntityBlock {
     }
 
 
-
-
-    //----------------------------------------HELPER----------------------------------------//
-
-    private BlockPos offset(Direction facing, boolean isPrimary, BlockPos pos){
-        if(isPrimary) return pos;
-        if(facing == Direction.NORTH) return pos.east();
-        if(facing == Direction.SOUTH) return pos.west();
-        if(facing == Direction.EAST ) return pos.south();
-        if(facing == Direction.WEST ) return pos.north();
-        return pos;
-    }
-
-    //----------------------------------------BLOCKENTITY----------------------------------------//
-
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(OFFSET) ? new BlockEntityCardTableWide(pos, state) : null;
-    }
-
-    @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTicker(level, type, CasinoKeeper.TILE_CARDTABLE_WIDE.get());
-    }
-
-    @Nullable
-    protected static <T extends BlockEntity> BlockEntityTicker<T> createTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends BlockEntityCardTableWide> typeCustom) {
-        //return level.isClientSide ? null : createTickerHelper(type, typeCustom, BlockEntityCardTableWide::serverTick);
-        return createTickerHelper(type, typeCustom, BlockEntityCardTableWide::serverTick);
-    }
 
 }

@@ -23,11 +23,13 @@ public class LogicCardOrange extends LogicModule {   // Baccarat
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardOrange(int table){
         super(table);
     }
+
 
 
 
@@ -78,12 +80,14 @@ public class LogicCardOrange extends LogicModule {   // Baccarat
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
         if(action == 0) addCard(true);  // HIT
         if(action == 1) addCard(false); // STAND
     }
+
 
 
 
@@ -98,6 +102,7 @@ public class LogicCardOrange extends LogicModule {   // Baccarat
         if(cards_player.size() > 0) for (Card card : cards_player) { card.update(); }
         if(cards_dealer.size() > 0) for (Card card : cards_dealer) { card.update(); }
     }
+
 
 
 
@@ -124,7 +129,8 @@ public class LogicCardOrange extends LogicModule {   // Baccarat
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void addCard(boolean player) {
         if(player) {
@@ -170,7 +176,8 @@ public class LogicCardOrange extends LogicModule {   // Baccarat
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -183,5 +190,7 @@ public class LogicCardOrange extends LogicModule {   // Baccarat
     public int getID(){
         return 10;
     }
+
+
 
 }

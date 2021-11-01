@@ -17,6 +17,7 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoCyan(MenuCasino container, Inventory player, Component name) {
@@ -26,11 +27,13 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoCyan logic(){
         return (LogicMinoCyan) menu.logic();
     }
+
 
 
 
@@ -46,6 +49,7 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
             }
         }
     }
+
 
 
 
@@ -80,17 +84,21 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "halma";
     }
+
+
 
 }

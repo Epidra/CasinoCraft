@@ -32,11 +32,12 @@ import javax.annotation.Nullable;
 public class BlockArcade extends MachinaTall implements EntityBlock {
 
     private static final IntegerProperty MODULE = IntegerProperty.create("module", 0, 17);
-    private DyeColor color;
+    private        final DyeColor color;
     private static final VoxelShape AABB0 = Block.box(2, 0, 1, 16, 16, 15);
     private static final VoxelShape AABB1 = Block.box(1, 0, 2, 16, 16, 15);
     private static final VoxelShape AABB2 = Block.box(0, 0, 1, 14, 16, 15);
     private static final VoxelShape AABB3 = Block.box(1, 0, 0, 15, 16, 14);
+
 
 
 
@@ -49,6 +50,7 @@ public class BlockArcade extends MachinaTall implements EntityBlock {
         this.color = color;
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OFFSET, Boolean.TRUE).setValue(MODULE, 17));
     }
+
 
 
 
@@ -68,6 +70,7 @@ public class BlockArcade extends MachinaTall implements EntityBlock {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
@@ -80,15 +83,36 @@ public class BlockArcade extends MachinaTall implements EntityBlock {
         BlockEntityMachine tileentity = (BlockEntityMachine) world.getBlockEntity(pos);
         if (tileentity != null){
             if(tileentity.getItem(0).isEmpty()){
-                world.setBlock(pos,         iblockstate.setValue(                                MODULE, 17), 3);
+                world.setBlock(pos,         iblockstate.setValue(                        MODULE, 17), 3);
                 world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, 17), 3);
             }
             else {
-                world.setBlock(pos,         iblockstate.setValue(                                MODULE, itemToInt(tileentity.getItem(1).getItem())), 3);
+                world.setBlock(pos,         iblockstate.setValue(                        MODULE, itemToInt(tileentity.getItem(1).getItem())), 3);
                 world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, itemToInt(tileentity.getItem(1).getItem())), 3);
             }
         }
     }
+
+
+
+
+
+    //----------------------------------------BLOCKENTITY----------------------------------------//
+
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return state.getValue(OFFSET) ? new BlockEntityArcade(pos, state) : null;
+    }
+
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTicker(level, type, CasinoKeeper.TILE_ARCADE_BASE.get());
+    }
+
+    @Nullable
+    protected static <T extends BlockEntity> BlockEntityTicker<T> createTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends BlockEntityArcade> typeCustom) {
+        return createTickerHelper(type, typeCustom, BlockEntityArcade::serverTick);
+    }
+
 
 
 
@@ -111,12 +135,6 @@ public class BlockArcade extends MachinaTall implements EntityBlock {
         builder.add(FACING, OFFSET, MODULE);
     }
 
-    //@Nullable
-    //@Override
-    //public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-    //    return state.getValue(OFFSET) ? new BlockEntityArcade(color, 0) : null;
-    //}
-
     public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos) {
         final BlockPos pos2 = getTilePosition(pos, state.getValue(OFFSET), Direction.DOWN);
         BlockEntityMachine tileEntity = (BlockEntityMachine) worldIn.getBlockEntity(pos2);
@@ -138,11 +156,6 @@ public class BlockArcade extends MachinaTall implements EntityBlock {
         return this.asBlock().getExplosionResistance() * (unbreakable ? 1000 : 1);
     }
 
-
-
-
-    //----------------------------------------HELPER----------------------------------------//
-
     private static int itemToInt(Item item){
         if(item == CasinoKeeper.MODULE_CHIP_BLACK.get())      return  0;
         if(item == CasinoKeeper.MODULE_CHIP_RED.get())        return  1;
@@ -163,21 +176,6 @@ public class BlockArcade extends MachinaTall implements EntityBlock {
         return 16;
     }
 
-    //----------------------------------------BLOCKENTITY----------------------------------------//
 
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(OFFSET) ? new BlockEntityArcade(pos, state) : null;
-    }
-
-    @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTicker(level, type, CasinoKeeper.TILE_ARCADE_BASE.get());
-    }
-
-    @Nullable
-    protected static <T extends BlockEntity> BlockEntityTicker<T> createTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends BlockEntityArcade> typeCustom) {
-        //return level.isClientSide ? null : createTickerHelper(type, typeCustom, BlockEntityArcade::serverTick);
-        return createTickerHelper(type, typeCustom, BlockEntityArcade::serverTick);
-    }
 
 }

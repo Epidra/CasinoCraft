@@ -1,7 +1,6 @@
 package mod.casinocraft.block;
 
 import mod.casinocraft.CasinoKeeper;
-import mod.casinocraft.blockentity.BlockEntityArcade;
 import mod.casinocraft.menu.MenuProvider;
 import mod.casinocraft.blockentity.BlockEntityMachine;
 import mod.casinocraft.blockentity.BlockEntityCardTableBase;
@@ -27,8 +26,9 @@ import javax.annotation.Nullable;
 
 public class BlockCardTableBase extends MachinaBase implements EntityBlock {
 
-    private DyeColor color;
+    private        final DyeColor color;
     private static final VoxelShape AABB = Block.box(1, 0, 1, 15, 16, 15);
+
 
 
 
@@ -40,6 +40,7 @@ public class BlockCardTableBase extends MachinaBase implements EntityBlock {
         super(block);
         this.color = color;
     }
+
 
 
 
@@ -58,6 +59,7 @@ public class BlockCardTableBase extends MachinaBase implements EntityBlock {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
@@ -68,18 +70,33 @@ public class BlockCardTableBase extends MachinaBase implements EntityBlock {
 
 
 
+
+    //----------------------------------------BLOCKENTITY----------------------------------------//
+
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new BlockEntityCardTableBase(pos, state);
+    }
+
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTicker(level, type, CasinoKeeper.TILE_CARDTABLE_BASE.get());
+    }
+
+    @Nullable
+    protected static <T extends BlockEntity> BlockEntityTicker<T> createTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends BlockEntityCardTableBase> typeCustom) {
+        return createTickerHelper(type, typeCustom, BlockEntityCardTableBase::serverTick);
+    }
+
+
+
+
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Deprecated
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         return AABB;
     }
-
-    //@Nullable
-    //@Override
-    //public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-    //    return new BlockEntityCardTableBase(color, 1);
-    //}
 
     public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos) {
         BlockEntityMachine tileEntity = (BlockEntityMachine) worldIn.getBlockEntity(pos);
@@ -98,21 +115,6 @@ public class BlockCardTableBase extends MachinaBase implements EntityBlock {
         return this.asBlock().getExplosionResistance() * (tileEntity.settingIndestructableBlock ? 1000 : 1);
     }
 
-    //----------------------------------------BLOCKENTITY----------------------------------------//
 
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new BlockEntityCardTableBase(pos, state);
-    }
-
-    @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTicker(level, type, CasinoKeeper.TILE_CARDTABLE_BASE.get());
-    }
-
-    @Nullable
-    protected static <T extends BlockEntity> BlockEntityTicker<T> createTicker(Level level, BlockEntityType<T> type, BlockEntityType<? extends BlockEntityCardTableBase> typeCustom) {
-        //return level.isClientSide ? null : createTickerHelper(type, typeCustom, BlockEntityCardTableBase::serverTick);
-        return createTickerHelper(type, typeCustom, BlockEntityCardTableBase::serverTick);
-    }
 
 }

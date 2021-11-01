@@ -25,11 +25,13 @@ public class LogicChipCyan extends LogicModule {   // Columns
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicChipCyan(int tableID){
         super(tableID, 6, 15);
     }
+
 
 
 
@@ -62,15 +64,17 @@ public class LogicChipCyan extends LogicModule {   // Columns
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
         if(action == KEY_UP){    commandCycle(true);   } // UP
-        if(action == KEY_DOWN){  columnDrop();                 } // DOWN
+        if(action == KEY_DOWN){  columnDrop();         } // DOWN
         if(action == KEY_LEFT){  commandStrafe(true);  } // LEFT
         if(action == KEY_RIGHT){ commandStrafe(false); } // RIGHT
-        if(action == KEY_ENTER){ commandHold();                } // HOLD
+        if(action == KEY_ENTER){ commandHold();        } // HOLD
     }
+
 
 
 
@@ -104,6 +108,7 @@ public class LogicChipCyan extends LogicModule {   // Columns
     public void updateMotion(){
 
     }
+
 
 
 
@@ -165,7 +170,8 @@ public class LogicChipCyan extends LogicModule {   // Columns
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     public boolean inLine(int x, int y){
         for(Vector2 v : clear) {
@@ -380,7 +386,8 @@ public class LogicChipCyan extends LogicModule {   // Columns
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -393,5 +400,7 @@ public class LogicChipCyan extends LogicModule {   // Columns
     public int getID(){
         return 19;
     }
+
+
 
 }
