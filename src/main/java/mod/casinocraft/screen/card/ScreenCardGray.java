@@ -17,6 +17,7 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardGray(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -26,11 +27,13 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardGray logic(){
         return (LogicCardGray) menu.logic();
     }
+
 
 
 
@@ -64,6 +67,7 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
             }
         }
     }
+
 
 
 
@@ -160,7 +164,8 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void drawCard2(MatrixStack matrixstack, int posX, int posY, float angle, int playerPos, int cardPos){
         int i = 0;
@@ -190,10 +195,13 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "holdem_poker";
     }
+
+
 
 }

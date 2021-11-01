@@ -14,6 +14,7 @@ public class Dice {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public Dice(int _number, int _color) {
@@ -26,6 +27,7 @@ public class Dice {
         rotation = 0;
         direction = false;
     }
+
 
 
 
@@ -48,6 +50,7 @@ public class Dice {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     public void Reset() {
@@ -64,5 +67,7 @@ public class Dice {
         shiftY = _shiftY;
         direction = leftOrRight;
     }
+
+
 
 }

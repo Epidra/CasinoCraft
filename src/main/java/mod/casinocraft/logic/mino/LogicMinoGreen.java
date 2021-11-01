@@ -12,11 +12,13 @@ public class LogicMinoGreen extends LogicModule {   // Mystic Square
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoGreen(int tableID){
         super(tableID, 4, 4);
     }
+
 
 
 
@@ -43,11 +45,13 @@ public class LogicMinoGreen extends LogicModule {   // Mystic Square
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
         move(action);
     }
+
 
 
 
@@ -65,6 +69,7 @@ public class LogicMinoGreen extends LogicModule {   // Mystic Square
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
@@ -78,7 +83,8 @@ public class LogicMinoGreen extends LogicModule {   // Mystic Square
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void move(int direction) {
         setJingle(SOUND_CHIP);
@@ -107,7 +113,8 @@ public class LogicMinoGreen extends LogicModule {   // Mystic Square
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -120,5 +127,7 @@ public class LogicMinoGreen extends LogicModule {   // Mystic Square
     public int getID(){
         return 37;
     }
+
+
 
 }

@@ -15,6 +15,7 @@ public class ScreenCardBlack extends ScreenCasino {   // Black Jack
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardBlack(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -24,11 +25,13 @@ public class ScreenCardBlack extends ScreenCasino {   // Black Jack
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardBlack logic(){
         return (LogicCardBlack) menu.logic();
     }
+
 
 
 
@@ -43,6 +46,7 @@ public class ScreenCardBlack extends ScreenCasino {   // Black Jack
         if(playerToken >= bet)
             if(logic().turnstate == 2 && mouseRect(140, 164, 92, 26, mouseX, mouseY)){ collectBet(); action(3); }
     }
+
 
 
 
@@ -90,17 +94,21 @@ public class ScreenCardBlack extends ScreenCasino {   // Black Jack
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "black_jack";
     }
+
+
 
 }

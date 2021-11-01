@@ -26,11 +26,13 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardGreen(int tableID) {
         super(tableID);
     }
+
 
 
 
@@ -53,6 +55,7 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
@@ -66,6 +69,7 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
             }
         }
     }
+
 
 
 
@@ -100,6 +104,7 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
         placed[0].update();
         placed[1].update();
     }
+
 
 
 
@@ -146,7 +151,8 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     public List<Card> getCards(int index){
         switch (index){
@@ -258,7 +264,8 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -271,5 +278,7 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
     public int getID(){
         return 5;
     }
+
+
 
 }

@@ -12,11 +12,13 @@ public class LogicMinoCyan extends LogicModule {   // Halma
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoCyan(int tableID){
         super(tableID, 17, 9);
     }
+
 
 
 
@@ -52,11 +54,13 @@ public class LogicMinoCyan extends LogicModule {   // Halma
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
         jump(action%17, action/17);
     }
+
 
 
 
@@ -73,6 +77,7 @@ public class LogicMinoCyan extends LogicModule {   // Halma
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
@@ -86,7 +91,8 @@ public class LogicMinoCyan extends LogicModule {   // Halma
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void jump(int x, int y) {
         if(grid[x][y] == 1) {
@@ -151,7 +157,8 @@ public class LogicMinoCyan extends LogicModule {   // Halma
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -164,5 +171,7 @@ public class LogicMinoCyan extends LogicModule {   // Halma
     public int getID(){
         return 35;
     }
+
+
 
 }

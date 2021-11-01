@@ -18,11 +18,13 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardWhite(int table){
         super(table);
     }
+
 
 
 
@@ -38,6 +40,7 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
         movestate = 0;
         setJingle(SOUND_CARD_SHOVE);
     }
+
 
 
 
@@ -59,13 +62,18 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     public void updateLogic(){
         switch(movestate){
-            case 0: // NULL
+
+            // ----- NULL ----- //
+            case 0:
                 break;
-            case 1: // Cards Move up
+
+            // ----- Cards move up ----- //
+            case 1:
                 ticker+=2;
                 for(int i = 0; i < 5; i++){
                     if(!hold[i]) cards_field[i].shiftY-=2;
@@ -81,7 +89,9 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
                     movestate = 2;
                 }
                 break;
-            case 2: // Cards Move down
+
+            // ----- Cards move down ----- //
+            case 2:
                 ticker-=2;
                 for(int i = 0; i < 5; i++){
                     if(!hold[i]) cards_field[i].shiftY+=2;
@@ -90,7 +100,9 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
                     movestate = 3;
                 }
                 break;
-            case 3: // Cards Move Together
+
+            // ----- Cards move together ----- //
+            case 3:
                 ticker+=2;
                 cards_field[0].shiftX+=4;
                 cards_field[1].shiftX+=2;
@@ -101,7 +113,9 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
                     movestate = 4;
                 }
                 break;
-            case 4: // Cards Move apart
+
+            // ----- Cards move apart ----- //
+            case 4:
                 ticker-=2;
                 cards_field[0].shiftX-=4;
                 cards_field[1].shiftX-=2;
@@ -123,6 +137,7 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
             }
         }
     }
+
 
 
 
@@ -155,7 +170,8 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void sort() {
         Card[] card = new Card[5];
@@ -257,7 +273,8 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -270,5 +287,7 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
     public int getID(){
         return 14;
     }
+
+
 
 }

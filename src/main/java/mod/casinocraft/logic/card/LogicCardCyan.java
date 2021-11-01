@@ -21,11 +21,13 @@ public class LogicCardCyan extends LogicModule {   // Spider
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardCyan(int table){
         super(table);
     }
+
 
 
 
@@ -69,12 +71,14 @@ public class LogicCardCyan extends LogicModule {   // Spider
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
         if(action == -1) drawReserve();
         if(action >=  0) touchField(action%10, action/10);
     }
+
 
 
 
@@ -96,6 +100,7 @@ public class LogicCardCyan extends LogicModule {   // Spider
     public void updateMotion(){
 
     }
+
 
 
 
@@ -150,7 +155,8 @@ public class LogicCardCyan extends LogicModule {   // Spider
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void transferCards(List<Card> cards_field2, List<Card> deck, int position, int count){
         for(int i = position; i < position + count; i++){
@@ -306,7 +312,8 @@ public class LogicCardCyan extends LogicModule {   // Spider
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -319,5 +326,7 @@ public class LogicCardCyan extends LogicModule {   // Spider
     public int getID(){
         return 3;
     }
+
+
 
 }

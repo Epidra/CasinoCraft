@@ -13,6 +13,7 @@ public class ContainerCardMagenta extends ContainerCasino {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor **/
@@ -28,12 +29,14 @@ public class ContainerCardMagenta extends ContainerCasino {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){
         return 9;
     }
+
 
 
 }

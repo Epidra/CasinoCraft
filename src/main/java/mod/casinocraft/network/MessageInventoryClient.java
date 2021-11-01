@@ -25,6 +25,7 @@ public class MessageInventoryClient {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageInventoryClient(NonNullList<ItemStack> inventory, int storageToken, int storagePrize, BlockPos pos) {
@@ -37,6 +38,7 @@ public class MessageInventoryClient {
         this.storagePrize = storagePrize;
         this.pos = pos;
     }
+
 
 
 
@@ -75,6 +77,7 @@ public class MessageInventoryClient {
 
 
 
+
     //----------------------------------------HANDLER----------------------------------------//
 
     public static class Handler {
@@ -103,5 +106,7 @@ public class MessageInventoryClient {
             context.get().setPacketHandled(true);
         }
     }
+
+
 
 }

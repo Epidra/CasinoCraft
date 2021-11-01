@@ -19,11 +19,13 @@ public class LogicMinoBlue extends LogicModule {   // Memory
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoBlue(int tableID){
         super(tableID, 17, 9);
     }
+
 
 
 
@@ -56,6 +58,7 @@ public class LogicMinoBlue extends LogicModule {   // Memory
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
@@ -67,6 +70,7 @@ public class LogicMinoBlue extends LogicModule {   // Memory
             clickMino(action % 17, action / 17);
         }
     }
+
 
 
 
@@ -115,6 +119,7 @@ public class LogicMinoBlue extends LogicModule {   // Memory
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
@@ -139,7 +144,8 @@ public class LogicMinoBlue extends LogicModule {   // Memory
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void clickMino(int x, int y) {
         if(!selectA) {
@@ -195,7 +201,8 @@ public class LogicMinoBlue extends LogicModule {   // Memory
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -208,5 +215,7 @@ public class LogicMinoBlue extends LogicModule {   // Memory
     public int getID(){
         return 33;
     }
+
+
 
 }

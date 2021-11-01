@@ -13,6 +13,7 @@ public class ContainerSlotMachine extends ContainerMachine {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor **/
@@ -28,11 +29,14 @@ public class ContainerSlotMachine extends ContainerMachine {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){
         return 102;
     }
+
+
 
 }

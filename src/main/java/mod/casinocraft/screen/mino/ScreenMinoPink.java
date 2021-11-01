@@ -16,6 +16,7 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoPink(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -25,11 +26,13 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoPink logic(){
         return (LogicMinoPink) menu.logic();
     }
+
 
 
 
@@ -48,6 +51,7 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
             }
         }
     }
+
 
 
 
@@ -92,17 +96,21 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "fantan";
     }
+
+
 
 }

@@ -37,6 +37,7 @@ public abstract class LogicModule extends LogicBase {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Constructor without Grid **/
@@ -50,6 +51,7 @@ public abstract class LogicModule extends LogicBase {
         if(hasHighscore()) setupHighscore();
         grid = new int[gridX][gridY];
     }
+
 
 
 
@@ -79,6 +81,7 @@ public abstract class LogicModule extends LogicBase {
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     public void update(){
@@ -92,95 +95,101 @@ public abstract class LogicModule extends LogicBase {
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load(CompoundNBT compound){
-        { // Basic
-            int[] baseValues = compound.getIntArray("basevalues");
-            turnstate  = baseValues[0];
-            scorePoint = baseValues[1];
-            scoreLevel = baseValues[2];
-            scoreLives = baseValues[3];
-            selector.set(baseValues[4], baseValues[5]);
-            activePlayer = baseValues[6];
-            hand = compound.getString("hand");
-            pause = compound.getBoolean("pause");
-            currentPlayer[0] = compound.getString("currentplayer0");
-            currentPlayer[1] = compound.getString("currentplayer1");
-            currentPlayer[2] = compound.getString("currentplayer2");
-            currentPlayer[3] = compound.getString("currentplayer3");
-            currentPlayer[4] = compound.getString("currentplayer4");
-            currentPlayer[5] = compound.getString("currentplayer5");
-        }
-        { // Grid
-            int[] array = compound.getIntArray("grid");
-            for(int y = 0; y < grid[0].length; y++){
-                for(int x = 0; x < grid.length; x++){
-                    grid[x][y] = array[y*grid.length + x];
-                }
+
+        // ----- Basic ----- //
+        int[] baseValues = compound.getIntArray("basevalues");
+        turnstate  = baseValues[0];
+        scorePoint = baseValues[1];
+        scoreLevel = baseValues[2];
+        scoreLives = baseValues[3];
+        selector.set(baseValues[4], baseValues[5]);
+        activePlayer = baseValues[6];
+        hand = compound.getString("hand");
+        pause = compound.getBoolean("pause");
+        currentPlayer[0] = compound.getString("currentplayer0");
+        currentPlayer[1] = compound.getString("currentplayer1");
+        currentPlayer[2] = compound.getString("currentplayer2");
+        currentPlayer[3] = compound.getString("currentplayer3");
+        currentPlayer[4] = compound.getString("currentplayer4");
+        currentPlayer[5] = compound.getString("currentplayer5");
+
+        // ----- Grid ----- //
+        int[] array = compound.getIntArray("grid");
+        for(int y = 0; y < grid[0].length; y++){
+            for(int x = 0; x < grid.length; x++){
+                grid[x][y] = array[y*grid.length + x];
             }
         }
-        { // Highscore
-            if(hasHighscore()){
-                for(int i = 0; i < 20; i++) {
-                    scoreHigh[i] = compound.getInt("points" + i);
-                    scoreName[i] = compound.getString("name" + i);
-                }
+
+        // ----- Highscore ----- //
+        if(hasHighscore()){
+            for(int i = 0; i < 20; i++) {
+                scoreHigh[i] = compound.getInt("points" + i);
+                scoreName[i] = compound.getString("name" + i);
             }
         }
+
+        // ----- Game-specific Load ----- //
         if(turnstate >= 2 && turnstate <= 5){
             load2(compound);
         }
     }
 
     public CompoundNBT save(CompoundNBT compound){
-        { // Basic
-            compound.putIntArray("basevalues", new int[]{
-                    turnstate,
-                    scorePoint,
-                    scoreLevel,
-                    scoreLives,
-                    selector.X,
-                    selector.Y,
-                    activePlayer
-            });
-            compound.putString("hand", hand);
-            compound.putBoolean("pause", pause);
-            compound.putString("currentplayer0", currentPlayer[0]);
-            compound.putString("currentplayer1", currentPlayer[1]);
-            compound.putString("currentplayer2", currentPlayer[2]);
-            compound.putString("currentplayer3", currentPlayer[3]);
-            compound.putString("currentplayer4", currentPlayer[4]);
-            compound.putString("currentplayer5", currentPlayer[5]);
-        }
-        { // Grid
-            int[] array = new int[grid.length * grid[0].length];
-            for(int y = 0; y < grid[0].length; y++){
-                for(int x = 0; x < grid.length; x++){
-                    array[y*grid.length + x] = grid[x][y];
-                }
+
+        // ----- Basic ----- //
+        compound.putIntArray("basevalues", new int[]{
+                turnstate,
+                scorePoint,
+                scoreLevel,
+                scoreLives,
+                selector.X,
+                selector.Y,
+                activePlayer
+        });
+        compound.putString("hand", hand);
+        compound.putBoolean("pause", pause);
+        compound.putString("currentplayer0", currentPlayer[0]);
+        compound.putString("currentplayer1", currentPlayer[1]);
+        compound.putString("currentplayer2", currentPlayer[2]);
+        compound.putString("currentplayer3", currentPlayer[3]);
+        compound.putString("currentplayer4", currentPlayer[4]);
+        compound.putString("currentplayer5", currentPlayer[5]);
+
+        // ----- Grid ----- //
+        int[] array = new int[grid.length * grid[0].length];
+        for(int y = 0; y < grid[0].length; y++){
+            for(int x = 0; x < grid.length; x++){
+                array[y*grid.length + x] = grid[x][y];
             }
-            compound.putIntArray("grid", array);
         }
-        { // Highscore
-            if(hasHighscore()){
-                for(int i = 0; i < 20; i++) {
-                    compound.putInt("points" + i, scoreHigh[i]);
-                    compound.putString("name" + i, scoreName[i]);
-                }
+        compound.putIntArray("grid", array);
+
+        // ----- Highscore ----- //
+        if(hasHighscore()){
+            for(int i = 0; i < 20; i++) {
+                compound.putInt("points" + i, scoreHigh[i]);
+                compound.putString("name" + i, scoreName[i]);
             }
         }
 
+        // ----- Game-specific Save ----- //
         if(turnstate >= 2 && turnstate <= 5){
             save2(compound);
         }
+
         return compound;
     }
 
 
 
 
-    //----------------------------------------LOAD_HELPER----------------------------------------//
+
+    //----------------------------------------LOAD_EXTRA----------------------------------------//
 
     protected Card[] loadCardArray(CompoundNBT compound, int index){
         int[] array = compound.getIntArray("cardstack" + index);
@@ -226,7 +235,8 @@ public abstract class LogicModule extends LogicBase {
 
 
 
-    //----------------------------------------SAVE_HELPER----------------------------------------//
+
+    //----------------------------------------SAVE_EXTRA----------------------------------------//
 
     protected CompoundNBT saveCardArray(CompoundNBT compound, int index, Card[] cards){
         int[] array = new int[cards.length * 3];
@@ -283,6 +293,7 @@ public abstract class LogicModule extends LogicBase {
 
 
 
+
     //----------------------------------------HIGHSCORE----------------------------------------//
 
     public void addScore(String name, int points) {
@@ -315,6 +326,7 @@ public abstract class LogicModule extends LogicBase {
             scoreName[i] = "--------";
         }
     }
+
 
 
 
@@ -386,7 +398,7 @@ public abstract class LogicModule extends LogicBase {
 
 
 
-    //----------------------------------------OVERRIDE----------------------------------------//
+    //----------------------------------------ABSTRACT----------------------------------------//
 
     public abstract void command(int action);
     public abstract void updateMotion();
@@ -398,5 +410,7 @@ public abstract class LogicModule extends LogicBase {
     public abstract boolean hasHighscore();
     public abstract boolean isMultiplayer();
     public abstract int getID();
+
+
 
 }

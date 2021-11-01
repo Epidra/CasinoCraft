@@ -16,11 +16,13 @@ public class LogicMinoYellow extends LogicModule {   // SicBo
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoYellow(int tableID){
         super(tableID, 12, 6);
     }
+
 
 
 
@@ -33,6 +35,7 @@ public class LogicMinoYellow extends LogicModule {   // SicBo
         dice[1] = new Dice(0, 4);
         dice[2] = new Dice(0, 4);
     }
+
 
 
 
@@ -61,6 +64,7 @@ public class LogicMinoYellow extends LogicModule {   // SicBo
             }
         }
     }
+
 
 
 
@@ -96,6 +100,7 @@ public class LogicMinoYellow extends LogicModule {   // SicBo
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
@@ -110,7 +115,8 @@ public class LogicMinoYellow extends LogicModule {   // SicBo
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void spin() {
         if(turnstate == 2) {
@@ -245,7 +251,8 @@ public class LogicMinoYellow extends LogicModule {   // SicBo
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -258,5 +265,7 @@ public class LogicMinoYellow extends LogicModule {   // SicBo
     public int getID(){
         return 47;
     }
+
+
 
 }

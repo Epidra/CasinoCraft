@@ -13,6 +13,7 @@ public class ContainerMinoGray extends ContainerCasino {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Default Constructor **/
@@ -28,11 +29,14 @@ public class ContainerMinoGray extends ContainerCasino {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public int getID(){
         return 36;
     }
+
+
 
 }

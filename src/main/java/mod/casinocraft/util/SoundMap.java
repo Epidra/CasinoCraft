@@ -1,7 +1,5 @@
 package mod.casinocraft.util;
 
-import mod.casinocraft.CasinoKeeper;
-
 public class SoundMap {
 
     public static final int SOUND_CARD_PLACE =  1;

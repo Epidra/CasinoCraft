@@ -12,11 +12,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.Explosion;
@@ -28,8 +24,9 @@ import javax.annotation.Nullable;
 
 public class BlockCardTableBase extends MachinaBase {
 
-    private DyeColor color;
+    private        final DyeColor color;
     private static final VoxelShape AABB = Block.box(1, 0, 1, 15, 16, 15);
+
 
 
 
@@ -41,6 +38,7 @@ public class BlockCardTableBase extends MachinaBase {
         super(block);
         this.color = color;
     }
+
 
 
 
@@ -59,12 +57,14 @@ public class BlockCardTableBase extends MachinaBase {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
     public void interact(World world, BlockPos pos, PlayerEntity player, TileBase tile) {
         NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityMachine)tile), buf -> buf.writeBlockPos(pos));
     }
+
 
 
 
@@ -98,5 +98,7 @@ public class BlockCardTableBase extends MachinaBase {
         TileEntityMachine tileEntity = (TileEntityMachine) world.getBlockEntity(pos);
         return this.getBlock().getExplosionResistance() * (tileEntity.settingIndestructableBlock ? 1000 : 1);
     }
+
+
 
 }

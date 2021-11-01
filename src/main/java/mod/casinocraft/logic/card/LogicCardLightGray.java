@@ -26,11 +26,13 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardLightGray(int tableID) {
         super(tableID);
     }
+
 
 
 
@@ -48,6 +50,7 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
         raisedPlayer = -1;
         round = 0;
     }
+
 
 
 
@@ -73,6 +76,7 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
             }
         }
     }
+
 
 
 
@@ -104,6 +108,7 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
             }
         }
     }
+
 
 
 
@@ -150,7 +155,8 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     public List<Card> getCards(int index){
         switch (index){
@@ -320,7 +326,8 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -333,5 +340,7 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
     public int getID(){
         return 7;
     }
+
+
 
 }

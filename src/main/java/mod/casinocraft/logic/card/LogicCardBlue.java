@@ -23,11 +23,13 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardBlue(int table){
         super(table);
     }
+
 
 
 
@@ -84,6 +86,7 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
@@ -100,6 +103,7 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
             if(action >=  0){ touchField(action%8, action/8); }
         }
     }
+
 
 
 
@@ -187,6 +191,7 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
@@ -232,7 +237,8 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void transferCards(List<Card> cards, List<Card> deck, int position, int count){
         for(int i = 0; i < count; i++){
@@ -291,7 +297,9 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
     private void touchFinish(int slot) {
         if(!selector.matches(-1, -1)) {
-            if(selector.Y == -2) { // Cell-to-Finish
+
+            // ----- Cell-to-Finish ----- //
+            if(selector.Y == -2) {
                 boolean copy = false;
                 if(cards_finish[slot].size() == 0) {
                     if(cards_freecell[selector.X].number == 0){
@@ -309,7 +317,9 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
                     selector.set(-1,  -1);
                     setJingle(SOUND_CARD_PLACE);
                 }
-            } else { // Field-to-Finish
+
+            // ----- Field-to-Finish ----- //
+            } else {
                 if(selector.Y == cards_field[selector.X].size() - 1) {
                     boolean copy = false;
                     if(cards_finish[slot].size() == 0) {
@@ -367,13 +377,17 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
     private boolean moveStack(int x, int y) {
         int x2 = x;
         int y2 = cards_field[x2].size() - 1;
-        if(selector.Y != -2) { // Field-to-Field
+
+        // ----- Field-to-Field ----- //
+        if(selector.Y != -2) {
             if(cards_field[x2].size() == 0 || ((cards_field[selector.X].get(selector.Y).number + 1 == cards_field[x2].get(y2).number) && differentColors(cards_field[x2].get(y2).suit, cards_field[selector.X].get(selector.Y).suit))) {
                 transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
                 selector.set(-1, -1);
                 return true;
             }
-        } else { // Cell-to-Field
+
+        // ----- Cell-to-Field ----- //
+        } else {
             if(cards_field[x2].size() == 0 || ((cards_freecell[selector.X].number + 1 == cards_field[x2].get(y2).number) && differentColors(cards_field[x2].get(y2).suit, cards_freecell[selector.X].suit))) {
                 cards_freecell[selector.X].setShift(0, 16, 0);
                 cards_field[x2].add(new Card(cards_freecell[selector.X]));
@@ -406,7 +420,8 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -419,5 +434,7 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
     public int getID(){
         return 1;
     }
+
+
 
 }

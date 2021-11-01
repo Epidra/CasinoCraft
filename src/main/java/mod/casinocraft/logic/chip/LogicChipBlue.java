@@ -26,11 +26,13 @@ public class LogicChipBlue extends LogicModule {   // Tetris
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicChipBlue(int tableID){
         super(tableID, 10, 20);
     }
+
 
 
 
@@ -62,15 +64,17 @@ public class LogicChipBlue extends LogicModule {   // Tetris
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
         if(action == KEY_UP){    commandTurn(true);    } // UP
-        if(action == KEY_DOWN){  tetrominoDrop();              } // DOWN
+        if(action == KEY_DOWN){  tetrominoDrop();      } // DOWN
         if(action == KEY_LEFT){  commandStrafe(true);  } // LEFT
         if(action == KEY_RIGHT){ commandStrafe(false); } // RIGHT
-        if(action == KEY_ENTER){ commandHold();                } // HOLD
+        if(action == KEY_ENTER){ commandHold();        } // HOLD
     }
+
 
 
 
@@ -96,6 +100,7 @@ public class LogicChipBlue extends LogicModule {   // Tetris
     public void updateMotion() {
         timer+=15;
     }
+
 
 
 
@@ -167,7 +172,8 @@ public class LogicChipBlue extends LogicModule {   // Tetris
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     public boolean inLine(int index){
         if(index     == lines[0]) return true;
@@ -475,7 +481,8 @@ public class LogicChipBlue extends LogicModule {   // Tetris
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -488,5 +495,7 @@ public class LogicChipBlue extends LogicModule {   // Tetris
     public int getID(){
         return 17;
     }
+
+
 
 }

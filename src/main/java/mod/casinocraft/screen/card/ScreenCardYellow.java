@@ -15,11 +15,13 @@ public class ScreenCardYellow extends ScreenCasino {   // Acey Deucey
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardYellow(ContainerCasino container, PlayerInventory player, ITextComponent name) {
         super(container, player, name);
     }
+
 
 
 
@@ -33,12 +35,14 @@ public class ScreenCardYellow extends ScreenCasino {   // Acey Deucey
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
         if(logic().turnstate == 2 && mouseRect( 24, 204, 92, 26, mouseX, mouseY)){ action(anotherBet() ? 0 : 1); } else
         if(logic().turnstate == 2 && mouseRect(140, 204, 92, 26, mouseX, mouseY)){ action(1); }
     }
+
 
 
 
@@ -67,17 +71,21 @@ public class ScreenCardYellow extends ScreenCasino {   // Acey Deucey
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "acey_deucey";
     }
+
+
 
 }

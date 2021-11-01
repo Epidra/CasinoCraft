@@ -14,6 +14,7 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardLightBlue(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -23,11 +24,13 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardLightBlue logic(){
         return (LogicCardLightBlue) menu.logic();
     }
+
 
 
 
@@ -53,6 +56,7 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
             if(mouseRect(0 + 32*7, 16+4, 32, 48, mouseX, mouseY)){ action(-8); }
         }
     }
+
 
 
 
@@ -105,17 +109,21 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "klondike";
     }
+
+
 
 }

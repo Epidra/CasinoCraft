@@ -15,6 +15,7 @@ public abstract class ContainerCasino extends ContainerBase {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ContainerCasino(ContainerType<?> type, int windowID, PlayerInventory playerInventory, PacketBuffer packetBuffer) {
@@ -33,10 +34,13 @@ public abstract class ContainerCasino extends ContainerBase {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     protected void createInventory(TileBase tile, PlayerInventory playerInventory){
 
     }
+
+
 
 }

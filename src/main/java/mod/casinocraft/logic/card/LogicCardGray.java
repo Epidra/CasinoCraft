@@ -26,11 +26,13 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardGray(int tableID) {
         super(tableID);
     }
+
 
 
 
@@ -56,6 +58,7 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
@@ -72,6 +75,7 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
             fold();
         }
     }
+
 
 
 
@@ -106,6 +110,7 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
             comCards[i].update();
         }
     }
+
 
 
 
@@ -152,7 +157,8 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     public List<Card> getCards(int index){
         switch (index){
@@ -354,7 +360,8 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -367,5 +374,7 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
     public int getID(){
         return 4;
     }
+
+
 
 }

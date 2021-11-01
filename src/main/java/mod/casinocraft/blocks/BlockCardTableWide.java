@@ -12,11 +12,8 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -38,6 +35,7 @@ public class BlockCardTableWide extends MachinaWide {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Contructor with predefined BlockProperty */
@@ -45,6 +43,7 @@ public class BlockCardTableWide extends MachinaWide {
         super(block);
         this.color = color;
     }
+
 
 
 
@@ -64,12 +63,14 @@ public class BlockCardTableWide extends MachinaWide {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
     public void interact(World world, BlockPos pos, PlayerEntity player, TileBase tile) {
         NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityMachine)tile), buf -> buf.writeBlockPos(pos));
     }
+
 
 
 
@@ -118,17 +119,5 @@ public class BlockCardTableWide extends MachinaWide {
     }
 
 
-
-
-    //----------------------------------------HELPER----------------------------------------//
-
-    private BlockPos offset(Direction facing, boolean isPrimary, BlockPos pos){
-        if(isPrimary) return pos;
-        if(facing == Direction.NORTH) return pos.east();
-        if(facing == Direction.SOUTH) return pos.west();
-        if(facing == Direction.EAST ) return pos.south();
-        if(facing == Direction.WEST ) return pos.north();
-        return pos;
-    }
 
 }

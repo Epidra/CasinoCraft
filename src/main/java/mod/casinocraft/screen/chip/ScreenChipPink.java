@@ -16,11 +16,13 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenChipPink(ContainerCasino container, PlayerInventory player, ITextComponent name) {
         super(container, player, name);
     }
+
 
 
 
@@ -34,11 +36,13 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
     }
+
 
 
 
@@ -87,7 +91,8 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private boolean hasUnlocked(int index){
         for(int i = 0; i < 20; i++){
@@ -108,10 +113,13 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "sokoban";
     }
+
+
 
 }

@@ -15,11 +15,13 @@ public class ScreenCardOrange extends ScreenCasino {   // Baccarat
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardOrange(ContainerCasino container, PlayerInventory player, ITextComponent name) {
         super(container, player, name);
     }
+
 
 
 
@@ -33,12 +35,14 @@ public class ScreenCardOrange extends ScreenCasino {   // Baccarat
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
         if(logic().turnstate == 2 && mouseRect( 24, 204, 92, 26, mouseX, mouseY)){ action(0); } else
         if(logic().turnstate == 2 && mouseRect(140, 204, 92, 26, mouseX, mouseY)){ action(1); }
     }
+
 
 
 
@@ -72,17 +76,21 @@ public class ScreenCardOrange extends ScreenCasino {   // Baccarat
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "baccarat";
     }
+
+
 
 }

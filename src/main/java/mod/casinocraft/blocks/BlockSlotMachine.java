@@ -10,15 +10,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -40,6 +35,7 @@ public class BlockSlotMachine extends MachinaTall {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     /** Contructor with predefined BlockProperty */
@@ -47,6 +43,7 @@ public class BlockSlotMachine extends MachinaTall {
         super(block);
         this.color = color;
     }
+
 
 
 
@@ -66,12 +63,14 @@ public class BlockSlotMachine extends MachinaTall {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
     public void interact(World world, BlockPos pos, PlayerEntity player, TileBase tile) {
         NetworkHooks.openGui((ServerPlayerEntity) player, new ContainerProvider((TileEntityMachine)tile), buf -> buf.writeBlockPos(pos));
     }
+
 
 
 
@@ -117,5 +116,7 @@ public class BlockSlotMachine extends MachinaTall {
         boolean unbreakable = tileEntity.settingIndestructableBlock;
         return this.getBlock().getExplosionResistance() * (unbreakable ? 1000 : 1);
     }
+
+
 
 }

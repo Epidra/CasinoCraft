@@ -16,6 +16,7 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoRed(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -25,11 +26,13 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoRed logic(){
         return (LogicMinoRed) menu.logic();
     }
+
 
 
 
@@ -62,6 +65,7 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
             action(-2);
         }
     }
+
 
 
 
@@ -131,17 +135,21 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "roulette";
     }
+
+
 
 }

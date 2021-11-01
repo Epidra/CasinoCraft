@@ -29,12 +29,14 @@ public class ContainerProvider implements INamedContainerProvider {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
 
     public ContainerProvider(@Nonnull TileEntityMachine tile) {
         this.board = tile;
     }
+
 
 
 
@@ -110,12 +112,15 @@ public class ContainerProvider implements INamedContainerProvider {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     @Override
     public ITextComponent getDisplayName() {
         return this.board.getName();
     }
+
+
 
 }
 

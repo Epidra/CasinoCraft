@@ -24,11 +24,13 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicCardLightBlue(int table){
         super(table);
     }
+
 
 
 
@@ -79,6 +81,7 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
@@ -93,6 +96,7 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
             if(action >=  0) touchField(action%8, action/8);
         }
     }
+
 
 
 
@@ -199,6 +203,7 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
@@ -248,7 +253,8 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void transferCards(List<Card> cards_field2, List<Card> deck, int position, int count){
         for(int i = position; i < position + count; i++){
@@ -304,9 +310,6 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
             if(scoreLives > 0){
                 cards_reserve.addAll(cards_stack);
                 cards_stack.clear();
-                //if(difficulty != 1) scorePoints-=100;
-                //if(scorePoints < 0) scorePoints = 0;
-                //if(difficulty == 3) scoreLives--;
                 scorePoint -= 100;
                 if(scorePoint < 0) scorePoint = 0;
                 setJingle(SOUND_CARD_SHOVE);
@@ -320,7 +323,9 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
 
     private void touchFinish(int slot) {
         if(!selector.matches(-1, -1)) {
-            if(selector.Y == -2) { // Cell-to-Finish
+
+            // ----- Cell-to-Finish ----- //
+            if(selector.Y == -2) {
                 if(cards_stack.size() > 0){
                     if(cards_finish[slot].size() == 0) {
                         if(cards_stack.get(cards_stack.size() - 1).number == 0){
@@ -344,7 +349,9 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
                         }
                     }
                 }
-            } else { // Field-to-Finish
+
+            // ----- Field-to-Finish ----- //
+            } else {
                 if(selector.Y == cards_field[selector.X].size() - 1) {
                     if(cards_finish[slot].size() == 0) {
                         if(cards_field[selector.X].get(selector.Y).number == 0){
@@ -422,7 +429,9 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
     private boolean moveStack(int x, int y) {
         int x2 = x;
         int y2 = cards_field[x2].size() - 1;
-        if(selector.Y != -2) { // Field-to-Field
+
+        // ----- Field-to-Field -----
+        if(selector.Y != -2) {
             if(cards_field[x2].size() == 0) {
                 transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
                 selector.set(-1, -1);
@@ -438,7 +447,9 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
                     return true;
                 }
             }
-        } else { // Cell-to-Field
+
+        // ----- Cell-to-Field ----- //
+        } else {
             if(cards_stack.size() > 0){
                 if(cards_field[x2].size() == 0) {
                     cards_stack.get(cards_stack.size() - 1).setShift(0, 16, 0);
@@ -487,7 +498,8 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -500,5 +512,7 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
     public int getID(){
         return 6;
     }
+
+
 
 }

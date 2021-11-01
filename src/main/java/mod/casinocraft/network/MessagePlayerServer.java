@@ -18,12 +18,14 @@ public class MessagePlayerServer {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessagePlayerServer(Item item, int amount) {
         this.stack = new ItemStack(item, 1);
         this.amount = amount;
     }
+
 
 
 
@@ -40,6 +42,7 @@ public class MessagePlayerServer {
         int _amount = buf.readInt();
         return new MessagePlayerServer(_stack.getItem(), _amount);
     }
+
 
 
 
@@ -90,5 +93,7 @@ public class MessagePlayerServer {
             context.get().setPacketHandled(true);
         }
     }
+
+
 
 }

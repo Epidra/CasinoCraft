@@ -17,6 +17,7 @@ public class MessageScoreClient {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageScoreClient(String scoreName, int scorePoints, BlockPos pos) {
@@ -24,6 +25,7 @@ public class MessageScoreClient {
         this.names  = scoreName;
         this.pos = pos;
     }
+
 
 
 
@@ -46,6 +48,7 @@ public class MessageScoreClient {
 
 
 
+
     //----------------------------------------HANDLER----------------------------------------//
 
     public static class Handler {
@@ -58,5 +61,7 @@ public class MessageScoreClient {
             context.get().setPacketHandled(true);
         }
     }
+
+
 
 }

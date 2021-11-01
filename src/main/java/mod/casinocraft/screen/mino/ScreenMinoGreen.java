@@ -15,6 +15,7 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoGreen(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -24,11 +25,13 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoGreen logic(){
         return (LogicMinoGreen) menu.logic();
     }
+
 
 
 
@@ -49,6 +52,7 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
             }
         }
     }
+
 
 
 
@@ -80,17 +84,21 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "mystic_square";
     }
+
+
 
 }

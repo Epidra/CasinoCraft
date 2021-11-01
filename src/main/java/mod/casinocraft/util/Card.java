@@ -16,6 +16,7 @@ public class Card {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public Card(Random random){
@@ -106,6 +107,7 @@ public class Card {
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     /** Update Function, RETURN value tells if the card is appering NOW on screen **/
@@ -124,6 +126,7 @@ public class Card {
         }
         return false;
     }
+
 
 
 
@@ -160,5 +163,7 @@ public class Card {
     public boolean equals(int x, int y) {
         return number == x && suit == y;
     }
+
+
 
 }

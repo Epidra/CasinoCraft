@@ -27,24 +27,24 @@ import net.minecraft.util.SoundEvent;
 
 public abstract class TileEntityMachine extends TileBase<LogicModule> {
 
-    public boolean settingInfiniteToken = false;
-    public boolean settingInfiniteReward = false;
-    public boolean settingDropItemsOnBreak = false;
+    public boolean settingInfiniteToken       = false;
+    public boolean settingInfiniteReward      = false;
+    public boolean settingDropItemsOnBreak    = false;
     public boolean settingIndestructableBlock = false;
     public int settingAlternateColor = 0;
 
-    public boolean transferTokenIN = false;
-    public boolean transferTokenOUT = false;
-    public boolean transferRewardIN = false;
+    public boolean transferTokenIN   = false;
+    public boolean transferTokenOUT  = false;
+    public boolean transferRewardIN  = false;
     public boolean transferRewardOUT = false;
 
-    public int storageToken = 0;
+    public int storageToken  = 0;
     public int storageReward = 0;
-    public int bettingLow = 0;
-    public int bettingHigh = 0;
-    public int rewardScore1 = 0;
-    public int rewardScore2 = 0;
-    public int rewardScore3 = 0;
+    public int bettingLow    = 0;
+    public int bettingHigh   = 0;
+    public int rewardScore1  = 0;
+    public int rewardScore2  = 0;
+    public int rewardScore3  = 0;
     public int rewardAmount1 = 0;
     public int rewardAmount2 = 0;
     public int rewardAmount3 = 0;
@@ -69,16 +69,16 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
                 case  7: return TileEntityMachine.this.rewardAmount1;
                 case  8: return TileEntityMachine.this.rewardAmount2;
                 case  9: return TileEntityMachine.this.rewardAmount3;
-                case 10: return TileEntityMachine.this.prizeMode1 ? 1 : 0;
-                case 11: return TileEntityMachine.this.prizeMode2 ? 1 : 0;
-                case 12: return TileEntityMachine.this.prizeMode3 ? 1 : 0;
-                case 13: return TileEntityMachine.this.transferTokenIN ? 1 : 0;
-                case 14: return TileEntityMachine.this.transferTokenOUT ? 1 : 0;
-                case 15: return TileEntityMachine.this.transferRewardIN ? 1 : 0;
-                case 16: return TileEntityMachine.this.transferRewardOUT ? 1 : 0;
-                case 17: return TileEntityMachine.this.settingInfiniteToken ? 1 : 0;
-                case 18: return TileEntityMachine.this.settingInfiniteReward ? 1 : 0;
-                case 19: return TileEntityMachine.this.settingDropItemsOnBreak ? 1 : 0;
+                case 10: return TileEntityMachine.this.prizeMode1                 ? 1 : 0;
+                case 11: return TileEntityMachine.this.prizeMode2                 ? 1 : 0;
+                case 12: return TileEntityMachine.this.prizeMode3                 ? 1 : 0;
+                case 13: return TileEntityMachine.this.transferTokenIN            ? 1 : 0;
+                case 14: return TileEntityMachine.this.transferTokenOUT           ? 1 : 0;
+                case 15: return TileEntityMachine.this.transferRewardIN           ? 1 : 0;
+                case 16: return TileEntityMachine.this.transferRewardOUT          ? 1 : 0;
+                case 17: return TileEntityMachine.this.settingInfiniteToken       ? 1 : 0;
+                case 18: return TileEntityMachine.this.settingInfiniteReward      ? 1 : 0;
+                case 19: return TileEntityMachine.this.settingDropItemsOnBreak    ? 1 : 0;
                 case 20: return TileEntityMachine.this.settingIndestructableBlock ? 1 : 0;
                 case 21: return TileEntityMachine.this.settingAlternateColor;
                 default:
@@ -87,34 +87,35 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
         }
         public void set(int index, int value) {
             switch(index) {
-                case  0: TileEntityMachine.this.storageToken = value; break;
-                case  1: TileEntityMachine.this.storageReward = value; break;
-                case  2: TileEntityMachine.this.bettingLow = value; break;
-                case  3: TileEntityMachine.this.bettingHigh = value; break;
-                case  4: TileEntityMachine.this.rewardScore1 = value; break;
-                case  5: TileEntityMachine.this.rewardScore2 = value; break;
-                case  6: TileEntityMachine.this.rewardScore3 = value; break;
-                case  7: TileEntityMachine.this.rewardAmount1 = value; break;
-                case  8: TileEntityMachine.this.rewardAmount2 = value; break;
-                case  9: TileEntityMachine.this.rewardAmount3 = value; break;
-                case 10: TileEntityMachine.this.prizeMode1 = value == 1; break;
-                case 11: TileEntityMachine.this.prizeMode2 = value == 1; break;
-                case 12: TileEntityMachine.this.prizeMode3 = value == 1; break;
-                case 13: TileEntityMachine.this.transferTokenIN = value == 1; break;
-                case 14: TileEntityMachine.this.transferTokenOUT = value == 1; break;
-                case 15: TileEntityMachine.this.transferRewardIN = value == 1; break;
-                case 16: TileEntityMachine.this.transferRewardOUT = value == 1; break;
-                case 17: TileEntityMachine.this.settingInfiniteToken = value == 1; break;
-                case 18: TileEntityMachine.this.settingInfiniteReward = value == 1; break;
-                case 19: TileEntityMachine.this.settingDropItemsOnBreak = value == 1; break;
+                case  0: TileEntityMachine.this.storageToken               = value;      break;
+                case  1: TileEntityMachine.this.storageReward              = value;      break;
+                case  2: TileEntityMachine.this.bettingLow                 = value;      break;
+                case  3: TileEntityMachine.this.bettingHigh                = value;      break;
+                case  4: TileEntityMachine.this.rewardScore1               = value;      break;
+                case  5: TileEntityMachine.this.rewardScore2               = value;      break;
+                case  6: TileEntityMachine.this.rewardScore3               = value;      break;
+                case  7: TileEntityMachine.this.rewardAmount1              = value;      break;
+                case  8: TileEntityMachine.this.rewardAmount2              = value;      break;
+                case  9: TileEntityMachine.this.rewardAmount3              = value;      break;
+                case 10: TileEntityMachine.this.prizeMode1                 = value == 1; break;
+                case 11: TileEntityMachine.this.prizeMode2                 = value == 1; break;
+                case 12: TileEntityMachine.this.prizeMode3                 = value == 1; break;
+                case 13: TileEntityMachine.this.transferTokenIN            = value == 1; break;
+                case 14: TileEntityMachine.this.transferTokenOUT           = value == 1; break;
+                case 15: TileEntityMachine.this.transferRewardIN           = value == 1; break;
+                case 16: TileEntityMachine.this.transferRewardOUT          = value == 1; break;
+                case 17: TileEntityMachine.this.settingInfiniteToken       = value == 1; break;
+                case 18: TileEntityMachine.this.settingInfiniteReward      = value == 1; break;
+                case 19: TileEntityMachine.this.settingDropItemsOnBreak    = value == 1; break;
                 case 20: TileEntityMachine.this.settingIndestructableBlock = value == 1; break;
-                case 21: TileEntityMachine.this.settingAlternateColor = value; break;
+                case 21: TileEntityMachine.this.settingAlternateColor      = value;      break;
             }
         }
         public int getCount() {
             return 19;
         }
     };
+
 
 
 
@@ -131,6 +132,7 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     @Override
@@ -138,7 +140,7 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
         changeLogic();
         boolean isDirty = false;
 
-        // Token Transfer
+        // ----- Token Transfer ----- //
         if(transferTokenIN) {
             if(getTokenIO().getCount() > 0 && (storageToken == 0 || isTokenBET(getTokenIO()))) {
                 if(isTokenBET(ItemStack.EMPTY)){ setTokenBET(getTokenIO()); }
@@ -166,7 +168,7 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
             }
         }
 
-        // Reward Transfer
+        // ----- Reward Transfer ----- //
         else if(transferRewardIN) {
             if(inventory.get(2).getCount() > 0 && (storageReward == 0 || isTokenREW(inventory.get(2)))) {
                 if(getTokenREW() == Item.byBlock(Blocks.AIR)) setTokenREW(inventory.get(2));
@@ -212,9 +214,11 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
 
 
 
+
     //----------------------------------------NETWORK----------------------------------------//
 
     // ...
+
 
 
 
@@ -224,28 +228,28 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
     public void load(BlockState state, CompoundNBT nbt){
         super.load(state, nbt);
 
-        storageToken = nbt.getInt("storage_token");
-        storageReward = nbt.getInt("storage_reward");
-        bettingLow = nbt.getInt("betting_low");
-        bettingHigh = nbt.getInt("betting_high");
-        rewardScore1 = nbt.getInt("reward_score_1");
-        rewardScore2 = nbt.getInt("reward_score_2");
-        rewardScore3 = nbt.getInt("reward_score_3");
-        rewardAmount1 = nbt.getInt("reward_amount_1");
-        rewardAmount2 = nbt.getInt("reward_amount_2");
-        rewardAmount3 = nbt.getInt("reward_amount_3");
-        prizeMode1 = nbt.getBoolean("prize_mode_1");
-        prizeMode2 = nbt.getBoolean("prize_mode_2");
-        prizeMode3 = nbt.getBoolean("prize_mode_3");
-        transferTokenIN = nbt.getBoolean("transfer_token_in");
-        transferTokenOUT = nbt.getBoolean("transfer_token_out");
-        transferRewardIN = nbt.getBoolean("transfer_reward_in");
-        transferRewardOUT = nbt.getBoolean("transfer_reward_out");
-        settingInfiniteToken = nbt.getBoolean("setting_infinite_token");
-        settingInfiniteReward = nbt.getBoolean("setting_infinite_reward");
-        settingDropItemsOnBreak = nbt.getBoolean("setting_drop_items_on_break");
+        storageToken               = nbt.getInt("storage_token");
+        storageReward              = nbt.getInt("storage_reward");
+        bettingLow                 = nbt.getInt("betting_low");
+        bettingHigh                = nbt.getInt("betting_high");
+        rewardScore1               = nbt.getInt("reward_score_1");
+        rewardScore2               = nbt.getInt("reward_score_2");
+        rewardScore3               = nbt.getInt("reward_score_3");
+        rewardAmount1              = nbt.getInt("reward_amount_1");
+        rewardAmount2              = nbt.getInt("reward_amount_2");
+        rewardAmount3              = nbt.getInt("reward_amount_3");
+        prizeMode1                 = nbt.getBoolean("prize_mode_1");
+        prizeMode2                 = nbt.getBoolean("prize_mode_2");
+        prizeMode3                 = nbt.getBoolean("prize_mode_3");
+        transferTokenIN            = nbt.getBoolean("transfer_token_in");
+        transferTokenOUT           = nbt.getBoolean("transfer_token_out");
+        transferRewardIN           = nbt.getBoolean("transfer_reward_in");
+        transferRewardOUT          = nbt.getBoolean("transfer_reward_out");
+        settingInfiniteToken       = nbt.getBoolean("setting_infinite_token");
+        settingInfiniteReward      = nbt.getBoolean("setting_infinite_reward");
+        settingDropItemsOnBreak    = nbt.getBoolean("setting_drop_items_on_break");
         settingIndestructableBlock = nbt.getBoolean("setting_indestructable_block");
-        settingAlternateColor = nbt.getInt("setting_alternate_color");
+        settingAlternateColor      = nbt.getInt("setting_alternate_color");
 
         this.inventory = NonNullList.withSize(5, ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(nbt, this.inventory);
@@ -257,33 +261,34 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
     public CompoundNBT save(CompoundNBT compound){
         super.save(compound);
 
-        compound.putInt("storage_token", storageToken);
-        compound.putInt("storage_reward", storageReward);
-        compound.putInt("betting_low", bettingLow);
-        compound.putInt("betting_high", bettingHigh);
-        compound.putInt("reward_score_1", rewardScore1);
-        compound.putInt("reward_score_2", rewardScore2);
-        compound.putInt("reward_score_3", rewardScore3);
-        compound.putInt("reward_amount_1", rewardAmount1);
-        compound.putInt("reward_amount_2", rewardAmount2);
-        compound.putInt("reward_amount_3", rewardAmount3);
+        compound.putInt("storage_token",    storageToken);
+        compound.putInt("storage_reward",   storageReward);
+        compound.putInt("betting_low",      bettingLow);
+        compound.putInt("betting_high",     bettingHigh);
+        compound.putInt("reward_score_1",   rewardScore1);
+        compound.putInt("reward_score_2",   rewardScore2);
+        compound.putInt("reward_score_3",   rewardScore3);
+        compound.putInt("reward_amount_1",  rewardAmount1);
+        compound.putInt("reward_amount_2",  rewardAmount2);
+        compound.putInt("reward_amount_3",  rewardAmount3);
         compound.putBoolean("prize_mode_1", prizeMode1);
         compound.putBoolean("prize_mode_2", prizeMode2);
         compound.putBoolean("prize_mode_3", prizeMode3);
-        compound.putBoolean("transfer_token_in", transferTokenIN);
-        compound.putBoolean("transfer_token_out", transferTokenOUT);
-        compound.putBoolean("transfer_reward_in", transferRewardIN);
+        compound.putBoolean("transfer_token_in",   transferTokenIN);
+        compound.putBoolean("transfer_token_out",  transferTokenOUT);
+        compound.putBoolean("transfer_reward_in",  transferRewardIN);
         compound.putBoolean("transfer_reward_out", transferRewardOUT);
-        compound.putBoolean("setting_infinite_token", settingInfiniteToken);
-        compound.putBoolean("setting_infinite_reward", settingInfiniteReward);
-        compound.putBoolean("setting_drop_items_on_break", settingDropItemsOnBreak);
+        compound.putBoolean("setting_infinite_token",       settingInfiniteToken);
+        compound.putBoolean("setting_infinite_reward",      settingInfiniteReward);
+        compound.putBoolean("setting_drop_items_on_break",  settingDropItemsOnBreak);
         compound.putBoolean("setting_indestructable_block", settingIndestructableBlock);
-        compound.putInt("setting_alternate_color", settingAlternateColor);
+        compound.putInt("setting_alternate_color",          settingAlternateColor);
 
         ItemStackHelper.saveAllItems(compound, this.inventory);
         logic.save(compound);
         return compound;
     }
+
 
 
 
@@ -301,6 +306,7 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
             }
         }
     }
+
 
 
 
@@ -443,7 +449,6 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
     }
 
     public void setItem(int p_70299_1_, ItemStack p_70299_2_) {
-        //this.unpackLootTable((PlayerEntity)null);
         this.getItems().set(p_70299_1_, p_70299_2_);
         if (p_70299_2_.getCount() > this.getMaxStackSize()) {
             p_70299_2_.setCount(this.getMaxStackSize());
@@ -451,5 +456,7 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
 
         this.setChanged();
     }
+
+
 
 }

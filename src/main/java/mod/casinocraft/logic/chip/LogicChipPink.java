@@ -21,11 +21,13 @@ public class LogicChipPink extends LogicModule {   // Sokoban
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicChipPink(int tableID){
         super(tableID, 12, 15);
     }
+
 
 
 
@@ -36,6 +38,7 @@ public class LogicChipPink extends LogicModule {   // Sokoban
         crate.clear();
         cross.clear();
     }
+
 
 
 
@@ -52,6 +55,7 @@ public class LogicChipPink extends LogicModule {   // Sokoban
             }
         }
     }
+
 
 
 
@@ -112,6 +116,7 @@ public class LogicChipPink extends LogicModule {   // Sokoban
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
@@ -134,7 +139,8 @@ public class LogicChipPink extends LogicModule {   // Sokoban
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void loadMap() {
         turnstate = 3;
@@ -201,7 +207,8 @@ public class LogicChipPink extends LogicModule {   // Sokoban
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -214,5 +221,7 @@ public class LogicChipPink extends LogicModule {   // Sokoban
     public int getID(){
         return 27;
     }
+
+
 
 }

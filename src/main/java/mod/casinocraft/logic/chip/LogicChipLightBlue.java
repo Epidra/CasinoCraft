@@ -26,11 +26,13 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicChipLightBlue(int tableID){
         super(tableID, 6, 15);
     }
+
 
 
 
@@ -60,15 +62,17 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
         if(action == KEY_UP){    commandTurn(true);    } // UP
-        if(action == KEY_DOWN){  dominoDrop();                 } // DOWN
+        if(action == KEY_DOWN){  dominoDrop();         } // DOWN
         if(action == KEY_LEFT){  commandStrafe(true);  } // LEFT
         if(action == KEY_RIGHT){ commandStrafe(false); } // RIGHT
-        if(action == KEY_ENTER){ commandHold();                } // HOLD
+        if(action == KEY_ENTER){ commandHold();        } // HOLD
     }
+
 
 
 
@@ -102,6 +106,7 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
     public void updateMotion(){
 
     }
+
 
 
 
@@ -154,7 +159,8 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     public boolean inLine(int x, int y){
         for(Vector2 v : clear) {
@@ -362,7 +368,8 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -375,5 +382,7 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
     public int getID(){
         return 22;
     }
+
+
 
 }

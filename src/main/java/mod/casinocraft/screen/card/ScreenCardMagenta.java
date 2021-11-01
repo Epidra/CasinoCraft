@@ -15,6 +15,7 @@ public class ScreenCardMagenta extends ScreenCasino {   // Pyramid
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardMagenta(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -24,11 +25,13 @@ public class ScreenCardMagenta extends ScreenCasino {   // Pyramid
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardMagenta logic(){
         return (LogicCardMagenta) menu.logic();
     }
+
 
 
 
@@ -47,6 +50,7 @@ public class ScreenCardMagenta extends ScreenCasino {   // Pyramid
             if(mouseRect(16*9, 192, 32, 48, mouseX, mouseY)){ if(logic().cards_reserve.size() > 0) action(-3); }
         }
     }
+
 
 
 
@@ -123,17 +127,21 @@ public class ScreenCardMagenta extends ScreenCasino {   // Pyramid
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "pyramid";
     }
+
+
 
 }

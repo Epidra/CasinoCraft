@@ -17,6 +17,7 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoWhite(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -26,11 +27,13 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoWhite logic(){
         return (LogicMinoWhite) menu.logic();
     }
+
 
 
 
@@ -48,6 +51,7 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
             }
         }
     }
+
 
 
 
@@ -83,17 +87,21 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "sudoku";
     }
+
+
 
 }

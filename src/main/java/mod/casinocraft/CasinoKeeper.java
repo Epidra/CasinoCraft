@@ -60,6 +60,7 @@ public class CasinoKeeper {
 
 
 
+
     // Card Tables
     public static final RegistryObject<Block> CARDTABLE_BASE_WHITE      = register("cardtable_base_white",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.WHITE),      ItemGroup.TAB_DECORATIONS);
     public static final RegistryObject<Block> CARDTABLE_BASE_ORANGE     = register("cardtable_base_orange",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.ORANGE),     ItemGroup.TAB_DECORATIONS);
@@ -440,6 +441,7 @@ public class CasinoKeeper {
 
 
 
+
     //----------------------------------------REGISTER----------------------------------------//
 
     static void register(){
@@ -466,6 +468,7 @@ public class CasinoKeeper {
     private static RegistryObject<SoundEvent> register(String name, SoundEvent sound){
         return SOUNDS.register(name, () -> sound);
     }
+
 
 
 
@@ -534,5 +537,7 @@ public class CasinoKeeper {
             ScreenManager.register(CONTAINER_CHIP_BLACK.get(),      ScreenChipBlack::new);
         });
     }
+
+
 
 }

@@ -1,12 +1,17 @@
 package mod.casinocraft.util;
 
-import mod.casinocraft.CasinoKeeper;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class MapRoom {
+
+    // ...
+
+
+
+
+
+    //----------------------------------------SOKOBAN----------------------------------------//
 
     public static List<String> loadSokoban(int index){
         List<String> list = new ArrayList<String>();
@@ -354,5 +359,7 @@ public class MapRoom {
         }
         return list;
     }
+
+
 
 }

@@ -15,6 +15,7 @@ public class ScreenCardCyan extends ScreenCasino {   // Spider
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardCyan(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -24,11 +25,13 @@ public class ScreenCardCyan extends ScreenCasino {   // Spider
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardCyan logic(){
         return (LogicCardCyan) menu.logic();
     }
+
 
 
 
@@ -45,6 +48,7 @@ public class ScreenCardCyan extends ScreenCasino {   // Spider
             if(mouseRect(296, 24+4, 32, 196, mouseX, mouseY)){ action(-1); }
         }
     }
+
 
 
 
@@ -87,17 +91,21 @@ public class ScreenCardCyan extends ScreenCasino {   // Spider
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "spider";
     }
+
+
 
 }

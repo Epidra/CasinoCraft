@@ -17,11 +17,13 @@ public class LogicMinoLightGray extends LogicModule {   // Minesweeper
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoLightGray(int tableID){
         super(tableID, 26, 14);
     }
+
 
 
 
@@ -46,6 +48,7 @@ public class LogicMinoLightGray extends LogicModule {   // Minesweeper
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
@@ -65,6 +68,7 @@ public class LogicMinoLightGray extends LogicModule {   // Minesweeper
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     public void updateLogic(){
@@ -74,6 +78,7 @@ public class LogicMinoLightGray extends LogicModule {   // Minesweeper
     public void updateMotion(){
 
     }
+
 
 
 
@@ -92,7 +97,8 @@ public class LogicMinoLightGray extends LogicModule {   // Minesweeper
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void fillGrid() {
         bombs = scoreLevel + scoreLevel * tableID * 3;
@@ -201,7 +207,8 @@ public class LogicMinoLightGray extends LogicModule {   // Minesweeper
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -214,5 +221,7 @@ public class LogicMinoLightGray extends LogicModule {   // Minesweeper
     public int getID(){
         return 39;
     }
+
+
 
 }

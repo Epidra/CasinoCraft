@@ -25,6 +25,7 @@ public class MessageInventoryServer {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageInventoryServer(NonNullList<ItemStack> inventory, int storageToken, int storagePrize, BlockPos pos) {
@@ -37,6 +38,7 @@ public class MessageInventoryServer {
         this.storagePrize = storagePrize;
         this.pos = pos;
     }
+
 
 
 
@@ -71,6 +73,7 @@ public class MessageInventoryServer {
         inv.set(4, _stack4);
         return new MessageInventoryServer(inv, _storageToken, _storagePrize, _pos);
     }
+
 
 
 
@@ -110,5 +113,7 @@ public class MessageInventoryServer {
             context.get().setPacketHandled(true);
         }
     }
+
+
 
 }

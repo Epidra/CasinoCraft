@@ -37,11 +37,13 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMachine(ContainerMachine container, PlayerInventory player, ITextComponent name) {
         super(container, player, name, 176, 204);
     }
+
 
 
 
@@ -112,12 +114,12 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (mouseButton == 0 && hasKey() && activeInput == 0){
 
-            // Page Header
+            // ----- Page Header ----- //
             if(mouseRect( 58 - 56, 0, 56, 24, mouseX, mouseY)) { commandChangePage(0); }
             if(mouseRect(116 - 56, 0, 56, 24, mouseX, mouseY)) { commandChangePage(1); }
             if(mouseRect(174 - 56, 0, 56, 24, mouseX, mouseY)) { commandChangePage(2); }
 
-            // Page Body
+            // ----- Page Body ----- //
             if(page == 0){ // PAGE: Settings
                 if(mouseRect(60 - 56, 30, 12, 12, mouseX, mouseY)) { commandToggleSettings(0); } // SETTING 1
                 if(mouseRect(60 - 56, 43, 12, 12, mouseX, mouseY)) { commandToggleSettings(1); } // SETTING 2
@@ -163,7 +165,7 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
     protected void renderLabels(MatrixStack matrixstack, int mouseX, int mouseY){
 
-        // Page Body
+        // ----- Page Body ----- //
         if(activeInput == 0){
             if(hasKey()){
                 if(page == 1){ // PAGE: Betting
@@ -197,7 +199,7 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
         int j = (this.height - this.imageHeight) / 2;
         this.blit(matrixstack, i, j, 0, 0, this.imageWidth+56, this.imageHeight);
 
-        // Page Body
+        // ----- Page Body ----- //
         if(activeInput == 0 && hasKey()){
             if(page == 0){ // PAGE: Settings
                 if(menu.getSettingInfiniteToken())       this.blit(matrixstack,  i + 60, j + 30, 108, 244, 12, 12);
@@ -239,6 +241,7 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
             }
         }
     }
+
 
 
 
@@ -366,6 +369,7 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
 
 
 
+
     //----------------------------------------SUPPORT----------------------------------------//
 
     private ResourceLocation getTexture(){
@@ -411,5 +415,7 @@ public class ScreenMachine extends ScreenBase<ContainerMachine> {
     protected boolean hasKey(){
         return menu.hasKey();
     }
+
+
 
 }

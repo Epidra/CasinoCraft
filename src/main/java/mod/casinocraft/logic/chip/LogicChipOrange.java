@@ -22,11 +22,13 @@ public class LogicChipOrange extends LogicModule {   // Snake
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicChipOrange(int tableID){
         super(tableID);
     }
+
 
 
 
@@ -44,11 +46,13 @@ public class LogicChipOrange extends LogicModule {   // Snake
 
 
 
+
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
         temp_player = action;
     }
+
 
 
 
@@ -69,6 +73,7 @@ public class LogicChipOrange extends LogicModule {   // Snake
     public void updateMotion(){
 
     }
+
 
 
 
@@ -98,7 +103,8 @@ public class LogicChipOrange extends LogicModule {   // Snake
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void commandMove() {
         if(octanom_head.getPos().matches(octanom_head.getNext())) {
@@ -205,7 +211,8 @@ public class LogicChipOrange extends LogicModule {   // Snake
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -218,5 +225,7 @@ public class LogicChipOrange extends LogicModule {   // Snake
     public int getID(){
         return 26;
     }
+
+
 
 }

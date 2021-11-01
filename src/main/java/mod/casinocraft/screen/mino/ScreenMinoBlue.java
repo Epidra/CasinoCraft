@@ -15,6 +15,7 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoBlue(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -24,11 +25,13 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoBlue logic(){
         return (LogicMinoBlue) menu.logic();
     }
+
 
 
 
@@ -48,6 +51,7 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
             }
         }
     }
+
 
 
 
@@ -100,17 +104,21 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "memory";
     }
+
+
 
 }

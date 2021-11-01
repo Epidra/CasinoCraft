@@ -12,11 +12,13 @@ public class LogicMinoGray extends LogicModule {   // Mino Flip
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoGray(int tableID) {
         super(tableID, 7, 7);
     }
+
 
 
 
@@ -34,6 +36,7 @@ public class LogicMinoGray extends LogicModule {   // Mino Flip
         scoreLevel++;
         fillGrid();
     }
+
 
 
 
@@ -57,6 +60,7 @@ public class LogicMinoGray extends LogicModule {   // Mino Flip
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     public void updateLogic() {
@@ -66,6 +70,7 @@ public class LogicMinoGray extends LogicModule {   // Mino Flip
     public void updateMotion() {
 
     }
+
 
 
 
@@ -83,7 +88,8 @@ public class LogicMinoGray extends LogicModule {   // Mino Flip
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void fillGrid(){
         for(int y = 0; y < 5; y++){
@@ -190,7 +196,8 @@ public class LogicMinoGray extends LogicModule {   // Mino Flip
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return true;
@@ -203,5 +210,7 @@ public class LogicMinoGray extends LogicModule {   // Mino Flip
     public int getID(){
         return 36;
     }
+
+
 
 }

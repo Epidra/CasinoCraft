@@ -20,6 +20,7 @@ public class LogicMinoPink extends LogicModule {   // FanTan
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoPink(int tableID) {
@@ -29,11 +30,13 @@ public class LogicMinoPink extends LogicModule {   // FanTan
 
 
 
+
     //----------------------------------------START/RESTART----------------------------------------//
 
     public void start2() {
         chips.clear();
     }
+
 
 
 
@@ -55,6 +58,7 @@ public class LogicMinoPink extends LogicModule {   // FanTan
             }
         }
     }
+
 
 
 
@@ -98,6 +102,7 @@ public class LogicMinoPink extends LogicModule {   // FanTan
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
@@ -118,7 +123,8 @@ public class LogicMinoPink extends LogicModule {   // FanTan
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void spin(){
         turnstate = 3;
@@ -140,7 +146,8 @@ public class LogicMinoPink extends LogicModule {   // FanTan
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -153,5 +160,7 @@ public class LogicMinoPink extends LogicModule {   // FanTan
     public int getID(){
         return 43;
     }
+
+
 
 }

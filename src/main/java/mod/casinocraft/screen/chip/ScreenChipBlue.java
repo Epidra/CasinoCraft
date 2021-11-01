@@ -15,11 +15,13 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenChipBlue(ContainerCasino container, PlayerInventory player, ITextComponent name) {
         super(container, player, name);
     }
+
 
 
 
@@ -33,11 +35,13 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
 
 
 
+
     //----------------------------------------INPUT----------------------------------------//
 
     protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
 
     }
+
 
 
 
@@ -81,7 +85,8 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private int tetroColor(int x, int y){
         return logic().inLine(y) && (logic().alpha/75)%2==0 ? logic().grid[x][y] + 8 : logic().grid[x][y];
@@ -107,10 +112,13 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "tetris";
     }
+
+
 
 }

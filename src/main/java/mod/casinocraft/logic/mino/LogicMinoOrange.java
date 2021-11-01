@@ -20,11 +20,13 @@ public class LogicMinoOrange extends LogicModule {   // Craps
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public LogicMinoOrange(int tableID){
         super(tableID, 8, 5);
     }
+
 
 
 
@@ -40,6 +42,7 @@ public class LogicMinoOrange extends LogicModule {   // Craps
         dice[0] = new Dice(0, 1);
         dice[1] = new Dice(0, 1);
     }
+
 
 
 
@@ -78,6 +81,7 @@ public class LogicMinoOrange extends LogicModule {   // Craps
 
 
 
+
     //----------------------------------------UPDATE----------------------------------------//
 
     public void updateLogic(){
@@ -109,6 +113,7 @@ public class LogicMinoOrange extends LogicModule {   // Craps
 
 
 
+
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
@@ -129,7 +134,8 @@ public class LogicMinoOrange extends LogicModule {   // Craps
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void spin() {
         if(turnstate == 2) {
@@ -276,7 +282,8 @@ public class LogicMinoOrange extends LogicModule {   // Craps
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     public boolean hasHighscore(){
         return false;
@@ -289,5 +296,7 @@ public class LogicMinoOrange extends LogicModule {   // Craps
     public int getID(){
         return 42;
     }
+
+
 
 }

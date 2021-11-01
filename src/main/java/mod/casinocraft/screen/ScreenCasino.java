@@ -1,7 +1,6 @@
 package mod.casinocraft.screen;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
@@ -15,7 +14,6 @@ import mod.lucky77.screen.ScreenBase;
 import mod.lucky77.util.Inventory;
 import mod.lucky77.util.Vector2;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
@@ -54,6 +52,7 @@ public abstract class ScreenCasino extends ScreenBase<ContainerCasino> {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCasino(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -64,11 +63,13 @@ public abstract class ScreenCasino extends ScreenBase<ContainerCasino> {
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     private LogicModule logic(){
         return menu.logic();
     }
+
 
 
 
@@ -225,6 +226,7 @@ public abstract class ScreenCasino extends ScreenBase<ContainerCasino> {
         }
         return false;
     }
+
 
 
 
@@ -493,6 +495,7 @@ public abstract class ScreenCasino extends ScreenBase<ContainerCasino> {
         }
 
     }
+
 
 
 
@@ -1007,13 +1010,16 @@ public abstract class ScreenCasino extends ScreenBase<ContainerCasino> {
 
 
 
-    //----------------------------------------OVERRIDES----------------------------------------//
+
+    //----------------------------------------ABSTRACT----------------------------------------//
 
     protected abstract void mouseClickedSUB(double mouseX, double mouseY, int mouseButton);
     protected abstract void drawGuiContainerForegroundLayerSUB(MatrixStack matrixStack, int mouseX, int mouseY);
     protected abstract void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY);
     protected abstract void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY);
     protected abstract String getGameName();
+
+
 
 }
 

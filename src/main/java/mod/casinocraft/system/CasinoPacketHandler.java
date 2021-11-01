@@ -12,12 +12,24 @@ public class CasinoPacketHandler {
 
     private static final String PROTOCOL_VERSION = Integer.toString(1);
 
+
+
+
+
+    //----------------------------------------INSTANCE----------------------------------------//
+
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
             new ResourceLocation("casinocraft", "main"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
     );
+
+
+
+
+
+    //----------------------------------------REGISTER----------------------------------------//
 
     public static void register(){
         int disc = 0;
@@ -36,6 +48,12 @@ public class CasinoPacketHandler {
         INSTANCE.registerMessage(disc++, MessageInventoryClient.class, MessageInventoryClient::encode, MessageInventoryClient::decode, MessageInventoryClient.Handler::handle);
         INSTANCE.registerMessage(disc++, MessageInventoryServer.class, MessageInventoryServer::encode, MessageInventoryServer::decode, MessageInventoryServer.Handler::handle);
     }
+
+
+
+
+
+    //----------------------------------------SEND----------------------------------------//
 
     public static <MSG> void send(PacketDistributor.PacketTarget target, MSG message){
         INSTANCE.send(target, message);
@@ -56,5 +74,7 @@ public class CasinoPacketHandler {
     public static <MSG> void sendToAll(MSG msg) {
         INSTANCE.send(PacketDistributor.ALL.noArg(), msg);
     }
+
+
 
 }

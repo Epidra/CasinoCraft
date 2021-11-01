@@ -15,6 +15,7 @@ public class ScreenMinoGray extends ScreenCasino {   // Mino Flip
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenMinoGray(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -24,11 +25,13 @@ public class ScreenMinoGray extends ScreenCasino {   // Mino Flip
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicMinoGray logic(){
         return (LogicMinoGray) menu.logic();
     }
+
 
 
 
@@ -55,6 +58,7 @@ public class ScreenMinoGray extends ScreenCasino {   // Mino Flip
             if(mouseRect(140, 204, 92, 26, mouseX, mouseY)){ action(-2); }
         }
     }
+
 
 
 
@@ -104,17 +108,21 @@ public class ScreenMinoGray extends ScreenCasino {   // Mino Flip
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "mino_flip";
     }
+
+
 
 }

@@ -15,6 +15,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardPurple(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -24,11 +25,13 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardPurple logic(){
         return (LogicCardPurple) menu.logic();
     }
+
 
 
 
@@ -47,6 +50,7 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
             if(mouseRect(16*9, 192, 32, 48, mouseX, mouseY)){ if(logic().cards_reserve.size() > 0) action(-3); }
         }
     }
+
 
 
 
@@ -117,17 +121,21 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
 
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "tripeak";
     }
+
+
 
 }

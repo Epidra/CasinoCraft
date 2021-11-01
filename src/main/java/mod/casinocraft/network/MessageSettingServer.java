@@ -16,12 +16,14 @@ public class MessageSettingServer {
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public MessageSettingServer(BlockPos _pos, int[] _packetData) {
         this.pos = _pos;
         this.packetData = _packetData;
     }
+
 
 
 
@@ -38,6 +40,7 @@ public class MessageSettingServer {
         int[] _packet = buf.readVarIntArray();
         return new MessageSettingServer(_pos, _packet);
     }
+
 
 
 
@@ -73,5 +76,7 @@ public class MessageSettingServer {
             context.get().setPacketHandled(true);
         }
     }
+
+
 
 }

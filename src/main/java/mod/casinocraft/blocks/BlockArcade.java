@@ -8,50 +8,35 @@ import mod.lucky77.blocks.MachinaTall;
 import mod.lucky77.tileentities.TileBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.loot.*;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
 
 public class BlockArcade extends MachinaTall {
 
     private static final IntegerProperty MODULE = IntegerProperty.create("module", 0, 17);
-    private DyeColor color;
-    private static final VoxelShape AABB0 = Block.box(2, 0, 1, 16, 16, 15);
-    private static final VoxelShape AABB1 = Block.box(1, 0, 2, 16, 16, 15);
-    private static final VoxelShape AABB2 = Block.box(0, 0, 1, 14, 16, 15);
-    private static final VoxelShape AABB3 = Block.box(1, 0, 0, 15, 16, 14);
+    private        final DyeColor color;
+    private static final VoxelShape AABB_W = Block.box(2, 0, 1, 16, 16, 15);
+    private static final VoxelShape AABB_N = Block.box(1, 0, 2, 16, 16, 15);
+    private static final VoxelShape AABB_E = Block.box(0, 0, 1, 14, 16, 15);
+    private static final VoxelShape AABB_S = Block.box(1, 0, 0, 15, 16, 14);
+
 
 
 
@@ -64,6 +49,7 @@ public class BlockArcade extends MachinaTall {
         this.color = color;
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OFFSET, Boolean.TRUE).setValue(MODULE, 17));
     }
+
 
 
 
@@ -83,6 +69,7 @@ public class BlockArcade extends MachinaTall {
 
 
 
+
     //----------------------------------------INTERACTION----------------------------------------//
 
     @Override
@@ -95,15 +82,16 @@ public class BlockArcade extends MachinaTall {
         TileEntityMachine tileentity = (TileEntityMachine) world.getBlockEntity(pos);
         if (tileentity != null){
             if(tileentity.getItem(0).isEmpty()){
-                world.setBlock(pos,         iblockstate.setValue(                                  MODULE, 17), 3);
+                world.setBlock(pos,         iblockstate.setValue(                        MODULE, 17), 3);
                 world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, 17), 3);
             }
             else {
-                world.setBlock(pos,         iblockstate.setValue(                                  MODULE, itemToInt(tileentity.getItem(1).getItem())), 3);
+                world.setBlock(pos,         iblockstate.setValue(                        MODULE, itemToInt(tileentity.getItem(1).getItem())), 3);
                 world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, itemToInt(tileentity.getItem(1).getItem())), 3);
             }
         }
     }
+
 
 
 
@@ -113,10 +101,10 @@ public class BlockArcade extends MachinaTall {
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         Direction enumfacing = state.getValue(FACING);
         switch(enumfacing) {
-            case NORTH: return AABB1;
-            case SOUTH: return AABB3;
-            case EAST:  return AABB2;
-            case WEST:  return AABB0;
+            case NORTH: return AABB_N;
+            case SOUTH: return AABB_S;
+            case EAST:  return AABB_E;
+            case WEST:  return AABB_W;
             default:
                 return VoxelShapes.block();
         }
@@ -153,11 +141,6 @@ public class BlockArcade extends MachinaTall {
         return this.getBlock().getExplosionResistance() * (unbreakable ? 1000 : 1);
     }
 
-
-
-
-    //----------------------------------------HELPER----------------------------------------//
-
     private static int itemToInt(Item item){
         if(item == CasinoKeeper.MODULE_CHIP_BLACK.get())      return  0;
         if(item == CasinoKeeper.MODULE_CHIP_RED.get())        return  1;
@@ -177,5 +160,7 @@ public class BlockArcade extends MachinaTall {
         if(item == CasinoKeeper.MODULE_CHIP_WHITE.get())      return 15;
         return 16;
     }
+
+
 
 }

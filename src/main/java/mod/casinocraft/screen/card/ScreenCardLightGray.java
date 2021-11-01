@@ -17,6 +17,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
 
 
 
+
     //----------------------------------------CONSTRUCTOR----------------------------------------//
 
     public ScreenCardLightGray(ContainerCasino container, PlayerInventory player, ITextComponent name) {
@@ -26,11 +27,13 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
 
 
 
+
     //----------------------------------------LOGIC----------------------------------------//
 
     public LogicCardLightGray logic(){
         return (LogicCardLightGray) menu.logic();
     }
+
 
 
 
@@ -74,6 +77,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
             }
         }
     }
+
 
 
 
@@ -162,7 +166,8 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
 
 
 
-    //----------------------------------------CUSTOM----------------------------------------//
+
+    //----------------------------------------SUPPORT----------------------------------------//
 
     private void drawCard2(MatrixStack matrixstack, int posX, int posY, float angle, int playerPos, int cardPos){
         int i = 0;
@@ -192,10 +197,13 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
 
 
 
-    //----------------------------------------SUPPORT----------------------------------------//
+
+    //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
         return "draw_poker";
     }
+
+
 
 }
