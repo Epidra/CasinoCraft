@@ -144,7 +144,7 @@ public class BlockArcade extends MachinaTall implements EntityBlock {
         if (f == -1.0F) {
             return 0.0F;
         } else {
-            int i = net.minecraftforge.common.ForgeHooks.canHarvestBlock(state, player, worldIn, pos) ? 30 : 100;
+            int i = net.minecraftforge.common.ForgeHooks.isCorrectToolForDrops(state, player) ? 30 : 100;
             return player.getDigSpeed(state, pos) / f / (float)i;
         }
     }
