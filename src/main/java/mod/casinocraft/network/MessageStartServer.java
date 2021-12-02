@@ -4,7 +4,7 @@ import mod.casinocraft.system.CasinoPacketHandler;
 import mod.casinocraft.blockentity.BlockEntityMachine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 

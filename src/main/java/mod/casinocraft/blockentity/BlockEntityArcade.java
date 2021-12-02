@@ -34,12 +34,22 @@ public class BlockEntityArcade extends BlockEntityMachine {
 
     //----------------------------------------NETWORK----------------------------------------//
 
-    @Override
-    @Nullable
-    public ClientboundBlockEntityDataPacket getUpdatePacket(){
-        CompoundTag nbtTagCompound = new CompoundTag();
-        save(nbtTagCompound);
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, CasinoKeeper.TILE_ARCADE_BASE.get().hashCode(), nbtTagCompound);
+    //@Override
+    //@Nullable
+    //public ClientboundBlockEntityDataPacket getUpdatePacket(){
+    //    CompoundTag nbtTagCompound = new CompoundTag();
+    //    save(nbtTagCompound);
+    //    return new ClientboundBlockEntityDataPacket(this.worldPosition, CasinoKeeper.TILE_ARCADE_BASE.get().hashCode(), nbtTagCompound);
+    //}
+
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = this.saveWithoutMetadata();
+        save(tag);
+        return tag;
     }
 
 
