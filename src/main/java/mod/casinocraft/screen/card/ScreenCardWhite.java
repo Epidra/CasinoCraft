@@ -59,6 +59,7 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
 
     protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().turnstate >= 4) drawFont(matrixstack, logic().hand, 75, 150);
+        drawBalance(matrixstack);
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){

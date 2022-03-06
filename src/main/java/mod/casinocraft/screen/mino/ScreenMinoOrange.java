@@ -2,6 +2,7 @@ package mod.casinocraft.screen.mino;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import mod.casinocraft.CasinoConfig;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoOrange;
@@ -87,10 +88,11 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
         if(logic().point > -1) {     drawFont(matrixstack, "" + logic().point,     220, 28); }
         if(logic().comepoint > -1) { drawFont(matrixstack, "" + logic().comepoint, 240, 28); }
         if(logic().turnstate == 2){
-            if(CasinoKeeper.config_timeout.get() - logic().timeout > 0){
-                drawFontInvert(matrixstack, "" + (CasinoKeeper.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
+            if(CasinoConfig.CONFIG.config_timeout.get() - logic().timeout > 0){
+                drawFontInvert(matrixstack, "" + (CasinoConfig.CONFIG.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
             }
         }
+        drawBalance(matrixstack);
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){

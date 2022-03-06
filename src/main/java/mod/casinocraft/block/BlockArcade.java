@@ -100,7 +100,7 @@ public class BlockArcade extends MachinaTall implements EntityBlock {
     //----------------------------------------BLOCKENTITY----------------------------------------//
 
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(OFFSET) ? new BlockEntityArcade(pos, state) : null;
+        return state.getValue(OFFSET) ? new BlockEntityArcade(pos, state, color, 0) : null;
     }
 
     @Nullable

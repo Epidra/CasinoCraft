@@ -54,6 +54,7 @@ public class ScreenCardYellow extends ScreenCasino {   // Acey Deucey
     protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
         if(logic().spread > -1) drawFont(matrixstack, "Spread: " + logic().spread,  100, 125);
         drawFont(matrixstack, logic().hand,  75, 150);
+        drawBalance(matrixstack);
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){

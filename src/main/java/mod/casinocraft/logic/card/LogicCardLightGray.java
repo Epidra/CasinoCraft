@@ -85,14 +85,14 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
 
     public void updateLogic() {
         timeout++;
-        if(turnstate == 2 && timeout >= CasinoKeeper.config_timeout.get() || getFirstFreePlayerSlot() == (tableID == 1 ? 4 : 6)){
+        if(turnstate == 2 && timeout >= timeoutMAX || getFirstFreePlayerSlot() == (tableID == 1 ? 4 : 6)){
             draw();
         }
         if(turnstate == 3){
             if(folded[activePlayer]){
                 drawAnother();
             }
-            if(timeout == CasinoKeeper.config_timeout.get()){
+            if(timeout == timeoutMAX){
                 fold();
             }
             if(lastStanding() != -1){

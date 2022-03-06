@@ -60,6 +60,7 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
         if(logic().turnstate >= 3) drawFont(matrixstack, "" + logic().value_rouge, 36,  38-8);
         if(logic().turnstate >= 3) drawFont(matrixstack, "" + logic().value_noir, 36, 134-8);
         if(logic().turnstate >= 4) drawFont(matrixstack, logic().hand, 65, 115-8);
+        drawBalance(matrixstack);
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){

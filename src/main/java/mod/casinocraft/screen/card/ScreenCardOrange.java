@@ -58,6 +58,7 @@ public class ScreenCardOrange extends ScreenCasino {   // Baccarat
         if(logic().status == 1)     drawFont(matrixstack, "Natural Draw!",    80, 170);
         if(logic().status == 2)     drawFont(matrixstack, "continue drawing", 80, 170);
         if(logic().turnstate  >= 4) drawFont(matrixstack, logic().hand,            80, 190);
+        drawBalance(matrixstack);
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){

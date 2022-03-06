@@ -12,7 +12,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:orange_wool"
+            "items": ["minecraft:orange_wool"]
           }
         ]
       }

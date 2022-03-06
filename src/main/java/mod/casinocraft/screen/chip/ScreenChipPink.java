@@ -58,7 +58,7 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
     protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate == 2){
             RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SOKOBAN);
-            this.blit(matrixstack, leftPos, tableID, 0, 0, this.imageWidth, this.imageHeight); // Background
+            this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
         }
 
         if(logic().turnstate >= 2) {

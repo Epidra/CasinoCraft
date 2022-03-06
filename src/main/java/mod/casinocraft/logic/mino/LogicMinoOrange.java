@@ -87,7 +87,7 @@ public class LogicMinoOrange extends LogicModule {   // Craps
     public void updateLogic(){
         if(turnstate == 2){
             timeout++;
-            if(timeout == CasinoKeeper.config_timeout.get()){
+            if(timeout == timeoutMAX){
                 spin();
             }
         }

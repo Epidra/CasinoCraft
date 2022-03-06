@@ -2,6 +2,7 @@ package mod.casinocraft.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import mod.casinocraft.CasinoConfig;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.LogicModule;
@@ -11,11 +12,10 @@ import mod.casinocraft.system.CasinoPacketHandler;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.Ship;
 import mod.lucky77.screen.ScreenBase;
-import mod.lucky77.util.InventoryUtil;
+import mod.lucky77.system.SystemInventory;
 import mod.lucky77.util.Vector2;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.DyeColor;
@@ -36,21 +36,24 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
     protected int playerToken = -1;
     /** The bet set up in the opening screen */
     protected int bet = 0;
+    /** the current shown bet balance */
+    private int balance = 0;
 
-    protected int colour = 0;
-    protected int colourize = +65793;
+    private int colour = 0;
+    private int colourize = +65793;
     private final int grayscale = 16777215;
 
-    protected int camera1 = 0;
-    protected int camera0 = 0;
+    private int camera1 = 0;
+    private int camera0 = 0;
 
     protected boolean showDebug   = false;
     protected boolean showForfeit = false;
 
     protected int highlightIndex = 0;
-    private int highlightTimer = 0;
+    private   int highlightTimer = 0;
 
-    private Inventory inventory;
+    /** The Player Inventory **/
+    private final Inventory inventory;
 
 
 
@@ -129,7 +132,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
                     }
                 }
             }
-            if((menu.turnstate() == 2 || menu.turnstate() == 3) &&                            tableID == 0 && keyCode == KEY_SPACE){ turnstate(-1); } // Toggle Pause Mode
+            if((menu.turnstate() == 2 || menu.turnstate() == 3) &&                       tableID == 0 && keyCode == KEY_SPACE){ turnstate(-1); } // Toggle Pause Mode
             if((menu.turnstate() == 2 || menu.turnstate() == 3) && menu.logic().pause && tableID == 0 && keyCode == KEY_ENTER){ turnstate( 4); } // SET Game Over
 
         } else if(tableID == 3){ // Slot Machine Special Handling
@@ -398,7 +401,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
                 this.blit(matrixStack, leftPos, topPos, 0, camera0, 256, 256);
             }
         } else if(tableID < 3){ // Card Table Background
-            RenderSystem.setShaderTexture(0, tableID == 0 ? CasinoKeeper.TEXTURE_GROUND_ARCADE : getBackground());
+            RenderSystem.setShaderTexture(0, getBackground());
             if(tableID == 2){
                 this.blit(matrixStack, leftPos-128+32, topPos,  0, 0, this.imageWidth-32, this.imageHeight); // Background Left
                 this.blit(matrixStack, leftPos+128   , topPos, 32, 0, this.imageWidth-32, this.imageHeight); // Background Right
@@ -627,7 +630,8 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
     /** Collects the bet from the Player **/
     protected void collectBet(){ // ???
         if(menu.hasToken()){
-            InventoryUtil.decreaseInventory(inventory, menu.getItemToken(), bet);
+            balance -= bet;
+            SystemInventory.decreaseInventory(inventory, menu.getItemToken(), bet);
             {
                 int i = 0;
                 ItemStack itemStack = ItemStack.EMPTY;
@@ -664,6 +668,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
     /** Pays the Reward to the Player **/
     private void payBet(int multi){ // ???
         if(multi <= 0) return;
+        balance += bet * multi;
         if(menu.hasToken()){
             if(!menu.getSettingInfiniteToken()) {
                 Item item = menu.getItemToken().getItem();
@@ -787,6 +792,10 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         return -1;
     }
 
+    protected void drawBalance(PoseStack matrixStack){
+        //drawFont(matrixStack, "Balance: " + balance, tableID == 1 ? 0 : -64, 256 - 16, grayscale);
+    }
+
     /** Draws String on x,y position with shadow **/
     protected void drawFont(PoseStack matrixStack, String text, int x, int y){
         drawFont(matrixStack, text, x, y, grayscale);
@@ -833,7 +842,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         }
         int texX = card.suit == -1 || card.hidden ? 0 : card.number % 8;
         int texY = card.suit == -1 || card.hidden ? 4 : (card.suit % 2) * 2 + card.number / 8;
-        if(CasinoKeeper.config_animated_cards.get() && !card.hidden){
+        if(CasinoConfig.CONFIG.config_animated_cards.get() && !card.hidden){
             if(card.number >= 10){
                 if(logic().frame == card.suit*12 + (card.number-10)*3){
                     texX += 3;

@@ -1,6 +1,5 @@
 package mod.casinocraft;
 
-import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import mod.casinocraft.block.*;
 import mod.casinocraft.menu.block.MenuArcade;
 import mod.casinocraft.menu.block.MenuCardTable;
@@ -24,6 +23,7 @@ import mod.lucky77.item.ItemItem;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -34,7 +34,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -42,8 +41,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.nio.file.Path;
 
 import static mod.casinocraft.CasinoCraft.MODID;
 
@@ -61,154 +58,157 @@ public class CasinoKeeper {
 
 
     // Card Tables
-    public static final RegistryObject<Block> CARDTABLE_BASE_WHITE      = register("cardtable_base_white",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.WHITE),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_ORANGE     = register("cardtable_base_orange",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.ORANGE),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_MAGENTA    = register("cardtable_base_magenta",    new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.MAGENTA),    CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_LIGHT_BLUE = register("cardtable_base_light_blue", new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.LIGHT_BLUE), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_YELLOW     = register("cardtable_base_yellow",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.YELLOW),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_LIME       = register("cardtable_base_lime",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.LIME),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_PINK       = register("cardtable_base_pink",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.PINK),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_GRAY       = register("cardtable_base_gray",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.GRAY),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_LIGHT_GRAY = register("cardtable_base_light_gray", new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.LIGHT_GRAY), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_CYAN       = register("cardtable_base_cyan",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.CYAN),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_PURPLE     = register("cardtable_base_purple",     new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.PURPLE),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_BLUE       = register("cardtable_base_blue",       new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.BLUE),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_BROWN      = register("cardtable_base_brown",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.BROWN),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_GREEN      = register("cardtable_base_green",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.GREEN),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_RED        = register("cardtable_base_red",        new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.RED),        CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_BASE_BLACK      = register("cardtable_base_black",      new BlockCardTableBase(Blocks.OAK_PLANKS, DyeColor.BLACK),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_WHITE      = register("cardtable_wide_white",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.WHITE),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_ORANGE     = register("cardtable_wide_orange",     new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.ORANGE),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_MAGENTA    = register("cardtable_wide_magenta",    new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.MAGENTA),    CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_LIGHT_BLUE = register("cardtable_wide_light_blue", new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.LIGHT_BLUE), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_YELLOW     = register("cardtable_wide_yellow",     new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.YELLOW),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_LIME       = register("cardtable_wide_lime",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.LIME),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_PINK       = register("cardtable_wide_pink",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.PINK),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_GRAY       = register("cardtable_wide_gray",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.GRAY),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_LIGHT_GRAY = register("cardtable_wide_light_gray", new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.LIGHT_GRAY), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_CYAN       = register("cardtable_wide_cyan",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.CYAN),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_PURPLE     = register("cardtable_wide_purple",     new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.PURPLE),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_BLUE       = register("cardtable_wide_blue",       new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.BLUE),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_BROWN      = register("cardtable_wide_brown",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.BROWN),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_GREEN      = register("cardtable_wide_green",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.GREEN),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_RED        = register("cardtable_wide_red",        new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.RED),        CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> CARDTABLE_WIDE_BLACK      = register("cardtable_wide_black",      new BlockCardTableWide(Blocks.OAK_PLANKS, DyeColor.BLACK),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_WHITE      = registerB("cardtable_base_white",      () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.WHITE),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_ORANGE     = registerB("cardtable_base_orange",     () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.ORANGE),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_MAGENTA    = registerB("cardtable_base_magenta",    () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.MAGENTA),    CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_LIGHT_BLUE = registerB("cardtable_base_light_blue", () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.LIGHT_BLUE), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_YELLOW     = registerB("cardtable_base_yellow",     () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.YELLOW),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_LIME       = registerB("cardtable_base_lime",       () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.LIME),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_PINK       = registerB("cardtable_base_pink",       () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.PINK),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_GRAY       = registerB("cardtable_base_gray",       () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.GRAY),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_LIGHT_GRAY = registerB("cardtable_base_light_gray", () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.LIGHT_GRAY), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_CYAN       = registerB("cardtable_base_cyan",       () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.CYAN),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_PURPLE     = registerB("cardtable_base_purple",     () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.PURPLE),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_BLUE       = registerB("cardtable_base_blue",       () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.BLUE),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_BROWN      = registerB("cardtable_base_brown",      () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.BROWN),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_GREEN      = registerB("cardtable_base_green",      () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.GREEN),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_RED        = registerB("cardtable_base_red",        () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.RED),        CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_BASE_BLACK      = registerB("cardtable_base_black",      () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.BLACK),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_WHITE      = registerB("cardtable_wide_white",      () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.WHITE),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_ORANGE     = registerB("cardtable_wide_orange",     () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.ORANGE),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_MAGENTA    = registerB("cardtable_wide_magenta",    () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.MAGENTA),    CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_LIGHT_BLUE = registerB("cardtable_wide_light_blue", () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.LIGHT_BLUE), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_YELLOW     = registerB("cardtable_wide_yellow",     () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.YELLOW),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_LIME       = registerB("cardtable_wide_lime",       () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.LIME),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_PINK       = registerB("cardtable_wide_pink",       () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.PINK),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_GRAY       = registerB("cardtable_wide_gray",       () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.GRAY),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_LIGHT_GRAY = registerB("cardtable_wide_light_gray", () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.LIGHT_GRAY), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_CYAN       = registerB("cardtable_wide_cyan",       () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.CYAN),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_PURPLE     = registerB("cardtable_wide_purple",     () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.PURPLE),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_BLUE       = registerB("cardtable_wide_blue",       () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.BLUE),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_BROWN      = registerB("cardtable_wide_brown",      () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.BROWN),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_GREEN      = registerB("cardtable_wide_green",      () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.GREEN),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_RED        = registerB("cardtable_wide_red",        () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.RED),        CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> CARDTABLE_WIDE_BLACK      = registerB("cardtable_wide_black",      () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.BLACK),      CreativeModeTab.TAB_DECORATIONS);
 
     // Arcades
-    public static final RegistryObject<Block> ARCADE_BASE_WHITE      = register("arcade_base_white",      new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.WHITE),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_ORANGE     = register("arcade_base_orange",     new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.ORANGE),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_MAGENTA    = register("arcade_base_magenta",    new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.MAGENTA),    CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_LIGHT_BLUE = register("arcade_base_light_blue", new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.LIGHT_BLUE), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_YELLOW     = register("arcade_base_yellow",     new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.YELLOW),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_LIME       = register("arcade_base_lime",       new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.LIME),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_PINK       = register("arcade_base_pink",       new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.PINK),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_GRAY       = register("arcade_base_gray",       new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.GRAY),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_LIGHT_GRAY = register("arcade_base_light_gray", new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.LIGHT_GRAY), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_CYAN       = register("arcade_base_cyan",       new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.CYAN),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_PURPLE     = register("arcade_base_purple",     new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.PURPLE),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_BLUE       = register("arcade_base_blue",       new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.BLUE),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_BROWN      = register("arcade_base_brown",      new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.BROWN),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_GREEN      = register("arcade_base_green",      new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.GREEN),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_RED        = register("arcade_base_red",        new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.RED),        CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_BASE_BLACK      = register("arcade_base_black",      new BlockArcade(     Blocks.OAK_PLANKS, DyeColor.BLACK),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_WHITE      = register("arcade_slot_white",      new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.WHITE),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_ORANGE     = register("arcade_slot_orange",     new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.ORANGE),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_MAGENTA    = register("arcade_slot_magenta",    new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.MAGENTA),    CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_LIGHT_BLUE = register("arcade_slot_light_blue", new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.LIGHT_BLUE), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_YELLOW     = register("arcade_slot_yellow",     new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.YELLOW),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_LIME       = register("arcade_slot_lime",       new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.LIME),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_PINK       = register("arcade_slot_pink",       new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.PINK),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_GRAY       = register("arcade_slot_gray",       new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.GRAY),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_LIGHT_GRAY = register("arcade_slot_light_gray", new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.LIGHT_GRAY), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_CYAN       = register("arcade_slot_cyan",       new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.CYAN),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_PURPLE     = register("arcade_slot_purple",     new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.PURPLE),     CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_BLUE       = register("arcade_slot_blue",       new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.BLUE),       CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_BROWN      = register("arcade_slot_brown",      new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.BROWN),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_GREEN      = register("arcade_slot_green",      new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.GREEN),      CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_RED        = register("arcade_slot_red",        new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.RED),        CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> ARCADE_SLOT_BLACK      = register("arcade_slot_black",      new BlockSlotMachine(Blocks.OAK_PLANKS, DyeColor.BLACK),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_WHITE      = registerB("arcade_base_white",      () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.WHITE),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_ORANGE     = registerB("arcade_base_orange",     () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.ORANGE),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_MAGENTA    = registerB("arcade_base_magenta",    () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.MAGENTA),    CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_LIGHT_BLUE = registerB("arcade_base_light_blue", () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.LIGHT_BLUE), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_YELLOW     = registerB("arcade_base_yellow",     () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.YELLOW),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_LIME       = registerB("arcade_base_lime",       () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.LIME),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_PINK       = registerB("arcade_base_pink",       () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.PINK),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_GRAY       = registerB("arcade_base_gray",       () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.GRAY),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_LIGHT_GRAY = registerB("arcade_base_light_gray", () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.LIGHT_GRAY), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_CYAN       = registerB("arcade_base_cyan",       () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.CYAN),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_PURPLE     = registerB("arcade_base_purple",     () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.PURPLE),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_BLUE       = registerB("arcade_base_blue",       () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.BLUE),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_BROWN      = registerB("arcade_base_brown",      () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.BROWN),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_GREEN      = registerB("arcade_base_green",      () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.GREEN),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_RED        = registerB("arcade_base_red",        () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.RED),        CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_BASE_BLACK      = registerB("arcade_base_black",      () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.BLACK),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_WHITE      = registerB("arcade_slot_white",      () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.WHITE),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_ORANGE     = registerB("arcade_slot_orange",     () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.ORANGE),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_MAGENTA    = registerB("arcade_slot_magenta",    () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.MAGENTA),    CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_LIGHT_BLUE = registerB("arcade_slot_light_blue", () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.LIGHT_BLUE), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_YELLOW     = registerB("arcade_slot_yellow",     () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.YELLOW),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_LIME       = registerB("arcade_slot_lime",       () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.LIME),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_PINK       = registerB("arcade_slot_pink",       () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.PINK),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_GRAY       = registerB("arcade_slot_gray",       () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.GRAY),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_LIGHT_GRAY = registerB("arcade_slot_light_gray", () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.LIGHT_GRAY), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_CYAN       = registerB("arcade_slot_cyan",       () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.CYAN),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_PURPLE     = registerB("arcade_slot_purple",     () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.PURPLE),     CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_BLUE       = registerB("arcade_slot_blue",       () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BLUE),       CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_BROWN      = registerB("arcade_slot_brown",      () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BROWN),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_GREEN      = registerB("arcade_slot_green",      () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.GREEN),      CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_RED        = registerB("arcade_slot_red",        () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.RED),        CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> ARCADE_SLOT_BLACK      = registerB("arcade_slot_black",      () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BLACK),      CreativeModeTab.TAB_DECORATIONS);
 
     // Dice Blocks
-    public static final RegistryObject<Block> DICE_BASIC_WHITE      = register("dice_basic_white",      new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_ORANGE     = register("dice_basic_orange",     new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_MAGENTA    = register("dice_basic_magenta",    new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_LIGHT_BLUE = register("dice_basic_light_blue", new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_YELLOW     = register("dice_basic_yellow",     new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_LIME       = register("dice_basic_lime",       new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_PINK       = register("dice_basic_pink",       new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_GRAY       = register("dice_basic_gray",       new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_LIGHT_GRAY = register("dice_basic_light_gray", new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_CYAN       = register("dice_basic_cyan",       new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_PURPLE     = register("dice_basic_purple",     new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_BLUE       = register("dice_basic_blue",       new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_BROWN      = register("dice_basic_brown",      new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_GREEN      = register("dice_basic_green",      new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_RED        = register("dice_basic_red",        new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
-    public static final RegistryObject<Block> DICE_BASIC_BLACK      = register("dice_basic_black",      new BlockDice(Blocks.OAK_PLANKS), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_WHITE      = registerB("dice_basic_white",      () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_ORANGE     = registerB("dice_basic_orange",     () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_MAGENTA    = registerB("dice_basic_magenta",    () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_LIGHT_BLUE = registerB("dice_basic_light_blue", () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_YELLOW     = registerB("dice_basic_yellow",     () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_LIME       = registerB("dice_basic_lime",       () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_PINK       = registerB("dice_basic_pink",       () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_GRAY       = registerB("dice_basic_gray",       () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_LIGHT_GRAY = registerB("dice_basic_light_gray", () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_CYAN       = registerB("dice_basic_cyan",       () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_PURPLE     = registerB("dice_basic_purple",     () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_BLUE       = registerB("dice_basic_blue",       () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_BROWN      = registerB("dice_basic_brown",      () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_GREEN      = registerB("dice_basic_green",      () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_RED        = registerB("dice_basic_red",        () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
+    public static final RegistryObject<Block> DICE_BASIC_BLACK      = registerB("dice_basic_black",      () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
 
     // Modules
-    public static final RegistryObject<Item> MODULE_MINO_WHITE      = register("module_mino_white",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_ORANGE     = register("module_mino_orange",     new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_MAGENTA    = register("module_mino_magenta",    new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_LIGHT_BLUE = register("module_mino_light_blue", new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_YELLOW     = register("module_mino_yellow",     new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_LIME       = register("module_mino_lime",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_PINK       = register("module_mino_pink",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_GRAY       = register("module_mino_gray",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_LIGHT_GRAY = register("module_mino_light_gray", new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_CYAN       = register("module_mino_cyan",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_PURPLE     = register("module_mino_purple",     new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_BLUE       = register("module_mino_blue",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_BROWN      = register("module_mino_brown",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_GREEN      = register("module_mino_green",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_RED        = register("module_mino_red",        new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_MINO_BLACK      = register("module_mino_black",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_WHITE      = register("module_chip_white",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_ORANGE     = register("module_chip_orange",     new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_MAGENTA    = register("module_chip_magenta",    new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_LIGHT_BLUE = register("module_chip_light_blue", new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_YELLOW     = register("module_chip_yellow",     new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_LIME       = register("module_chip_lime",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_PINK       = register("module_chip_pink",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_GRAY       = register("module_chip_gray",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_LIGHT_GRAY = register("module_chip_light_gray", new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_CYAN       = register("module_chip_cyan",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_PURPLE     = register("module_chip_purple",     new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_BLUE       = register("module_chip_blue",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_BROWN      = register("module_chip_brown",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_GREEN      = register("module_chip_green",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_RED        = register("module_chip_red",        new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CHIP_BLACK      = register("module_chip_black",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_WHITE      = register("module_card_white",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_ORANGE     = register("module_card_orange",     new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_MAGENTA    = register("module_card_magenta",    new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_LIGHT_BLUE = register("module_card_light_blue", new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_YELLOW     = register("module_card_yellow",     new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_LIME       = register("module_card_lime",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_PINK       = register("module_card_pink",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_GRAY       = register("module_card_gray",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_LIGHT_GRAY = register("module_card_light_gray", new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_CYAN       = register("module_card_cyan",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_PURPLE     = register("module_card_purple",     new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_BLUE       = register("module_card_blue",       new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_BROWN      = register("module_card_brown",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_GREEN      = register("module_card_green",      new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_RED        = register("module_card_red",        new ItemItem(CreativeModeTab.TAB_MISC));
-    public static final RegistryObject<Item> MODULE_CARD_BLACK      = register("module_card_black",      new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_WHITE      = registerI("module_mino_white",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_ORANGE     = registerI("module_mino_orange",     () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_MAGENTA    = registerI("module_mino_magenta",    () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_LIGHT_BLUE = registerI("module_mino_light_blue", () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_YELLOW     = registerI("module_mino_yellow",     () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_LIME       = registerI("module_mino_lime",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_PINK       = registerI("module_mino_pink",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_GRAY       = registerI("module_mino_gray",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_LIGHT_GRAY = registerI("module_mino_light_gray", () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_CYAN       = registerI("module_mino_cyan",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_PURPLE     = registerI("module_mino_purple",     () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_BLUE       = registerI("module_mino_blue",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_BROWN      = registerI("module_mino_brown",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_GREEN      = registerI("module_mino_green",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_RED        = registerI("module_mino_red",        () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_MINO_BLACK      = registerI("module_mino_black",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_WHITE      = registerI("module_chip_white",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_ORANGE     = registerI("module_chip_orange",     () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_MAGENTA    = registerI("module_chip_magenta",    () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_LIGHT_BLUE = registerI("module_chip_light_blue", () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_YELLOW     = registerI("module_chip_yellow",     () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_LIME       = registerI("module_chip_lime",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_PINK       = registerI("module_chip_pink",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_GRAY       = registerI("module_chip_gray",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_LIGHT_GRAY = registerI("module_chip_light_gray", () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_CYAN       = registerI("module_chip_cyan",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_PURPLE     = registerI("module_chip_purple",     () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_BLUE       = registerI("module_chip_blue",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_BROWN      = registerI("module_chip_brown",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_GREEN      = registerI("module_chip_green",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_RED        = registerI("module_chip_red",        () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CHIP_BLACK      = registerI("module_chip_black",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_WHITE      = registerI("module_card_white",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_ORANGE     = registerI("module_card_orange",     () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_MAGENTA    = registerI("module_card_magenta",    () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_LIGHT_BLUE = registerI("module_card_light_blue", () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_YELLOW     = registerI("module_card_yellow",     () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_LIME       = registerI("module_card_lime",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_PINK       = registerI("module_card_pink",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_GRAY       = registerI("module_card_gray",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_LIGHT_GRAY = registerI("module_card_light_gray", () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_CYAN       = registerI("module_card_cyan",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_PURPLE     = registerI("module_card_purple",     () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_BLUE       = registerI("module_card_blue",       () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_BROWN      = registerI("module_card_brown",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_GREEN      = registerI("module_card_green",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_RED        = registerI("module_card_red",        () -> new ItemItem(CreativeModeTab.TAB_MISC));
+    public static final RegistryObject<Item> MODULE_CARD_BLACK      = registerI("module_card_black",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
+
+    // Books
+    //public static final RegistryObject<Item> BOOK_ARCADE      = register("book_arcade",      new ItemBookArcade());
 
     // Sounds
-    public static final RegistryObject<SoundEvent> SOUND_PICKUP     = register("casinocraft.pickup",     new SoundEvent(new ResourceLocation(MODID, "casinocraft.pickup")));
-    public static final RegistryObject<SoundEvent> SOUND_IMPACT     = register("casinocraft.impact",     new SoundEvent(new ResourceLocation(MODID, "casinocraft.impact")));
-    public static final RegistryObject<SoundEvent> SOUND_MENU       = register("casinocraft.menu",       new SoundEvent(new ResourceLocation(MODID, "casinocraft.menu")));
-    public static final RegistryObject<SoundEvent> SOUND_PAUSE_ON   = register("casinocraft.pause.on",   new SoundEvent(new ResourceLocation(MODID, "casinocraft.pause.on")));
-    public static final RegistryObject<SoundEvent> SOUND_PAUSE_OFF  = register("casinocraft.pause.off",  new SoundEvent(new ResourceLocation(MODID, "casinocraft.pause.off")));
-    public static final RegistryObject<SoundEvent> SOUND_TETRIS     = register("casinocraft.tetris",     new SoundEvent(new ResourceLocation(MODID, "casinocraft.tetris")));
-    public static final RegistryObject<SoundEvent> SOUND_CARD_PLACE = register("casinocraft.card.place", new SoundEvent(new ResourceLocation(MODID, "casinocraft.card.place")));
-    public static final RegistryObject<SoundEvent> SOUND_CARD_SHOVE = register("casinocraft.card.shove", new SoundEvent(new ResourceLocation(MODID, "casinocraft.card.shove")));
-    public static final RegistryObject<SoundEvent> SOUND_ROULETTE   = register("casinocraft.roulette",   new SoundEvent(new ResourceLocation(MODID, "casinocraft.roulette")));
-    public static final RegistryObject<SoundEvent> SOUND_CHIP       = register("casinocraft.chip",       new SoundEvent(new ResourceLocation(MODID, "casinocraft.chip")));
-    public static final RegistryObject<SoundEvent> SOUND_DICE       = register("casinocraft.dice",       new SoundEvent(new ResourceLocation(MODID, "casinocraft.dice")));
-    public static final RegistryObject<SoundEvent> SOUND_REWARD     = register("casinocraft.reward",     new SoundEvent(new ResourceLocation(MODID, "casinocraft.reward")));
+    public static final RegistryObject<SoundEvent> SOUND_PICKUP     = registerS("casinocraft.pickup",     () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.pickup")));
+    public static final RegistryObject<SoundEvent> SOUND_IMPACT     = registerS("casinocraft.impact",     () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.impact")));
+    public static final RegistryObject<SoundEvent> SOUND_MENU       = registerS("casinocraft.menu",       () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.menu")));
+    public static final RegistryObject<SoundEvent> SOUND_PAUSE_ON   = registerS("casinocraft.pause.on",   () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.pause.on")));
+    public static final RegistryObject<SoundEvent> SOUND_PAUSE_OFF  = registerS("casinocraft.pause.off",  () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.pause.off")));
+    public static final RegistryObject<SoundEvent> SOUND_TETRIS     = registerS("casinocraft.tetris",     () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.tetris")));
+    public static final RegistryObject<SoundEvent> SOUND_CARD_PLACE = registerS("casinocraft.card.place", () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.card.place")));
+    public static final RegistryObject<SoundEvent> SOUND_CARD_SHOVE = registerS("casinocraft.card.shove", () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.card.shove")));
+    public static final RegistryObject<SoundEvent> SOUND_ROULETTE   = registerS("casinocraft.roulette",   () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.roulette")));
+    public static final RegistryObject<SoundEvent> SOUND_CHIP       = registerS("casinocraft.chip",       () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.chip")));
+    public static final RegistryObject<SoundEvent> SOUND_DICE       = registerS("casinocraft.dice",       () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.dice")));
+    public static final RegistryObject<SoundEvent> SOUND_REWARD     = registerS("casinocraft.reward",     () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.reward")));
 
     // Textures Basic
     public static final ResourceLocation TEXTURE_STATIC            = new ResourceLocation(MODID, "textures/gui/static.png");
@@ -425,18 +425,6 @@ public class CasinoKeeper {
     public static final RegistryObject<MenuType<MenuChipRed>>       CONTAINER_CHIP_RED        = CONTAINERS.register("chip_red",        () -> IForgeMenuType.create(MenuChipRed::new));
     public static final RegistryObject<MenuType<MenuChipBlack>>     CONTAINER_CHIP_BLACK      = CONTAINERS.register("chip_black",      () -> IForgeMenuType.create(MenuChipBlack::new));
 
-    // Config
-    private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
-    public static ForgeConfigSpec.BooleanValue config_creative_token   = BUILDER.comment("Allows Betting Inventory to be set to INFINITE").define("config_creative_token", true);
-    public static ForgeConfigSpec.BooleanValue config_creative_reward  = BUILDER.comment("Allows Reward Inventory to be set to INFINITE").define("config_creative_reward", true);
-    public static ForgeConfigSpec.BooleanValue config_animated_cards   = BUILDER.comment("Face Cards do a one frame animation sometimes").define("config_animated_cards", true);
-    public static ForgeConfigSpec.IntValue     config_timeout          = BUILDER.comment("How long until a player receives a timeout").defineInRange("config_timeout", 300, 1, 10000);
-    /**Reads out Config File**/
-    public static void loadConfig(Path file){
-        SPEC.setConfig(CommentedFileConfig.builder(file).build());
-    }
-    public static final ForgeConfigSpec SPEC = BUILDER.build();
-
 
 
 
@@ -449,6 +437,39 @@ public class CasinoKeeper {
         CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
         TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
         SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+    }
+
+    private static RegistryObject<Block> registerB(String name,  java.util.function.Supplier<? extends Block> block){
+        return registerB(name, block, null);
+    }
+
+    private static RegistryObject<Block> registerB(String name,  java.util.function.Supplier<? extends Block> block, CreativeModeTab CreativeModeTab){
+        RegistryObject<Block> rob = BLOCKS.register(name, block);
+        if(CreativeModeTab != null){ ITEMS.register(name, () -> new BlockItem(rob.get(), (new Item.Properties()).tab(CreativeModeTab))); }
+        return rob;
+    }
+
+    private static RegistryObject<Item> registerI(String name, java.util.function.Supplier<? extends Item> item){
+        return ITEMS.register(name, item);
+    }
+
+    private static RegistryObject<SoundEvent> registerS(String name, java.util.function.Supplier<? extends SoundEvent> sound){
+        return SOUNDS.register(name, sound);
+    }
+
+    // Conveniance function: Take a RegistryObject<Block> and make a corresponding RegistryObject<Item> from it
+    public static <B extends Block> RegistryObject<Item> fromBlock(RegistryObject<B> block) {
+        return ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), new Item.Properties()));
+    }
+
+    // Conveniance function: Take a RegistryObject<Block> and make a corresponding RegistryObject<Item> from it
+    public static <B extends Block> RegistryObject<Item> fromBlock(RegistryObject<B> block, Item.Properties prop) {
+        return ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), prop));
+    }
+
+    // Conveniance function: Take a RegistryObject<Block> and make a corresponding RegistryObject<Item> from it
+    public static <B extends Block> RegistryObject<Item> fromBlock(RegistryObject<B> block, CreativeModeTab CreativeModeTab) {
+        return ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), (new Item.Properties()).tab(CreativeModeTab) ));
     }
 
     private static RegistryObject<Block> register(String name, Block block){

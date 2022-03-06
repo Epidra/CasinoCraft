@@ -244,37 +244,6 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
         logic.load(nbt);
     }
 
-    public CompoundTag save(CompoundTag compound){
-        super.save(compound);
-
-        compound.putInt("storage_token",   storageToken);
-        compound.putInt("storage_reward",  storageReward);
-        compound.putInt("betting_low",     bettingLow);
-        compound.putInt("betting_high",    bettingHigh);
-        compound.putInt("reward_score_1",  rewardScore1);
-        compound.putInt("reward_score_2",  rewardScore2);
-        compound.putInt("reward_score_3",  rewardScore3);
-        compound.putInt("reward_amount_1", rewardAmount1);
-        compound.putInt("reward_amount_2", rewardAmount2);
-        compound.putInt("reward_amount_3", rewardAmount3);
-        compound.putBoolean("prize_mode_1", prizeMode1);
-        compound.putBoolean("prize_mode_2", prizeMode2);
-        compound.putBoolean("prize_mode_3", prizeMode3);
-        compound.putBoolean("transfer_token_in",   transferTokenIN);
-        compound.putBoolean("transfer_token_out",  transferTokenOUT);
-        compound.putBoolean("transfer_reward_in",  transferRewardIN);
-        compound.putBoolean("transfer_reward_out", transferRewardOUT);
-        compound.putBoolean("setting_infinite_token",       settingInfiniteToken);
-        compound.putBoolean("setting_infinite_reward",      settingInfiniteReward);
-        compound.putBoolean("setting_drop_items_on_break",  settingDropItemsOnBreak);
-        compound.putBoolean("setting_indestructable_block", settingIndestructableBlock);
-        compound.putInt("setting_alternate_color",          settingAlternateColor);
-
-        ContainerHelper.saveAllItems(compound, this.inventory);
-        logic.save(compound);
-        return compound;
-    }
-
     public void saveAdditional(CompoundTag compound){
         super.saveAdditional(compound);
 
@@ -303,7 +272,38 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 
         ContainerHelper.saveAllItems(compound, this.inventory);
         logic.save(compound);
+        //return compound;
     }
+
+    //public void saveAdditional(CompoundTag compound){
+    //    super.saveAdditional(compound);
+//
+    //    compound.putInt("storage_token",   storageToken);
+    //    compound.putInt("storage_reward",  storageReward);
+    //    compound.putInt("betting_low",     bettingLow);
+    //    compound.putInt("betting_high",    bettingHigh);
+    //    compound.putInt("reward_score_1",  rewardScore1);
+    //    compound.putInt("reward_score_2",  rewardScore2);
+    //    compound.putInt("reward_score_3",  rewardScore3);
+    //    compound.putInt("reward_amount_1", rewardAmount1);
+    //    compound.putInt("reward_amount_2", rewardAmount2);
+    //    compound.putInt("reward_amount_3", rewardAmount3);
+    //    compound.putBoolean("prize_mode_1", prizeMode1);
+    //    compound.putBoolean("prize_mode_2", prizeMode2);
+    //    compound.putBoolean("prize_mode_3", prizeMode3);
+    //    compound.putBoolean("transfer_token_in",   transferTokenIN);
+    //    compound.putBoolean("transfer_token_out",  transferTokenOUT);
+    //    compound.putBoolean("transfer_reward_in",  transferRewardIN);
+    //    compound.putBoolean("transfer_reward_out", transferRewardOUT);
+    //    compound.putBoolean("setting_infinite_token",       settingInfiniteToken);
+    //    compound.putBoolean("setting_infinite_reward",      settingInfiniteReward);
+    //    compound.putBoolean("setting_drop_items_on_break",  settingDropItemsOnBreak);
+    //    compound.putBoolean("setting_indestructable_block", settingIndestructableBlock);
+    //    compound.putInt("setting_alternate_color",          settingAlternateColor);
+//
+    //    ContainerHelper.saveAllItems(compound, this.inventory);
+    //    logic.save(compound);
+    //}
 
 
 

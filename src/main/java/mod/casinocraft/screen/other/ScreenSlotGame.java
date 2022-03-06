@@ -8,7 +8,6 @@ import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.logic.other.LogicSlotGame;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenSlotGame extends ScreenCasino {   // Slot Game
@@ -108,12 +107,12 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
         }
 
         // ----- Shadows ----- //
-        this.blit(matrixstack, leftPos +  48, topPos +  40, 96,  96, 48, 48);
-        this.blit(matrixstack, leftPos + 104, topPos +  40, 96,  96, 48, 48);
-        this.blit(matrixstack, leftPos + 160, topPos +  40, 96,  96, 48, 48);
-        this.blit(matrixstack, leftPos +  48, topPos + 136, 96, 144, 48, 48);
-        this.blit(matrixstack, leftPos + 104, topPos + 136, 96, 144, 48, 48);
-        this.blit(matrixstack, leftPos + 160, topPos + 136, 96, 144, 48, 48);
+        // this.blit(matrixstack, leftPos +  48, topPos +  40, 96,  96, 48, 48);
+        // this.blit(matrixstack, leftPos + 104, topPos +  40, 96,  96, 48, 48);
+        // this.blit(matrixstack, leftPos + 160, topPos +  40, 96,  96, 48, 48);
+        // this.blit(matrixstack, leftPos +  48, topPos + 136, 96, 144, 48, 48);
+        // this.blit(matrixstack, leftPos + 104, topPos + 136, 96, 144, 48, 48);
+        // this.blit(matrixstack, leftPos + 160, topPos + 136, 96, 144, 48, 48);
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {

@@ -120,7 +120,7 @@ public class BlockSlotMachine extends MachinaTall implements EntityBlock {
     //----------------------------------------BLOCKENTITY----------------------------------------//
 
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(OFFSET) ? new BlockEntitySlotMachine(pos, state) : null;
+        return state.getValue(OFFSET) ? new BlockEntitySlotMachine(pos, state, color, 3) : null;
     }
 
     @Nullable

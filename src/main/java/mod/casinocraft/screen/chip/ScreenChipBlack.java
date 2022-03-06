@@ -1,6 +1,8 @@
 package mod.casinocraft.screen.chip;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.chip.LogicChipBlack;
 import mod.casinocraft.screen.ScreenCasino;
@@ -53,7 +55,11 @@ public class ScreenChipBlack extends ScreenCasino {   // -----
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ARCADEDUMMY);
+        this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
 
+        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ARCADE);
+        drawDigiSymbol(matrixstack, logic().position, 128-16);
     }
 
     protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
@@ -75,7 +81,7 @@ public class ScreenChipBlack extends ScreenCasino {   // -----
     //----------------------------------------BASIC----------------------------------------//
 
     protected String getGameName() {
-        return "";
+        return "testkit";
     }
 
 

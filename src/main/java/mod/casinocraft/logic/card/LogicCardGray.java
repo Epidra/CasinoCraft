@@ -1,5 +1,6 @@
 package mod.casinocraft.logic.card;
 
+import mod.casinocraft.CasinoConfig;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
@@ -82,14 +83,14 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
 
     public void updateLogic() {
         timeout++;
-        if(turnstate == 2 && timeout >= CasinoKeeper.config_timeout.get() || getFirstFreePlayerSlot() == (tableID == 1 ? 4 : 6)){
+        if(turnstate == 2 && timeout >= timeoutMAX || getFirstFreePlayerSlot() == (tableID == 1 ? 4 : 6)){
             draw();
         }
         if(turnstate == 3){
             if(folded[activePlayer]){
                 drawAnother();
             }
-            if(timeout == CasinoKeeper.config_timeout.get()){
+            if(timeout == timeoutMAX){
                 fold();
             }
             if(lastStanding() != -1){

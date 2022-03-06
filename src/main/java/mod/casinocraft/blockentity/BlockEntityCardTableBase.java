@@ -8,8 +8,6 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.Nullable;
-
 public class BlockEntityCardTableBase extends BlockEntityMachine {
 
     // ...
@@ -34,21 +32,13 @@ public class BlockEntityCardTableBase extends BlockEntityMachine {
 
     //----------------------------------------NETWORK----------------------------------------//
 
-    //@Override
-    //@Nullable
-    //public ClientboundBlockEntityDataPacket getUpdatePacket(){
-    //    CompoundTag nbtTagCompound = new CompoundTag();
-    //    save(nbtTagCompound);
-    //    return new ClientboundBlockEntityDataPacket(this.worldPosition, CasinoKeeper.TILE_CARDTABLE_BASE.get().hashCode(), nbtTagCompound);
-    //}
-
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
     public CompoundTag getUpdateTag() {
         CompoundTag tag = this.saveWithoutMetadata();
-        save(tag);
+        saveAdditional(tag);
         return tag;
     }
 

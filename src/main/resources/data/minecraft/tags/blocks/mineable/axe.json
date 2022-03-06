@@ -1,0 +1,38 @@
+{
+  "replace": false,
+  "values": [
+    "casinocraft:cardtable_base_black",
+    "casinocraft:cardtable_base_blue",
+    "casinocraft:cardtable_base_brown",
+    "casinocraft:cardtable_base_cyan",
+    "casinocraft:cardtable_base_gray",
+    "casinocraft:cardtable_base_green",
+    "casinocraft:cardtable_base_light_blue",
+    "casinocraft:cardtable_base_light_gray",
+    "casinocraft:cardtable_base_lime",
+    "casinocraft:cardtable_base_magenta",
+    "casinocraft:cardtable_base_orange",
+    "casinocraft:cardtable_base_pink",
+    "casinocraft:cardtable_base_purple",
+    "casinocraft:cardtable_base_red",
+    "casinocraft:cardtable_base_white",
+    "casinocraft:cardtable_base_yellow",
+
+    "casinocraft:cardtable_wide_black",
+    "casinocraft:cardtable_wide_blue",
+    "casinocraft:cardtable_wide_brown",
+    "casinocraft:cardtable_wide_cyan",
+    "casinocraft:cardtable_wide_gray",
+    "casinocraft:cardtable_wide_green",
+    "casinocraft:cardtable_wide_light_blue",
+    "casinocraft:cardtable_wide_light_gray",
+    "casinocraft:cardtable_wide_lime",
+    "casinocraft:cardtable_wide_magenta",
+    "casinocraft:cardtable_wide_orange",
+    "casinocraft:cardtable_wide_pink",
+    "casinocraft:cardtable_wide_purple",
+    "casinocraft:cardtable_wide_red",
+    "casinocraft:cardtable_wide_white",
+    "casinocraft:cardtable_wide_yellow"
+  ]
+}

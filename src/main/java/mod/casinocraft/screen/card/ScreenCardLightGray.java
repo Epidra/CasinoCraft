@@ -2,6 +2,7 @@ package mod.casinocraft.screen.card;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import mod.casinocraft.CasinoConfig;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.card.LogicCardLightGray;
@@ -97,8 +98,9 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
                 drawFontCenter(matrixstack, "You can change Cards now..", 128, 128);
             }
         }
-        if(CasinoKeeper.config_timeout.get() - logic().timeout > 0)
-            drawFontInvert(matrixstack, "" + (CasinoKeeper.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
+        if(CasinoConfig.CONFIG.config_timeout.get() - logic().timeout > 0)
+            drawFontInvert(matrixstack, "" + (CasinoConfig.CONFIG.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
+        drawBalance(matrixstack);
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
@@ -179,7 +181,7 @@ public class ScreenCardLightGray extends ScreenCasino {   // Draw Poker
                 RenderSystem.setShaderTexture(0, getCardsTexture(hidden || card.suit >= 2));
                 int texX = card.suit == -1 || hidden ? cardPos+1 : card.number % 8;
                 int texY = card.suit == -1 || hidden ?         4 : (card.suit  % 2) * 2 + card.number / 8;
-                if(CasinoKeeper.config_animated_cards.get() && !hidden){
+                if(CasinoConfig.CONFIG.config_animated_cards.get() && !hidden){
                     if(card.number >= 10){
                         if(logic().frame == card.suit*12 + (card.number-10)*3){
                             texX += 3;

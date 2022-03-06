@@ -1,9 +1,10 @@
 package mod.casinocraft.logic;
 
+import mod.casinocraft.CasinoConfig;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.Dice;
 import mod.casinocraft.util.Ship;
-import mod.lucky77.logic.LogicBase;
+import mod.lucky77.util.Dummy;
 import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundTag;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public abstract class LogicModule extends LogicBase {
+public abstract class LogicModule extends Dummy {
 
     public final Random RANDOM = new Random();
     public int scorePoint = -1;
@@ -34,6 +35,8 @@ public abstract class LogicModule extends LogicBase {
     public int timeout = 0;
     public int jingle = 0;
 
+    protected int timeoutMAX = 300;
+
 
 
 
@@ -50,6 +53,7 @@ public abstract class LogicModule extends LogicBase {
         this.tableID = tableID;
         if(hasHighscore()) setupHighscore();
         grid = new int[gridX][gridY];
+        timeoutMAX = CasinoConfig.CONFIG.config_timeout.get();
     }
 
 
@@ -117,7 +121,7 @@ public abstract class LogicModule extends LogicBase {
         int[] array = compound.getIntArray("grid");
         for(int y = 0; y < grid[0].length; y++){
             for(int x = 0; x < grid.length; x++){
-                grid[x][y] = array[y*grid.length + x];
+                grid[x][y] = y*grid.length + x >= array.length ? 0 : array[y*grid.length + x];
             }
         }
 
@@ -267,7 +271,8 @@ public abstract class LogicModule extends LogicBase {
     }
 
     protected CompoundTag saveEntity(CompoundTag compound, int index, Ship ent){
-        compound.putIntArray("entity" + index, new int[]{ent.ai, ent.getPos().X, ent.getPos().Y, ent.getNext().X, ent.getNext().Y, ent.getVel().X, ent.getVel().Y});
+        int[] array = new int[]{ent.ai, ent.getPos().X, ent.getPos().Y, ent.getNext().X, ent.getNext().Y, ent.getVel().X, ent.getVel().Y};
+        compound.putIntArray("entity" + index, array);
         return compound;
     }
 

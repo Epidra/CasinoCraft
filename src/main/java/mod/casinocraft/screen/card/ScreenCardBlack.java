@@ -65,6 +65,7 @@ public class ScreenCardBlack extends ScreenCasino {   // Black Jack
             if(logic().turnstate >= 4) drawFont(matrixstack, logic().hand, 18, 190);
         }
         if(logic().turnstate >= 3) drawFont(matrixstack, "DEALER:  " + logic().value_dealer, 24, 56);
+        drawBalance(matrixstack);
     }
 
     protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){

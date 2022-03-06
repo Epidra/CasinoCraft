@@ -3,15 +3,14 @@ package mod.casinocraft.screen;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import mod.casinocraft.CasinoConfig;
 import mod.casinocraft.CasinoCraft;
-import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuMachine;
 import mod.casinocraft.network.MessageSettingServer;
 import mod.casinocraft.network.MessageStateServer;
 import mod.casinocraft.system.CasinoPacketHandler;
 import mod.lucky77.screen.ScreenBase;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ClickType;
@@ -325,11 +324,11 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 
     /** ??? **/
     public void commandToggleSettings(int settingID){
-        if(settingID == 0){ if(CasinoKeeper.config_creative_token.get()){  menu.setSettingInfiniteToken(!menu.getSettingInfiniteToken());             } }
-        if(settingID == 1){ if(CasinoKeeper.config_creative_reward.get()){ menu.setSettingInfinitePrize(!menu.getSettingInfinitePrize());           } }
-        if(settingID == 2){                                                menu.setSettingDropOnBreak(!menu.getSettingDropOnBreak());       }
-        if(settingID == 3){                                                menu.setSettingIndestructable(!menu.getSettingIndestructable()); }
-        if(settingID == 4){                                                menu.setSettingAlternateColor((menu.getSettingAlternateColor() + 1) % 6);  }
+        if(settingID == 0){ if(CasinoConfig.CONFIG.config_creative_token.get()){  menu.setSettingInfiniteToken(!menu.getSettingInfiniteToken());             } }
+        if(settingID == 1){ if(CasinoConfig.CONFIG.config_creative_reward.get()){ menu.setSettingInfinitePrize(!menu.getSettingInfinitePrize());           } }
+        if(settingID == 2){                                                       menu.setSettingDropOnBreak(!menu.getSettingDropOnBreak());       }
+        if(settingID == 3){                                                       menu.setSettingIndestructable(!menu.getSettingIndestructable()); }
+        if(settingID == 4){                                                       menu.setSettingAlternateColor((menu.getSettingAlternateColor() + 1) % 6);  }
         sendPacket();
     }
 

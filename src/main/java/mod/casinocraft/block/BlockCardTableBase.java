@@ -74,7 +74,7 @@ public class BlockCardTableBase extends MachinaBase implements EntityBlock {
     //----------------------------------------BLOCKENTITY----------------------------------------//
 
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new BlockEntityCardTableBase(pos, state);
+        return new BlockEntityCardTableBase(pos, state, color, 1);
     }
 
     @Nullable

@@ -80,7 +80,7 @@ public class BlockCardTableWide extends MachinaWide implements EntityBlock {
     //----------------------------------------BLOCKENTITY----------------------------------------//
 
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(OFFSET) ? new BlockEntityCardTableWide(pos, state) : null;
+        return state.getValue(OFFSET) ? new BlockEntityCardTableWide(pos, state, color, 2) : null;
     }
 
     @Nullable

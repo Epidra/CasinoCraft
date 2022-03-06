@@ -78,11 +78,11 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
 
     public void updateLogic() {
         timeout++;
-        if(turnstate == 2 && timeout >= CasinoKeeper.config_timeout.get() || getFirstFreePlayerSlot() == (tableID == 1 ? 4 : 6)){
+        if(turnstate == 2 && timeout >= timeoutMAX || getFirstFreePlayerSlot() == (tableID == 1 ? 4 : 6)){
             draw();
         }
         if(turnstate == 3){
-            if(timeout == CasinoKeeper.config_timeout.get()){
+            if(timeout == timeoutMAX){
                 if(forcedAction == 3){
                     chooseColor(4);
                 } else {

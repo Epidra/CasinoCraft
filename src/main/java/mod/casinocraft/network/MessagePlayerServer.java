@@ -1,6 +1,6 @@
 package mod.casinocraft.network;
 
-import mod.lucky77.util.InventoryUtil;
+import mod.lucky77.system.SystemInventory;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.Item;
@@ -56,7 +56,7 @@ public class MessagePlayerServer {
 
             context.get().enqueueWork(() ->{
                 if(message.amount < 0){
-                    InventoryUtil.decreaseInventory(serverPlayer.getInventory(), message.stack, -message.amount);
+                    SystemInventory.decreaseInventory(serverPlayer.getInventory(), message.stack, -message.amount);
                     int i = 0;
                     ItemStack itemStack = ItemStack.EMPTY;
                     Predicate<ItemStack> p_195408_1_ = Predicate.isEqual(message.stack);

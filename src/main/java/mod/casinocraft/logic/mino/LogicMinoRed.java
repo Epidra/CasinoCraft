@@ -79,7 +79,7 @@ public class LogicMinoRed extends LogicModule {   // Roulette
     public void updateLogic(){
         if(turnstate == 2){
             timeout++;
-            if(timeout == CasinoKeeper.config_timeout.get()){
+            if(timeout == timeoutMAX){
                 spin();
             }
         }

@@ -111,13 +111,13 @@ public class LogicChipOrange extends LogicModule {   // Snake
             Vector2 position = new Vector2(octanom_head.getPos());
 
             // Updates Next()
-                 if(temp_player == KEY_UP    && octanom_head.getNext().Y !=   0) { octanom_head.setInMotion( 0, -speed()); temp_auto = temp_player; temp_player = 0; }
+                 if(temp_player == KEY_UP    && octanom_head.getNext().Y !=   0) { octanom_head.setInMotion( 0, -speed()); temp_auto = 1; temp_player = 0; }
             else if(temp_player == KEY_UP    && octanom_head.getNext().Y ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
-            else if(temp_player == KEY_DOWN  && octanom_head.getNext().Y != 224) { octanom_head.setInMotion( 0,  speed()); temp_auto = temp_player; temp_player = 0; }
+            else if(temp_player == KEY_DOWN  && octanom_head.getNext().Y != 224) { octanom_head.setInMotion( 0,  speed()); temp_auto = 2; temp_player = 0; }
             else if(temp_player == KEY_DOWN  && octanom_head.getNext().Y == 224) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
-            else if(temp_player == KEY_LEFT  && octanom_head.getNext().X !=   0) { octanom_head.setInMotion(-speed(),  0); temp_auto = temp_player; temp_player = 0; }
+            else if(temp_player == KEY_LEFT  && octanom_head.getNext().X !=   0) { octanom_head.setInMotion(-speed(),  0); temp_auto = 3; temp_player = 0; }
             else if(temp_player == KEY_LEFT  && octanom_head.getNext().X ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
-            else if(temp_player == KEY_RIGHT && octanom_head.getNext().X != 176) { octanom_head.setInMotion( speed(),  0); temp_auto = temp_player; temp_player = 0; }
+            else if(temp_player == KEY_RIGHT && octanom_head.getNext().X != 176) { octanom_head.setInMotion( speed(),  0); temp_auto = 4; temp_player = 0; }
             else if(temp_player == KEY_RIGHT && octanom_head.getNext().X == 176) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
             else if(temp_auto == 1 && octanom_head.getNext().Y !=   0) { octanom_head.setInMotion( 0, -speed());  }
             else if(temp_auto == 1 && octanom_head.getNext().Y ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0;  }
