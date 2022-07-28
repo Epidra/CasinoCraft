@@ -2,7 +2,7 @@ package mod.casinocraft.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mod.casinocraft.CasinoConfig;
+import mod.casinocraft.Config;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.LogicModule;
@@ -842,7 +842,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         }
         int texX = card.suit == -1 || card.hidden ? 0 : card.number % 8;
         int texY = card.suit == -1 || card.hidden ? 4 : (card.suit % 2) * 2 + card.number / 8;
-        if(CasinoConfig.CONFIG.config_animated_cards.get() && !card.hidden){
+        if(Config.CONFIG.config_animated_cards.get() && !card.hidden){
             if(card.number >= 10){
                 if(logic().frame == card.suit*12 + (card.number-10)*3){
                     texX += 3;

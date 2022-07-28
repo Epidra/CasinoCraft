@@ -2,11 +2,11 @@ package mod.casinocraft;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class CasinoConfig {
+public class Config {
 
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-    public static final ConfigMachine CONFIG        = new ConfigMachine(BUILDER, "config");
+    public static final ConfigMachine CONFIG = new ConfigMachine(BUILDER, "config");
 
 
 

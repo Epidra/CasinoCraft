@@ -37,6 +37,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -501,7 +502,7 @@ public class CasinoKeeper {
 
     @OnlyIn(Dist.CLIENT)
     static void setup(FMLClientSetupEvent event){
-        //ParallelDispatchEvent.enqueueWork(() -> {
+        event.enqueueWork(() -> {
 
             MenuScreens.register(CONTAINER_DUMMY.get(),           ScreenDummy::new);
             MenuScreens.register(CONTAINER_ARCADE.get(),          ScreenMachine::new);
@@ -556,7 +557,7 @@ public class CasinoKeeper {
             MenuScreens.register(CONTAINER_CHIP_GREEN.get(),      ScreenChipGreen::new);
             MenuScreens.register(CONTAINER_CHIP_RED.get(),        ScreenChipRed::new);
             MenuScreens.register(CONTAINER_CHIP_BLACK.get(),      ScreenChipBlack::new);
-        //});
+        });
     }
 
 

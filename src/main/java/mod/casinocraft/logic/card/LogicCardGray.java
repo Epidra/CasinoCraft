@@ -1,7 +1,5 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.CasinoConfig;
-import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import net.minecraft.nbt.CompoundTag;

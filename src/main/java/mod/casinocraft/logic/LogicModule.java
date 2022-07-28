@@ -1,6 +1,6 @@
 package mod.casinocraft.logic;
 
-import mod.casinocraft.CasinoConfig;
+import mod.casinocraft.Config;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.Dice;
 import mod.casinocraft.util.Ship;
@@ -53,7 +53,7 @@ public abstract class LogicModule extends Dummy {
         this.tableID = tableID;
         if(hasHighscore()) setupHighscore();
         grid = new int[gridX][gridY];
-        timeoutMAX = CasinoConfig.CONFIG.config_timeout.get();
+        timeoutMAX = Config.CONFIG.config_timeout.get();
     }
 
 
