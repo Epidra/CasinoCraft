@@ -3,7 +3,6 @@ package mod.casinocraft.blockentity;
 import mod.casinocraft.CasinoKeeper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -48,10 +47,10 @@ public class BlockEntityArcade extends BlockEntityMachine {
 
     //----------------------------------------SUPPORT----------------------------------------//
 
-    @Override
-    public TextComponent getName() {
-        return new TextComponent("tile.arcade.name");
-    }
+    // @Override
+    // public TextComponent getName() {
+    //     return new TextComponent("tile.arcade.name");
+    // }
 
 
 

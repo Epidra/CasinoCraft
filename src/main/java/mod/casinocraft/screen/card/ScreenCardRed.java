@@ -8,7 +8,6 @@ import mod.casinocraft.logic.card.LogicCardRed;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Card;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir

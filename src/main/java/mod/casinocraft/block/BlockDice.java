@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class BlockDice extends BlockBase {
 
@@ -47,7 +48,8 @@ public class BlockDice extends BlockBase {
         if(context.getPlayer().isCrouching()){
             return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
         }
-        return this.defaultBlockState().setValue(FACING, Direction.from3DDataValue(RANDOM.nextInt(4)+2)).setValue(ROTATION, RANDOM.nextInt(4));
+        Random r = new Random();
+        return this.defaultBlockState().setValue(FACING, Direction.from3DDataValue(r.nextInt(4)+2)).setValue(ROTATION, r.nextInt(4));
     }
 
     public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {

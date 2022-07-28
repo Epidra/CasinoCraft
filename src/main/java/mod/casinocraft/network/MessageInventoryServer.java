@@ -82,7 +82,7 @@ public class MessageInventoryServer {
 
     public static class Handler {
         public static void handle (final MessageInventoryServer message, Supplier<NetworkEvent.Context> context) {
-            BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().level.getBlockEntity(message.pos);
+            BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().getLevel().getChunkAt(message.pos).getBlockEntity(message.pos);
 
             NonNullList<ItemStack> inv = NonNullList.withSize(5, ItemStack.EMPTY);
             inv.set(0, message.stack0);

@@ -8,7 +8,6 @@ import mod.casinocraft.logic.chip.LogicChipPink;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Ship;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenChipPink extends ScreenCasino {   // Sokoban

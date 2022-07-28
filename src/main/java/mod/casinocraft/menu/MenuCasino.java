@@ -5,7 +5,9 @@ import mod.lucky77.blockentity.BlockEntityBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 
 public abstract class MenuCasino extends MenuBase {
 
@@ -38,6 +40,11 @@ public abstract class MenuCasino extends MenuBase {
 
     protected void createInventory(BlockEntityBase tile, Inventory playerInventory){
 
+    }
+
+    @Override
+    public ItemStack quickMoveStack(Player p_38941_, int p_38942_) {
+        return ItemStack.EMPTY;
     }
 
 

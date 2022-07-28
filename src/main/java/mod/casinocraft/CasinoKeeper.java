@@ -49,8 +49,8 @@ public class CasinoKeeper {
 
     private static final DeferredRegister<Block>              BLOCKS     = DeferredRegister.create(ForgeRegistries.BLOCKS,             MODID);
     private static final DeferredRegister<Item>               ITEMS      = DeferredRegister.create(ForgeRegistries.ITEMS,              MODID);
-    private static final DeferredRegister<MenuType<?>>        CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS,         MODID);
-    private static final DeferredRegister<BlockEntityType<?>> TILES      = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES,     MODID);
+    private static final DeferredRegister<MenuType<?>>        CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES,         MODID);
+    private static final DeferredRegister<BlockEntityType<?>> TILES      = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
     private static final DeferredRegister<SoundEvent>         SOUNDS     = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS,       MODID);
 
 
@@ -501,7 +501,7 @@ public class CasinoKeeper {
 
     @OnlyIn(Dist.CLIENT)
     static void setup(FMLClientSetupEvent event){
-        //ParallelDispatchEvent.enqueueWork(() -> {
+        event.enqueueWork(() -> {
 
             MenuScreens.register(CONTAINER_DUMMY.get(),           ScreenDummy::new);
             MenuScreens.register(CONTAINER_ARCADE.get(),          ScreenMachine::new);
@@ -556,7 +556,7 @@ public class CasinoKeeper {
             MenuScreens.register(CONTAINER_CHIP_GREEN.get(),      ScreenChipGreen::new);
             MenuScreens.register(CONTAINER_CHIP_RED.get(),        ScreenChipRed::new);
             MenuScreens.register(CONTAINER_CHIP_BLACK.get(),      ScreenChipBlack::new);
-        //});
+        });
     }
 
 

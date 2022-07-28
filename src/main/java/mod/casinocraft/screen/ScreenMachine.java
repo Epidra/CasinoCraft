@@ -3,7 +3,7 @@ package mod.casinocraft.screen;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mod.casinocraft.CasinoConfig;
+import mod.casinocraft.Config;
 import mod.casinocraft.CasinoCraft;
 import mod.casinocraft.menu.MenuMachine;
 import mod.casinocraft.network.MessageSettingServer;
@@ -324,8 +324,8 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 
     /** ??? **/
     public void commandToggleSettings(int settingID){
-        if(settingID == 0){ if(CasinoConfig.CONFIG.config_creative_token.get()){  menu.setSettingInfiniteToken(!menu.getSettingInfiniteToken());             } }
-        if(settingID == 1){ if(CasinoConfig.CONFIG.config_creative_reward.get()){ menu.setSettingInfinitePrize(!menu.getSettingInfinitePrize());           } }
+        if(settingID == 0){ if(Config.CONFIG.config_creative_token.get()){  menu.setSettingInfiniteToken(!menu.getSettingInfiniteToken());             } }
+        if(settingID == 1){ if(Config.CONFIG.config_creative_reward.get()){ menu.setSettingInfinitePrize(!menu.getSettingInfinitePrize());           } }
         if(settingID == 2){                                                       menu.setSettingDropOnBreak(!menu.getSettingDropOnBreak());       }
         if(settingID == 3){                                                       menu.setSettingIndestructable(!menu.getSettingIndestructable()); }
         if(settingID == 4){                                                       menu.setSettingAlternateColor((menu.getSettingAlternateColor() + 1) % 6);  }

@@ -10,7 +10,7 @@ import mod.casinocraft.menu.mino.*;
 import mod.casinocraft.menu.other.MenuDummy;
 import mod.casinocraft.menu.other.MenuSlotGame;
 import mod.casinocraft.blockentity.*;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -113,9 +113,14 @@ public class MenuProvider implements net.minecraft.world.MenuProvider {
 
     //----------------------------------------SUPPORT----------------------------------------//
 
+    // @Override
+    // public TextComponent getDisplayName() {
+    //     return this.board.getName();
+    // }
+
     @Override
-    public TextComponent getDisplayName() {
-        return this.board.getName();
+    public Component getDisplayName() {
+        return Component.empty();
     }
 
 

@@ -2,13 +2,12 @@ package mod.casinocraft.screen.mino;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mod.casinocraft.CasinoConfig;
+import mod.casinocraft.Config;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoYellow;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 
 import java.util.Random;
@@ -83,8 +82,8 @@ public class ScreenMinoYellow extends ScreenCasino {   // SicBo
             drawFont(matrixstack, logic().hand, 25, -10);
         }
         if(logic().turnstate == 2){
-            if(CasinoConfig.CONFIG.config_timeout.get() - logic().timeout > 0){
-                drawFontInvert(matrixstack, "" + (CasinoConfig.CONFIG.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
+            if(Config.CONFIG.config_timeout.get() - logic().timeout > 0){
+                drawFontInvert(matrixstack, "" + (Config.CONFIG.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
             }
         }
         drawBalance(matrixstack);

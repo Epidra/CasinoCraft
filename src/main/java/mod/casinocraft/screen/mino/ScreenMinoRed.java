@@ -2,14 +2,13 @@ package mod.casinocraft.screen.mino;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mod.casinocraft.CasinoConfig;
+import mod.casinocraft.Config;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoRed;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.lucky77.util.Vector2;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenMinoRed extends ScreenCasino {   // Roulette
@@ -80,8 +79,8 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
             drawFont(matrixstack, "" + logic().result,  225, -15);
         }
         if(logic().turnstate == 2){
-            if(CasinoConfig.CONFIG.config_timeout.get() - logic().timeout > 0){
-                drawFontInvert(matrixstack, "" + (CasinoConfig.CONFIG.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
+            if(Config.CONFIG.config_timeout.get() - logic().timeout > 0){
+                drawFontInvert(matrixstack, "" + (Config.CONFIG.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
             }
         }
         drawBalance(matrixstack);

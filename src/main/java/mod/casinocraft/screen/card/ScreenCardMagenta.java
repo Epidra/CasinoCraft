@@ -7,7 +7,6 @@ import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.card.LogicCardMagenta;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenCardMagenta extends ScreenCasino {   // Pyramid

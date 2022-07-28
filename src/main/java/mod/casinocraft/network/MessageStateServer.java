@@ -53,7 +53,7 @@ public class MessageStateServer {
 
     public static class Handler {
         public static void handle (final MessageStateServer message, Supplier<NetworkEvent.Context> context) {
-            BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().level.getBlockEntity(message.pos);
+            BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().getLevel().getChunkAt(message.pos).getBlockEntity(message.pos);
             context.get().enqueueWork(() -> {
                 if(message.system){
                     if(message.state == -1){

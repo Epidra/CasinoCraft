@@ -6,7 +6,6 @@ import mod.casinocraft.logic.card.LogicCardCyan;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Card;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenCardCyan extends ScreenCasino {   // Spider
