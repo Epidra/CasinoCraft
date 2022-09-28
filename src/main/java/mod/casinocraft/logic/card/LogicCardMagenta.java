@@ -39,43 +39,42 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
 
         for(int i = 0; i < 28; i++) {
             cards_field[i] = deck.get(i);
-        }
-        for(int i = 0; i < 28; i++) deck.remove(0);
+        } deck.subList(0, 28).clear();
         cards_reserve.addAll(deck);
         cards_stack.clear();
 
-        cards_field[ 1].setShift(+16*1, -20*1, 50);
-        cards_field[ 2].setShift(-16*1, -20*1, 50);
+        cards_field[ 1].setShift(+16,  -20, 50);
+        cards_field[ 2].setShift(-16,  -20, 50);
 
-        cards_field[ 3].setShift(+16*2, -20*2, 40);
-        cards_field[ 4].setShift(    0, -20*2, 40);
-        cards_field[ 5].setShift(-16*2, -20*2, 40);
+        cards_field[ 3].setShift( 32,  -40, 40);
+        cards_field[ 4].setShift(  0,  -40, 40);
+        cards_field[ 5].setShift(-32,  -40, 40);
 
-        cards_field[ 6].setShift(+16*3, -20*3, 30);
-        cards_field[ 7].setShift(+16*1, -20*3, 30);
-        cards_field[ 8].setShift(-16*1, -20*3, 30);
-        cards_field[ 9].setShift(-16*3, -20*3, 30);
+        cards_field[ 6].setShift( 48,  -60, 30);
+        cards_field[ 7].setShift( 16,  -60, 30);
+        cards_field[ 8].setShift(-16,  -60, 30);
+        cards_field[ 9].setShift(-48,  -60, 30);
 
-        cards_field[10].setShift(+16*4, -20*4, 20);
-        cards_field[11].setShift(+16*2, -20*4, 20);
-        cards_field[12].setShift(    0, -20*4, 20);
-        cards_field[13].setShift(-16*2, -20*4, 20);
-        cards_field[14].setShift(-16*4, -20*4, 20);
+        cards_field[10].setShift( 64,  -80, 20);
+        cards_field[11].setShift( 32,  -80, 20);
+        cards_field[12].setShift(  0,  -80, 20);
+        cards_field[13].setShift(-32,  -80, 20);
+        cards_field[14].setShift(-64,  -80, 20);
 
-        cards_field[15].setShift(+16*5, -20*5, 10);
-        cards_field[16].setShift(+16*3, -20*5, 10);
-        cards_field[17].setShift(+16*1, -20*5, 10);
-        cards_field[18].setShift(-16*1, -20*5, 10);
-        cards_field[19].setShift(-16*3, -20*5, 10);
-        cards_field[20].setShift(-16*5, -20*5, 10);
+        cards_field[15].setShift( 80, -100, 10);
+        cards_field[16].setShift( 48, -100, 10);
+        cards_field[17].setShift( 16, -100, 10);
+        cards_field[18].setShift(-16, -100, 10);
+        cards_field[19].setShift(-48, -100, 10);
+        cards_field[20].setShift(-80, -100, 10);
 
-        cards_field[21].setShift(+16*6, -20*6, 0);
-        cards_field[22].setShift(+16*4, -20*6, 0);
-        cards_field[23].setShift(+16*2, -20*6, 0);
-        cards_field[24].setShift(    0, -20*6, 0);
-        cards_field[25].setShift(-16*2, -20*6, 0);
-        cards_field[26].setShift(-16*4, -20*6, 0);
-        cards_field[27].setShift(-16*6, -20*6, 0);
+        cards_field[21].setShift( 96, -120, 0);
+        cards_field[22].setShift( 64, -120, 0);
+        cards_field[23].setShift( 32, -120, 0);
+        cards_field[24].setShift(  0, -120, 0);
+        cards_field[25].setShift(-32, -120, 0);
+        cards_field[26].setShift(-64, -120, 0);
+        cards_field[27].setShift(-96, -120, 0);
 
         setJingle(SOUND_CARD_SHOVE);
     }
@@ -86,43 +85,42 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
 
         for(int i = 0; i < 28; i++) {
             cards_field[i] = deck.get(i);
-        }
-        for(int i = 0; i < 28; i++) deck.remove(0);
+        } deck.subList(0, 28).clear();
         cards_reserve.addAll(deck);
         cards_stack.clear();
 
-        cards_field[ 1].setShift(+16*1, -20*1, 50);
-        cards_field[ 2].setShift(-16*1, -20*1, 50);
+        cards_field[ 1].setShift( 16,  -20, 50);
+        cards_field[ 2].setShift(-16,  -20, 50);
 
-        cards_field[ 3].setShift(+16*2, -20*2, 40);
-        cards_field[ 4].setShift(    0, -20*2, 40);
-        cards_field[ 5].setShift(-16*2, -20*2, 40);
+        cards_field[ 3].setShift( 32,  -40, 40);
+        cards_field[ 4].setShift(  0,  -40, 40);
+        cards_field[ 5].setShift(-32,  -40, 40);
 
-        cards_field[ 6].setShift(+16*3, -20*3, 30);
-        cards_field[ 7].setShift(+16*1, -20*3, 30);
-        cards_field[ 8].setShift(-16*1, -20*3, 30);
-        cards_field[ 9].setShift(-16*3, -20*3, 30);
+        cards_field[ 6].setShift( 48,  -60, 30);
+        cards_field[ 7].setShift( 16,  -60, 30);
+        cards_field[ 8].setShift(-16,  -60, 30);
+        cards_field[ 9].setShift(-48,  -60, 30);
 
-        cards_field[10].setShift(+16*4, -20*4, 20);
-        cards_field[11].setShift(+16*2, -20*4, 20);
-        cards_field[12].setShift(    0, -20*4, 20);
-        cards_field[13].setShift(-16*2, -20*4, 20);
-        cards_field[14].setShift(-16*4, -20*4, 20);
+        cards_field[10].setShift( 64,  -80, 20);
+        cards_field[11].setShift( 32,  -80, 20);
+        cards_field[12].setShift(  0,  -80, 20);
+        cards_field[13].setShift(-32,  -80, 20);
+        cards_field[14].setShift(-64,  -80, 20);
 
-        cards_field[15].setShift(+16*5, -20*5, 10);
-        cards_field[16].setShift(+16*3, -20*5, 10);
-        cards_field[17].setShift(+16*1, -20*5, 10);
-        cards_field[18].setShift(-16*1, -20*5, 10);
-        cards_field[19].setShift(-16*3, -20*5, 10);
-        cards_field[20].setShift(-16*5, -20*5, 10);
+        cards_field[15].setShift( 80, -100, 10);
+        cards_field[16].setShift( 48, -100, 10);
+        cards_field[17].setShift( 16, -100, 10);
+        cards_field[18].setShift(-16, -100, 10);
+        cards_field[19].setShift(-48, -100, 10);
+        cards_field[20].setShift(-80, -100, 10);
 
-        cards_field[21].setShift(+16*6, -20*6, 0);
-        cards_field[22].setShift(+16*4, -20*6, 0);
-        cards_field[23].setShift(+16*2, -20*6, 0);
-        cards_field[24].setShift(    0, -20*6, 0);
-        cards_field[25].setShift(-16*2, -20*6, 0);
-        cards_field[26].setShift(-16*4, -20*6, 0);
-        cards_field[27].setShift(-16*6, -20*6, 0);
+        cards_field[21].setShift( 96, -120, 0);
+        cards_field[22].setShift( 64, -120, 0);
+        cards_field[23].setShift( 32, -120, 0);
+        cards_field[24].setShift(  0, -120, 0);
+        cards_field[25].setShift(-32, -120, 0);
+        cards_field[26].setShift(-64, -120, 0);
+        cards_field[27].setShift(-96, -120, 0);
 
         setJingle(SOUND_CARD_SHOVE);
     }
@@ -134,7 +132,7 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        if(action == -1) compareCards(28);
+             if(action == -1) compareCards(28);
         else if(action == -2) drawReserve();
         else if(action == -3) compareCards(29);
         else touchField(action % 20, action / 20);
@@ -216,7 +214,7 @@ public class LogicCardMagenta extends LogicModule {   // Pyramid
 
     private void drawReserve() {
         if(cards_reserve.size() > 0) {
-            cards_reserve.get(0).shiftX = 64;
+            cards_reserve.get(0).shiftX = 36;
             cards_stack.add(cards_reserve.get(0));
             cards_reserve.remove(0);
             setJingle(SOUND_CARD_SHOVE);

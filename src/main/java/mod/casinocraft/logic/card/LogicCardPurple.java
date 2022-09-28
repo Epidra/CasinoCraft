@@ -16,7 +16,7 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
     private int combo = 0;
     public Card[] cards_field = new Card[28]; // fixed: 28 Cards
     public List<Card> cards_stack   = new ArrayList<Card>();
-    public List<Card>   cards_reserve   = new ArrayList<Card>();
+    public List<Card> cards_reserve = new ArrayList<Card>();
 
 
 
@@ -36,97 +36,21 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
 
     public void start2(){
         scoreLives = 2;
-
         combo = 0;
-
-        List<Card> deck = shuffleDeck();
-
-        deck.get( 3).setShift(+16*1, -20*1, 20);
-        deck.get( 4).setShift(-16*1, -20*1, 20);
-        deck.get( 9).setShift(+16*2, -20*2, 10);
-        deck.get(10).setShift(    0, -20*2, 10);
-        deck.get(11).setShift(-16*2, -20*2, 10);
-        deck.get(18).setShift(+16*3, -20*3,  0);
-        deck.get(19).setShift(+16*1, -20*3,  0);
-        deck.get(20).setShift(-16*1, -20*3,  0);
-
-        deck.get( 5).setShift(+16*1, -20*1, 20);
-        deck.get( 6).setShift(-16*1, -20*1, 20);
-        deck.get(12).setShift(+16*2, -20*2, 10);
-        deck.get(13).setShift(    0, -20*2, 10);
-        deck.get(14).setShift(-16*2, -20*2, 10);
-        deck.get(21).setShift(+16*3, -20*3,  0);
-        deck.get(22).setShift(+16*1, -20*3,  0);
-        deck.get(23).setShift(-16*1, -20*3,  0);
-        deck.get(24).setShift(-16*3, -20*3,  0);
-
-        deck.get( 7).setShift(+16*1, -20*1, 20);
-        deck.get( 8).setShift(-16*1, -20*1, 20);
-        deck.get(15).setShift(+16*2, -20*2, 10);
-        deck.get(16).setShift(    0, -20*2, 10);
-        deck.get(17).setShift(-16*2, -20*2, 10);
-        deck.get(25).setShift(+16*1, -20*3,  0);
-        deck.get(26).setShift(-16*1, -20*3,  0);
-        deck.get(27).setShift(-16*3, -20*3,  0);
-
-        for(int i = 0; i < 28; i++) {
-            cards_field[i] = deck.get(i);
+        if(tableID == 1){
+            fillSmallField();
+        } else {
+            fillBigField();
         }
-        selector = new Vector2(9, 12);
-        for(int i = 0; i < 28; i++){
-            deck.remove(0);
-        }
-        cards_reserve.addAll(deck);
-        cards_stack.clear();
-        drawReserve();
-
-        setJingle(SOUND_CARD_SHOVE);
     }
 
     private void restart() {
-
-        List<Card> deck = shuffleDeck();
-
-        deck.get( 3).setShift(+16*1, -20*1, 20);
-        deck.get( 4).setShift(-16*1, -20*1, 20);
-        deck.get( 9).setShift(+16*2, -20*2, 10);
-        deck.get(10).setShift(    0, -20*2, 10);
-        deck.get(11).setShift(-16*2, -20*2, 10);
-        deck.get(18).setShift(+16*3, -20*3,  0);
-        deck.get(19).setShift(+16*1, -20*3,  0);
-        deck.get(20).setShift(-16*1, -20*3,  0);
-
-        deck.get( 5).setShift(+16*1, -20*1, 20);
-        deck.get( 6).setShift(-16*1, -20*1, 20);
-        deck.get(12).setShift(+16*2, -20*2, 10);
-        deck.get(13).setShift(    0, -20*2, 10);
-        deck.get(14).setShift(-16*2, -20*2, 10);
-        deck.get(21).setShift(+16*3, -20*3,  0);
-        deck.get(22).setShift(+16*1, -20*3,  0);
-        deck.get(23).setShift(-16*1, -20*3,  0);
-        deck.get(24).setShift(-16*3, -20*3,  0);
-
-        deck.get( 7).setShift(+16*1, -20*1, 20);
-        deck.get( 8).setShift(-16*1, -20*1, 20);
-        deck.get(15).setShift(+16*2, -20*2, 10);
-        deck.get(16).setShift(    0, -20*2, 10);
-        deck.get(17).setShift(-16*2, -20*2, 10);
-        deck.get(25).setShift(+16*1, -20*3,  0);
-        deck.get(26).setShift(-16*1, -20*3,  0);
-        deck.get(27).setShift(-16*3, -20*3,  0);
-
-        for(int i = 0; i < 28; i++) {
-            cards_field[i] = deck.get(i);
+        if(tableID == 1){
+            fillSmallField();
+        } else {
+            fillBigField();
         }
-        selector = new Vector2(9, 12);
-        for(int i = 0; i < 28; i++){
-            deck.remove(0);
-        }
-        cards_reserve.addAll(deck);
-        cards_stack.clear();
-        drawReserve();
 
-        setJingle(SOUND_CARD_SHOVE);
     }
 
 
@@ -152,15 +76,9 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
 
     public void updateMotion(){
         if(turnstate >= 2){
-            if(cards_stack.size() > 0) for(int i = 0; i < cards_stack.size(); i++){
-                cards_stack.get(i).update();
-            }
-            if(cards_reserve.size() > 0) for(int i = 0; i < cards_reserve.size(); i++){
-                cards_reserve.get(i).update();
-            }
-            for(int i = 0; i < 28; i++) {
-                cards_field[i].update();
-            }
+            if(cards_stack.size()   > 0) for (Card card : cards_stack) {   card.update(); }
+            if(cards_reserve.size() > 0) for (Card card : cards_reserve) { card.update(); }
+            for(int i = 0; i < 28; i++) { cards_field[i].update(); }
         }
     }
 
@@ -171,7 +89,7 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundTag compound){
-        cards_field = loadCardArray(      compound, 0);
+        cards_field = loadCardArray( compound, 0);
         cards_stack   = loadCardList(compound, 1);
         cards_reserve = loadCardList(compound, 2);
     }
@@ -191,7 +109,7 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
 
     private List<Card> shuffleDeck() {
         List<Card> stack = new ArrayList<Card>();
-        List<Card> deck = new ArrayList<Card>();
+        List<Card> deck  = new ArrayList<Card>();
 
         for(int y = 0; y < 4; y++) {
             for(int x = 0; x < 13; x++) {
@@ -207,10 +125,97 @@ public class LogicCardPurple extends LogicModule {   // TriPeak
         return deck;
     }
 
+    private void fillSmallField(){
+        List<Card> deck = shuffleDeck();
+
+        deck.get( 0).setShift( 0,  0,  0); cards_field[ 0] = deck.get( 0);
+        deck.get( 1).setShift( 0,  0,  0); cards_field[ 1] = deck.get( 1);
+                                           cards_field[ 2] = new Card(-1, -1);
+
+        deck.get( 2).setShift(+16, -20, 20); cards_field[ 3] = deck.get( 2);
+        deck.get( 3).setShift(-16, -20, 20); cards_field[ 4] = deck.get( 3);
+        deck.get( 4).setShift(+16, -20, 20); cards_field[ 5] = deck.get( 4);
+        deck.get( 5).setShift(-16, -20, 20); cards_field[ 6] = deck.get( 5);
+                                                 cards_field[ 7] = new Card(-1, -1);
+                                                 cards_field[ 8] = new Card(-1, -1);
+
+        deck.get( 6).setShift(+32, -40, 20); cards_field[ 9] = deck.get( 6);
+        deck.get( 7).setShift(  0, -40, 20); cards_field[10] = deck.get( 7);
+        deck.get( 8).setShift(-32, -40, 20); cards_field[11] = deck.get( 8);
+        deck.get( 9).setShift(+32, -40, 20); cards_field[12] = deck.get( 9);
+        deck.get(10).setShift(  0, -40, 20); cards_field[13] = deck.get(10);
+        deck.get(11).setShift(-32, -40, 20); cards_field[14] = deck.get(11);
+                                                 cards_field[15] = new Card(-1, -1);
+                                                 cards_field[16] = new Card(-1, -1);
+                                                 cards_field[17] = new Card(-1, -1);
+
+        deck.get(12).setShift(+48, -60, 20); cards_field[18] = deck.get(12);
+        deck.get(13).setShift(+16, -60, 20); cards_field[19] = deck.get(13);
+        deck.get(14).setShift(-16, -60, 20); cards_field[20] = deck.get(14);
+        deck.get(15).setShift(-48, -60, 20); cards_field[21] = deck.get(15);
+        deck.get(16).setShift(+16, -60, 20); cards_field[22] = deck.get(16);
+        deck.get(17).setShift(-16, -60, 20); cards_field[23] = deck.get(17);
+        deck.get(18).setShift(-48, -60, 20); cards_field[24] = deck.get(18);
+                                                 cards_field[25] = new Card(-1, -1);
+                                                 cards_field[26] = new Card(-1, -1);
+                                                 cards_field[27] = new Card(-1, -1);
+
+        selector = new Vector2(9, 12);
+        deck.subList(0, 19).clear();
+        cards_reserve.addAll(deck);
+        cards_stack.clear();
+        drawReserve();
+
+        setJingle(SOUND_CARD_SHOVE);
+    }
+
+    private void fillBigField(){
+        List<Card> deck = shuffleDeck();
+
+        deck.get( 3).setShift( 16, -20, 20);
+        deck.get( 4).setShift(-16, -20, 20);
+        deck.get( 9).setShift( 32, -40, 10);
+        deck.get(10).setShift(  0, -40, 10);
+        deck.get(11).setShift(-32, -40, 10);
+        deck.get(18).setShift( 48, -60,  0);
+        deck.get(19).setShift( 16, -60,  0);
+        deck.get(20).setShift(-16, -60,  0);
+
+        deck.get( 5).setShift( 16, -20, 20);
+        deck.get( 6).setShift(-16, -20, 20);
+        deck.get(12).setShift( 32, -40, 10);
+        deck.get(13).setShift(  0, -40, 10);
+        deck.get(14).setShift(-32, -40, 10);
+        deck.get(21).setShift( 48, -60,  0);
+        deck.get(22).setShift( 16, -60,  0);
+        deck.get(23).setShift(-16, -60,  0);
+        deck.get(24).setShift(-48, -60,  0);
+
+        deck.get( 7).setShift( 16, -20, 20);
+        deck.get( 8).setShift(-16, -20, 20);
+        deck.get(15).setShift( 32, -40, 10);
+        deck.get(16).setShift(  0, -40, 10);
+        deck.get(17).setShift(-32, -40, 10);
+        deck.get(25).setShift( 16, -60,  0);
+        deck.get(26).setShift(-16, -60,  0);
+        deck.get(27).setShift(-48, -60,  0);
+
+        for(int i = 0; i < 28; i++) {
+            cards_field[i] = deck.get(i);
+        }
+        selector = new Vector2(9, 12);
+        deck.subList(0, 28).clear();
+        cards_reserve.addAll(deck);
+        cards_stack.clear();
+        drawReserve();
+
+        setJingle(SOUND_CARD_SHOVE);
+    }
+
     private void drawReserve() {
         combo = 0;
         if(cards_reserve.size() > 0) {
-            cards_reserve.get(0).shiftX = 64;
+            cards_reserve.get(0).shiftX = 40;
             cards_stack.add(cards_reserve.get(0));
             cards_reserve.remove(0);
             setJingle(SOUND_CARD_SHOVE);

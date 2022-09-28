@@ -22,7 +22,6 @@ public class Config {
 
         ConfigMachine(ForgeConfigSpec.Builder builder, String id){
             builder.push("config" + id);
-            //builder.comment("Change Stuff Here");
             config_creative_token   = builder.comment("Allows Betting Inventory to be set to INFINITE").define("config_creative_token", true);
             config_creative_reward  = builder.comment("Allows Reward Inventory to be set to INFINITE").define("config_creative_reward", true);
             config_animated_cards   = builder.comment("Face Cards do a one frame animation sometimes").define("config_animated_cards", true);

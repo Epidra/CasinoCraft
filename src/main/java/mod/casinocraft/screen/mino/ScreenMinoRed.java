@@ -2,18 +2,20 @@ package mod.casinocraft.screen.mino;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mod.casinocraft.Config;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoRed;
 import mod.casinocraft.screen.ScreenCasino;
+import mod.casinocraft.util.ButtonMap;
 import mod.lucky77.util.Vector2;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenMinoRed extends ScreenCasino {   // Roulette
 
-    // ...
+    int colorRED   = 10886686;
+    int colorBLACK =  5131854;
+    int colorGREEN =    46080;
 
 
 
@@ -29,10 +31,20 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
 
 
 
-    //----------------------------------------LOGIC----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public LogicMinoRed logic(){
         return (LogicMinoRed) menu.logic();
+    }
+
+    protected String getGameName() {
+        return tableID == 1 ? "rou_lette" : "roulette";
+    }
+
+    protected void createGameButtons(){
+        buttonSet.addButton(ButtonMap.POS_BOT_MIDDLE, ButtonMap.PLACE,   () -> isActivePlayer() && logic().turnstate == 2 && !logic().hasPlaced,                       () -> { action(-1);               } );
+        buttonSet.addButton(ButtonMap.POS_BOT_LEFT,   ButtonMap.ANOTHER, () -> isActivePlayer() && logic().turnstate == 2 &&  logic().hasPlaced && playerToken >= bet, () -> { action(-2); collectBet(); } );
+        buttonSet.addButton(ButtonMap.POS_BOT_RIGHT,  ButtonMap.WAIT,    () -> isActivePlayer() && logic().turnstate == 2 &&  logic().hasPlaced,                       () -> { action(-3);               } );
     }
 
 
@@ -41,12 +53,12 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
-        if(logic().turnstate == 2 && mouseButton == 0 && isActivePlayer()){
+    protected void interact(double mouseX, double mouseY, int mouseButton){
+        if(logic().turnstate == 2 && !logic().hasPlaced){
             for(int y = 0; y < 7; y++){
                 for(int x = 0; x < 25; x++){
-                    int posX = tableID == 1 ? -128+152+6 + 8*x : -128+56+8 + 16*x;
-                    int posY = y == 6 ? 200 : y == 5 ? 168 : 24+12 + 24*y;
+                    int posX = tableID == 1 ? 16+8 + 8*x : -72 + 16*x;
+                    int posY = y == 6 ? 200 : y == 5 ? 168 : 32 + 24*y;
                     int sizeX = tableID == 1 ? 8 : 16;
                     int sizeY = y > 4 ? 32 : 24;
                     if(mouseRect(posX, posY, sizeX, sizeY, mouseX, mouseY)){
@@ -54,17 +66,6 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
                     }
                 }
             }
-            if(mouseRect( 24, 251-16, 92, 26, mouseX, mouseY) && playerToken >= bet){
-                action(-1);
-                collectBet();
-                playerToken = -1;
-            }
-            if(mouseRect(140, 251-16, 92, 26, mouseX, mouseY)){
-                action(-2);
-            }
-        }
-        if((logic().turnstate == 3 || logic().turnstate == 4) && mouseRect(82, 251-16, 92, 26, mouseX, mouseY)){
-            action(-2);
         }
     }
 
@@ -74,64 +75,37 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
-        if(logic().turnstate >= 4){
-            drawFont(matrixstack, "" + logic().result,  225, -15);
-        }
-        if(logic().turnstate == 2){
-            if(Config.CONFIG.config_timeout.get() - logic().timeout > 0){
-                drawFontInvert(matrixstack, "" + (Config.CONFIG.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
-            }
-        }
-        drawBalance(matrixstack);
+    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+        if(logic().turnstate == 2){ drawTimer(matrix);                                                             }
+        if(logic().turnstate == 5){ drawFontCenter(matrix, "" + logic().result, 128, 7, getColor(logic().result)); }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
         if(tableID == 1){
-            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ROULETTE_MIDDLE);
-            this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background SMALL
+            drawBackground(matrix, CasinoKeeper.TEXTURE_ROULETTE_MIDDLE);
         } else {
-            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ROULETTE_LEFT);
-            this.blit(matrixstack, leftPos-128, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background Left
-            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ROULETTE_RIGHT);
-            this.blit(matrixstack, leftPos+128, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background Right
+            drawBackground(matrix, CasinoKeeper.TEXTURE_ROULETTE_LEFT, -128);
+            drawBackground(matrix, CasinoKeeper.TEXTURE_ROULETTE_RIGHT, 128);
         }
 
         RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_DICE);
-
-        if(logic().turnstate >= 2){
-            for(int y = 0; y < 7; y++){
-                for(int x = 0; x < 25; x++){
-                    int color = logic().grid[x][y];
-                    int posX = tableID == 1 ? -128+152+6-6-16+8 + 8*x : -128+56+8-8 + 16*x;
-                    int posY = y == 6 ? 200 : y == 5 ? 168 : 24+12-4 + 24*y;
-                    if(color != 0)
-                        this.blit(matrixstack, leftPos+posX, topPos+posY, 192, 32 * color, 32, 32);
-                    if(logic().selector.matches(x, y))
-                        this.blit(matrixstack, leftPos+posX, topPos+posY, 224, 32 * (logic().activePlayer+1), 32, 32);
-                }
+        for(int y = 0; y < 7; y++){
+            for(int x = 0; x < 25; x++){
+                int color = logic().grid[x][y];
+                int posX = tableID == 1 ? 16 + 8*x : -72 + 16*x;
+                int posY = y == 6 ? 200 : y == 5 ? 168 : 32 + 24*y;
+                if(color == -1                   ){ this.blit(matrix, leftPos+posX, topPos+posY, 224,               224, 32, 32); }
+                if(color  >  0                   ){ this.blit(matrix, leftPos+posX, topPos+posY, 192, 32 * (color % 10), 32, 32); }
+                if(logic().selector.matches(x, y)){ this.blit(matrix, leftPos+posX, topPos+posY, 224,                 0, 32, 32); }
             }
         }
 
         if(logic().turnstate == 3){
             RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ROULETTE_WHEEL);
-            this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
+            this.blit(matrix, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
             RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
             Vector2 v = logic().vectorWheel();
-            drawMinoSmall(matrixstack, v.X, v.Y, 0, false);
-        }
-    }
-
-    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
-        if(logic().turnstate == 2 && isActivePlayer()){
-            if(playerToken == -1) validateBet();
-            if(playerToken >= bet)
-                blit(matrixstack, leftPos+24+7,  topPos+251-16,  0, 0, 78, 22); // Button Hit
-            blit(matrixstack, leftPos+140+7, topPos+251-16, 78, 0, 78, 22); // Button Stand
-        }
-        if(logic().turnstate == 3 && ( (!logic().spinning) || (logic().spinning && logic().timer == 0) )){
-            blit(matrixstack, leftPos+89, topPos+251-16, 78, 44, 78, 22); // Button Spin
+            drawMinoSmall(matrix, v.X, v.Y, 15, false);
         }
     }
 
@@ -141,16 +115,27 @@ public class ScreenMinoRed extends ScreenCasino {   // Roulette
 
     //----------------------------------------SUPPORT----------------------------------------//
 
-    // ...
-
-
-
-
-
-    //----------------------------------------BASIC----------------------------------------//
-
-    protected String getGameName() {
-        return "roulette";
+    private int getColor(int value){
+        if(value ==  0) return colorGREEN;
+        if(value ==  1) return colorRED;
+        if(value ==  3) return colorRED;
+        if(value ==  5) return colorRED;
+        if(value ==  7) return colorRED;
+        if(value ==  9) return colorRED;
+        if(value == 12) return colorRED;
+        if(value == 14) return colorRED;
+        if(value == 16) return colorRED;
+        if(value == 18) return colorRED;
+        if(value == 19) return colorRED;
+        if(value == 21) return colorRED;
+        if(value == 23) return colorRED;
+        if(value == 25) return colorRED;
+        if(value == 27) return colorRED;
+        if(value == 30) return colorRED;
+        if(value == 32) return colorRED;
+        if(value == 34) return colorRED;
+        if(value == 36) return colorRED;
+        return colorBLACK;
     }
 
 

@@ -5,7 +5,6 @@ import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.chip.LogicChipGreen;
 import mod.casinocraft.screen.ScreenCasino;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenChipGreen extends ScreenCasino {   // -----
@@ -26,10 +25,18 @@ public class ScreenChipGreen extends ScreenCasino {   // -----
 
 
 
-    //----------------------------------------LOGIC----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public LogicChipGreen logic(){
         return (LogicChipGreen) menu.logic();
+    }
+
+    protected String getGameName() {
+        return "";
+    }
+
+    protected void createGameButtons(){
+
     }
 
 
@@ -38,7 +45,7 @@ public class ScreenChipGreen extends ScreenCasino {   // -----
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
+    protected void interact(double mouseX, double mouseY, int mouseButton){
 
     }
 
@@ -48,15 +55,11 @@ public class ScreenChipGreen extends ScreenCasino {   // -----
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
+    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
-
-    }
-
-    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
 
     }
 
@@ -67,16 +70,6 @@ public class ScreenChipGreen extends ScreenCasino {   // -----
     //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
-
-
-
-
-
-    //----------------------------------------BASIC----------------------------------------//
-
-    protected String getGameName() {
-        return "";
-    }
 
 
 

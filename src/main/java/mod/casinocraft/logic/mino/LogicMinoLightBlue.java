@@ -35,7 +35,7 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
             for(int x = 0; x < 12; x++){
                 if(tableID == 1){
                     if((x < 2 || x > 9)){
-                        grid[x][y] = -2;
+                        grid[x][y] = -3;
                     } else {
                         grid[x][y] = -1;
                     }
@@ -44,8 +44,35 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
                 }
             }
         }
-        grid[5][3] = takeNextMino();
-        grid[6][4] = takeNextMino();
+
+        boolean[] number = new boolean[6];
+        boolean[] suit = new boolean[6];
+        for(int i = 0; i < 6; i++){
+            number[i] = false;
+            suit[i] = false;
+        }
+        int placed = 0;
+        for(int i = 0; i < reserve.size(); i++){
+            if(!number[reserve.get(i).number] && !suit[reserve.get(i).suit]){
+                number[reserve.get(i).number] = true;
+                suit[reserve.get(i).suit] = true;
+                placed++;
+
+                     if(grid[5][3] < 0) grid[5][3] = takeMino(i);
+                else if(grid[6][4] < 0) grid[6][4] = takeMino(i);
+
+                else if(grid[tableID == 1 ? 2 :  0][0] < 0) grid[tableID == 1 ? 2 :  0][0] = takeMino(i);
+                else if(grid[tableID == 1 ? 9 : 11][0] < 0) grid[tableID == 1 ? 9 : 11][0] = takeMino(i);
+                else if(grid[tableID == 1 ? 2 :  0][7] < 0) grid[tableID == 1 ? 2 :  0][7] = takeMino(i);
+                else if(grid[tableID == 1 ? 9 : 11][7] < 0) grid[tableID == 1 ? 9 : 11][7] = takeMino(i);
+
+
+            }
+            if(placed == 6){
+                break;
+            }
+        }
+        checkForGameOver();
     }
 
 
@@ -100,9 +127,9 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
         if(connections > 0){
             setJingle(SOUND_CHIP);
             switch(connections){
-                case 1: scorePoint += 1;  break;
-                case 2: scorePoint += 2;  break;
-                case 3: scorePoint += 4;  break;
+                case 1: scorePoint +=  1; break;
+                case 2: scorePoint +=  4; break;
+                case 3: scorePoint +=  8; break;
                 case 4: scorePoint += 16; break;
             }
             grid[x][y] = takeNextMino();
@@ -133,16 +160,13 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
     }
 
     private int takeNextMino(){
-        int x = reserve.get(0).number;
-        int y = reserve.get(0).suit;
-        reserve.remove(0);
-        return x + y * 6;
+        return takeMino(0);
     }
 
-    public int showNextMino(){
-        if(reserve.size() == 0) return -1;
-        int x = reserve.get(0).number;
-        int y = reserve.get(0).suit;
+    private int takeMino(int index){
+        int x = reserve.get(index).number;
+        int y = reserve.get(index).suit;
+        reserve.remove(index);
         return x + y * 6;
     }
 
@@ -153,11 +177,13 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
             boolean placable = false;
             for(int y = 0; y < 8; y++){
                 for(int x = 0; x < 12; x++){
-                    //if(grid[x][y] >= 0){
-                        if(canPlace(x, y) > 0){
-                            placable = true;
-                        }
-                    //}
+                    int connect = canPlace(x, y);
+                    if(connect > 0){
+                        placable = true;
+                    }
+                    if(grid[x][y] == -1 || grid[x][y] == -2){
+                        grid[x][y] = connect > 0 ? -2 : -1;
+                    }
                 }
             }
             if(!placable){
@@ -167,18 +193,16 @@ public class LogicMinoLightBlue extends LogicModule {   // Ishido
     }
 
     private int canPlace(int x, int y){
-        if(grid[x][y] >= 0){
+        if(grid[x][y] >= 0 || grid[x][y] == -3){
             return 0;
         }
         int connections = 0;
-        int empty = 0;
-        int edge = 0;
         boolean noCon = false;
-        if(x - 1 >=  0){ if(grid[x-1][y  ] <= -1){ empty++; } else if(grid[x-1][y  ] % 6 == reserve.get(0).number || grid[x-1][y  ] / 6 == reserve.get(0).suit){ connections++; } else { noCon = true; } } else { edge++; }
-        if(x + 1 <  12){ if(grid[x+1][y  ] <= -1){ empty++; } else if(grid[x+1][y  ] % 6 == reserve.get(0).number || grid[x+1][y  ] / 6 == reserve.get(0).suit){ connections++; } else { noCon = true; } } else { edge++; }
-        if(y - 1 >=  0){ if(grid[x  ][y-1] <= -1){ empty++; } else if(grid[x  ][y-1] % 6 == reserve.get(0).number || grid[x  ][y-1] / 6 == reserve.get(0).suit){ connections++; } else { noCon = true; } } else { edge++; }
-        if(y + 1 <   8){ if(grid[x  ][y+1] <= -1){ empty++; } else if(grid[x  ][y+1] % 6 == reserve.get(0).number || grid[x  ][y+1] / 6 == reserve.get(0).suit){ connections++; } else { noCon = true; } } else { edge++; }
-        return noCon ? 0 : empty + edge == 4 ? 1 : connections;
+        if(x - 1 >=  0){ if(grid[x-1][y  ] >= 0){ if(grid[x-1][y  ] % 6 == reserve.get(0).number || grid[x-1][y  ] / 6 == reserve.get(0).suit){ connections++; } else { noCon = true; } } }
+        if(x + 1 <  12){ if(grid[x+1][y  ] >= 0){ if(grid[x+1][y  ] % 6 == reserve.get(0).number || grid[x+1][y  ] / 6 == reserve.get(0).suit){ connections++; } else { noCon = true; } } }
+        if(y - 1 >=  0){ if(grid[x  ][y-1] >= 0){ if(grid[x  ][y-1] % 6 == reserve.get(0).number || grid[x  ][y-1] / 6 == reserve.get(0).suit){ connections++; } else { noCon = true; } } }
+        if(y + 1 <   8){ if(grid[x  ][y+1] >= 0){ if(grid[x  ][y+1] % 6 == reserve.get(0).number || grid[x  ][y+1] / 6 == reserve.get(0).suit){ connections++; } else { noCon = true; } } }
+        return noCon ? 0 : connections;
     }
 
 

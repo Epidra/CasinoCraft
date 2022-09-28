@@ -1,6 +1,5 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import net.minecraft.nbt.CompoundTag;
@@ -22,6 +21,7 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
     public int pot = 0;
     public int raisedPlayer = -1;
     public int round = 0;
+    public int playerCount = 0;
 
 
 
@@ -58,18 +58,10 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
-        if(action == 0){ // CALL
-            call();
-        }
-        if(action == 1){ // RAISE
-            raise();
-        }
-        if(action == 2){ // CHECK
-            check();
-        }
-        if(action == 3){ // FOLD
-            fold();
-        }
+        if(action == 0){ call();  }
+        if(action == 1){ raise(); }
+        if(action == 2){ check(); }
+        if(action == 3){ fold();  }
         if(action >= 4){
             if(action - 4 < getCards(activePlayer).size()){
                 getCards(activePlayer).get(action - 4).hidden = !getCards(activePlayer).get(action - 4).hidden;
@@ -173,7 +165,7 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
     private void draw(){
         turnstate = 3;
         timeout = 0;
-        pot = getFirstFreePlayerSlot();
+        playerCount = pot = getFirstFreePlayerSlot();
         for(int y = 0; y < 5; y++){
             for(int x = 0; x < pot; x++){
                 getCards(x).add(new Card(RANDOM, 0, 24,  8*x + 8*4*y, false));
@@ -190,7 +182,9 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
     private void drawAnother(){
         for(int y = 0; y < 5; y++){
             if(getCards(activePlayer).get(y).hidden){
+                getCards(activePlayer).remove(y);
                 getCards(activePlayer).add(new Card(RANDOM, 0, 24,  0, false));
+                y--;
             }
         }
         timeout = 0;
@@ -252,7 +246,7 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
                 if(getCards(i).size() < 5){
                     folded[i] = true;
                 }
-                finalHand[i] = folded[i] ? 0 : sortAndClear(getCards(i).get(0), getCards(i).get(1), getCards(i).get(2), getCards(i).get(3), getCards(i).get(5));
+                finalHand[i] = folded[i] ? 0 : sortAndClear(getCards(i).get(0), getCards(i).get(1), getCards(i).get(2), getCards(i).get(3), getCards(i).get(4));
             }
             int winner = 0;
             for(int i = 0; i < 6; i++){
@@ -261,6 +255,7 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
                 }
             }
             reward[winner] = pot;
+            hand = currentPlayer[winner] + " has won the Game!";
         }
     }
 
@@ -318,8 +313,6 @@ public class LogicCardLightGray extends LogicModule {   // Draw Poker
                 highestNumber = c[i].sortedNumber();
             }
         }
-
-
         return highestNumber;
     }
 

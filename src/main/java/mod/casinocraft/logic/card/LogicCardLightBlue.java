@@ -40,19 +40,20 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
     public void start2(){
         List<Card> deck = shuffleDeck();
 
-        cards_field[0] = new ArrayList<Card>();
-        cards_field[1] = new ArrayList<Card>(); transferCards(cards_field[1], deck, 0, 1);
-        cards_field[2] = new ArrayList<Card>(); transferCards(cards_field[2], deck, 0, 2);
-        cards_field[3] = new ArrayList<Card>(); transferCards(cards_field[3], deck, 0, 3);
-        cards_field[4] = new ArrayList<Card>(); transferCards(cards_field[4], deck, 0, 4);
-        cards_field[5] = new ArrayList<Card>(); transferCards(cards_field[5], deck, 0, 5);
-        cards_field[6] = new ArrayList<Card>(); transferCards(cards_field[6], deck, 0, 6);
-        cards_field[7] = new ArrayList<Card>(); transferCards(cards_field[7], deck, 0, 7);
+        cards_field[0] = new ArrayList<>();
+        cards_field[1] = new ArrayList<>(); transferCards(cards_field[1], deck, 0, 1);
+        cards_field[2] = new ArrayList<>(); transferCards(cards_field[2], deck, 0, 2);
+        cards_field[3] = new ArrayList<>(); transferCards(cards_field[3], deck, 0, 3);
+        cards_field[4] = new ArrayList<>(); transferCards(cards_field[4], deck, 0, 4);
+        cards_field[5] = new ArrayList<>(); transferCards(cards_field[5], deck, 0, 5);
+        cards_field[6] = new ArrayList<>(); transferCards(cards_field[6], deck, 0, 6);
+        cards_field[7] = new ArrayList<>(); transferCards(cards_field[7], deck, 0, 7);
 
+        int z = tableID == 1 ? 32 : 0;
         for(int x = 1; x < 8; x++){
             int y = 0;
             for(Card c : cards_field[x]){
-                c.setShift(-32*x,16 - (48 + 24*y), y*10 + x);
+                c.setShift(-32*x + z, 16 - (48 + 24*y), y*10 + x);
                 if(y < cards_field[x].size() - 1) c.hidden = true;
                 y++;
             }
@@ -64,17 +65,14 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
 
         scoreLives = 3;
 
-        cards_finish[0] = new ArrayList<Card>();
-        cards_finish[1] = new ArrayList<Card>();
-        cards_finish[2] = new ArrayList<Card>();
-        cards_finish[3] = new ArrayList<Card>();
+        cards_finish[0] = new ArrayList<>();
+        cards_finish[1] = new ArrayList<>();
+        cards_finish[2] = new ArrayList<>();
+        cards_finish[3] = new ArrayList<>();
 
         selector = new Vector2(-1, -1);
-
         compress = 4;
-
         timer = -1;
-
         setJingle(SOUND_CARD_SHOVE);
     }
 
@@ -222,9 +220,9 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
         cards_finish[3] = loadCardList(compound, 11);
 
         cards_reserve.addAll(loadCardList(compound, 12));
-        cards_stack  .addAll(loadCardList(compound, 13));
+        cards_stack.addAll(  loadCardList(compound, 13));
         compress = compound.getInt("compress");
-        timer = compound.getInt("timer");
+        timer    = compound.getInt("timer");
     }
 
     public CompoundTag save2(CompoundTag compound){
@@ -246,7 +244,7 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
         saveCardList(compound, 13, cards_stack  );
 
         compound.putInt("compress", compress);
-        compound.putInt("timer", timer);
+        compound.putInt("timer",    timer);
         return compound;
     }
 
@@ -310,9 +308,6 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
             if(scoreLives > 0){
                 cards_reserve.addAll(cards_stack);
                 cards_stack.clear();
-                //if(difficulty != 1) scorePoints-=100;
-                //if(scorePoints < 0) scorePoints = 0;
-                //if(difficulty == 3) scoreLives--;
                 scorePoint -= 100;
                 if(scorePoint < 0) scorePoint = 0;
                 setJingle(SOUND_CARD_SHOVE);
@@ -396,8 +391,6 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
             if(selector.matches(-1,  -1)) {
                 if(cards_field[x2].size() > 0){
                     y2 = cards_field[x2].size() <= y2 ? cards_field[x2].size() - 1 : y2;
-                    float tempCard = cards_field[x2].get(y2).number;
-                    float tempSuit = cards_field[x2].get(y2).suit;
                     for(int i = y2; i < cards_field[x2].size(); i++) {
                         if(i != cards_field[x2].size() - 1) {
                             if(((cards_field[x2].get(i).number - 1 != cards_field[x2].get(i + 1).number) && !(cards_field[x2].get(i).number == 1 && cards_field[x2].get(i + 1).number == 13)) || !differentColors(cards_field[x2].get(i).suit, cards_field[x2].get(i + 1).suit)) {
@@ -412,8 +405,6 @@ public class LogicCardLightBlue extends LogicModule {   // Klondike
                     selector.set(-1, -1);
                     if(cards_field[x2].size() > 0){
                         y2 = cards_field[x2].size() <= y2 ? cards_field[x2].size() - 1 : y2;
-                        float tempCard = cards_field[x2].get(y2).number;
-                        float tempSuit = cards_field[x2].get(y2).suit;
                         for(int i = y2; i < cards_field[x2].size(); i++) {
                             if(i != cards_field[x2].size() - 1) {
                                 if(((cards_field[x2].get(i).number - 1 != cards_field[x2].get(i + 1).number) && !(cards_field[x2].get(i).number == 1 && cards_field[x2].get(i + 1).number == 13)) || !differentColors(cards_field[x2].get(i).suit, cards_field[x2].get(i + 1).suit)) {

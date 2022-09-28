@@ -19,12 +19,12 @@ public class Dice {
 
     public Dice(int _number, int _color) {
         number = _number;
-        color = _color;
-        posX = 0;
-        posY = 0;
+        color  = _color;
+        posX   = 0;
+        posY   = 0;
         shiftX = 0;
         shiftY = 0;
-        rotation = 0;
+        rotation  = 0;
         direction = false;
     }
 
@@ -40,11 +40,8 @@ public class Dice {
         shiftX -= (shiftX / 30);
         shiftY -= (shiftY / 30);
         number = randNumber;
-        if(direction) {
-            rotation -= shift * 10;
-        } else {
-            rotation += shift * 10;
-        }
+        if(direction) { rotation -= shift * 10; }
+                 else { rotation += shift * 10; }
     }
 
 
@@ -54,11 +51,11 @@ public class Dice {
     //----------------------------------------SUPPORT----------------------------------------//
 
     public void Reset() {
-        posX = 0;
-        posY = 0;
+        posX   = 0;
+        posY   = 0;
         shiftX = 0;
         shiftY = 0;
-        rotation = 0;
+        rotation  = 0;
         direction = false;
     }
 

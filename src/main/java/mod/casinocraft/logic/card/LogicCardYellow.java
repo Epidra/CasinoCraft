@@ -94,7 +94,7 @@ public class LogicCardYellow extends LogicModule {   // Acey Deucey
                         if(spread < 0) spread *= -1;
                         spread--;
                         turnstate = 2;
-                        hand = "Double Your Bet..?";
+                        hand = "Pay another Bet..?";
                     }
                 } else {
                     if(cards[2].shiftY == 0) {

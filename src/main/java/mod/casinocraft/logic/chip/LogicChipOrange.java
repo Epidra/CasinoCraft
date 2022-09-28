@@ -83,8 +83,8 @@ public class LogicChipOrange extends LogicModule {   // Snake
     public void load2(CompoundTag compound){
         octanom_head = loadEntity(    compound, 0);
         octanom_tail = loadEntityList(compound, 1);
-        temp_player = compound.getInt("tempplayer");
-        temp_auto = compound.getInt("temp_auto");
+        temp_player  = compound.getInt("tempplayer");
+        temp_auto    = compound.getInt("temp_auto");
         point.set(compound.getInt("pointx"), compound.getInt("pointy"));
         active_move_tail = compound.getBoolean("active_move_tail");
     }
@@ -93,7 +93,7 @@ public class LogicChipOrange extends LogicModule {   // Snake
         saveEntity(    compound, 0, octanom_head);
         saveEntityList(compound, 1, octanom_tail);
         compound.putInt("tempplayer", temp_player);
-        compound.putInt("temp_auto", temp_auto);
+        compound.putInt("temp_auto",  temp_auto);
         compound.putInt("pointx", point.X);
         compound.putInt("pointy", point.Y);
         compound.putBoolean("active_move_tail", active_move_tail);
@@ -112,23 +112,23 @@ public class LogicChipOrange extends LogicModule {   // Snake
 
             // Updates Next()
                  if(temp_player == KEY_UP    && octanom_head.getNext().Y !=   0) { octanom_head.setInMotion( 0, -speed()); temp_auto = 1; temp_player = 0; }
-            else if(temp_player == KEY_UP    && octanom_head.getNext().Y ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
+            else if(temp_player == KEY_UP    && octanom_head.getNext().Y ==   0) { octanom_head.setInMotion( 0,        0); temp_auto = 0; temp_player = 0; }
             else if(temp_player == KEY_DOWN  && octanom_head.getNext().Y != 224) { octanom_head.setInMotion( 0,  speed()); temp_auto = 2; temp_player = 0; }
-            else if(temp_player == KEY_DOWN  && octanom_head.getNext().Y == 224) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
+            else if(temp_player == KEY_DOWN  && octanom_head.getNext().Y == 224) { octanom_head.setInMotion( 0,        0); temp_auto = 0; temp_player = 0; }
             else if(temp_player == KEY_LEFT  && octanom_head.getNext().X !=   0) { octanom_head.setInMotion(-speed(),  0); temp_auto = 3; temp_player = 0; }
-            else if(temp_player == KEY_LEFT  && octanom_head.getNext().X ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
+            else if(temp_player == KEY_LEFT  && octanom_head.getNext().X ==   0) { octanom_head.setInMotion( 0,        0); temp_auto = 0; temp_player = 0; }
             else if(temp_player == KEY_RIGHT && octanom_head.getNext().X != 176) { octanom_head.setInMotion( speed(),  0); temp_auto = 4; temp_player = 0; }
-            else if(temp_player == KEY_RIGHT && octanom_head.getNext().X == 176) { octanom_head.setInMotion( 0,  0); temp_auto = 0; temp_player = 0; }
+            else if(temp_player == KEY_RIGHT && octanom_head.getNext().X == 176) { octanom_head.setInMotion( 0,        0); temp_auto = 0; temp_player = 0; }
             else if(temp_auto == 1 && octanom_head.getNext().Y !=   0) { octanom_head.setInMotion( 0, -speed());  }
-            else if(temp_auto == 1 && octanom_head.getNext().Y ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0;  }
-            else if(temp_auto == 2 && octanom_head.getNext().Y != 224) { octanom_head.setInMotion( 0,  speed());  }
-            else if(temp_auto == 2 && octanom_head.getNext().Y == 224) { octanom_head.setInMotion( 0,  0); temp_auto = 0;  }
-            else if(temp_auto == 3 && octanom_head.getNext().X !=   0) { octanom_head.setInMotion(-speed(),  0);  }
-            else if(temp_auto == 3 && octanom_head.getNext().X ==   0) { octanom_head.setInMotion( 0,  0); temp_auto = 0;  }
-            else if(temp_auto == 4 && octanom_head.getNext().X != 176) { octanom_head.setInMotion( speed(),  0);  }
-            else if(temp_auto == 4 && octanom_head.getNext().X == 176) { octanom_head.setInMotion( 0,  0); temp_auto = 0;  }
+            else if(temp_auto == 1 && octanom_head.getNext().Y ==   0) { octanom_head.setInMotion( 0,        0); temp_auto = 0; }
+            else if(temp_auto == 2 && octanom_head.getNext().Y != 224) { octanom_head.setInMotion( 0,  speed());                }
+            else if(temp_auto == 2 && octanom_head.getNext().Y == 224) { octanom_head.setInMotion( 0,        0); temp_auto = 0; }
+            else if(temp_auto == 3 && octanom_head.getNext().X !=   0) { octanom_head.setInMotion(-speed(),  0);                }
+            else if(temp_auto == 3 && octanom_head.getNext().X ==   0) { octanom_head.setInMotion( 0,        0); temp_auto = 0; }
+            else if(temp_auto == 4 && octanom_head.getNext().X != 176) { octanom_head.setInMotion( speed(),  0);                }
+            else if(temp_auto == 4 && octanom_head.getNext().X == 176) { octanom_head.setInMotion( 0,        0); temp_auto = 0; }
             for(Ship tail : octanom_tail) {
-                if(position.X > tail.getPos().X) { tail.setPos(position.X - 16, position.Y     ); tail.setVel( speed(),  0); }
+                     if(position.X > tail.getPos().X) { tail.setPos(position.X - 16, position.Y     ); tail.setVel( speed(),  0); }
                 else if(position.X < tail.getPos().X) { tail.setPos(position.X + 16, position.Y     ); tail.setVel(-speed(),  0); }
                 else if(position.Y > tail.getPos().Y) { tail.setPos(position.X     , position.Y - 16); tail.setVel( 0,  speed()); }
                 else if(position.Y < tail.getPos().Y) { tail.setPos(position.X     , position.Y + 16); tail.setVel( 0, -speed()); }
@@ -179,10 +179,8 @@ public class LogicChipOrange extends LogicModule {   // Snake
                             break;
                         }
                     }
-                    //for(int j = 0; j < 5; j++) {
                     if(point.matches(x, y))
                         temp_internal = true;
-                    //}
                     if(!temp_internal) {
                         temp_break = true;
                     }
@@ -197,11 +195,11 @@ public class LogicChipOrange extends LogicModule {   // Snake
     }
 
     private void commandSpawnTail() {
-        Vector2 pos = new Vector2(octanom_head.getPos()/*.offset(octanom_head.Get_Vel().X*-16, octanom_head.Get_Vel().Y*-16)*/);
+        Vector2 pos = new Vector2(octanom_head.getPos());
         int i = 0;
         for(Ship tail : octanom_tail) {
             if(i + 1 == octanom_tail.size()) {
-                pos.set(tail.getPos()/*.offset(tail.Get_Vel().X*16, tail.Get_Vel().Y*16)*/);
+                pos.set(tail.getPos());
             }
             i++;
         }

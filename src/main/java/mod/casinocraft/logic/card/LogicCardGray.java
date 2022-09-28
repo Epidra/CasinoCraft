@@ -21,6 +21,7 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
     public boolean[] folded = new boolean[6];
     public int pot = 0;
     public int raisedPlayer = -1;
+    public int playerCount = 0;
 
 
 
@@ -59,18 +60,10 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
-        if(action == 0){ // CALL
-            call();
-        }
-        if(action == 1){ // RAISE
-            raise();
-        }
-        if(action == 2){ // CHECK
-            check();
-        }
-        if(action == 3){ // FOLD
-            fold();
-        }
+        if(action == 0){ call();  }
+        if(action == 1){ raise(); }
+        if(action == 2){ check(); }
+        if(action == 3){ fold();  }
     }
 
 
@@ -165,14 +158,13 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
             case 3: return cardsP4;
             case 4: return cardsP5;
             case 5: return cardsP6;
-        }
-        return cardsP1;
+        } return cardsP1;
     }
 
     private void draw(){
         turnstate = 3;
         timeout = 0;
-        pot = getFirstFreePlayerSlot();
+        playerCount = pot = getFirstFreePlayerSlot();
         for(int y = 0; y < 2; y++){
             for(int x = 0; x < pot; x++){
                 getCards(x).add(new Card(RANDOM, 0, 24,  8*x + 8*4*y, false));
@@ -259,6 +251,7 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
                 }
             }
             reward[winner] = pot;
+            hand = currentPlayer[winner] + " has won the Game!";
         }
     }
 
@@ -349,8 +342,6 @@ public class LogicCardGray extends LogicModule {   // Hold'em Poker
                 highestNumber = c[i].sortedNumber();
             }
         }
-
-
         return highestNumber;
     }
 
