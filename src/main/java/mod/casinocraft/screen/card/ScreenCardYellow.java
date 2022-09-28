@@ -6,6 +6,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.card.LogicCardYellow;
 import mod.casinocraft.screen.ScreenCasino;
+import mod.casinocraft.util.ButtonMap;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -27,10 +28,19 @@ public class ScreenCardYellow extends ScreenCasino {   // Acey Deucey
 
 
 
-    //----------------------------------------LOGIC----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public LogicCardYellow logic(){
         return (LogicCardYellow) menu.logic();
+    }
+
+    protected String getGameName() {
+        return "acey_deucey";
+    }
+
+    protected void createGameButtons(){
+        buttonSet.addButton(ButtonMap.POS_MID_LEFT,  ButtonMap.ANOTHER, () -> isActivePlayer() && logic().turnstate == 2 && playerToken >= bet, () -> { action(0); collectBet(); });
+        buttonSet.addButton(ButtonMap.POS_MID_RIGHT, ButtonMap.WAIT,    () -> isActivePlayer() && logic().turnstate == 2,                       () -> { action(1);               });
     }
 
 
@@ -39,9 +49,8 @@ public class ScreenCardYellow extends ScreenCasino {   // Acey Deucey
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
-        if(logic().turnstate == 2 && mouseRect( 24, 204, 92, 26, mouseX, mouseY)){ action(anotherBet() ? 0 : 1); } else
-        if(logic().turnstate == 2 && mouseRect(140, 204, 92, 26, mouseX, mouseY)){ action(1); }
+    protected void interact(double mouseX, double mouseY, int mouseButton){
+
     }
 
 
@@ -50,23 +59,21 @@ public class ScreenCardYellow extends ScreenCasino {   // Acey Deucey
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
-        if(logic().spread > -1) drawFont(matrixstack, "Spread: " + logic().spread,  100, 125);
-        drawFont(matrixstack, logic().hand,  75, 150);
-        drawBalance(matrixstack);
+    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+        if(logic().spread    > -1                     ){ drawFontCenter(matrix, "Spread: " + logic().spread, 96, 176); }
+        if(logic().turnstate == 2 &&  isActivePlayer()){ drawFontCenter(matrix, "Add another Bet ...?",     128, 192); }
+        if(logic().turnstate == 2 && !isActivePlayer()){ drawFontCenter(matrix, "...",                      128, 192); }
+        if(logic().turnstate == 3                     ){ drawFontCenter(matrix, "...",                      128, 192); }
+        if(logic().turnstate >= 4                     ){ drawFontCenter(matrix, logic().hand,               128, 192); }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        drawCard(matrixstack, 64,  72, logic().cards[0]);
-        if(logic().cards[2] != null){ drawCard(matrixstack, 112, 72, logic().cards[2]); }
-        drawCard(matrixstack, 160, 72, logic().cards[1]);
-    }
-
-    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
-        if(logic().turnstate == 2){
-            blit(matrixstack, leftPos+24+7,  topPos+204+2,  0, 0, 78, 22); // Button Hit
-            blit(matrixstack, leftPos+140+7, topPos+204+2, 78, 0, 78, 22); // Button Stand
+    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+        drawCard(matrix, 64,  72, logic().cards[0]);
+        if(logic().cards[2] != null){ drawCard(matrix, 112, 72, logic().cards[2]); }
+        drawCard(matrix, 160, 72, logic().cards[1]);
+        if(logic().turnstate == 3){
+            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
+            blit(matrix, leftPos + 89, topPos + 212, 0, 176, 78, 22);
         }
     }
 
@@ -77,16 +84,6 @@ public class ScreenCardYellow extends ScreenCasino {   // Acey Deucey
     //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
-
-
-
-
-
-    //----------------------------------------BASIC----------------------------------------//
-
-    protected String getGameName() {
-        return "acey_deucey";
-    }
 
 
 

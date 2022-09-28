@@ -42,10 +42,10 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
 
         split = 0;
 
-        cards_player1.add(new Card(RANDOM, -32, 0,    8, false));
-        cards_player1.add(new Card(RANDOM, -48, 0,   32, false));
-        cards_dealer.add(new Card(RANDOM,   0, -48,  8, false));
-        cards_dealer.add(new Card(RANDOM,   0, -48, 32, true));
+        cards_player1.add(new Card(RANDOM, -32,   0,  8, false));
+        cards_player1.add(new Card(RANDOM, -48,   0, 32, false));
+        cards_dealer.add( new Card(RANDOM,   0, -48,  8, false));
+        cards_dealer.add( new Card(RANDOM,   0, -48, 32, true));
         setJingle(SoundMap.SOUND_CARD_SHOVE);
         value_player1 = Add_Card(cards_player1, 0, 0, true);
         value_player2 = 0;

@@ -1,8 +1,8 @@
 package mod.casinocraft.logic.mino;
 
-import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Dice;
+import mod.casinocraft.util.SoundMap;
 import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundTag;
 
@@ -16,6 +16,7 @@ public class LogicMinoOrange extends LogicModule {   // Craps
     public int result = 0;
     public int point = 0;
     public int comepoint = 0;
+    public boolean hasPlaced = false;
 
 
 
@@ -51,18 +52,33 @@ public class LogicMinoOrange extends LogicModule {   // Craps
 
     public void command(int action){
         timeout = 0;
-        if(action == -2) {
+        if(action == -3){ // WAIT
+            activePlayer++;
+            hasPlaced = false;
+            if(activePlayer >= getFirstFreePlayerSlot()){
+                spin();
+            }
+        }
+        else if(action == -2) { // ANOTHER
+            hasPlaced = false;
+            boolean temp = false;
+            for(int y = 0; y < grid[0].length; y++){
+                for(int x = 0; x < grid.length; x++){
+                    if(grid[x][y] == 0){
+                        selector.set(x, y);
+                        temp = true;
+                        break;
+                    }
+                }
+                if(temp) break;
+            }
+        } else if(action == -1){ // PLACE
+            hasPlaced = true;
             if(selector.X > -1){
                 grid[selector.X][selector.Y] = activePlayer+1;
                 selector.set(-1, -1);
             }
-            spin();
-        } else if(action == -1){
-            if(selector.X > -1){
-                grid[selector.X][selector.Y] = activePlayer+1;
-                selector.set(-1, -1);
-            }
-        } else {
+        } else if(action >= 0) { // place on field
             int x = action % 8;
             int y = action / 8;
             if(grid[x][y] == 0){
@@ -88,7 +104,8 @@ public class LogicMinoOrange extends LogicModule {   // Craps
         if(turnstate == 2){
             timeout++;
             if(timeout == timeoutMAX){
-                spin();
+                if(!hasPlaced) command(-1);
+                command(-3);
             }
         }
         if(turnstate == 3) {
@@ -99,6 +116,11 @@ public class LogicMinoOrange extends LogicModule {   // Craps
                     dice[i].shiftX = 0;
                     dice[i].shiftY = 0;
                 }
+            }
+        }
+        if(turnstate == 3) {
+            if (dice[0].shiftX == 0 && dice[1].shiftX == 0) {
+                result();
             }
         }
         if(turnstate == 4) {
@@ -139,22 +161,14 @@ public class LogicMinoOrange extends LogicModule {   // Craps
 
     private void spin() {
         if(turnstate == 2) {
-            activePlayer++;
-            if(activePlayer >= getFirstFreePlayerSlot()){
-                setJingle(SOUND_DICE);
-                dice[0].setUp(200 + RANDOM.nextInt( 50),  50 + RANDOM.nextInt(200), RANDOM.nextInt(2) == 0);
-                dice[1].setUp( 50 + RANDOM.nextInt(200), 200 + RANDOM.nextInt( 50), RANDOM.nextInt(2) == 0);
-                if(selector.X > -1) {
-                    grid[selector.X][selector.Y] = 1;
-                    selector = new Vector2(-1, -1);
-                }
-                turnstate = 3;
+            setJingle(SOUND_DICE);
+            dice[0].setUp(200 + RANDOM.nextInt( 50),  50 + RANDOM.nextInt(200), RANDOM.nextInt(2) == 0);
+            dice[1].setUp( 50 + RANDOM.nextInt(200), 200 + RANDOM.nextInt( 50), RANDOM.nextInt(2) == 0);
+            if(selector.X > -1) {
+                grid[selector.X][selector.Y] = 1;
+                selector = new Vector2(-1, -1);
             }
-
-        } else if(turnstate == 3) {
-            if(dice[0].shiftX == 0 && dice[1].shiftX == 0) {
-                result();
-            }
+            turnstate = 3;
         }
     }
 
@@ -181,10 +195,12 @@ public class LogicMinoOrange extends LogicModule {   // Craps
                 turnstate = 4;
             } else {
                 hand = "Roll again...";
+                hasPlaced = true;
                 reset();
             }
         } else {
             result = dice[0].number + 1 + dice[1].number + 1;
+            hasPlaced = true;
             resultSingleOdds();
             reset();
             if(hasCome) {
@@ -216,6 +232,7 @@ public class LogicMinoOrange extends LogicModule {   // Craps
                 turnstate = 4;
             }
         }
+        if(reward[0] > 0 || reward[1] > 0 || reward[2] > 0 || reward[3] > 0 || reward[4] > 0 || reward[5] > 0) setJingle(SoundMap.SOUND_REWARD);
     }
 
     private void resultCome(boolean won) {

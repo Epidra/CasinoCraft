@@ -38,30 +38,40 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
     public void start2(){
 
-        cards_field[0] = new ArrayList<Card>();
-        cards_field[1] = new ArrayList<Card>();
-        cards_field[2] = new ArrayList<Card>();
-        cards_field[3] = new ArrayList<Card>();
-        cards_field[4] = new ArrayList<Card>();
-        cards_field[5] = new ArrayList<Card>();
-        cards_field[6] = new ArrayList<Card>();
-        cards_field[7] = new ArrayList<Card>();
+        cards_field[0] = new ArrayList<>();
+        cards_field[1] = new ArrayList<>();
+        cards_field[2] = new ArrayList<>();
+        cards_field[3] = new ArrayList<>();
+        cards_field[4] = new ArrayList<>();
+        cards_field[5] = new ArrayList<>();
+        cards_field[6] = new ArrayList<>();
+        cards_field[7] = new ArrayList<>();
 
-        cards_finish[0] = new ArrayList<Card>();
-        cards_finish[1] = new ArrayList<Card>();
-        cards_finish[2] = new ArrayList<Card>();
-        cards_finish[3] = new ArrayList<Card>();
+        cards_finish[0] = new ArrayList<>();
+        cards_finish[1] = new ArrayList<>();
+        cards_finish[2] = new ArrayList<>();
+        cards_finish[3] = new ArrayList<>();
 
         List<Card> deck = shuffleDeck();
 
-        transferCards(cards_field[0], deck, 0, 7);
-        transferCards(cards_field[1], deck, 1, 7);
-        transferCards(cards_field[2], deck, 2, 7);
-        transferCards(cards_field[3], deck, 3, 7);
-        transferCards(cards_field[4], deck, 4, 6);
-        transferCards(cards_field[5], deck, 5, 6);
-        transferCards(cards_field[6], deck, 6, 6);
-        transferCards(cards_field[7], deck, 7, 6);
+        if(tableID == 2){
+            transferCards(cards_field[0], deck, 0, 7);
+            transferCards(cards_field[1], deck, 1, 7);
+            transferCards(cards_field[2], deck, 2, 7);
+            transferCards(cards_field[3], deck, 3, 7);
+            transferCards(cards_field[4], deck, 4, 6);
+            transferCards(cards_field[5], deck, 5, 6);
+            transferCards(cards_field[6], deck, 6, 6);
+            transferCards(cards_field[7], deck, 7, 6);
+        } else {
+            transferCards(cards_field[1], deck, 1, 8);
+            transferCards(cards_field[2], deck, 2, 8);
+            transferCards(cards_field[3], deck, 3, 8);
+            transferCards(cards_field[4], deck, 4, 7);
+            transferCards(cards_field[5], deck, 5, 7);
+            transferCards(cards_field[6], deck, 6, 7);
+            transferCards(cards_field[7], deck, 7, 7);
+        }
 
         cards_freecell[0] = new Card(-1, -1);
         cards_freecell[1] = new Card(-1, -1);

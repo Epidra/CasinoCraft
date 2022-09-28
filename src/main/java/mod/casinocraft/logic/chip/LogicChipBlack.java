@@ -7,8 +7,6 @@ import static mod.casinocraft.util.KeyMap.*;
 
 public class LogicChipBlack extends LogicModule {   // -----
 
-    // ...
-
     public int position = 0;
     public int positionMAX = 256;
 

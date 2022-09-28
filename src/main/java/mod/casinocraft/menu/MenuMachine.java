@@ -12,6 +12,8 @@ import net.minecraft.world.item.ItemStack;
 
 public abstract class MenuMachine extends MenuBase {
 
+    // ...
+
 
 
 
@@ -39,11 +41,10 @@ public abstract class MenuMachine extends MenuBase {
     //----------------------------------------SUPPORT----------------------------------------//
 
     protected void createInventory(BlockEntityBase tile, Inventory playerInventory){
-        this.addSlot(new Slot(tile, 0, -24, 31)); // Key Card
-        this.addSlot(new Slot(tile, 1, -24, 61)); // Game Module
-        this.addSlot(new Slot(tile, 2, -24, 91)); // Token IN/OUT
-        //this.addSlot(new Slot(board, 3, 132, 16)); // Token OUT
-        addPlayerSlots(playerInventory, 8, 122-28);
+        this.addSlot(new Slot(tile, 0, -24, 11)); // Key Card
+        this.addSlot(new Slot(tile, 1, -24, 41)); // Game Module
+        this.addSlot(new Slot(tile, 2, -24, 71)); // Token IN/OUT
+        addPlayerSlots(playerInventory,  8, 74);
     }
 
     public ItemStack quickMoveStack(Player player, int index) {

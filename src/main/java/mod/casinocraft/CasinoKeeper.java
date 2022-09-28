@@ -37,6 +37,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.ParallelDispatchEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -57,7 +58,7 @@ public class CasinoKeeper {
 
 
 
-    // Card Tables
+    // ----- Card Tables ----- //
     public static final RegistryObject<Block> CARDTABLE_BASE_WHITE      = registerB("cardtable_base_white",      () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.WHITE),      CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> CARDTABLE_BASE_ORANGE     = registerB("cardtable_base_orange",     () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.ORANGE),     CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> CARDTABLE_BASE_MAGENTA    = registerB("cardtable_base_magenta",    () -> new BlockCardTableBase(Blocks.IRON_BLOCK, DyeColor.MAGENTA),    CreativeModeTab.TAB_DECORATIONS);
@@ -91,7 +92,7 @@ public class CasinoKeeper {
     public static final RegistryObject<Block> CARDTABLE_WIDE_RED        = registerB("cardtable_wide_red",        () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.RED),        CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> CARDTABLE_WIDE_BLACK      = registerB("cardtable_wide_black",      () -> new BlockCardTableWide(Blocks.IRON_BLOCK, DyeColor.BLACK),      CreativeModeTab.TAB_DECORATIONS);
 
-    // Arcades
+    // ----- Arcades ----- //
     public static final RegistryObject<Block> ARCADE_BASE_WHITE      = registerB("arcade_base_white",      () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.WHITE),      CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> ARCADE_BASE_ORANGE     = registerB("arcade_base_orange",     () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.ORANGE),     CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> ARCADE_BASE_MAGENTA    = registerB("arcade_base_magenta",    () -> new BlockArcade(     Blocks.IRON_BLOCK, DyeColor.MAGENTA),    CreativeModeTab.TAB_DECORATIONS);
@@ -125,7 +126,7 @@ public class CasinoKeeper {
     public static final RegistryObject<Block> ARCADE_SLOT_RED        = registerB("arcade_slot_red",        () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.RED),        CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> ARCADE_SLOT_BLACK      = registerB("arcade_slot_black",      () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BLACK),      CreativeModeTab.TAB_DECORATIONS);
 
-    // Dice Blocks
+    // ----- Dice Blocks ----- //
     public static final RegistryObject<Block> DICE_BASIC_WHITE      = registerB("dice_basic_white",      () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> DICE_BASIC_ORANGE     = registerB("dice_basic_orange",     () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> DICE_BASIC_MAGENTA    = registerB("dice_basic_magenta",    () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
@@ -143,7 +144,7 @@ public class CasinoKeeper {
     public static final RegistryObject<Block> DICE_BASIC_RED        = registerB("dice_basic_red",        () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
     public static final RegistryObject<Block> DICE_BASIC_BLACK      = registerB("dice_basic_black",      () -> new BlockDice(Blocks.TERRACOTTA), CreativeModeTab.TAB_DECORATIONS);
 
-    // Modules
+    // ----- Modules ----- //
     public static final RegistryObject<Item> MODULE_MINO_WHITE      = registerI("module_mino_white",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
     public static final RegistryObject<Item> MODULE_MINO_ORANGE     = registerI("module_mino_orange",     () -> new ItemItem(CreativeModeTab.TAB_MISC));
     public static final RegistryObject<Item> MODULE_MINO_MAGENTA    = registerI("module_mino_magenta",    () -> new ItemItem(CreativeModeTab.TAB_MISC));
@@ -193,10 +194,10 @@ public class CasinoKeeper {
     public static final RegistryObject<Item> MODULE_CARD_RED        = registerI("module_card_red",        () -> new ItemItem(CreativeModeTab.TAB_MISC));
     public static final RegistryObject<Item> MODULE_CARD_BLACK      = registerI("module_card_black",      () -> new ItemItem(CreativeModeTab.TAB_MISC));
 
-    // Books
+    // ----- Books ----- //
     //public static final RegistryObject<Item> BOOK_ARCADE      = register("book_arcade",      new ItemBookArcade());
 
-    // Sounds
+    // ----- Sounds ----- //
     public static final RegistryObject<SoundEvent> SOUND_PICKUP     = registerS("casinocraft.pickup",     () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.pickup")));
     public static final RegistryObject<SoundEvent> SOUND_IMPACT     = registerS("casinocraft.impact",     () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.impact")));
     public static final RegistryObject<SoundEvent> SOUND_MENU       = registerS("casinocraft.menu",       () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.menu")));
@@ -210,14 +211,13 @@ public class CasinoKeeper {
     public static final RegistryObject<SoundEvent> SOUND_DICE       = registerS("casinocraft.dice",       () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.dice")));
     public static final RegistryObject<SoundEvent> SOUND_REWARD     = registerS("casinocraft.reward",     () -> new SoundEvent(new ResourceLocation(MODID, "casinocraft.reward")));
 
-    // Textures Basic
+    // ----- Textures Basic ----- //
     public static final ResourceLocation TEXTURE_STATIC            = new ResourceLocation(MODID, "textures/gui/static.png");
     public static final ResourceLocation TEXTURE_ARCADEDUMMY       = new ResourceLocation(MODID, "textures/gui/background/dummy.png");
     public static final ResourceLocation TEXTURE_SOKOBAN           = new ResourceLocation(MODID, "textures/gui/background/sokoban.png");
     public static final ResourceLocation TEXTURE_TETRIS            = new ResourceLocation(MODID, "textures/gui/background/tetris.png");
     public static final ResourceLocation TEXTURE_COLUMNS           = new ResourceLocation(MODID, "textures/gui/background/columns.png");
     public static final ResourceLocation TEXTURE_MEANMINOS         = new ResourceLocation(MODID, "textures/gui/background/puyo.png");
-    public static final ResourceLocation TEXTURE_SLOTMACHINE       = new ResourceLocation(MODID, "textures/gui/background/slotmachine.png");
     public static final ResourceLocation TEXTURE_ROULETTE_LEFT     = new ResourceLocation(MODID, "textures/gui/background/roulette_left.png");
     public static final ResourceLocation TEXTURE_ROULETTE_RIGHT    = new ResourceLocation(MODID, "textures/gui/background/roulette_right.png");
     public static final ResourceLocation TEXTURE_ROULETTE_MIDDLE   = new ResourceLocation(MODID, "textures/gui/background/roulette_middle.png");
@@ -236,14 +236,13 @@ public class CasinoKeeper {
     public static final ResourceLocation TEXTURE_ARCADE            = new ResourceLocation(MODID, "textures/gui/spritesheet/arcade.png");
     public static final ResourceLocation TEXTURE_BUTTONS           = new ResourceLocation(MODID, "textures/gui/spritesheet/buttons.png");
     public static final ResourceLocation TEXTURE_MINOS             = new ResourceLocation(MODID, "textures/gui/spritesheet/minos.png");
-    public static final ResourceLocation TEXTURE_SLOTGAME          = new ResourceLocation(MODID, "textures/gui/spritesheet/slotgame.png");
     public static final ResourceLocation TEXTURE_MYSTICSQUARE      = new ResourceLocation(MODID, "textures/gui/spritesheet/mysticsquare.png");
     public static final ResourceLocation TEXTURE_2048              = new ResourceLocation(MODID, "textures/gui/spritesheet/2048.png");
     public static final ResourceLocation TEXTURE_FONT_ARCADE       = new ResourceLocation(MODID, "textures/gui/spritesheet/font_arcade.png");
     public static final ResourceLocation TEXTURE_FONT_CARDTABLE    = new ResourceLocation(MODID, "textures/gui/spritesheet/font_cardtable.png");
     public static final ResourceLocation TEXTURE_ROULETTE_WHEEL    = new ResourceLocation(MODID, "textures/gui/spritesheet/roulette_wheel.png");
 
-    // Texture Card Tables
+    // ----- Texture Card Tables ----- //
     public static final ResourceLocation TEXTURE_GROUND_BLACK      = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_black.png");
     public static final ResourceLocation TEXTURE_GROUND_BLUE       = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_blue.png");
     public static final ResourceLocation TEXTURE_GROUND_BROWN      = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_brown.png");
@@ -261,22 +260,40 @@ public class CasinoKeeper {
     public static final ResourceLocation TEXTURE_GROUND_WHITE      = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_white.png");
     public static final ResourceLocation TEXTURE_GROUND_YELLOW     = new ResourceLocation(MODID, "textures/gui/cardtable/cardtable_yellow.png");
 
-    // Arcade Background
-    public static final ResourceLocation TEXTURE_GROUND_ARCADE     = new ResourceLocation(MODID, "textures/gui/arcade/arcade.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_0_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_1_low.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_0_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_1_high.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_1_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_2_low.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_1_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_2_high.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_2_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_3_low.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_2_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_3_high.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_3_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_4_low.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_3_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_4_high.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_4_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_5_low.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_4_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_5_high.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_5_LOW    = new ResourceLocation(MODID, "textures/gui/arcade/parallax_6_low.png");
-    public static final ResourceLocation TEXTURE_PARALLAX_5_HIGH   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_6_high.png");
+    // ----- Texture Slot Machines ----- //
+    public static final ResourceLocation TEXTURE_SLOTS_BLACK      = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_black.png");
+    public static final ResourceLocation TEXTURE_SLOTS_BLUE       = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_blue.png");
+    public static final ResourceLocation TEXTURE_SLOTS_BROWN      = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_brown.png");
+    public static final ResourceLocation TEXTURE_SLOTS_CYAN       = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_cyan.png");
+    public static final ResourceLocation TEXTURE_SLOTS_GRAY       = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_gray.png");
+    public static final ResourceLocation TEXTURE_SLOTS_GREEN      = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_green.png");
+    public static final ResourceLocation TEXTURE_SLOTS_LIGHT_BLUE = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_light_blue.png");
+    public static final ResourceLocation TEXTURE_SLOTS_LIME       = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_lime.png");
+    public static final ResourceLocation TEXTURE_SLOTS_MAGENTA    = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_magenta.png");
+    public static final ResourceLocation TEXTURE_SLOTS_ORANGE     = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_orange.png");
+    public static final ResourceLocation TEXTURE_SLOTS_PINK       = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_pink.png");
+    public static final ResourceLocation TEXTURE_SLOTS_PURPLE     = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_purple.png");
+    public static final ResourceLocation TEXTURE_SLOTS_RED        = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_red.png");
+    public static final ResourceLocation TEXTURE_SLOTS_LIGHT_GRAY = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_light_gray.png");
+    public static final ResourceLocation TEXTURE_SLOTS_WHITE      = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_white.png");
+    public static final ResourceLocation TEXTURE_SLOTS_YELLOW     = new ResourceLocation(MODID, "textures/gui/slotmachine/slotmachine_yellow.png");
 
-    // Texture Cards
+    // ----- Arcade Background ----- //
+    public static final ResourceLocation TEXTURE_GROUND_ARCADE    = new ResourceLocation(MODID, "textures/gui/arcade/arcade.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_0_LOW   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_1_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_0_HIGH  = new ResourceLocation(MODID, "textures/gui/arcade/parallax_1_high.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_1_LOW   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_2_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_1_HIGH  = new ResourceLocation(MODID, "textures/gui/arcade/parallax_2_high.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_2_LOW   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_3_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_2_HIGH  = new ResourceLocation(MODID, "textures/gui/arcade/parallax_3_high.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_3_LOW   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_4_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_3_HIGH  = new ResourceLocation(MODID, "textures/gui/arcade/parallax_4_high.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_4_LOW   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_5_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_4_HIGH  = new ResourceLocation(MODID, "textures/gui/arcade/parallax_5_high.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_5_LOW   = new ResourceLocation(MODID, "textures/gui/arcade/parallax_6_low.png");
+    public static final ResourceLocation TEXTURE_PARALLAX_5_HIGH  = new ResourceLocation(MODID, "textures/gui/arcade/parallax_6_high.png");
+
+    // ----- Texture Cards ----- //
     public static final ResourceLocation TEXTURE_CARDS_0_NOIR      = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_1_noir.png");
     public static final ResourceLocation TEXTURE_CARDS_0_ROUGE     = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_1_rouge.png");
     public static final ResourceLocation TEXTURE_CARDS_1_NOIR      = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_2_noir.png");
@@ -290,7 +307,15 @@ public class CasinoKeeper {
     public static final ResourceLocation TEXTURE_CARDS_5_NOIR      = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_6_noir.png");
     public static final ResourceLocation TEXTURE_CARDS_5_ROUGE     = new ResourceLocation(MODID, "textures/gui/spritesheet/cards_6_rouge.png");
 
-    // Tile Entity  Arcade Base
+    // ----- Texture Slot Wheels ----- //
+    public static final ResourceLocation TEXTURE_SLOTGAME_0 = new ResourceLocation(MODID, "textures/gui/spritesheet/slotgame_1.png");
+    public static final ResourceLocation TEXTURE_SLOTGAME_1 = new ResourceLocation(MODID, "textures/gui/spritesheet/slotgame_2.png");
+    public static final ResourceLocation TEXTURE_SLOTGAME_2 = new ResourceLocation(MODID, "textures/gui/spritesheet/slotgame_3.png");
+    public static final ResourceLocation TEXTURE_SLOTGAME_3 = new ResourceLocation(MODID, "textures/gui/spritesheet/slotgame_4.png");
+    public static final ResourceLocation TEXTURE_SLOTGAME_4 = new ResourceLocation(MODID, "textures/gui/spritesheet/slotgame_5.png");
+    public static final ResourceLocation TEXTURE_SLOTGAME_5 = new ResourceLocation(MODID, "textures/gui/spritesheet/slotgame_6.png");
+
+    // ----- Tile Entity -- Arcade Base ----- //
     public static  final RegistryObject<BlockEntityType<BlockEntityArcade>> TILE_ARCADE_BASE = TILES.register("arcade_base", () -> BlockEntityType.Builder.of(BlockEntityArcade::new,
             ARCADE_BASE_BLACK.get(),
             ARCADE_BASE_BLUE.get(),
@@ -310,7 +335,7 @@ public class CasinoKeeper {
             ARCADE_BASE_YELLOW.get()
     ).build(null));
 
-    // Tile Entity  Slot Machine
+    // ----- Tile Entity -- Slot Machine ----- //
     public static  final RegistryObject<BlockEntityType<BlockEntitySlotMachine>> TILE_ARCADE_SLOT = TILES.register("arcade_slot", () -> BlockEntityType.Builder.of(BlockEntitySlotMachine::new,
             ARCADE_SLOT_BLACK.get(),
             ARCADE_SLOT_BLUE.get(),
@@ -330,7 +355,7 @@ public class CasinoKeeper {
             ARCADE_SLOT_YELLOW.get()
     ).build(null));
 
-    // Tile Entity  Card Table Base
+    // ----- Tile Entity -- Card Table Base ----- //
     public static  final RegistryObject<BlockEntityType<BlockEntityCardTableBase>> TILE_CARDTABLE_BASE = TILES.register("cardtable_base", () -> BlockEntityType.Builder.of(BlockEntityCardTableBase::new,
             CARDTABLE_BASE_BLACK.get(),
             CARDTABLE_BASE_BLUE.get(),
@@ -350,7 +375,7 @@ public class CasinoKeeper {
             CARDTABLE_BASE_YELLOW.get()
     ).build(null));
 
-    // Tile Entity  Card Table Wide
+    // ----- Tile Entity -- Card Table Wide ----- //
     public static  final RegistryObject<BlockEntityType<BlockEntityCardTableWide>> TILE_CARDTABLE_WIDE = TILES.register("cardtable_wide", () -> BlockEntityType.Builder.of(BlockEntityCardTableWide::new,
             CARDTABLE_WIDE_BLACK.get(),
             CARDTABLE_WIDE_BLUE.get(),
@@ -370,7 +395,7 @@ public class CasinoKeeper {
             CARDTABLE_WIDE_YELLOW.get()
     ).build(null));
 
-    // Container
+    // ----- Container ----- //
     public static final RegistryObject<MenuType<MenuDummy>>         CONTAINER_DUMMY           = CONTAINERS.register("dummy",           () -> IForgeMenuType.create(MenuDummy::new));
     public static final RegistryObject<MenuType<MenuArcade>>        CONTAINER_ARCADE          = CONTAINERS.register("arcade",          () -> IForgeMenuType.create(MenuArcade::new));
     public static final RegistryObject<MenuType<MenuCardTable>>     CONTAINER_CARDTABLE       = CONTAINERS.register("cardtable",       () -> IForgeMenuType.create(MenuCardTable::new));
@@ -432,20 +457,20 @@ public class CasinoKeeper {
     //----------------------------------------REGISTER----------------------------------------//
 
     static void register(){
-        BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        BLOCKS.register(    FMLJavaModLoadingContext.get().getModEventBus());
+        ITEMS.register(     FMLJavaModLoadingContext.get().getModEventBus());
         CONTAINERS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        TILES.register(FMLJavaModLoadingContext.get().getModEventBus());
-        SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        TILES.register(     FMLJavaModLoadingContext.get().getModEventBus());
+        SOUNDS.register(    FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     private static RegistryObject<Block> registerB(String name,  java.util.function.Supplier<? extends Block> block){
         return registerB(name, block, null);
     }
 
-    private static RegistryObject<Block> registerB(String name,  java.util.function.Supplier<? extends Block> block, CreativeModeTab CreativeModeTab){
+    private static RegistryObject<Block> registerB(String name,  java.util.function.Supplier<? extends Block> block, CreativeModeTab tab){
         RegistryObject<Block> rob = BLOCKS.register(name, block);
-        if(CreativeModeTab != null){ ITEMS.register(name, () -> new BlockItem(rob.get(), (new Item.Properties()).tab(CreativeModeTab))); }
+        if(tab != null){ ITEMS.register(name, () -> new BlockItem(rob.get(), (new Item.Properties()).tab(tab))); }
         return rob;
     }
 
@@ -468,16 +493,16 @@ public class CasinoKeeper {
     }
 
     // Conveniance function: Take a RegistryObject<Block> and make a corresponding RegistryObject<Item> from it
-    public static <B extends Block> RegistryObject<Item> fromBlock(RegistryObject<B> block, CreativeModeTab CreativeModeTab) {
-        return ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), (new Item.Properties()).tab(CreativeModeTab) ));
+    public static <B extends Block> RegistryObject<Item> fromBlock(RegistryObject<B> block, CreativeModeTab tab) {
+        return ITEMS.register(block.getId().getPath(), () -> new BlockItem(block.get(), (new Item.Properties()).tab(tab) ));
     }
 
     private static RegistryObject<Block> register(String name, Block block){
         return register(name, block, null);
     }
 
-    private static RegistryObject<Block> register(String name, Block block, CreativeModeTab CreativeModeTab){
-        if(CreativeModeTab != null){ ITEMS.register(name, () -> new BlockItem(block, (new Item.Properties()).tab(CreativeModeTab))); }
+    private static RegistryObject<Block> register(String name, Block block, CreativeModeTab tab){
+        if(tab != null){ ITEMS.register(name, () -> new BlockItem(block, (new Item.Properties()).tab(tab))); }
         return BLOCKS.register(name, () -> block);
     }
 

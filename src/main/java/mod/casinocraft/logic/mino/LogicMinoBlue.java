@@ -158,7 +158,6 @@ public class LogicMinoBlue extends LogicModule {   // Memory
             if(grid[x][y] != -1 && !positionA.matches(x, y)) {
                 selectB = true;
                 positionB.set(x, y);
-                //ChangeName(x, y, grid[x][y]);
                 timer = 200 - scoreLevel*10;
                 setJingle(SOUND_CHIP);
             }
@@ -175,7 +174,7 @@ public class LogicMinoBlue extends LogicModule {   // Memory
         int filler = scoreLevel*4 < max ? scoreLevel*4 : max;
         int filler2 = filler;
 
-        int color[] = new int[] {0,0,0,0,0,0,0,0};
+        int[] color = new int[] {0,0,0,0,0,0,0,0};
         while(filler > 0) {
             int z = RANDOM.nextInt(8);
             color[z] += 2;

@@ -25,10 +25,18 @@ public class ScreenMinoBrown extends ScreenCasino {   // -----
 
 
 
-    //----------------------------------------LOGIC----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public LogicMinoBrown logic(){
         return (LogicMinoBrown) menu.logic();
+    }
+
+    protected String getGameName() {
+        return "";
+    }
+
+    protected void createGameButtons(){
+
     }
 
 
@@ -37,7 +45,7 @@ public class ScreenMinoBrown extends ScreenCasino {   // -----
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
+    protected void interact(double mouseX, double mouseY, int mouseButton){
 
     }
 
@@ -47,15 +55,11 @@ public class ScreenMinoBrown extends ScreenCasino {   // -----
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
+    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
-
-    }
-
-    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
 
     }
 
@@ -66,16 +70,6 @@ public class ScreenMinoBrown extends ScreenCasino {   // -----
     //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
-
-
-
-
-
-    //----------------------------------------BASIC----------------------------------------//
-
-    protected String getGameName() {
-        return "";
-    }
 
 
 

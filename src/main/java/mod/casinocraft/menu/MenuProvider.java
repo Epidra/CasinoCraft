@@ -101,22 +101,20 @@ public class MenuProvider implements net.minecraft.world.MenuProvider {
             if(module == CasinoKeeper.MODULE_MINO_RED.get())        return new MenuMinoRed(      windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_MINO_BLACK.get())      return new MenuMinoBlack(    windowId, playerInventory, this.board);
         } else if(this.board instanceof BlockEntitySlotMachine) {
-            if(gainAccess)                                          return new MenuSlotMachine(  windowId, playerInventory, this.board);
-                                                                    return new MenuSlotGame(     windowId, playerInventory, this.board);
+            if(gainAccess){                                         return new MenuSlotMachine(  windowId, playerInventory, this.board); }
+            return new MenuSlotGame(     windowId, playerInventory, this.board);
         }
         return new MenuDummy(windowId, playerInventory, this.board);
     }
 
 
 
-
-
     //----------------------------------------SUPPORT----------------------------------------//
 
-    // @Override
-    // public TextComponent getDisplayName() {
-    //     return this.board.getName();
-    // }
+    //@Override
+    //public TextComponent getDisplayName() {
+    //    return this.board.getName();
+    //}
 
     @Override
     public Component getDisplayName() {

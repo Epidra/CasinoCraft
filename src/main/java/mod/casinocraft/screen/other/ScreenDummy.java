@@ -25,10 +25,18 @@ public class ScreenDummy extends ScreenCasino {   // Dummy
 
 
 
-    //----------------------------------------LOGIC----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public LogicModule logic(){
         return menu.logic();
+    }
+
+    protected String getGameName() {
+        return "";
+    }
+
+    protected void createGameButtons(){
+
     }
 
 
@@ -37,7 +45,7 @@ public class ScreenDummy extends ScreenCasino {   // Dummy
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
+    protected void interact(double mouseX, double mouseY, int mouseButton){
 
     }
 
@@ -47,25 +55,13 @@ public class ScreenDummy extends ScreenCasino {   // Dummy
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
+    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
 
     }
-
-    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-
-    }
-
-
-
-
-
-    //----------------------------------------CUSTOM----------------------------------------//
-
-    // ...
 
 
 
@@ -73,9 +69,7 @@ public class ScreenDummy extends ScreenCasino {   // Dummy
 
     //----------------------------------------SUPPORT----------------------------------------//
 
-    protected String getGameName() {
-        return "";
-    }
+    // ...
 
 
 

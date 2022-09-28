@@ -151,7 +151,7 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
         hold[2] = compound.getBoolean("hold2");
         hold[3] = compound.getBoolean("hold3");
         hold[4] = compound.getBoolean("hold4");
-        ticker = compound.getInt("ticker");
+        ticker    = compound.getInt("ticker");
         movestate = compound.getInt("movestate");
     }
 
@@ -162,7 +162,7 @@ public class LogicCardWhite extends LogicModule {   // Single Poker
         compound.putBoolean("hold2", hold[2]);
         compound.putBoolean("hold3", hold[3]);
         compound.putBoolean("hold4", hold[4]);
-        compound.putInt("ticker", ticker);
+        compound.putInt("ticker",    ticker);
         compound.putInt("movestate", movestate);
         return compound;
     }

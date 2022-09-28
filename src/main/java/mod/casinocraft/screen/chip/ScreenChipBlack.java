@@ -1,6 +1,5 @@
 package mod.casinocraft.screen.chip;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
@@ -27,10 +26,18 @@ public class ScreenChipBlack extends ScreenCasino {   // -----
 
 
 
-    //----------------------------------------LOGIC----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public LogicChipBlack logic(){
         return (LogicChipBlack) menu.logic();
+    }
+
+    protected String getGameName() {
+        return "testkit";
+    }
+
+    protected void createGameButtons(){
+
     }
 
 
@@ -39,7 +46,7 @@ public class ScreenChipBlack extends ScreenCasino {   // -----
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
+    protected void interact(double mouseX, double mouseY, int mouseButton){
 
     }
 
@@ -49,20 +56,13 @@ public class ScreenChipBlack extends ScreenCasino {   // -----
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(PoseStack matrixstack, int mouseX, int mouseY){
+    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ARCADEDUMMY);
-        this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
-
-        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_ARCADE);
-        drawDigiSymbol(matrixstack, logic().position, 128-16);
-    }
-
-    protected void drawGuiContainerBackgroundLayerGUI(PoseStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-
+    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+        drawBackground(matrix, CasinoKeeper.TEXTURE_ARCADEDUMMY, CasinoKeeper.TEXTURE_ARCADE);
+        drawDigiSymbol(matrix, logic().position, 112);
     }
 
 
@@ -72,16 +72,6 @@ public class ScreenChipBlack extends ScreenCasino {   // -----
     //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
-
-
-
-
-
-    //----------------------------------------BASIC----------------------------------------//
-
-    protected String getGameName() {
-        return "testkit";
-    }
 
 
 
