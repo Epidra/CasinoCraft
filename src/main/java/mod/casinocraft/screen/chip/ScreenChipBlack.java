@@ -1,6 +1,7 @@
 package mod.casinocraft.screen.chip;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.chip.LogicChipBlack;
 import mod.casinocraft.screen.ScreenCasino;
@@ -25,10 +26,18 @@ public class ScreenChipBlack extends ScreenCasino {   // -----
 
 
 
-    //----------------------------------------LOGIC----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public LogicChipBlack logic(){
         return (LogicChipBlack) menu.logic();
+    }
+
+    protected String getGameName() {
+        return "testkit";
+    }
+
+    protected void createGameButtons(){
+
     }
 
 
@@ -37,7 +46,7 @@ public class ScreenChipBlack extends ScreenCasino {   // -----
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
+    protected void interact(double mouseX, double mouseY, int mouseButton){
 
     }
 
@@ -47,16 +56,13 @@ public class ScreenChipBlack extends ScreenCasino {   // -----
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
+    protected void drawForegroundLayer(MatrixStack matrix, int mouseX, int mouseY){
 
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-
-    }
-
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-
+    protected void drawBackgroundLayer(MatrixStack matrix, float partialTicks, int mouseX, int mouseY){
+        drawBackground(matrix, CasinoKeeper.TEXTURE_ARCADEDUMMY, CasinoKeeper.TEXTURE_ARCADE);
+        drawDigiSymbol(matrix, logic().position, 112);
     }
 
 
@@ -66,16 +72,6 @@ public class ScreenChipBlack extends ScreenCasino {   // -----
     //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
-
-
-
-
-
-    //----------------------------------------BASIC----------------------------------------//
-
-    protected String getGameName() {
-        return "";
-    }
 
 
 

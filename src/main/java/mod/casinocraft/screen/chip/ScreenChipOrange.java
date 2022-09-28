@@ -27,10 +27,18 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
 
 
 
-    //----------------------------------------LOGIC----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public LogicChipOrange logic(){
         return (LogicChipOrange) menu.logic();
+    }
+
+    protected String getGameName() {
+        return "snake";
+    }
+
+    protected void createGameButtons(){
+
     }
 
 
@@ -39,7 +47,7 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
+    protected void interact(double mouseX, double mouseY, int mouseButton){
 
     }
 
@@ -49,28 +57,17 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
-        if(logic().turnstate >= 2) {
-            drawFontCenter(matrixstack, "" + logic().scorePoint, 128, 230);
-        }
+    protected void drawForegroundLayer(MatrixStack matrix, int mouseX, int mouseY){
+        drawFontCenter(matrix, "" + logic().scorePoint, 128, 230);
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ARCADEDUMMY);
-        this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
-
-        if(logic().turnstate >= 2) {
-            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_ARCADE);
-            drawShip(matrixstack, logic().point, 5);
-            drawShip(matrixstack, logic().octanom_head, 0, -1, true);
-            for(Ship tail : logic().octanom_tail){
-                drawShip(matrixstack, tail, 4, 0, false);
-            }
+    protected void drawBackgroundLayer(MatrixStack matrix, float partialTicks, int mouseX, int mouseY){
+        drawBackground(matrix, CasinoKeeper.TEXTURE_ARCADEDUMMY, CasinoKeeper.TEXTURE_ARCADE);
+        drawShip(matrix, logic().point, 5);
+        drawShip(matrix, logic().octanom_head, 0, -1, true);
+        for(Ship tail : logic().octanom_tail){
+            drawShip(matrix, tail, 4, 0, false);
         }
-    }
-
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-
     }
 
 
@@ -80,16 +77,6 @@ public class ScreenChipOrange extends ScreenCasino {   // Snake
     //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
-
-
-
-
-
-    //----------------------------------------BASIC----------------------------------------//
-
-    protected String getGameName() {
-        return "snake";
-    }
 
 
 

@@ -3,9 +3,12 @@ package mod.casinocraft.logic.chip;
 import mod.casinocraft.logic.LogicModule;
 import net.minecraft.nbt.CompoundNBT;
 
+import static mod.casinocraft.util.KeyMap.*;
+
 public class LogicChipBlack extends LogicModule {   // -----
 
-    // ...
+    public int position = 0;
+    public int positionMAX = 256;
 
 
 
@@ -34,7 +37,11 @@ public class LogicChipBlack extends LogicModule {   // -----
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action) {
-
+        if(action == KEY_LEFT){
+            if(position > 0) position-=4;
+        } else if(action == KEY_RIGHT){
+            if(position < positionMAX) position+=4;
+        }
     }
 
 

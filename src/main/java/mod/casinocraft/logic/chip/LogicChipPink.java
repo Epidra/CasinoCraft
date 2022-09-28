@@ -75,8 +75,6 @@ public class LogicChipPink extends LogicModule {   // Sokoban
             if(swittch) {
                 moving = false;
             }
-        } else {
-            // Input
         }
         if(turnstate >= 2 && turnstate < 4) {
             octanom.update();
@@ -120,11 +118,11 @@ public class LogicChipPink extends LogicModule {   // Sokoban
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
-        octanom = loadEntity(compound, 0);
-        crate = (loadEntityList(compound, 1));
-        cross = (loadEntityList(compound, 2));
-        moving = compound.getBoolean("moving");
-        mapID = compound.getInt("map_id");
+        octanom = loadEntity(     compound, 0);
+        crate   = (loadEntityList(compound, 1));
+        cross   = (loadEntityList(compound, 2));
+        moving  = compound.getBoolean("moving");
+        mapID   = compound.getInt("map_id");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
@@ -132,7 +130,7 @@ public class LogicChipPink extends LogicModule {   // Sokoban
         saveEntityList(compound, 1, crate);
         saveEntityList(compound, 2, cross);
         compound.putBoolean("moving", moving);
-        compound.putInt("map_id", mapID);
+        compound.putInt("map_id",     mapID);
         return compound;
     }
 
@@ -165,9 +163,9 @@ public class LogicChipPink extends LogicModule {   // Sokoban
         if(!octanom.isMoving()){
             int x = 0;
             int y = 0;
-            if(direction == KEY_UP){ x =  0; y = -1; }
-            if(direction == KEY_DOWN){ x =  0; y =  1; }
-            if(direction == KEY_LEFT){ x = -1; y =  0; }
+            if(direction == KEY_UP){    x =  0; y = -1; }
+            if(direction == KEY_DOWN){  x =  0; y =  1; }
+            if(direction == KEY_LEFT){  x = -1; y =  0; }
             if(direction == KEY_RIGHT){ x =  1; y =  0; }
             if(grid[octanom.getGrid().X + x][octanom.getGrid().Y + y] == 0) { // Free space
                 boolean blockedO = false;
@@ -198,9 +196,9 @@ public class LogicChipPink extends LogicModule {   // Sokoban
     }
 
     private void commandSelect(int direction){
-        if(direction == KEY_UP){ if(mapID / 4 > 0) { mapID -= 4; } }
-        if(direction == KEY_DOWN){ if(mapID / 4 < 4) { mapID += 4; } }
-        if(direction == KEY_LEFT){ if(mapID % 4 > 0) { mapID -= 1; } }
+        if(direction == KEY_UP){    if(mapID / 4 > 0) { mapID -= 4; } }
+        if(direction == KEY_DOWN){  if(mapID / 4 < 4) { mapID += 4; } }
+        if(direction == KEY_LEFT){  if(mapID % 4 > 0) { mapID -= 1; } }
         if(direction == KEY_RIGHT){ if(mapID % 4 < 3) { mapID += 1; } }
     }
 

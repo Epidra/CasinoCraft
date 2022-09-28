@@ -1,6 +1,5 @@
 package mod.casinocraft.logic.card;
 
-import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicModule;
 import mod.casinocraft.util.Card;
 import net.minecraft.nbt.CompoundNBT;
@@ -20,6 +19,7 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
     public List<Card> cardsP6 = new ArrayList<>();
     public Card[] placed = new Card[]{new Card(-1, -1),new Card(-1, -1)};
     public boolean[] folded = new boolean[6];
+    public int playerCount = 0;
     public int chosenColor = -1;
     public int forcedAction = 0; // 0 - none, 1 - wait, 2 - draw2, 3 - choose color
 
@@ -50,6 +50,7 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
         placed[1] = new Card(-1, -1);
         chosenColor = -1;
         forcedAction = 0;
+        playerCount = 1;
     }
 
 
@@ -78,11 +79,11 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
 
     public void updateLogic() {
         timeout++;
-        if(turnstate == 2 && timeout >= CasinoKeeper.config_timeout.get() || getFirstFreePlayerSlot() == (tableID == 1 ? 4 : 6)){
+        if(turnstate == 2 && timeout >= timeoutMAX || getFirstFreePlayerSlot() == (tableID == 1 ? 4 : 6)){
             draw();
         }
         if(turnstate == 3){
-            if(timeout == CasinoKeeper.config_timeout.get()){
+            if(timeout == timeoutMAX){
                 if(forcedAction == 3){
                     chooseColor(4);
                 } else {
@@ -125,8 +126,9 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
         folded[3] = compound.getBoolean("folded3");
         folded[4] = compound.getBoolean("folded4");
         folded[5] = compound.getBoolean("folded5");
-        chosenColor = compound.getInt("chosencolor");
+        chosenColor  = compound.getInt("chosencolor");
         forcedAction = compound.getInt("forcedaction");
+        playerCount  = compound.getInt("playercount");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
@@ -143,8 +145,9 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
         compound.putBoolean("folded3", folded[3]);
         compound.putBoolean("folded4", folded[4]);
         compound.putBoolean("folded5", folded[5]);
-        compound.putInt("chosencolor", chosenColor);
+        compound.putInt("chosencolor",  chosenColor);
         compound.putInt("forcedaction", forcedAction);
+        compound.putInt("playercount",  playerCount);
         return compound;
     }
 
@@ -162,14 +165,13 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
             case 3: return cardsP4;
             case 4: return cardsP5;
             case 5: return cardsP6;
-        }
-        return cardsP1;
+        } return cardsP1;
     }
 
     private void draw(){
         turnstate = 3;
         timeout = 0;
-        int playerCount = getFirstFreePlayerSlot();
+        playerCount = getFirstFreePlayerSlot();
         for(int y = 0; y < 5; y++){
             for(int x = 0; x < playerCount; x++){
                 getCards(x).add(new Card(RANDOM, 0, 24,  8*x + 8*4*y, false));
@@ -189,15 +191,9 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
         if(forcedAction == 0){ // NONE
             getCards(activePlayer).add(new Card(RANDOM, 0, 24,  0, false));
         } else
-        if(forcedAction == 1){ // WAIT
-
-        } else
         if(forcedAction == 2){ // DRAW2
             getCards(activePlayer).add(new Card(RANDOM, 0, 24,  0, false));
             getCards(activePlayer).add(new Card(RANDOM, 0, 24,  8, false));
-        } else
-        if(forcedAction == 3){ // CHOOSE COLOR
-
         }
         forcedAction = 0;
         timeout = 0;
@@ -212,6 +208,9 @@ public class LogicCardGreen extends LogicModule {   // Mau-Mau
             placed[0].set(getCards(activePlayer).get(action));
             placed[0].setShift(0, 24, 0);
             getCards(activePlayer).remove(action);
+            if(getCards(activePlayer).size() == 0){
+                hand = currentPlayer[activePlayer] + " has won the Game!";
+            }
             if(placed[0].number == 10) { forcedAction = 3; } // CHOOSE
             if(placed[0].number == 11) { forcedAction = 1; } // WAIT
             if(placed[0].number == 12) { forcedAction = 2; } // DRAW2

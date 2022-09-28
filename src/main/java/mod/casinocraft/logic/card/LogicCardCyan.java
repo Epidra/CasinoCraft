@@ -16,7 +16,8 @@ public class LogicCardCyan extends LogicModule {   // Spider
     public List<Card>[] cards_field   = new ArrayList[10];
     public List<Card>[] cards_reserve = new ArrayList[5];
     public List<Card>   cards_finish  = new ArrayList<Card>();
-    public int compress = 4;
+    public int compress;
+    public int reserve;
 
 
 
@@ -37,27 +38,48 @@ public class LogicCardCyan extends LogicModule {   // Spider
     public void start2(){
         List<Card> deck = shuffleDeck();
 
-        cards_field[0] = new ArrayList<Card>(); transferCards(cards_field[0], deck, 0, 6);
-        cards_field[1] = new ArrayList<Card>(); transferCards(cards_field[1], deck, 0, 6);
-        cards_field[2] = new ArrayList<Card>(); transferCards(cards_field[2], deck, 0, 6);
-        cards_field[3] = new ArrayList<Card>(); transferCards(cards_field[3], deck, 0, 6);
-        cards_field[4] = new ArrayList<Card>(); transferCards(cards_field[4], deck, 0, 5);
-        cards_field[5] = new ArrayList<Card>(); transferCards(cards_field[5], deck, 0, 5);
-        cards_field[6] = new ArrayList<Card>(); transferCards(cards_field[6], deck, 0, 5);
-        cards_field[7] = new ArrayList<Card>(); transferCards(cards_field[7], deck, 0, 5);
-        cards_field[8] = new ArrayList<Card>(); transferCards(cards_field[8], deck, 0, 5);
-        cards_field[9] = new ArrayList<Card>(); transferCards(cards_field[9], deck, 0, 5);
+        if(tableID == 2){
+            reserve = 0;
 
-        cards_reserve[0] = new ArrayList<Card>(); transferCards(cards_reserve[0], deck, 0, 10);
-        cards_reserve[1] = new ArrayList<Card>(); transferCards(cards_reserve[1], deck, 0, 10);
-        cards_reserve[2] = new ArrayList<Card>(); transferCards(cards_reserve[2], deck, 0, 10);
-        cards_reserve[3] = new ArrayList<Card>(); transferCards(cards_reserve[3], deck, 0, 10);
-        cards_reserve[4] = new ArrayList<Card>(); transferCards(cards_reserve[4], deck, 0, 10);
+            cards_field[0] = new ArrayList<>(); transferCards(cards_field[0], deck, 0, 6);
+            cards_field[1] = new ArrayList<>(); transferCards(cards_field[1], deck, 0, 6);
+            cards_field[2] = new ArrayList<>(); transferCards(cards_field[2], deck, 0, 6);
+            cards_field[3] = new ArrayList<>(); transferCards(cards_field[3], deck, 0, 6);
+            cards_field[4] = new ArrayList<>(); transferCards(cards_field[4], deck, 0, 5);
+            cards_field[5] = new ArrayList<>(); transferCards(cards_field[5], deck, 0, 5);
+            cards_field[6] = new ArrayList<>(); transferCards(cards_field[6], deck, 0, 5);
+            cards_field[7] = new ArrayList<>(); transferCards(cards_field[7], deck, 0, 5);
+            cards_field[8] = new ArrayList<>(); transferCards(cards_field[8], deck, 0, 5);
+            cards_field[9] = new ArrayList<>(); transferCards(cards_field[9], deck, 0, 5);
+
+            cards_reserve[0] = new ArrayList<>(); transferCards(cards_reserve[0], deck, 0, 10);
+            cards_reserve[1] = new ArrayList<>(); transferCards(cards_reserve[1], deck, 0, 10);
+            cards_reserve[2] = new ArrayList<>(); transferCards(cards_reserve[2], deck, 0, 10);
+            cards_reserve[3] = new ArrayList<>(); transferCards(cards_reserve[3], deck, 0, 10);
+            cards_reserve[4] = new ArrayList<>(); transferCards(cards_reserve[4], deck, 0, 10);
+        } else {
+            reserve = 2;
+
+            cards_field[0] = new ArrayList<>(); transferCards(cards_field[0], deck, 0, 5);
+            cards_field[1] = new ArrayList<>(); transferCards(cards_field[1], deck, 0, 5);
+            cards_field[2] = new ArrayList<>(); transferCards(cards_field[2], deck, 0, 5);
+            cards_field[3] = new ArrayList<>(); transferCards(cards_field[3], deck, 0, 4);
+            cards_field[4] = new ArrayList<>(); transferCards(cards_field[4], deck, 0, 4);
+            cards_field[5] = new ArrayList<>(); transferCards(cards_field[5], deck, 0, 4);
+            cards_field[6] = new ArrayList<>(); transferCards(cards_field[6], deck, 0, 4);
+            cards_field[7] = new ArrayList<>();
+            cards_field[8] = new ArrayList<>();
+            cards_field[9] = new ArrayList<>();
+
+            cards_reserve[0] = new ArrayList<>();
+            cards_reserve[1] = new ArrayList<>();
+            cards_reserve[2] = new ArrayList<>(); transferCards(cards_reserve[2], deck, 0, 7);
+            cards_reserve[3] = new ArrayList<>(); transferCards(cards_reserve[3], deck, 0, 7);
+            cards_reserve[4] = new ArrayList<>(); transferCards(cards_reserve[4], deck, 0, 7);
+        }
 
         selector = new Vector2(-1, -1);
-
         compress = 2;
-
         for(int x = 0; x < 10; x++){
             int y = 0;
             for(Card c : cards_field[x]){
@@ -127,6 +149,7 @@ public class LogicCardCyan extends LogicModule {   // Spider
 
         cards_finish.addAll(loadCardList(compound, 15));
         compress = compound.getInt("compress");
+        reserve  = compound.getInt("reserve");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
@@ -149,6 +172,7 @@ public class LogicCardCyan extends LogicModule {   // Spider
 
         saveCardList(compound, 15, cards_finish);
         compound.putInt("compress", compress);
+        compound.putInt("reserve",  reserve);
         return compound;
     }
 
@@ -179,7 +203,8 @@ public class LogicCardCyan extends LogicModule {   // Spider
         List<Card> stack = new ArrayList<Card>();
         List<Card> deck  = new ArrayList<Card>();
 
-        for(int y = 0; y < 4; y++) {
+        int plus = tableID == 2  ? 1 : 2;
+        for(int y = 0; y < 4; y += plus) {
             for(int x = 0; x < 13; x++) {
                 stack.add(new Card(x, y));
                 stack.add(new Card(x, y));
@@ -197,41 +222,14 @@ public class LogicCardCyan extends LogicModule {   // Spider
     }
 
     private void drawReserve() {
-        if(cards_reserve[0].size() > 0) {
-            for(int x = 0; x < 10; x++) {
-                cards_reserve[0].get(x).setShift(0, 24, 0);
-                cards_field[x].add(cards_reserve[0].get(x));
+        if(reserve < 5){
+            for(int x = 0; x < (tableID == 1 ? 7 : 10); x++) {
+                cards_reserve[reserve].get(x).setShift(0, 24, 0);
+                cards_field[x].add(cards_reserve[reserve].get(x));
                 setJingle(SOUND_CARD_SHOVE);
             }
-            cards_reserve[0].clear();
-        } else if(cards_reserve[1].size() > 0) {
-            for(int x = 0; x < 10; x++) {
-                cards_reserve[1].get(x).setShift(0, 24, 0);
-                cards_field[x].add(cards_reserve[1].get(x));
-                setJingle(SOUND_CARD_SHOVE);
-            }
-            cards_reserve[1].clear();
-        } else if(cards_reserve[2].size() > 0) {
-            for(int x = 0; x < 10; x++) {
-                cards_reserve[2].get(x).setShift(0, 24, 0);
-                cards_field[x].add(cards_reserve[2].get(x));
-                setJingle(SOUND_CARD_SHOVE);
-            }
-            cards_reserve[2].clear();
-        } else if(cards_reserve[3].size() > 0) {
-            for(int x = 0; x < 10; x++) {
-                cards_reserve[3].get(x).setShift(0, 24, 0);
-                cards_field[x].add(cards_reserve[3].get(x));
-                setJingle(SOUND_CARD_SHOVE);
-            }
-            cards_reserve[3].clear();
-        } else if(cards_reserve[4].size() > 0) {
-            for(int x = 0; x < 10; x++) {
-                cards_reserve[4].get(x).setShift(0, 24, 0);
-                cards_field[x].add(cards_reserve[4].get(x));
-                setJingle(SOUND_CARD_SHOVE);
-            }
-            cards_reserve[4].clear();
+            cards_reserve[reserve].clear();
+            reserve++;
         }
     }
 
@@ -240,7 +238,6 @@ public class LogicCardCyan extends LogicModule {   // Spider
             if(selector.matches(-1, -1)) {
                 int x2 = x;
                 int y2 = cards_field[x].size() <= y ? cards_field[x].size()-1 : y;
-                float tempCard = cards_field[x2].get(y2).number;
                 for(int i = y2; i < cards_field[x2].size(); i++) {
                     if(i != cards_field[x2].size() - 1) {
                         if((cards_field[x2].get(i).number - 1 != cards_field[x2].get(i + 1).number) && !(cards_field[x2].get(i).number == 1 && cards_field[x2].get(i + 1).number == 13)) {

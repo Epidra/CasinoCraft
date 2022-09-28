@@ -8,6 +8,7 @@ import mod.casinocraft.logic.mino.*;
 import mod.casinocraft.logic.chip.*;
 import mod.casinocraft.logic.other.LogicDummy;
 import mod.casinocraft.logic.other.LogicSlotGame;
+import mod.casinocraft.network.MessageInventoryClient;
 import mod.casinocraft.network.MessageModuleServer;
 import mod.casinocraft.system.CasinoPacketHandler;
 import mod.lucky77.tileentities.TileBase;
@@ -299,6 +300,9 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
         if(lastModule != getModule()){
             lastModule = getModule();
             logic = setLogic();
+            if(!level.isClientSide()){
+                CasinoPacketHandler.sendToChunk(new MessageInventoryClient(inventory, storageToken, storageReward, worldPosition), level.getChunkAt(worldPosition));
+            }
             if(level.getBlockState(worldPosition).getBlock() instanceof BlockArcade) {
                 if(level.isClientSide()){
                     CasinoPacketHandler.sendToServer(new MessageModuleServer(worldPosition));
@@ -409,14 +413,14 @@ public abstract class TileEntityMachine extends TileBase<LogicModule> {
             if(getModule() == CasinoKeeper.MODULE_MINO_BLACK.get())      return new LogicMinoBlack(    tableID);
         }
         if(this instanceof TileEntitySlotMachine){
-            return new LogicSlotGame(tableID);
+            return new LogicSlotGame(tableID, getModule());
         }
         return new LogicDummy(tableID);
     }
 
     private void playSound(){
         if(!level.isClientSide()){
-            level.playSound(null, worldPosition, getSound(logic.jingle), SoundCategory.AMBIENT, 10, 1);
+            level.playSound(null, worldPosition, getSound(logic.jingle), SoundCategory.NEUTRAL, 1, 1);
         }
         logic.jingle = 0;
     }

@@ -66,11 +66,11 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        if(action == KEY_UP){    commandTurn(true);    } // UP
-        if(action == KEY_DOWN){  dominoDrop();         } // DOWN
-        if(action == KEY_LEFT){  commandStrafe(true);  } // LEFT
-        if(action == KEY_RIGHT){ commandStrafe(false); } // RIGHT
-        if(action == KEY_ENTER){ commandHold();        } // HOLD
+        if(action == KEY_UP){    commandTurn(true);    }
+        if(action == KEY_DOWN){  dominoDrop();         }
+        if(action == KEY_LEFT){  commandStrafe(true);  }
+        if(action == KEY_RIGHT){ commandStrafe(false); }
+        if(action == KEY_ENTER){ commandHold();        }
     }
 
 
@@ -114,7 +114,7 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
-        active_hold = compound.getBoolean("activehold");
+        active_hold       = compound.getBoolean("activehold");
         container_next[0] = compound.getInt("container_next0");
         container_next[1] = compound.getInt("container_next1");
 
@@ -124,9 +124,9 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
         container_current[0] = compound.getInt("container_current0");
         container_current[1] = compound.getInt("container_current1");
 
-        time_last = compound.getDouble("timelast");
+        time_last  = compound.getDouble("timelast");
         time_break = compound.getDouble("timebreak");
-        timer = compound.getInt("timer");
+        timer      = compound.getInt("timer");
 
         domino[0].set(compound.getInt("domino0x"), compound.getInt("domino0y"));
         domino[1].set(compound.getInt("domino1x"), compound.getInt("domino1y"));
@@ -135,7 +135,7 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        compound.putBoolean("activehold", active_hold);
+        compound.putBoolean("activehold",  active_hold);
         compound.putInt("container_next0", container_next[0]);
         compound.putInt("container_next1", container_next[1]);
 
@@ -145,14 +145,14 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
         compound.putInt("container_current0", container_current[0]);
         compound.putInt("container_current1", container_current[1]);
 
-        compound.putDouble("timelast", time_last);
+        compound.putDouble("timelast",  time_last);
         compound.putDouble("timebreak", time_break);
-        compound.putInt("timer", timer);
+        compound.putInt("timer",    timer);
         compound.putInt("domino0x", domino[0].X);
         compound.putInt("domino0y", domino[0].Y);
         compound.putInt("domino1x", domino[1].X);
         compound.putInt("domino1y", domino[1].Y);
-        compound.putInt("alpha", alpha);
+        compound.putInt("alpha",    alpha);
         return compound;
     }
 
@@ -177,10 +177,9 @@ public class LogicChipLightBlue extends LogicModule {   // Puyo Puyo
     }
 
     private boolean isCleared(int x, int y) {
-        for(int i = 0; i < clear.size(); i++){
-            if(clear.get(i).X == x && clear.get(i).Y == y) return true;
-        }
-        return false;
+        for (Vector2 vector2 : clear) {
+            if (vector2.X == x && vector2.Y == y) return true;
+        } return false;
     }
 
     private void commandCollapse() {

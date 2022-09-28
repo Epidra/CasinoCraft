@@ -1,7 +1,7 @@
 package mod.casinocraft.logic.mino;
 
-import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.logic.LogicModule;
+import mod.casinocraft.util.SoundMap;
 import mod.lucky77.util.Vector2;
 import net.minecraft.nbt.CompoundNBT;
 
@@ -15,6 +15,7 @@ public class LogicMinoRed extends LogicModule {   // Roulette
     public boolean spinning;
     public int result;
     public int timer;
+    public boolean hasPlaced = false;
 
 
 
@@ -39,6 +40,7 @@ public class LogicMinoRed extends LogicModule {   // Roulette
         spinning = false;
         result = 0;
         timer = -1;
+        hasPlaced = false;
     }
 
 
@@ -49,18 +51,34 @@ public class LogicMinoRed extends LogicModule {   // Roulette
 
     public void command(int action){
         timeout = 0;
-        if(action == -2) {
+        if(action == -3){ // WAIT
+            activePlayer++;
+            hasPlaced = false;
+            if(activePlayer >= getFirstFreePlayerSlot()){
+                turnstate = 3;
+                spin();
+            }
+        }
+        else if(action == -2) { // ANOTHER
+            hasPlaced = false;
+            boolean temp = false;
+            for(int y = 0; y < grid[0].length; y++){
+                for(int x = 0; x < grid.length; x++){
+                    if(grid[x][y] == 0){
+                        selector.set(x, y);
+                        temp = true;
+                        break;
+                    }
+                }
+                if(temp) break;
+            }
+        } else if(action == -1){ // PLACE
+            hasPlaced = true;
             if(selector.X > -1 && gridValid(selector)){
                 grid[selector.X][selector.Y] = activePlayer+1;
                 selector.set(-1, -1);
             }
-            spin();
-        } else if(action == -1){
-            if(selector.X > -1 && gridValid(selector)){
-                grid[selector.X][selector.Y] = activePlayer+1;
-                selector.set(-1, -1);
-            }
-        } else {
+        } else if(action >= 0) { // place on field
             int x = action % 25;
             int y = action / 25;
             if(grid[x][y] == 0){
@@ -79,8 +97,9 @@ public class LogicMinoRed extends LogicModule {   // Roulette
     public void updateLogic(){
         if(turnstate == 2){
             timeout++;
-            if(timeout == CasinoKeeper.config_timeout.get()){
-                spin();
+            if(timeout == timeoutMAX){
+                if(!hasPlaced) command(-1);
+                command(-3);
             }
         }
         if(turnstate == 3) {
@@ -90,6 +109,9 @@ public class LogicMinoRed extends LogicModule {   // Roulette
                 }
                 timer--;
             }
+        }
+        if(turnstate == 3 && timer == 0) {
+            result();
         }
     }
 
@@ -113,11 +135,10 @@ public class LogicMinoRed extends LogicModule {   // Roulette
 
     public CompoundNBT save2(CompoundNBT compound){
         compound.putFloat("rotationwheel", rotation_wheel);
-        compound.putFloat("rotationball", rotation_ball);
-        compound.putBoolean("spinning", spinning);
-        compound.putInt("result", result);
-        compound.putInt("timer", timer);
-
+        compound.putFloat("rotationball",  rotation_ball);
+        compound.putBoolean("spinning",    spinning);
+        compound.putInt("result",          result);
+        compound.putInt("timer",           timer);
         return compound;
     }
 
@@ -193,12 +214,7 @@ public class LogicMinoRed extends LogicModule {   // Roulette
     }
 
     private void spin() {
-        if(turnstate == 2 && !spinning) {
-            activePlayer++;
-            if(activePlayer >= getFirstFreePlayerSlot()){
-                turnstate = 3;
-            }
-        } else if(turnstate == 3 && !spinning) {
+        if(turnstate == 3 && !spinning) {
             setJingle(SOUND_ROULETTE);
             timer = 100 + RANDOM.nextInt(150);
             spinning = true;
@@ -304,10 +320,12 @@ public class LogicMinoRed extends LogicModule {   // Roulette
         }
 
         turnstate = 4;
+        if(reward[0] > 0 || reward[1] > 0 || reward[2] > 0 || reward[3] > 0 || reward[4] > 0 || reward[5] > 0) setJingle(SoundMap.SOUND_REWARD);
 
         for(int y = 0; y < grid[0].length; y++){
             for(int x = 0; x < grid.length; x++){
-                grid[x][y] = grid[x][y] - 10 <= 0 ? 0 : grid[x][y] - 10;
+                if(grid[x][y] >= 10) grid[x][y] -= 10;
+                else if(grid[x][y] > 0) grid[x][y] = -1;
             }
         }
     }
@@ -329,8 +347,6 @@ public class LogicMinoRed extends LogicModule {   // Roulette
             if(result == r) {
                 reward[grid[x][y] - 1] += multi;
                 grid[x][y] += 10;
-            } else {
-                //grid[x][y] = 0;
             }
         }
     }

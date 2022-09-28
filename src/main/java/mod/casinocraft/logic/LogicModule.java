@@ -1,5 +1,6 @@
 package mod.casinocraft.logic;
 
+import mod.casinocraft.Config;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.Dice;
 import mod.casinocraft.util.Ship;
@@ -20,7 +21,7 @@ public abstract class LogicModule extends LogicBase {
     public String hand = "NULL";
     public String[] currentPlayer = new String[]{"void", "void", "void", "void", "void", "void"};
     public int[] reward = new int[]{0, 0, 0, 0, 0, 0};
-    public int[][] grid = new int[1][1];
+    public int[][] grid;
     public Vector2 selector = new Vector2(0,0);
     /** 0 - bet, 1 - unused, 2 - turn player, 3 - turn computer, 4 - game over, 5 - result **/
     public int turnstate;
@@ -33,6 +34,8 @@ public abstract class LogicModule extends LogicBase {
     public int activePlayer = 0;
     public int timeout = 0;
     public int jingle = 0;
+
+    protected int timeoutMAX;
 
 
 
@@ -50,6 +53,7 @@ public abstract class LogicModule extends LogicBase {
         this.tableID = tableID;
         if(hasHighscore()) setupHighscore();
         grid = new int[gridX][gridY];
+        timeoutMAX = Config.CONFIG.config_timeout.get();
     }
 
 
@@ -74,7 +78,7 @@ public abstract class LogicModule extends LogicBase {
         selector.set(0,0);
         activePlayer = 0;
         timeout = 0;
-        resetGrid();
+        if(tableID < 3) resetGrid();
         start2();
     }
 
@@ -108,7 +112,7 @@ public abstract class LogicModule extends LogicBase {
         scoreLives = baseValues[3];
         selector.set(baseValues[4], baseValues[5]);
         activePlayer = baseValues[6];
-        hand = compound.getString("hand");
+        hand  = compound.getString("hand");
         pause = compound.getBoolean("pause");
         currentPlayer[0] = compound.getString("currentplayer0");
         currentPlayer[1] = compound.getString("currentplayer1");

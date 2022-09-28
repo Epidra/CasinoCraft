@@ -38,30 +38,40 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
     public void start2(){
 
-        cards_field[0] = new ArrayList<Card>();
-        cards_field[1] = new ArrayList<Card>();
-        cards_field[2] = new ArrayList<Card>();
-        cards_field[3] = new ArrayList<Card>();
-        cards_field[4] = new ArrayList<Card>();
-        cards_field[5] = new ArrayList<Card>();
-        cards_field[6] = new ArrayList<Card>();
-        cards_field[7] = new ArrayList<Card>();
+        cards_field[0] = new ArrayList<>();
+        cards_field[1] = new ArrayList<>();
+        cards_field[2] = new ArrayList<>();
+        cards_field[3] = new ArrayList<>();
+        cards_field[4] = new ArrayList<>();
+        cards_field[5] = new ArrayList<>();
+        cards_field[6] = new ArrayList<>();
+        cards_field[7] = new ArrayList<>();
 
-        cards_finish[0] = new ArrayList<Card>();
-        cards_finish[1] = new ArrayList<Card>();
-        cards_finish[2] = new ArrayList<Card>();
-        cards_finish[3] = new ArrayList<Card>();
+        cards_finish[0] = new ArrayList<>();
+        cards_finish[1] = new ArrayList<>();
+        cards_finish[2] = new ArrayList<>();
+        cards_finish[3] = new ArrayList<>();
 
         List<Card> deck = shuffleDeck();
 
-        transferCards(cards_field[0], deck, 0, 7);
-        transferCards(cards_field[1], deck, 1, 7);
-        transferCards(cards_field[2], deck, 2, 7);
-        transferCards(cards_field[3], deck, 3, 7);
-        transferCards(cards_field[4], deck, 4, 6);
-        transferCards(cards_field[5], deck, 5, 6);
-        transferCards(cards_field[6], deck, 6, 6);
-        transferCards(cards_field[7], deck, 7, 6);
+        if(tableID == 2){
+            transferCards(cards_field[0], deck, 0, 7);
+            transferCards(cards_field[1], deck, 1, 7);
+            transferCards(cards_field[2], deck, 2, 7);
+            transferCards(cards_field[3], deck, 3, 7);
+            transferCards(cards_field[4], deck, 4, 6);
+            transferCards(cards_field[5], deck, 5, 6);
+            transferCards(cards_field[6], deck, 6, 6);
+            transferCards(cards_field[7], deck, 7, 6);
+        } else {
+            transferCards(cards_field[1], deck, 1, 8);
+            transferCards(cards_field[2], deck, 2, 8);
+            transferCards(cards_field[3], deck, 3, 8);
+            transferCards(cards_field[4], deck, 4, 7);
+            transferCards(cards_field[5], deck, 5, 7);
+            transferCards(cards_field[6], deck, 6, 7);
+            transferCards(cards_field[7], deck, 7, 7);
+        }
 
         cards_freecell[0] = new Card(-1, -1);
         cards_freecell[1] = new Card(-1, -1);
@@ -208,9 +218,9 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
         cards_finish[1] = loadCardList(compound,  9);
         cards_finish[2] = loadCardList(compound, 10);
         cards_finish[3] = loadCardList(compound, 11);
-        cards_freecell = loadCardArray(compound, 12);
-        compress = compound.getInt("compress");
-        timer = compound.getInt("timer");
+        cards_freecell  = loadCardArray(compound, 12);
+        compress        = compound.getInt("compress");
+        timer           = compound.getInt("timer");
     }
 
     public CompoundNBT save2(CompoundNBT compound){
@@ -297,9 +307,7 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
 
     private void touchFinish(int slot) {
         if(!selector.matches(-1, -1)) {
-
-            // ----- Cell-to-Finish ----- //
-            if(selector.Y == -2) {
+            if(selector.Y == -2) { // Cell-to-Finish
                 boolean copy = false;
                 if(cards_finish[slot].size() == 0) {
                     if(cards_freecell[selector.X].number == 0){
@@ -317,9 +325,7 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
                     selector.set(-1,  -1);
                     setJingle(SOUND_CARD_PLACE);
                 }
-
-            // ----- Field-to-Finish ----- //
-            } else {
+            } else { // Field-to-Finish
                 if(selector.Y == cards_field[selector.X].size() - 1) {
                     boolean copy = false;
                     if(cards_finish[slot].size() == 0) {
@@ -377,17 +383,13 @@ public class LogicCardBlue extends LogicModule {   // FreeCell
     private boolean moveStack(int x, int y) {
         int x2 = x;
         int y2 = cards_field[x2].size() - 1;
-
-        // ----- Field-to-Field ----- //
-        if(selector.Y != -2) {
+        if(selector.Y != -2) { // Field-to-Field
             if(cards_field[x2].size() == 0 || ((cards_field[selector.X].get(selector.Y).number + 1 == cards_field[x2].get(y2).number) && differentColors(cards_field[x2].get(y2).suit, cards_field[selector.X].get(selector.Y).suit))) {
                 transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
                 selector.set(-1, -1);
                 return true;
             }
-
-        // ----- Cell-to-Field ----- //
-        } else {
+        } else { // Cell-to-Field
             if(cards_field[x2].size() == 0 || ((cards_freecell[selector.X].number + 1 == cards_field[x2].get(y2).number) && differentColors(cards_field[x2].get(y2).suit, cards_freecell[selector.X].suit))) {
                 cards_freecell[selector.X].setShift(0, 16, 0);
                 cards_field[x2].add(new Card(cards_freecell[selector.X]));

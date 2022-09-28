@@ -5,6 +5,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.card.LogicCardRed;
 import mod.casinocraft.screen.ScreenCasino;
+import mod.casinocraft.util.ButtonMap;
 import mod.casinocraft.util.Card;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -27,10 +28,19 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
 
 
 
-    //----------------------------------------LOGIC----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public LogicCardRed logic(){
         return (LogicCardRed) menu.logic();
+    }
+
+    protected String getGameName() {
+        return "rouge_etnoir";
+    }
+
+    protected void createGameButtons(){
+        buttonSet.addButton(ButtonMap.POS_MID_LEFT,  ButtonMap.ROUGE, () -> isActivePlayer() && logic().turnstate == 2, () -> action(0));
+        buttonSet.addButton(ButtonMap.POS_MID_RIGHT, ButtonMap.NOIR,  () -> isActivePlayer() && logic().turnstate == 2, () -> action(1));
     }
 
 
@@ -39,13 +49,8 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
-        if(logic().turnstate == 2) {
-            if(mouseButton == 0){
-                if(mouseRect( 24, 204, 92, 26, mouseX, mouseY)){ action(0); }
-                if(mouseRect(140, 204, 92, 26, mouseX, mouseY)){ action(1); }
-            }
-        }
+    protected void interact(double mouseX, double mouseY, int mouseButton){
+
     }
 
 
@@ -54,25 +59,23 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
-        if(logic().turnstate >= 3) drawFont(matrixstack, "" + logic().value_rouge, 36,  38-8);
-        if(logic().turnstate >= 3) drawFont(matrixstack, "" + logic().value_noir, 36, 134-8);
-        if(logic().turnstate >= 4) drawFont(matrixstack, logic().hand, 65, 115-8);
+    protected void drawForegroundLayer(MatrixStack matrix, int mouseX, int mouseY){
+        if(logic().turnstate == 2 &&  isActivePlayer()) drawFontCenter(matrix, "Choose the color to bet on ...",  128, 192);
+        if(logic().turnstate == 2 && !isActivePlayer()) drawFontCenter(matrix, "...",                             128, 192);
+        if(logic().turnstate == 3                     ) drawFontCenter(matrix, "...",                             128, 192);
+        if(logic().turnstate >= 4                     ) drawFontCenter(matrix, logic().hand,                      128, 192);
+        if(logic().turnstate >= 3                     ) drawFont(      matrix, "" + logic().value_rouge,           36,  30);
+        if(logic().turnstate >= 3                     ) drawFont(      matrix, "" + logic().value_noir,            36, 126);
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        drawCardBack(matrixstack, 32,  48-8, 1);
-        drawCardBack(matrixstack, 32, 144-8, 0);
-        int i = 0; for(Card c : logic().cards_rouge){ drawCard(matrixstack, 32+8 + 16*i,  48-8, c); i++; }
-        i = 0; for(Card c : logic().cards_noir     ){ drawCard(matrixstack, 32+8 + 16*i, 144-8, c); i++; }
-    }
-
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
-        if(logic().turnstate == 2){
-            blit(matrixstack, leftPos+24+7,  topPos+204+2, 0, 66, 78, 22); // Button Hit
-            blit(matrixstack, leftPos+140+7, topPos+204+2, 0, 88, 78, 22); // Button Stand
-
+    protected void drawBackgroundLayer(MatrixStack matrix, float partialTicks, int mouseX, int mouseY){
+        drawCardBack(matrix, 32,  40, 1);
+        drawCardBack(matrix, 32, 136, 0);
+        int i = 0; for(Card c : logic().cards_rouge){ drawCard(matrix, 40 + 16*i,  40, c); i++; }
+        i = 0; for(Card c : logic().cards_noir ){ drawCard(matrix, 40 + 16*i, 136, c); i++; }
+        if(logic().turnstate == 3){
+            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
+            blit(matrix, leftPos + 89, topPos + 212, 0, 176, 78, 22);
         }
     }
 
@@ -83,16 +86,6 @@ public class ScreenCardRed extends ScreenCasino {   // Rouge et Noir
     //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
-
-
-
-
-
-    //----------------------------------------BASIC----------------------------------------//
-
-    protected String getGameName() {
-        return "rouge_etnoir";
-    }
 
 
 

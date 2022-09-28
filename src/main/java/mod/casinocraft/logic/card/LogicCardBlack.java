@@ -42,10 +42,10 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
 
         split = 0;
 
-        cards_player1.add(new Card(RANDOM, -32, 0,    8, false));
-        cards_player1.add(new Card(RANDOM, -48, 0,   32, false));
-        cards_dealer.add(new Card(RANDOM,   0, -48,  8, false));
-        cards_dealer.add(new Card(RANDOM,   0, -48, 32, true));
+        cards_player1.add(new Card(RANDOM, -32,   0,  8, false));
+        cards_player1.add(new Card(RANDOM, -48,   0, 32, false));
+        cards_dealer.add( new Card(RANDOM,   0, -48,  8, false));
+        cards_dealer.add( new Card(RANDOM,   0, -48, 32, true));
         setJingle(SoundMap.SOUND_CARD_SHOVE);
         value_player1 = Add_Card(cards_player1, 0, 0, true);
         value_player2 = 0;
@@ -59,12 +59,11 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
 
 
 
-
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
 
-        // ----- HIT ----- //
+        // ----- Hit ----- //
         if(action == 0){
             if(split < 2){
                 value_player1 = Add_Card(cards_player1, -48, 0, false);
@@ -88,7 +87,7 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
             }
         }
 
-        // ----- STAND ----- //
+        // ----- Stand ----- //
         if(action == 1){
             if(split == 1){
                 split = 2;
@@ -97,7 +96,9 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
                 cards_dealer.get(1).hidden = false;
             }
         }
-        if(action == 2){ // Split
+
+        // ----- Split ----- //
+        if(action == 2){
             split = 1;
             int cardX = cards_player1.get(1).number;
             int cardY = cards_player1.get(1).suit;
@@ -112,7 +113,7 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
             setJingle(SoundMap.SOUND_CARD_SHOVE);
         }
 
-        // ----- DOUBLE DOWN ----- //
+        // ----- Double Down ----- //
         if(action == 3){
             if(split < 2){
                 value_player1 = Add_Card(cards_player1, -48, 0, false);
@@ -161,7 +162,6 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
 
 
 
-
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
@@ -184,7 +184,6 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
         compound.putInt("split", split);
         return compound;
     }
-
 
 
 
@@ -244,7 +243,6 @@ public class LogicCardBlack extends LogicModule {   // Black Jack
         jingle = SoundMap.SOUND_CARD_SHOVE;
         return value;
     }
-
 
 
 

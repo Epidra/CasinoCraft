@@ -68,11 +68,11 @@ public class LogicChipBlue extends LogicModule {   // Tetris
     //----------------------------------------COMMAND----------------------------------------//
 
     public void command(int action){
-        if(action == KEY_UP){    commandTurn(true);    } // UP
-        if(action == KEY_DOWN){  tetrominoDrop();      } // DOWN
-        if(action == KEY_LEFT){  commandStrafe(true);  } // LEFT
-        if(action == KEY_RIGHT){ commandStrafe(false); } // RIGHT
-        if(action == KEY_ENTER){ commandHold();        } // HOLD
+        if(action == KEY_UP){    commandTurn(true);    }
+        if(action == KEY_DOWN){  tetrominoDrop();      }
+        if(action == KEY_LEFT){  commandStrafe(true);  }
+        if(action == KEY_RIGHT){ commandStrafe(false); }
+        if(action == KEY_ENTER){ commandHold();        }
     }
 
 
@@ -108,14 +108,14 @@ public class LogicChipBlue extends LogicModule {   // Tetris
     //----------------------------------------SAVE/LOAD----------------------------------------//
 
     public void load2(CompoundNBT compound){
-        canHold = compound.getBoolean("canhold");
+        canHold        = compound.getBoolean("canhold");
         container_next = compound.getInt("container_next");
         container_hold = compound.getInt("container_hold");
         container_now  = compound.getInt("container_now");
 
-        timer_last = compound.getInt("timerlast");
+        timer_last  = compound.getInt("timerlast");
         timer_break = compound.getInt("timerbreak");
-        timer = compound.getInt("timer");
+        timer       = compound.getInt("timer");
 
         tetromino[0].set(compound.getInt("tetromino0x"), compound.getInt("tetromino0y"));
         tetromino[1].set(compound.getInt("tetromino1x"), compound.getInt("tetromino1y"));
@@ -139,13 +139,13 @@ public class LogicChipBlue extends LogicModule {   // Tetris
     }
 
     public CompoundNBT save2(CompoundNBT compound){
-        compound.putBoolean("canhold", canHold);
+        compound.putBoolean("canhold",    canHold);
         compound.putInt("container_next", container_next);
         compound.putInt("container_last", container_hold);
-        compound.putInt("container_now", container_now);
-        compound.putInt("timerlast", timer_last);
-        compound.putInt("timerbreak", timer_break);
-        compound.putInt("timer", timer);
+        compound.putInt("container_now",  container_now);
+        compound.putInt("timerlast",      timer_last);
+        compound.putInt("timerbreak",     timer_break);
+        compound.putInt("timer",          timer);
         compound.putInt("tetromino0x", tetromino[0].X);
         compound.putInt("tetromino0y", tetromino[0].Y);
         compound.putInt("tetromino1x", tetromino[1].X);
@@ -154,7 +154,7 @@ public class LogicChipBlue extends LogicModule {   // Tetris
         compound.putInt("tetromino2y", tetromino[2].Y);
         compound.putInt("tetromino3x", tetromino[3].X);
         compound.putInt("tetromino3y", tetromino[3].Y);
-        compound.putInt("alpha", alpha);
+        compound.putInt("alpha",  alpha);
         compound.putInt("color0", color[0]);
         compound.putInt("color1", color[1]);
         compound.putInt("color2", color[2]);

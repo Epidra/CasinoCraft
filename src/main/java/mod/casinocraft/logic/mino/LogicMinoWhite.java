@@ -49,7 +49,7 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
 
     public void command(int action){
         if(action >= KEY_1){
-            grid[selector.X][selector.Y] = action - KEY_1;
+            grid[selector.X][selector.Y] = action + 1 - KEY_1;
             check();
         } else {
             selector.set(action%9, action/9);
@@ -114,12 +114,14 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
         boolean[] match_hori = new boolean[9];
         boolean[] match_cube = new boolean[9];
         int[] n = new int[10];
-        for(int i = 0; i < 9; i++) { n[i] = 0; }
+        for(int i = 0; i < 10; i++) { n[i] = 0; }
 
         for(int y = 0; y < 9; y++) {
-            for(int i = 0; i < 9; i++) { n[i] = 0; }
+            for(int i = 0; i < 10; i++) {
+                n[i] = 0;
+            }
             for(int x = 0; x < 9; x++) {
-                n[grid[x][y]]++;
+                n[grid[x][y] % 10]++;
             }
             match_vert[y] = n[1] == 1 && n[2] == 1 && n[3] == 1 && n[4] == 1 && n[5] == 1 && n[6] == 1 && n[7] == 1 && n[8] == 1 && n[9] == 1;
         }
@@ -127,7 +129,7 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
         for(int x = 0; x < 9; x++) {
             for(int i = 0; i < 9; i++) { n[i] = 0; }
             for(int y = 0; y < 9; y++) {
-                n[grid[x][y]]++;
+                n[grid[x][y] % 10]++;
             }
             match_hori[x] = n[1] == 1 && n[2] == 1 && n[3] == 1 && n[4] == 1 && n[5] == 1 && n[6] == 1 && n[7] == 1 && n[8] == 1 && n[9] == 1;
         }
@@ -137,7 +139,7 @@ public class LogicMinoWhite extends LogicModule {   // Sudoku
                 for(int i = 0; i < 9; i++) { n[i] = 0; }
                 for(int yi = y * 3; yi < y * 3 + 3; yi++) {
                     for(int xi = x * 3; xi < x * 3 + 3; xi++) {
-                        n[grid[xi][yi]]++;
+                        n[grid[xi][yi] % 10]++;
                     }
                 }
                 match_cube[y * 3 + x] = false;

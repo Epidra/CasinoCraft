@@ -37,7 +37,8 @@ public class LogicMinoLime extends LogicModule {   // Simon
         color_simon.clear();
         color_simon.add(RANDOM.nextInt(4));
         color_simon.add(RANDOM.nextInt(4));
-        color_simon.add(RANDOM.nextInt(4));
+        if(tableID == 2) color_simon.add(RANDOM.nextInt(4));
+        if(tableID == 2) color_simon.add(RANDOM.nextInt(4));
         color_player.clear();
         alpha[0] = 0;
         alpha[1] = 0;

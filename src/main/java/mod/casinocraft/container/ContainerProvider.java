@@ -103,8 +103,8 @@ public class ContainerProvider implements INamedContainerProvider {
             if(module == CasinoKeeper.MODULE_MINO_RED.get())        return new ContainerMinoRed(      windowId, playerInventory, this.board);
             if(module == CasinoKeeper.MODULE_MINO_BLACK.get())      return new ContainerMinoBlack(    windowId, playerInventory, this.board);
         } else if(this.board instanceof TileEntitySlotMachine) {
-            if(gainAccess)                                          return new ContainerSlotMachine(  windowId, playerInventory, this.board);
-                                                                    return new ContainerSlotGame(     windowId, playerInventory, this.board);
+            if(gainAccess){                                          return new ContainerSlotMachine(  windowId, playerInventory, this.board); }
+                                                                     return new ContainerSlotGame(     windowId, playerInventory, this.board);
         }
         return new ContainerDummy(windowId, playerInventory, this.board);
     }

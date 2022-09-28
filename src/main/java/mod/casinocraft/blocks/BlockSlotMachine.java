@@ -27,10 +27,10 @@ import javax.annotation.Nullable;
 public class BlockSlotMachine extends MachinaTall {
 
     private DyeColor color;
-    private static final VoxelShape AABB0 = Block.box(2, 0, 1, 16, 16, 15);
-    private static final VoxelShape AABB1 = Block.box(1, 0, 2, 15, 16, 16);
-    private static final VoxelShape AABB2 = Block.box(0, 0, 1, 14, 16, 15);
-    private static final VoxelShape AABB3 = Block.box(1, 0, 0, 15, 16, 14);
+    private static final VoxelShape AABB0 = Block.box(6, 0, 2, 16, 16, 14);
+    private static final VoxelShape AABB1 = Block.box(2, 0, 6, 14, 16, 16);
+    private static final VoxelShape AABB2 = Block.box(0, 0, 2, 10, 16, 14);
+    private static final VoxelShape AABB3 = Block.box(2, 0, 0, 14, 16, 10);
 
 
 

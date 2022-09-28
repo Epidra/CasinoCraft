@@ -5,6 +5,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.container.ContainerCasino;
 import mod.casinocraft.logic.mino.LogicMinoPink;
 import mod.casinocraft.screen.ScreenCasino;
+import mod.casinocraft.util.ButtonMap;
 import mod.casinocraft.util.Card;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
@@ -27,10 +28,20 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
 
 
 
-    //----------------------------------------LOGIC----------------------------------------//
+    //----------------------------------------BASIC----------------------------------------//
 
     public LogicMinoPink logic(){
         return (LogicMinoPink) menu.logic();
+    }
+
+    protected String getGameName() {
+        return "fantan";
+    }
+
+    protected void createGameButtons(){
+        buttonSet.addButton(ButtonMap.POS_BOT_MIDDLE, ButtonMap.PLACE,   () -> isActivePlayer() && logic().turnstate == 2 && !logic().hasPlaced,                       () -> { action(-1);               } );
+        buttonSet.addButton(ButtonMap.POS_BOT_LEFT,   ButtonMap.ANOTHER, () -> isActivePlayer() && logic().turnstate == 2 &&  logic().hasPlaced && playerToken >= bet, () -> { action(-2); collectBet(); } );
+        buttonSet.addButton(ButtonMap.POS_BOT_RIGHT,  ButtonMap.WAIT,    () -> isActivePlayer() && logic().turnstate == 2 &&  logic().hasPlaced,                       () -> { action(-3);               } );
     }
 
 
@@ -39,15 +50,12 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
 
     //----------------------------------------INPUT----------------------------------------//
 
-    protected void mouseClickedSUB(double mouseX, double mouseY, int mouseButton){
-        if(logic().turnstate == 2 && mouseButton == 0){
+    protected void interact(double mouseX, double mouseY, int mouseButton){
+        if(logic().turnstate == 2 && !logic().hasPlaced){
             for(int x = 0; x < 4; x++){
                 if(mouseRect(64 + 32*x, 32, 32, 32, mouseX, mouseY)) {
                     action(x);
                 }
-            }
-            if(mouseRect(82, 204, 92, 26, mouseX, mouseY)){
-                action(-1);
             }
         }
     }
@@ -58,38 +66,26 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawGuiContainerForegroundLayerSUB(MatrixStack matrixstack, int mouseX, int mouseY){
-        if(logic().turnstate == 2){
-            if(CasinoKeeper.config_timeout.get() - logic().timeout > 0){
-                drawFontInvert(matrixstack, "" + (CasinoKeeper.config_timeout.get() - logic().timeout), tableID == 1 ? 256-18 : 336, 4);
-            }
-        }
+    protected void drawForegroundLayer(MatrixStack matrix, int mouseX, int mouseY){
+        if(logic().turnstate == 2){ drawTimer(matrix); }
     }
 
-    protected void drawGuiContainerBackgroundLayerSUB(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY){
-        this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_FANTAN);
-        this.blit(matrixstack, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background SMALL
+    protected void drawBackgroundLayer(MatrixStack matrix, float partialTicks, int mouseX, int mouseY){
+        drawBackground(matrix, CasinoKeeper.TEXTURE_FANTAN);
 
         this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_DICE);
-        if(logic().turnstate == 2){
-            this.blit(matrixstack, leftPos+64 + 32*logic().selector.X, topPos+32, 224, 32 + 32*logic().activePlayer, 32, 32);
+        if(logic().turnstate == 2 && logic().selector.X > -1){
+            this.blit(matrix, leftPos+64 + 32*logic().selector.X, topPos+32, 224, 0, 32, 32);
         }
         for(int i = 0; i < 4; i++){
-            if(logic().grid[i][0] > 0){
-                this.blit(matrixstack, leftPos+64 + 32*i, topPos+32, 192, 32*logic().grid[i][0], 32, 32);
-            }
+            int color = logic().grid[i][0];
+            if(            color == -1){ this.blit(matrix, leftPos+64 + 32*i, topPos+32, 224,                   224, 32, 32); }
+            if(logic().grid[i][0] >  0){ this.blit(matrix, leftPos+64 + 32*i, topPos+32, 192, 32*logic().grid[i][0], 32, 32); }
         }
 
         this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_MINOS);
         for(Card v : logic().chips){
-            drawMino(matrixstack, v.number - 12, v.suit - 12);
-        }
-    }
-
-    protected void drawGuiContainerBackgroundLayerGUI(MatrixStack matrixstack, float partialTicks, int mouseX, int mouseY) {
-        if(logic().turnstate == 2){
-            this.minecraft.getTextureManager().bind(CasinoKeeper.TEXTURE_BUTTONS);
-            blit(matrixstack, leftPos+89, topPos+206, 78, 44, 78, 22); // Button SPIN
+            drawMino(matrix, v.number - 12, v.suit - 12);
         }
     }
 
@@ -100,16 +96,6 @@ public class ScreenMinoPink extends ScreenCasino {   // FanTan
     //----------------------------------------SUPPORT----------------------------------------//
 
     // ...
-
-
-
-
-
-    //----------------------------------------BASIC----------------------------------------//
-
-    protected String getGameName() {
-        return "fantan";
-    }
 
 
 

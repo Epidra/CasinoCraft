@@ -53,15 +53,15 @@ public class LogicCardOrange extends LogicModule {   // Baccarat
         cards_dealer.get(0).setShift(  0, -48,  8);
         cards_dealer.get(1).setShift(  0, -48, 32);
 
-        for(int i = 0; i < cards_player.size(); i++){
-            if(cards_player.get(i).number <= 9) {
-                value_player += cards_player.get(i).number + 1;
+        for(Card card : cards_player) {
+            if(card.number <= 9) {
+                value_player += card.number + 1;
             }
         }
 
-        for(int i = 0; i < cards_dealer.size(); i++){
-            if(cards_dealer.get(i).number <= 9) {
-                value_dealer += cards_dealer.get(i).number + 1;
+        for(Card card : cards_dealer){
+            if(card.number <= 9){
+                value_dealer += card.number + 1;
             }
         }
 
@@ -132,13 +132,13 @@ public class LogicCardOrange extends LogicModule {   // Baccarat
 
     //----------------------------------------SUPPORT----------------------------------------//
 
-    private void addCard(boolean player) {
+    private void addCard(boolean player){
         if(player) {
             value_player = 0;
             cards_player.add(new Card(RANDOM, -48, 0));
-            for(int i = 0; i < cards_player.size(); i++){
-                if(cards_player.get(i).number <= 9) {
-                    value_player += cards_player.get(i).number + 1;
+            for(Card card : cards_player){
+                if(card.number <= 9){
+                    value_player += card.number + 1;
                 }
             }
             value_player %= 10;
@@ -148,12 +148,12 @@ public class LogicCardOrange extends LogicModule {   // Baccarat
 
         if(cards_player.size() == 2 || value_dealer <= 3) { temp_draw = true; } else if(value_dealer == 4 && value_player <= 7) { temp_draw = true; } else if(value_dealer == 5 && value_player >= 4 && value_player <= 7) { temp_draw = true; } else if(value_dealer == 6 && value_player >= 6 && value_player <= 7) { temp_draw = true; }
 
-        if(temp_draw) {
+        if(temp_draw){
             value_dealer = 0;
             cards_dealer.add(new Card(RANDOM, -48, 0));
-            for(int i = 0; i < cards_dealer.size(); i++){
-                if(cards_dealer.get(i).number <= 9) {
-                    value_dealer += cards_dealer.get(i).number + 1;
+            for(Card card : cards_dealer) {
+                if(card.number <= 9) {
+                    value_dealer += card.number + 1;
                 }
             }
             value_dealer %= 10;
@@ -162,7 +162,7 @@ public class LogicCardOrange extends LogicModule {   // Baccarat
         result();
     }
 
-    private void result() {
+    private void result(){
         turnstate = 4;
         if(status == 2) status = 3;
         if(value_dealer <  value_player){ hand = "The Player Wins!"; reward[0] = 2; }
