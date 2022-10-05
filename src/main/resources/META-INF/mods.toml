@@ -4,7 +4,7 @@ license="All rights reserved"
 issueTrackerURL="https://github.com/Epidra/CasinoCraft/issues"
 [[mods]]
 modId="casinocraft"
-version="v18"
+version="v19"
 displayName="CasinoCraft"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/casinocraft"
 logoFile="logo.png"
