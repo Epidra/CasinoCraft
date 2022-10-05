@@ -174,9 +174,11 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
         if(  page == 0 && !menu.hasKey()){
             drawFontCenter(matrix, "VISIT MODPAGE FOR INSTRUCTIONS", 88, 16);
             if(blinking / 16 == 1) drawFontCenter(matrix, "MISSING  KEY  ITEM  ",           88, 74);
-        } if(page == 0 && menu.hasKey()){
+        } if(page == 0 && menu.hasKey() && Config.CONFIG.config_creative_token.get() && isOP()){
             drawFont(matrix,       "INFINITE TOKEN STORAGE",         18, 13);
+        } if(page == 0 && menu.hasKey() && Config.CONFIG.config_creative_reward.get() && isOP()){
             drawFont(matrix,       "INFINITE REWARD STORAGE",        18, 26);
+        } if(page == 0 && menu.hasKey()){
             drawFont(matrix,       "DROP ITEMS ON BREAK",            18, 39);
             drawFont(matrix,       "INDESTRUCTABLE BLOCK",           18, 52);
         } if(page == 0 && menu.hasKey() && !menu.hasModule()){
@@ -261,10 +263,14 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 
         // ----- Page 1 - Settings ----- //
         if(  page == 0 && menu.hasKey()){
-            this.blit(matrix,  posX + 4, posY +  4, 188, menu.getSettingInfiniteToken()  ? 60 : 24, 12, 12); // Infinite Tokens
-            this.blit(matrix,  posX + 4, posY + 17, 188, menu.getSettingInfinitePrize()  ? 60 : 24, 12, 12); // Infinite Rewards
+            this.blit(matrix,  posX + 4, posY +  4, 188,                                        72, 12, 12); // Empty Button
+            this.blit(matrix,  posX + 4, posY + 17, 188,                                        72, 12, 12); // Empty Button
             this.blit(matrix,  posX + 4, posY + 30, 188, menu.getSettingDropOnBreak()    ? 60 : 24, 12, 12); // Drop Items on Break
             this.blit(matrix,  posX + 4, posY + 43, 188, menu.getSettingIndestructable() ? 60 : 24, 12, 12); // Indestructible Block
+        } if(page == 0 && menu.hasKey() && Config.CONFIG.config_creative_token.get() && isOP()){
+            this.blit(matrix,  posX + 4, posY +  4, 188, menu.getSettingInfiniteToken()  ? 60 : 24, 12, 12); // Infinite Tokens
+        } if(page == 0 && menu.hasKey() && Config.CONFIG.config_creative_reward.get() && isOP()){
+            this.blit(matrix,  posX + 4, posY + 17, 188, menu.getSettingInfinitePrize()  ? 60 : 24, 12, 12); // Infinite Rewards
         } if(page == 0 && menu.hasKey() && menu.hasModule()){
             this.blit(matrix,  posX + 4, posY + 57, 188, hasReset ? 12 : 0,                         12, 12); // Reset MiniGame
             this.blit(matrix,  posX + 4, posY + 70, 176, menu.getSettingAlternateColor() * 12,      12, 12); // Color Palette
@@ -359,9 +365,9 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
     /** ??? **/
     public void commandChangeReward(int value, int index){
         boolean send = false;
-        if(index == 0){ if(menu.getPrizeCount1() > 0){ menu.setPrizeCount1(menu.getPrizeCount1() + value); send = true; } }
-        if(index == 1){ if(menu.getPrizeCount2() > 0){ menu.setPrizeCount2(menu.getPrizeCount2() + value); send = true; } }
-        if(index == 2){ if(menu.getPrizeCount3() > 0){ menu.setPrizeCount3(menu.getPrizeCount3() + value); send = true; } }
+        if(index == 0){ if(value > 0 || menu.getPrizeCount1() > 0){ menu.setPrizeCount1(menu.getPrizeCount1() + value); send = true; } }
+        if(index == 1){ if(value > 0 || menu.getPrizeCount2() > 0){ menu.setPrizeCount2(menu.getPrizeCount2() + value); send = true; } }
+        if(index == 2){ if(value > 0 || menu.getPrizeCount3() > 0){ menu.setPrizeCount3(menu.getPrizeCount3() + value); send = true; } }
         if(send){ sendPacket(); }
     }
 
@@ -404,8 +410,8 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 
     /** ??? **/
     public void commandToggleSettings(int settingID){
-        if(settingID == 0){ if(Config.CONFIG.config_creative_token.get()){  menu.setSettingInfiniteToken( !menu.getSettingInfiniteToken());          } }
-        if(settingID == 1){ if(Config.CONFIG.config_creative_reward.get()){ menu.setSettingInfinitePrize( !menu.getSettingInfinitePrize());          } }
+        if(settingID == 0){ if(Config.CONFIG.config_creative_token.get() && isOP()){  menu.setSettingInfiniteToken( !menu.getSettingInfiniteToken());          } }
+        if(settingID == 1){ if(Config.CONFIG.config_creative_reward.get() && isOP()){ menu.setSettingInfinitePrize( !menu.getSettingInfinitePrize());          } }
         if(settingID == 2){                                                 menu.setSettingDropOnBreak(   !menu.getSettingDropOnBreak());              }
         if(settingID == 3){                                                 menu.setSettingIndestructable(!menu.getSettingIndestructable());           }
         if(settingID == 4){                                                 menu.setSettingAlternateColor((menu.getSettingAlternateColor() + 1) % 6);  }
@@ -471,6 +477,10 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
     protected void highlight(int index){
         highlightTimer = 10;
         highlightIndex = index;
+    }
+
+    private boolean isOP(){
+        return !Config.CONFIG.config_creative_oponly.get() || this.minecraft.player.getPermissionLevel() > 0;
     }
 
     protected void sendPacket(){
