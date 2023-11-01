@@ -191,7 +191,7 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
         // ----- Page 2 - Token ----- //
         if(  page == 1){
             String text = menu.getStorageToken() == 0 ? "EMPTY" : menu.getSettingInfiniteToken() ? "x(INFINITE)" : "x " + menu.getStorageToken();
-            this.itemRenderer.renderGuiItem(menu.getItemToken(),  51, 13         );
+            this.itemRenderer.renderGuiItem(matrix, menu.getItemToken(),  51, 13         );
             this.font.draw(matrix, text,                          69, 17, 4210752);
         } if(page == 1 && menu.hasToken() && !hasGambling()){
             drawFontInvert(matrix, "AMOUNT",                     102, 57         );
@@ -206,7 +206,7 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
         // ----- Page 3 - Reward ----- //
         if(  page == 2){
             String text = menu.getStoragePrize() == 0 ? "EMPTY" : menu.getSettingInfinitePrize() ? "x(INFINITE)" : "x " + menu.getStoragePrize();
-            this.itemRenderer.renderGuiItem(menu.getItemPrize(), 51, 13         );
+            this.itemRenderer.renderGuiItem(matrix, menu.getItemPrize(), 51, 13         );
             this.font.draw(matrix, text,                         69, 17, 4210752);
         } if(page == 2 && menu.hasReward()){
             this.font.draw(matrix, "" + menu.getPrizeScore1(),   52, 39, 4210752);

@@ -196,7 +196,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         if(menu.logic().isMultiplayer() && logic().turnstate == 2 && !isCurrentPlayer()){
             if(menu.logic().hasFreePlayerSlots()){
                 drawFont(matrix, "BET:",                      96, 196);
-                this.itemRenderer.renderGuiItem(menu.getItemToken(),                      180, 192);
+                this.itemRenderer.renderGuiItem(matrix, menu.getItemToken(),                      180, 192);
                 if(menu.getBettingLow() > 1) drawFont(matrix, "x" + menu.getBettingLow(), 138, 196);
             }
         }
@@ -205,7 +205,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         if(logic().turnstate == 0 && (tableID == 1 || tableID == 2)){
             if(menu.hasToken() && menu.getBettingHigh() > 0) {
                 drawFontCenter(      matrix, "The entry fee is:",    128, 112);
-                this.itemRenderer.renderGuiItem(menu.getItemToken(), 120, 124);
+                this.itemRenderer.renderGuiItem(matrix, menu.getItemToken(), 120, 124);
                 if(bet > 1) drawFont(matrix, "x" + bet,              140, 128);
                 if(menu.getBettingHigh() != menu.getBettingLow()){ drawFontCenter(matrix, "You can change the amount to pay.",      128, 144); }
                 if(playerToken <  bet                           ){ drawFontCenter(matrix, "You don't have enough Token to play...", 128, 160); }
@@ -217,7 +217,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         if(logic().turnstate == 0 && tableID == 0){
             if(menu.hasToken() && menu.getBettingHigh() > 0) {
                 drawFontCenter(      matrix, "INSERT TOKEN",             128, 180, 16777215);
-                this.itemRenderer.renderGuiItem(menu.getItemToken(),     120, 192          );
+                this.itemRenderer.renderGuiItem(matrix, menu.getItemToken(),     120, 192          );
                 if(bet > 1) drawFont(matrix, "x" + menu.getBettingLow(), 140, 196, 16777215);
                 if(playerToken < menu.getBettingLow()) {
                     drawFontCenter(matrix, "NOT ENOUGH TOKEN", 128, 228, 16777215);

@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[41,)" #mandatory
+loaderVersion="[45,)" #mandatory
 license="All rights reserved"
 issueTrackerURL="https://github.com/Epidra/CasinoCraft/issues"
 [[mods]]
@@ -18,7 +18,7 @@ Then you're at the right place.
 [[dependencies.casinocraft]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19,1.20)"
+    versionRange="[1.19.4,1.20)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.casinocraft]]

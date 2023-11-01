@@ -69,7 +69,7 @@ public class ScreenSlotGame extends ScreenCasino {   // Slot Game
         // ----- TOKEN ----- //
         if(menu.hasToken() && menu.getBettingHigh() > 0){
             drawFontCenter(matrix, "TOKEN",                      219, 194, color1);
-            this.itemRenderer.renderGuiItem(menu.getItemToken(), 211, 202        );
+            this.itemRenderer.renderGuiItem(matrix, menu.getItemToken(), 211, 202        );
             drawFontCenter(matrix, "x" + menu.getBettingLow(),   219, 218, color1);
         }
 
