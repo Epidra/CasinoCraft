@@ -7,6 +7,7 @@ import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoBlue;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.ButtonMap;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -65,13 +66,13 @@ public class ScreenMinoBlue extends ScreenCasino {   // Memory
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawValueLeft(matrix, "POINTS", logic().scorePoint);
         drawValueRight(matrix, "LIVES", logic().scoreLives);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
-        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
+        // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
         for(int y = 0; y < 9; y++){
             for(int x = 0; x < 17; x++){
                 if(logic().grid[x][y] != -1){

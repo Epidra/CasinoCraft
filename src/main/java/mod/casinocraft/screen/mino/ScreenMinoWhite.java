@@ -6,6 +6,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoWhite;
 import mod.casinocraft.screen.ScreenCasino;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -63,11 +64,11 @@ public class ScreenMinoWhite extends ScreenCasino {   // Sudoku
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
 
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         drawBackground(matrix, CasinoKeeper.TEXTURE_SUDOKU, CasinoKeeper.TEXTURE_MINOS);
         drawMino(matrix, 20 + 24*logic().selector.X, 20 + 24*logic().selector.Y, 0, 9);
 

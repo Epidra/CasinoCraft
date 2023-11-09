@@ -5,6 +5,7 @@ import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.card.LogicCardLightBlue;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.KeyMap;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -72,11 +73,11 @@ public class ScreenCardLightBlue extends ScreenCasino {   // Klondike
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawValueLeft(matrix, "POINTS", logic().scorePoint);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         int offset = tableID == 1 ? -16 : 0;
         drawCardBack(matrix, -offset,       20, logic().scoreLives == 0 ? 8 : 10);
         drawCardBack(matrix, -offset +  32, 20, 7);

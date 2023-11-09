@@ -54,7 +54,7 @@ public class MessageStartServer {
     public static class Handler {
         public static void handle (final MessageStartServer message, Supplier<NetworkEvent.Context> context) {
             context.get().enqueueWork(() ->{
-                BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().getLevel().getChunkAt(message.pos).getBlockEntity(message.pos);
+                BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().level().getChunkAt(message.pos).getBlockEntity(message.pos);
                 te.logic.addPlayer(message.name);
                 if(message.seed > -1) te.logic.start(message.seed);
             });
@@ -62,7 +62,7 @@ public class MessageStartServer {
                     message.name,
                     message.seed,
                     message.pos),
-                    context.get().getSender().level.getChunkAt(message.pos));
+                    context.get().getSender().level().getChunkAt(message.pos));
             context.get().setPacketHandled(true);
         }
     }

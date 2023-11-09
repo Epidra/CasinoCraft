@@ -82,7 +82,7 @@ public class MessageInventoryServer {
 
     public static class Handler {
         public static void handle (final MessageInventoryServer message, Supplier<NetworkEvent.Context> context) {
-            BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().getLevel().getChunkAt(message.pos).getBlockEntity(message.pos);
+            BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().level().getChunkAt(message.pos).getBlockEntity(message.pos);
 
             NonNullList<ItemStack> inv = NonNullList.withSize(5, ItemStack.EMPTY);
             inv.set(0, message.stack0);
@@ -109,7 +109,7 @@ public class MessageInventoryServer {
                 te.setTokenREW(new ItemStack(Blocks.AIR));
             }
 
-            CasinoPacketHandler.sendToChunk(new MessageInventoryClient(inv, message.storageToken, message.storagePrize, message.pos), context.get().getSender().level.getChunkAt(message.pos));
+            CasinoPacketHandler.sendToChunk(new MessageInventoryClient(inv, message.storageToken, message.storagePrize, message.pos), context.get().getSender().level().getChunkAt(message.pos));
             context.get().setPacketHandled(true);
         }
     }

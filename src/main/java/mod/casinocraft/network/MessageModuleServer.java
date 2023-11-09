@@ -46,9 +46,9 @@ public class MessageModuleServer {
     public static class Handler {
         public static void handle (final MessageModuleServer message, Supplier<NetworkEvent.Context> context) {
             context.get().enqueueWork(() ->{
-                BlockArcade.setModuleState(context.get().getSender().level, message.pos);
+                BlockArcade.setModuleState(context.get().getSender().level(), message.pos);
             });
-            CasinoPacketHandler.sendToChunk(new MessageModuleClient(message.pos), context.get().getSender().level.getChunkAt(message.pos));
+            CasinoPacketHandler.sendToChunk(new MessageModuleClient(message.pos), context.get().getSender().level().getChunkAt(message.pos));
             context.get().setPacketHandled(true);
         }
     }

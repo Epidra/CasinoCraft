@@ -3,7 +3,7 @@ package mod.casinocraft;
 import mod.casinocraft.system.CasinoPacketHandler;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -47,8 +47,8 @@ public class CasinoCraft {
         CasinoKeeper.setup(event);
     }
 
-    private void addCreative(CreativeModeTabEvent.BuildContents event) {
-        if (event.getTab() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
+    private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey().equals(CreativeModeTabs.FUNCTIONAL_BLOCKS)) {
             event.accept(CasinoKeeper.CARDTABLE_BASE_WHITE);
             event.accept(CasinoKeeper.CARDTABLE_BASE_ORANGE);
             event.accept(CasinoKeeper.CARDTABLE_BASE_MAGENTA);
@@ -114,7 +114,7 @@ public class CasinoCraft {
             event.accept(CasinoKeeper.ARCADE_SLOT_RED);
             event.accept(CasinoKeeper.ARCADE_SLOT_BLACK);
         }
-        if (event.getTab() == CreativeModeTabs.INGREDIENTS) {
+        if (event.getTabKey().equals(CreativeModeTabs.INGREDIENTS)) {
             event.accept(CasinoKeeper.MODULE_CARD_WHITE);
             event.accept(CasinoKeeper.MODULE_CARD_ORANGE);
             event.accept(CasinoKeeper.MODULE_CARD_MAGENTA);
@@ -164,7 +164,7 @@ public class CasinoCraft {
             event.accept(CasinoKeeper.MODULE_CHIP_RED);
             event.accept(CasinoKeeper.MODULE_CHIP_BLACK);
         }
-        if (event.getTab() == CreativeModeTabs.BUILDING_BLOCKS) {
+        if (event.getTabKey().equals(CreativeModeTabs.BUILDING_BLOCKS)) {
             event.accept(CasinoKeeper.DICE_BASIC_WHITE);
             event.accept(CasinoKeeper.DICE_BASIC_ORANGE);
             event.accept(CasinoKeeper.DICE_BASIC_MAGENTA);

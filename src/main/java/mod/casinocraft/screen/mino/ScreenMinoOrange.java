@@ -7,6 +7,7 @@ import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoOrange;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.ButtonMap;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -80,7 +81,7 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawFontCenter(                      matrix,      logic().hand,     128, 7, 11119017);
         if(logic().result    > -1){ drawFont(matrix, "" + logic().result,    10, 7, 11119017); }
         if(logic().point     > -1){ drawFont(matrix, "" + logic().point,     25, 7, 11119017); }
@@ -88,7 +89,7 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
         if(logic().turnstate == 2){ drawTimer(matrix); }
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         if(tableID == 1){
             drawBackground(matrix, CasinoKeeper.TEXTURE_CRAPS_MIDDLE);
         } else {
@@ -96,7 +97,7 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
             drawBackground(matrix, CasinoKeeper.TEXTURE_CRAPS_RIGHT, 128);
         }
 
-        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_DICE);
+        // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_DICE);
         int color = 0;
         for(int y = 0; y < 5; y++){
             for(int x = 0; x < 8; x++){
@@ -105,15 +106,15 @@ public class ScreenMinoOrange extends ScreenCasino {   // Craps
                         : x == 0 ? -48 : x == 7 ? 272 : -8 + 48*(x-1);
                 int posY = 48 + 32*y;
                 color = logic().grid[x][y];
-                if(color == -1                   ){ this.blit(matrix, leftPos+posX, topPos+posY, 224,               224, 32, 32); }
-                if(color  >  0                   ){ this.blit(matrix, leftPos+posX, topPos+posY, 192, 32 * (color % 10), 32, 32); }
-                if(logic().selector.matches(x, y)){ this.blit(matrix, leftPos+posX, topPos+posY, 224,                 0, 32, 32); }
+                if(color == -1                   ){ matrix.blit(CasinoKeeper.TEXTURE_DICE, leftPos+posX, topPos+posY, 224,               224, 32, 32); }
+                if(color  >  0                   ){ matrix.blit(CasinoKeeper.TEXTURE_DICE, leftPos+posX, topPos+posY, 192, 32 * (color % 10), 32, 32); }
+                if(logic().selector.matches(x, y)){ matrix.blit(CasinoKeeper.TEXTURE_DICE, leftPos+posX, topPos+posY, 224,                 0, 32, 32); }
             }
         }
 
         if(logic().turnstate == 3){
-            this.blit(matrix, leftPos + logic().dice[0].posX, topPos + logic().dice[0].posY, logic().dice[0].number*32, diceColor*32, 32, 32);
-            this.blit(matrix, leftPos + logic().dice[1].posX, topPos + logic().dice[1].posY, logic().dice[1].number*32, diceColor*32, 32, 32);
+            matrix.blit(CasinoKeeper.TEXTURE_DICE, leftPos + logic().dice[0].posX, topPos + logic().dice[0].posY, logic().dice[0].number*32, diceColor*32, 32, 32);
+            matrix.blit(CasinoKeeper.TEXTURE_DICE, leftPos + logic().dice[1].posX, topPos + logic().dice[1].posY, logic().dice[1].number*32, diceColor*32, 32, 32);
         }
     }
 

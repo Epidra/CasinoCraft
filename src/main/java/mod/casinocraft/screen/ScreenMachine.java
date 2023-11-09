@@ -11,6 +11,7 @@ import mod.casinocraft.network.MessageSettingServer;
 import mod.casinocraft.network.MessageStateServer;
 import mod.casinocraft.system.CasinoPacketHandler;
 import mod.lucky77.screen.ScreenBase;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -165,7 +166,7 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
     //----------------------------------------DRAW---OVERLAY----------------------------------------//
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
-    protected void renderLabels(PoseStack matrix, int mouseX, int mouseY){
+    protected void renderLabels(GuiGraphics matrix, int mouseX, int mouseY){
         if(page == 2 && (!menu.hasKey() || !hasHighscore()))   page = 0;
         if(page == 1 && (!menu.hasKey() || !menu.hasModule())) page = 0;
         blinking = (blinking + 1) % 32;
@@ -191,30 +192,30 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
         // ----- Page 2 - Token ----- //
         if(  page == 1){
             String text = menu.getStorageToken() == 0 ? "EMPTY" : menu.getSettingInfiniteToken() ? "x(INFINITE)" : "x " + menu.getStorageToken();
-            this.itemRenderer.renderGuiItem(matrix, menu.getItemToken(),  51, 13         );
-            this.font.draw(matrix, text,                          69, 17, 4210752);
+            matrix.renderFakeItem(menu.getItemToken(),  51, 13         );
+            matrix.drawString(font, text,                          69, 17, 16777215);
         } if(page == 1 && menu.hasToken() && !hasGambling()){
             drawFontInvert(matrix, "AMOUNT",                     102, 57         );
-            this.font.draw(matrix, "" + menu.getBettingLow(),    108, 57, 4210752);
+            matrix.drawString(font, "" + menu.getBettingLow(),    108, 57, 16777215);
         } if(page == 1 && menu.hasToken() && hasGambling()){
             drawFontInvert(matrix, "MINIMUM",                    102, 57         );
             drawFontInvert(matrix, "MAXIMUM",                    102, 75         );
-            this.font.draw(matrix, "" + menu.getBettingLow(),    108, 57, 4210752);
-            this.font.draw(matrix, "" + menu.getBettingHigh(),   108, 75, 4210752);
+            matrix.drawString(font, "" + menu.getBettingLow(),    108, 57, 16777215);
+            matrix.drawString(font, "" + menu.getBettingHigh(),   108, 75, 16777215);
         }
 
         // ----- Page 3 - Reward ----- //
         if(  page == 2){
             String text = menu.getStoragePrize() == 0 ? "EMPTY" : menu.getSettingInfinitePrize() ? "x(INFINITE)" : "x " + menu.getStoragePrize();
-            this.itemRenderer.renderGuiItem(matrix, menu.getItemPrize(), 51, 13         );
-            this.font.draw(matrix, text,                         69, 17, 4210752);
+            matrix.renderFakeItem(menu.getItemPrize(), 51, 13         );
+            matrix.drawString(font, text,                         69, 17, 16777215);
         } if(page == 2 && menu.hasReward()){
-            this.font.draw(matrix, "" + menu.getPrizeScore1(),   52, 39, 4210752);
-            this.font.draw(matrix, "" + menu.getPrizeScore2(),   52, 57, 4210752);
-            this.font.draw(matrix, "" + menu.getPrizeScore3(),   52, 75, 4210752);
-            this.font.draw(matrix, "" + menu.getPrizeCount1(),  108, 39, 4210752);
-            this.font.draw(matrix, "" + menu.getPrizeCount2(),  108, 57, 4210752);
-            this.font.draw(matrix, "" + menu.getPrizeCount3(),  108, 75, 4210752);
+            matrix.drawString(font, "" + menu.getPrizeScore1(),   52, 39, 16777215);
+            matrix.drawString(font, "" + menu.getPrizeScore2(),   52, 57, 16777215);
+            matrix.drawString(font, "" + menu.getPrizeScore3(),   52, 75, 16777215);
+            matrix.drawString(font, "" + menu.getPrizeCount1(),  108, 39, 16777215);
+            matrix.drawString(font, "" + menu.getPrizeCount2(),  108, 57, 16777215);
+            matrix.drawString(font, "" + menu.getPrizeCount3(),  108, 75, 16777215);
         }
 
         // ----- Page 4 - Input ----- //
@@ -223,7 +224,7 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
             int w = this.font.width(text) / 2;
             drawFontCenter(matrix, "INPUT NUMBER",          88,   16         );
             drawFontCenter(matrix, "PRESS ENTER TO SUBMIT", 88,   32         );
-            this.font.draw(matrix,  text,                   88-w, 71, 4210752);
+            matrix.drawString(font,  text,                   88-w, 71, 16777215);
         }
     }
 
@@ -234,93 +235,93 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
     //----------------------------------------DRAW---BACKGROUND----------------------------------------//
 
     /** Draws the background layer of this container (behind the items). */
-    protected void renderBg(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
-        RenderSystem.setShaderTexture(0, GUI_TEXTURE);
+    protected void renderBg(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
+        // RenderSystem.setShaderTexture(0, GUI_TEXTURE);
         int posX = (this.width  - this.imageWidth      ) / 2;
         int posY = (this.height - this.imageHeight + 12) / 2;
 
         // ----- Background ----- //
-        this.blit(matrix, posX,       posY,        0,   0, 176, 178); // Background
-        this.blit(matrix, posX -  56, posY -  1,   0, 180,  54,  28); // Slot 1
-        this.blit(matrix, posX -  56, posY + 29,   0, 180,  54,  28); // Slot 2
-        this.blit(matrix, posX -  56, posY + 59,   0, 180,  54,  28); // Slot 3
-        this.blit(matrix, posX +   2, posY - 26, 200, 216,  56,  24); // Header 1
-        this.blit(matrix, posX +  60, posY - 26, 200, 216,  56,  24); // Header 2
-        this.blit(matrix, posX + 118, posY - 26, 200, 216,  56,  24); // Header 3
+        matrix.blit(GUI_TEXTURE, posX,       posY,        0,   0, 176, 178); // Background
+        matrix.blit(GUI_TEXTURE, posX -  56, posY -  1,   0, 180,  54,  28); // Slot 1
+        matrix.blit(GUI_TEXTURE, posX -  56, posY + 29,   0, 180,  54,  28); // Slot 2
+        matrix.blit(GUI_TEXTURE, posX -  56, posY + 59,   0, 180,  54,  28); // Slot 3
+        matrix.blit(GUI_TEXTURE, posX +   2, posY - 26, 200, 216,  56,  24); // Header 1
+        matrix.blit(GUI_TEXTURE, posX +  60, posY - 26, 200, 216,  56,  24); // Header 2
+        matrix.blit(GUI_TEXTURE, posX + 118, posY - 26, 200, 216,  56,  24); // Header 3
 
         // ----- Slots ----- //
-        if(page < 3 && activeInput == 0                 ) this.blit(matrix, posX - 56, posY -  1,   0, 208, 54, 28); // Slot 1
-        if(page < 3 && menu.hasKey()                    ) this.blit(matrix, posX - 56, posY + 29,  54, 208, 54, 28); // Slot 2
-        if(page < 3 && menu.hasKey() && menu.hasModule()) this.blit(matrix, posX - 56, posY + 59, 108, 208, 54, 28); // Slot 3
+        if(page < 3 && activeInput == 0                 ) matrix.blit(GUI_TEXTURE, posX - 56, posY -  1,   0, 208, 54, 28); // Slot 1
+        if(page < 3 && menu.hasKey()                    ) matrix.blit(GUI_TEXTURE, posX - 56, posY + 29,  54, 208, 54, 28); // Slot 2
+        if(page < 3 && menu.hasKey() && menu.hasModule()) matrix.blit(GUI_TEXTURE, posX - 56, posY + 59, 108, 208, 54, 28); // Slot 3
 
         // ----- Header ----- //
-        if(page < 3 && menu.hasKey() && page == 0                    ) this.blit(matrix, posX +   2, posY - 26, 200, highlightIndex == 18 ?  48 :  24, 56, 24); // Header 1
-        if(page < 3 && menu.hasKey() && page != 0                    ) this.blit(matrix, posX +   2, posY - 26, 200,                                0, 56, 24); // Header 1
-        if(page < 3 && menu.hasKey() && page == 1 && menu.hasModule()) this.blit(matrix, posX +  60, posY - 26, 200, highlightIndex == 19 ? 120 :  96, 56, 24); // Header 2
-        if(page < 3 && menu.hasKey() && page != 1 && menu.hasModule()) this.blit(matrix, posX +  60, posY - 26, 200,                               72, 56, 24); // Header 2
-        if(page < 3 && menu.hasKey() && page == 2 && hasHighscore()  ) this.blit(matrix, posX + 118, posY - 26, 200, highlightIndex == 20 ? 192 : 168, 56, 24); // Header 3
-        if(page < 3 && menu.hasKey() && page != 2 && hasHighscore()  ) this.blit(matrix, posX + 118, posY - 26, 200,                              144, 56, 24); // Header 3
+        if(page < 3 && menu.hasKey() && page == 0                    ) matrix.blit(GUI_TEXTURE, posX +   2, posY - 26, 200, highlightIndex == 18 ?  48 :  24, 56, 24); // Header 1
+        if(page < 3 && menu.hasKey() && page != 0                    ) matrix.blit(GUI_TEXTURE, posX +   2, posY - 26, 200,                                0, 56, 24); // Header 1
+        if(page < 3 && menu.hasKey() && page == 1 && menu.hasModule()) matrix.blit(GUI_TEXTURE, posX +  60, posY - 26, 200, highlightIndex == 19 ? 120 :  96, 56, 24); // Header 2
+        if(page < 3 && menu.hasKey() && page != 1 && menu.hasModule()) matrix.blit(GUI_TEXTURE, posX +  60, posY - 26, 200,                               72, 56, 24); // Header 2
+        if(page < 3 && menu.hasKey() && page == 2 && hasHighscore()  ) matrix.blit(GUI_TEXTURE, posX + 118, posY - 26, 200, highlightIndex == 20 ? 192 : 168, 56, 24); // Header 3
+        if(page < 3 && menu.hasKey() && page != 2 && hasHighscore()  ) matrix.blit(GUI_TEXTURE, posX + 118, posY - 26, 200,                              144, 56, 24); // Header 3
 
         // ----- Page 1 - Settings ----- //
         if(  page == 0 && menu.hasKey()){
-            this.blit(matrix,  posX + 4, posY +  4, 188,                                        72, 12, 12); // Empty Button
-            this.blit(matrix,  posX + 4, posY + 17, 188,                                        72, 12, 12); // Empty Button
-            this.blit(matrix,  posX + 4, posY + 30, 188, menu.getSettingDropOnBreak()    ? 60 : 24, 12, 12); // Drop Items on Break
-            this.blit(matrix,  posX + 4, posY + 43, 188, menu.getSettingIndestructable() ? 60 : 24, 12, 12); // Indestructible Block
+            matrix.blit(GUI_TEXTURE,  posX + 4, posY +  4, 188,                                        72, 12, 12); // Empty Button
+            matrix.blit(GUI_TEXTURE,  posX + 4, posY + 17, 188,                                        72, 12, 12); // Empty Button
+            matrix.blit(GUI_TEXTURE,  posX + 4, posY + 30, 188, menu.getSettingDropOnBreak()    ? 60 : 24, 12, 12); // Drop Items on Break
+            matrix.blit(GUI_TEXTURE,  posX + 4, posY + 43, 188, menu.getSettingIndestructable() ? 60 : 24, 12, 12); // Indestructible Block
         } if(page == 0 && menu.hasKey() && Config.CONFIG.config_creative_token.get() && isOP()){
-            this.blit(matrix,  posX + 4, posY +  4, 188, menu.getSettingInfiniteToken()  ? 60 : 24, 12, 12); // Infinite Tokens
+            matrix.blit(GUI_TEXTURE,  posX + 4, posY +  4, 188, menu.getSettingInfiniteToken()  ? 60 : 24, 12, 12); // Infinite Tokens
         } if(page == 0 && menu.hasKey() && Config.CONFIG.config_creative_reward.get() && isOP()){
-            this.blit(matrix,  posX + 4, posY + 17, 188, menu.getSettingInfinitePrize()  ? 60 : 24, 12, 12); // Infinite Rewards
+            matrix.blit(GUI_TEXTURE,  posX + 4, posY + 17, 188, menu.getSettingInfinitePrize()  ? 60 : 24, 12, 12); // Infinite Rewards
         } if(page == 0 && menu.hasKey() && menu.hasModule()){
-            this.blit(matrix,  posX + 4, posY + 57, 188, hasReset ? 12 : 0,                         12, 12); // Reset MiniGame
-            this.blit(matrix,  posX + 4, posY + 70, 176, menu.getSettingAlternateColor() * 12,      12, 12); // Color Palette
+            matrix.blit(GUI_TEXTURE,  posX + 4, posY + 57, 188, hasReset ? 12 : 0,                         12, 12); // Reset MiniGame
+            matrix.blit(GUI_TEXTURE,  posX + 4, posY + 70, 176, menu.getSettingAlternateColor() * 12,      12, 12); // Color Palette
         }
 
         // ----- Page 2 - Token ----- //
         if(  page == 1) {
-            this.blit(matrix, posX +  49, posY +  5,                               55, 187, 78, 20); // FIELD ITEMS
-            this.blit(matrix, posX +   5, posY +  5, highlightIndex == 14 ?  40 :   0, 236, 40, 20); // TOKEN IN
-            this.blit(matrix, posX + 131, posY +  5, highlightIndex == 15 ? 120 :  80, 236, 40, 20); // TOKEN OUT
+            matrix.blit(GUI_TEXTURE, posX +  49, posY +  5,                               55, 187, 78, 20); // FIELD ITEMS
+            matrix.blit(GUI_TEXTURE, posX +   5, posY +  5, highlightIndex == 14 ?  40 :   0, 236, 40, 20); // TOKEN IN
+            matrix.blit(GUI_TEXTURE, posX + 131, posY +  5, highlightIndex == 15 ? 120 :  80, 236, 40, 20); // TOKEN OUT
         } if(page == 1 && menu.hasToken()){
-            this.blit(matrix, posX + 104, posY + 49,                              135, 181, 24, 12); // FIELD MINIMUM
-            this.blit(matrix, posX + 137, posY + 47, highlightIndex ==  1 ? 176 : 160, 240, 16, 16); // MINIMUM LOWER
-            this.blit(matrix, posX + 155, posY + 47, highlightIndex ==  2 ? 208 : 192, 240, 16, 16); // MINIMUM UPPER
+            matrix.blit(GUI_TEXTURE, posX + 104, posY + 49,                              135, 181, 24, 12); // FIELD MINIMUM
+            matrix.blit(GUI_TEXTURE, posX + 137, posY + 47, highlightIndex ==  1 ? 176 : 160, 240, 16, 16); // MINIMUM LOWER
+            matrix.blit(GUI_TEXTURE, posX + 155, posY + 47, highlightIndex ==  2 ? 208 : 192, 240, 16, 16); // MINIMUM UPPER
         } if(page == 1 && menu.hasToken() && hasGambling()){
-            this.blit(matrix, posX + 104, posY + 67,                              135, 181, 24, 12); // FIELD MAXIMUM
-            this.blit(matrix, posX + 137, posY + 65, highlightIndex ==  3 ? 176 : 160, 240, 16, 16); // MAXIMUM LOWER
-            this.blit(matrix, posX + 155, posY + 65, highlightIndex ==  4 ? 208 : 192, 240, 16, 16); // MAXIMUM UPPER
+            matrix.blit(GUI_TEXTURE, posX + 104, posY + 67,                              135, 181, 24, 12); // FIELD MAXIMUM
+            matrix.blit(GUI_TEXTURE, posX + 137, posY + 65, highlightIndex ==  3 ? 176 : 160, 240, 16, 16); // MAXIMUM LOWER
+            matrix.blit(GUI_TEXTURE, posX + 155, posY + 65, highlightIndex ==  4 ? 208 : 192, 240, 16, 16); // MAXIMUM UPPER
         }
 
         // ----- Page 3 - Reward ----- //
         if(  page == 2){
-            this.blit(matrix, posX +  49, posY +  5,                               55, 187, 78, 20); // FIELD ITEMS
-            this.blit(matrix, posX +   5, posY +  5, highlightIndex == 14 ?  40 :   0, 236, 40, 20); // TOKEN IN
-            this.blit(matrix, posX + 131, posY +  5, highlightIndex == 15 ? 120 :  80, 236, 40, 20); // TOKEN OUT
+            matrix.blit(GUI_TEXTURE, posX +  49, posY +  5,                               55, 187, 78, 20); // FIELD ITEMS
+            matrix.blit(GUI_TEXTURE, posX +   5, posY +  5, highlightIndex == 14 ?  40 :   0, 236, 40, 20); // TOKEN IN
+            matrix.blit(GUI_TEXTURE, posX + 131, posY +  5, highlightIndex == 15 ? 120 :  80, 236, 40, 20); // TOKEN OUT
         } if(page == 2 && menu.hasReward()){
-            this.blit(matrix, posX +  48, posY + 31,                              135, 195, 48, 12); // FIELD BIG 1
-            this.blit(matrix, posX +  48, posY + 49,                              135, 195, 48, 12); // FIELD BIG 2
-            this.blit(matrix, posX +  48, posY + 67,                              135, 195, 48, 12); // FIELD BIG 3
-            this.blit(matrix, posX + 104, posY + 31,                              135, 181, 24, 12); // FIELD SMALL 1
-            this.blit(matrix, posX + 104, posY + 49,                              135, 181, 24, 12); // FIELD SMALL 2
-            this.blit(matrix, posX + 104, posY + 67,                              135, 181, 24, 12); // FIELD SMALL 3
+            matrix.blit(GUI_TEXTURE, posX +  48, posY + 31,                              135, 195, 48, 12); // FIELD BIG 1
+            matrix.blit(GUI_TEXTURE, posX +  48, posY + 49,                              135, 195, 48, 12); // FIELD BIG 2
+            matrix.blit(GUI_TEXTURE, posX +  48, posY + 67,                              135, 195, 48, 12); // FIELD BIG 3
+            matrix.blit(GUI_TEXTURE, posX + 104, posY + 31,                              135, 181, 24, 12); // FIELD SMALL 1
+            matrix.blit(GUI_TEXTURE, posX + 104, posY + 49,                              135, 181, 24, 12); // FIELD SMALL 2
+            matrix.blit(GUI_TEXTURE, posX + 104, posY + 67,                              135, 181, 24, 12); // FIELD SMALL 3
 
-            this.blit(matrix, posX + 137, posY + 29, highlightIndex ==  5 ? 176 : 160, 240, 16, 16); // REWARD 1 LOWER
-            this.blit(matrix, posX + 155, posY + 29, highlightIndex ==  6 ? 208 : 192, 240, 16, 16); // REWARD 1 UPPER
-            this.blit(matrix, posX + 137, posY + 47, highlightIndex ==  7 ? 176 : 160, 240, 16, 16); // REWARD 2 LOWER
-            this.blit(matrix, posX + 155, posY + 47, highlightIndex ==  8 ? 208 : 192, 240, 16, 16); // REWARD 2 UPPER
-            this.blit(matrix, posX + 137, posY + 65, highlightIndex ==  9 ? 176 : 160, 240, 16, 16); // REWARD 3 LOWER
-            this.blit(matrix, posX + 155, posY + 65, highlightIndex == 10 ? 208 : 192, 240, 16, 16); // REWARD 3 UPPER
-            this.blit(matrix, posX +  23, posY + 29, highlightIndex == 11 ? 240 : 224, 240, 16, 16); // SCORE 1 EDIT
-            this.blit(matrix, posX +  23, posY + 47, highlightIndex == 12 ? 240 : 224, 240, 16, 16); // SCORE 2 EDIT
-            this.blit(matrix, posX +  23, posY + 65, highlightIndex == 13 ? 240 : 224, 240, 16, 16); // SCORE 3 EDIT
-            this.blit(matrix, posX +   5, posY + 29, menu.getPrizeMode1() ? 178 : 162, 208, 16, 16); // PRIZE 1 MODE
-            this.blit(matrix, posX +   5, posY + 47, menu.getPrizeMode2() ? 178 : 162, 208, 16, 16); // PRIZE 2 MODE
-            this.blit(matrix, posX +   5, posY + 65, menu.getPrizeMode3() ? 178 : 162, 208, 16, 16); // PRIZE 3 MODE
+            matrix.blit(GUI_TEXTURE, posX + 137, posY + 29, highlightIndex ==  5 ? 176 : 160, 240, 16, 16); // REWARD 1 LOWER
+            matrix.blit(GUI_TEXTURE, posX + 155, posY + 29, highlightIndex ==  6 ? 208 : 192, 240, 16, 16); // REWARD 1 UPPER
+            matrix.blit(GUI_TEXTURE, posX + 137, posY + 47, highlightIndex ==  7 ? 176 : 160, 240, 16, 16); // REWARD 2 LOWER
+            matrix.blit(GUI_TEXTURE, posX + 155, posY + 47, highlightIndex ==  8 ? 208 : 192, 240, 16, 16); // REWARD 2 UPPER
+            matrix.blit(GUI_TEXTURE, posX + 137, posY + 65, highlightIndex ==  9 ? 176 : 160, 240, 16, 16); // REWARD 3 LOWER
+            matrix.blit(GUI_TEXTURE, posX + 155, posY + 65, highlightIndex == 10 ? 208 : 192, 240, 16, 16); // REWARD 3 UPPER
+            matrix.blit(GUI_TEXTURE, posX +  23, posY + 29, highlightIndex == 11 ? 240 : 224, 240, 16, 16); // SCORE 1 EDIT
+            matrix.blit(GUI_TEXTURE, posX +  23, posY + 47, highlightIndex == 12 ? 240 : 224, 240, 16, 16); // SCORE 2 EDIT
+            matrix.blit(GUI_TEXTURE, posX +  23, posY + 65, highlightIndex == 13 ? 240 : 224, 240, 16, 16); // SCORE 3 EDIT
+            matrix.blit(GUI_TEXTURE, posX +   5, posY + 29, menu.getPrizeMode1() ? 178 : 162, 208, 16, 16); // PRIZE 1 MODE
+            matrix.blit(GUI_TEXTURE, posX +   5, posY + 47, menu.getPrizeMode2() ? 178 : 162, 208, 16, 16); // PRIZE 2 MODE
+            matrix.blit(GUI_TEXTURE, posX +   5, posY + 65, menu.getPrizeMode3() ? 178 : 162, 208, 16, 16); // PRIZE 3 MODE
         }
 
         // ----- Page 4 - Input ----- //
         if(page == 3){
-            this.blit(matrix, posX + 49, posY + 57, 55, 187, 78, 20); // FIELD INPUT
+            matrix.blit(GUI_TEXTURE, posX + 49, posY + 57, 55, 187, 78, 20); // FIELD INPUT
         }
 
         if(highlightTimer > 0){
@@ -458,20 +459,20 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
     //----------------------------------------SUPPORT----------------------------------------//
 
     /** Draws String on x,y position with shadow and custom color **/
-    protected void drawFont(PoseStack matrix, String text, int x, int y){
-        this.font.draw(matrix, text,  x, y, 0);
+    protected void drawFont(GuiGraphics matrix, String text, int x, int y){
+        matrix.drawString(font, text,  x, y, 16777215);
     }
 
     /** Draws String on x,y position with shadow and custom color **/
-    protected void drawFontInvert(PoseStack matrix, String text, int x, int y){
+    protected void drawFontInvert(GuiGraphics matrix, String text, int x, int y){
         int w = this.font.width(text);
-        this.font.draw(matrix, text,  x - w, y, 0);
+        matrix.drawString(font, text,  x - w, y, 16777215);
     }
 
     /** Draws String on x,y position with shadow and custom color **/
-    protected void drawFontCenter(PoseStack matrix, String text, int x, int y){
+    protected void drawFontCenter(GuiGraphics matrix, String text, int x, int y){
         int w = this.font.width(text) / 2;
-        this.font.draw(matrix, text,  x - w, y, 0);
+        matrix.drawString(font, text,  x - w, y, 16777215);
     }
 
     protected void highlight(int index){

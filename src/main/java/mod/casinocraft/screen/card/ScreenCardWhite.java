@@ -8,6 +8,7 @@ import mod.casinocraft.logic.card.LogicCardWhite;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.ButtonMap;
 import mod.lucky77.util.Vector2;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -64,14 +65,14 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         if(logic().turnstate == 2 &&  isActivePlayer()){ drawFontCenter(matrix, "choose cards to keep ...", 128, 192); }
         if(logic().turnstate == 2 && !isActivePlayer()){ drawFontCenter(matrix, "...",                      128, 192); }
         if(logic().turnstate == 3                     ){ drawFontCenter(matrix, "...",                      128, 192); }
         if(logic().turnstate >= 4                     ){ drawFontCenter(matrix, logic().hand,               128, 192); }
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         drawCardBack(matrix,  27, 72, 7); // Card 1
         drawCardBack(matrix,  70, 72, 7); // Card 2
         drawCardBack(matrix, 113, 72, 7); // Card 3
@@ -83,8 +84,8 @@ public class ScreenCardWhite extends ScreenCasino {   // Single Poker
         drawCard(matrix, 156, 72, logic().cards_field[3]); // Card 4
         drawCard(matrix, 199, 72, logic().cards_field[4]); // Card 5
         if(logic().turnstate == 3){
-            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
-            blit(matrix, leftPos + 89, topPos + 212, 0, 176, 78, 22);
+            // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
+            matrix.blit(CasinoKeeper.TEXTURE_BUTTONS, leftPos + 89, topPos + 212, 0, 176, 78, 22);
         }
     }
 

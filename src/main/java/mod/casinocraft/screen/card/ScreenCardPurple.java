@@ -6,6 +6,7 @@ import mod.casinocraft.logic.card.LogicCardPurple;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.ButtonMap;
 import mod.lucky77.util.Vector2;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -64,12 +65,12 @@ public class ScreenCardPurple extends ScreenCasino {   // TriPeak
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawValueLeft(matrix, "POINTS", logic().scorePoint);
         drawValueRight(matrix, "DRAWS", logic().scoreLives);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         int offset = tableID == 1 ? 16 : -32;
 
         drawCard(matrix, offset +  48,  40, logic().cards_field[ 0]);

@@ -5,6 +5,7 @@ import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.card.LogicCardBlack;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.ButtonMap;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -59,7 +60,7 @@ public class ScreenCardBlack extends ScreenCasino {   // Black Jack
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         if(logic().split == 0){
             drawFont(matrix, "PLAYER:  "   + logic().value_player1,  24, 24);
             if(logic().turnstate >= 4) drawFontCenter(matrix, logic().hand, 128, 190);
@@ -71,7 +72,7 @@ public class ScreenCardBlack extends ScreenCasino {   // Black Jack
         if(logic().turnstate >= 3) drawFont(matrix, "DEALER:  " + logic().value_dealer, 24, 56);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         for(int z = 0; z < logic().cards_player1.size(); z++){ if(logic().cards_player1.get(z).idletimer == 0) drawCard(matrix,  24 + 16*z, 100 + 4*z, logic().cards_player1.get(z)); if(logic().split == 1) drawCardBack(matrix,  24 + 16*z, 100 + 4*z, 10); }
         for(int z = 0; z < logic().cards_player2.size(); z++){ if(logic().cards_player2.get(z).idletimer == 0) drawCard(matrix, 144 + 16*z, 100 + 4*z, logic().cards_player2.get(z)); if(logic().split == 2) drawCardBack(matrix, 144 + 16*z, 100 + 4*z, 10); }
         for(int z = 0; z < logic().cards_dealer.size();  z++){ if(logic().cards_dealer.get(z).idletimer  == 0) drawCard(matrix, 144 + 16*z,  24 + 4*z, logic().cards_dealer.get(z)); }

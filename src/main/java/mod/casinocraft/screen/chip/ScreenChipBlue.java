@@ -5,6 +5,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.chip.LogicChipBlue;
 import mod.casinocraft.screen.ScreenCasino;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -56,13 +57,13 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawFontInvert(matrix, "" + logic().scorePoint,  216, 16);
         drawFontInvert(matrix, "" + logic().scoreLives,  216, 36);
         drawFontInvert(matrix, "" + logic().scoreLevel,  216, 56);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         drawBackground(matrix, CasinoKeeper.TEXTURE_TETRIS, CasinoKeeper.TEXTURE_ARCADE);
         for(int y = 0; y < 20; y++){
             for(int x = 0; x < 10; x++){
@@ -89,7 +90,7 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
         return logic().inLine(y) && (logic().alpha/75)%2==0 ? logic().grid[x][y] + 8 : logic().grid[x][y];
     }
 
-    private void drawTetromino(PoseStack matrix, int mino, int x, int y) {
+    private void drawTetromino(GuiGraphics matrix, int mino, int x, int y) {
         if(mino == 0) { drawTetromino(matrix, mino, x, y, 24,  0, 24, 16, 24, 32, 24, 48); } // I
         if(mino == 1) { drawTetromino(matrix, mino, x, y, 16, 16, 32, 16, 16, 32, 32, 32); } // O
         if(mino == 2) { drawTetromino(matrix, mino, x, y, 24, 16, 40, 16, 24, 32,  8, 32); } // S
@@ -99,7 +100,7 @@ public class ScreenChipBlue extends ScreenCasino {   // Tetris
         if(mino == 6) { drawTetromino(matrix, mino, x, y,  8, 16, 24, 16, 40, 16, 24, 32); } // T
     }
 
-    private void drawTetromino(PoseStack matrix, int mino, int x, int y, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
+    private void drawTetromino(GuiGraphics matrix, int mino, int x, int y, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4){
         drawDigi(matrix, x + x1, y + y1, mino, 0);
         drawDigi(matrix, x + x2, y + y2, mino, 0);
         drawDigi(matrix, x + x3, y + y3, mino, 0);

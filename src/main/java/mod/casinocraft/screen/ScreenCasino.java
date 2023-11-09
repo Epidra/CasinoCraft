@@ -15,6 +15,7 @@ import mod.casinocraft.util.Ship;
 import mod.lucky77.screen.ScreenBase;
 import mod.lucky77.system.SystemInventory;
 import mod.lucky77.util.Vector2;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -164,7 +165,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
     //----------------------------------------DRAW---OVERLAY----------------------------------------//
 
     /** Draw the foreground layer for the GuiContainer (everything in front of the items) */
-    protected void renderLabels(PoseStack matrix, int mouseX, int mouseY){
+    protected void renderLabels(GuiGraphics matrix, int mouseX, int mouseY){
         if(logic() instanceof LogicDummy) return;
 
         // ----- Animate the "PRESS ENTER" Text ----- //
@@ -177,16 +178,16 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 
         // ----- Debug Info (shown if Advanced Tooltips are enabled) ----- //
         if(showDebug){
-            this.font.draw(matrix, "PLAYER1: " + logic().currentPlayer[0],         tableID == 2 ? 355 : 260,  15, 16777215);
-            this.font.draw(matrix, "PLAYER2: " + logic().currentPlayer[1],         tableID == 2 ? 355 : 260,  25, 16777215);
-            this.font.draw(matrix, "PLAYER3: " + logic().currentPlayer[2],         tableID == 2 ? 355 : 260,  35, 16777215);
-            this.font.draw(matrix, "PLAYER4: " + logic().currentPlayer[3],         tableID == 2 ? 355 : 260,  45, 16777215);
-            this.font.draw(matrix, "PLAYER5: " + logic().currentPlayer[4],         tableID == 2 ? 355 : 260,  55, 16777215);
-            this.font.draw(matrix, "PLAYER6: " + logic().currentPlayer[5],         tableID == 2 ? 355 : 260,  65, 16777215);
-            this.font.draw(matrix, "TIMEOUT: " + logic().timeout,                  tableID == 2 ? 355 : 260,  75, 16777215);
-            this.font.draw(matrix, "STATE:   " + logic().turnstate,                tableID == 2 ? 355 : 260,  85, 16777215);
-            this.font.draw(matrix, "PLAYERS: " + logic().getFirstFreePlayerSlot(), tableID == 2 ? 355 : 260,  95, 16777215);
-            this.font.draw(matrix, "ACTIVE:  " + logic().activePlayer,             tableID == 2 ? 355 : 260, 105, 16777215);
+            matrix.drawString(font,  "PLAYER1: " + logic().currentPlayer[0],         tableID == 2 ? 355 : 260,  15, 16777215);
+            matrix.drawString(font,  "PLAYER2: " + logic().currentPlayer[1],         tableID == 2 ? 355 : 260,  25, 16777215);
+            matrix.drawString(font,  "PLAYER3: " + logic().currentPlayer[2],         tableID == 2 ? 355 : 260,  35, 16777215);
+            matrix.drawString(font,  "PLAYER4: " + logic().currentPlayer[3],         tableID == 2 ? 355 : 260,  45, 16777215);
+            matrix.drawString(font,  "PLAYER5: " + logic().currentPlayer[4],         tableID == 2 ? 355 : 260,  55, 16777215);
+            matrix.drawString(font,  "PLAYER6: " + logic().currentPlayer[5],         tableID == 2 ? 355 : 260,  65, 16777215);
+            matrix.drawString(font,  "TIMEOUT: " + logic().timeout,                  tableID == 2 ? 355 : 260,  75, 16777215);
+            matrix.drawString(font,  "STATE:   " + logic().turnstate,                tableID == 2 ? 355 : 260,  85, 16777215);
+            matrix.drawString(font,  "PLAYERS: " + logic().getFirstFreePlayerSlot(), tableID == 2 ? 355 : 260,  95, 16777215);
+            matrix.drawString(font,  "ACTIVE:  " + logic().activePlayer,             tableID == 2 ? 355 : 260, 105, 16777215);
         }
 
         // ----- Search for tokens in PlayerInventory ----- //
@@ -196,7 +197,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         if(menu.logic().isMultiplayer() && logic().turnstate == 2 && !isCurrentPlayer()){
             if(menu.logic().hasFreePlayerSlots()){
                 drawFont(matrix, "BET:",                      96, 196);
-                this.itemRenderer.renderGuiItem(matrix, menu.getItemToken(),                      180, 192);
+                matrix.renderFakeItem(menu.getItemToken(),                      180, 192);
                 if(menu.getBettingLow() > 1) drawFont(matrix, "x" + menu.getBettingLow(), 138, 196);
             }
         }
@@ -205,7 +206,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         if(logic().turnstate == 0 && (tableID == 1 || tableID == 2)){
             if(menu.hasToken() && menu.getBettingHigh() > 0) {
                 drawFontCenter(      matrix, "The entry fee is:",    128, 112);
-                this.itemRenderer.renderGuiItem(matrix, menu.getItemToken(), 120, 124);
+                matrix.renderFakeItem( menu.getItemToken(), 120, 124);
                 if(bet > 1) drawFont(matrix, "x" + bet,              140, 128);
                 if(menu.getBettingHigh() != menu.getBettingLow()){ drawFontCenter(matrix, "You can change the amount to pay.",      128, 144); }
                 if(playerToken <  bet                           ){ drawFontCenter(matrix, "You don't have enough Token to play...", 128, 160); }
@@ -217,7 +218,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         if(logic().turnstate == 0 && tableID == 0){
             if(menu.hasToken() && menu.getBettingHigh() > 0) {
                 drawFontCenter(      matrix, "INSERT TOKEN",             128, 180, 16777215);
-                this.itemRenderer.renderGuiItem(matrix, menu.getItemToken(),     120, 192          );
+                matrix.renderFakeItem( menu.getItemToken(),     120, 192          );
                 if(bet > 1) drawFont(matrix, "x" + menu.getBettingLow(), 140, 196, 16777215);
                 if(playerToken < menu.getBettingLow()) {
                     drawFontCenter(matrix, "NOT ENOUGH TOKEN", 128, 228, 16777215);
@@ -273,7 +274,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
     //----------------------------------------DRAW---BACKGROUND----------------------------------------//
 
     /** Draws the background layer of this container (behind the items). */
-    protected void renderBg(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void renderBg(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         buttonSet.update(leftPos, topPos, mouseX, mouseY);
         if((tableID == 1 || tableID == 2) && colour > 0){
             colour--;
@@ -285,62 +286,62 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         // ----- Arcade Background (dummy) ----- //
         if(tableID == 0 && (logic() instanceof LogicDummy)) {
             Random RANDOM = new Random();
-            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_STATIC);
+            // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_STATIC);
             for(int y = 0; y < 8; y++){
                 for(int x = 0; x < 6; x++){
-                    this.blit(matrix, leftPos + 32 + 32*x, topPos + 32*y, 32*RANDOM.nextInt(8), 32*RANDOM.nextInt(8), 32, 32);
+                    matrix.blit(CasinoKeeper.TEXTURE_STATIC, leftPos + 32 + 32*x, topPos + 32*y, 32*RANDOM.nextInt(8), 32*RANDOM.nextInt(8), 32, 32);
                 }
             }
-            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_GROUND_ARCADE);
-            this.blit(matrix, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
+            // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_GROUND_ARCADE);
+            matrix.blit(CasinoKeeper.TEXTURE_GROUND_ARCADE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
         }
 
         // ----- Arcade Background (game) ----- //
         if(tableID == 0 && !(logic() instanceof LogicDummy)) {
-            RenderSystem.setShaderTexture(0, getParallaxTexture(true));
-            this.blit(matrix, leftPos, topPos, 0, camera1, 256, 256);
-            RenderSystem.setShaderTexture(0, getParallaxTexture(false));
-            this.blit(matrix, leftPos, topPos, 0, camera0, 256, 256);
+            // RenderSystem.setShaderTexture(0, getParallaxTexture(true));
+            matrix.blit(getParallaxTexture(true), leftPos, topPos, 0, camera1, 256, 256);
+            // RenderSystem.setShaderTexture(0, getParallaxTexture(false));
+            matrix.blit(getParallaxTexture(false), leftPos, topPos, 0, camera0, 256, 256);
         }
 
         // ----- Card Table Background (small) ----- //
         if(tableID == 1){
-            RenderSystem.setShaderTexture(0, getBackgroundCardTable());
-            this.blit(matrix, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
+            // RenderSystem.setShaderTexture(0, getBackgroundCardTable());
+            matrix.blit(getBackgroundCardTable(), leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
         }
 
         // ----- Card Table Background (wide) ----- //
         if(tableID == 2){
-            RenderSystem.setShaderTexture(0, getBackgroundCardTable());
-            this.blit(matrix, leftPos -  96, topPos,  0, 0, this.imageWidth-32, this.imageHeight); // Background Left
-            this.blit(matrix, leftPos + 128, topPos, 32, 0, this.imageWidth-32, this.imageHeight); // Background Right
+            // RenderSystem.setShaderTexture(0, getBackgroundCardTable());
+            matrix.blit(getBackgroundCardTable(), leftPos -  96, topPos,  0, 0, this.imageWidth-32, this.imageHeight); // Background Left
+            matrix.blit(getBackgroundCardTable(), leftPos + 128, topPos, 32, 0, this.imageWidth-32, this.imageHeight); // Background Right
         }
 
         // ----- Slot Machine Background ----- //
         if(tableID == 3){
-            RenderSystem.setShaderTexture(0, getBackgroundSlotMachine());
-            this.blit(matrix, leftPos +  31, topPos -   1,   0,   0, 194, 162); // Upper Part
-            this.blit(matrix, leftPos      , topPos + 163,   0, 162, 256,  94); // Lower Part
-            this.blit(matrix, leftPos + 256, topPos + 178, 224,  64,  32,  64); // Crank
+            // RenderSystem.setShaderTexture(0, getBackgroundSlotMachine());
+            matrix.blit(getBackgroundSlotMachine(), leftPos +  31, topPos -   1,   0,   0, 194, 162); // Upper Part
+            matrix.blit(getBackgroundSlotMachine(), leftPos      , topPos + 163,   0, 162, 256,  94); // Lower Part
+            matrix.blit(getBackgroundSlotMachine(), leftPos + 256, topPos + 178, 224,  64,  32,  64); // Crank
 
-            this.blit(matrix, leftPos +  38, topPos + 161, 195, 129,  60,   2); // MiddleLine
-            this.blit(matrix, leftPos +  98, topPos + 161, 195, 129,  60,   2); // MiddleLine
-            this.blit(matrix, leftPos + 158, topPos + 161, 195, 129,  60,   2); // MiddleLine
+            matrix.blit(getBackgroundSlotMachine(), leftPos +  38, topPos + 161, 195, 129,  60,   2); // MiddleLine
+            matrix.blit(getBackgroundSlotMachine(), leftPos +  98, topPos + 161, 195, 129,  60,   2); // MiddleLine
+            matrix.blit(getBackgroundSlotMachine(), leftPos + 158, topPos + 161, 195, 129,  60,   2); // MiddleLine
 
-            this.blit(matrix, leftPos +  10, topPos + 257, 195, 129,  52,  30); // Underline
-            this.blit(matrix, leftPos +  62, topPos + 257, 203, 129,  44,  30); // Underline
-            this.blit(matrix, leftPos + 106, topPos + 257, 203, 129,  44,  30); // Underline
-            this.blit(matrix, leftPos + 150, topPos + 257, 203, 129,  44,  30); // Underline
-            this.blit(matrix, leftPos + 194, topPos + 257, 203, 129,  52,  30); // Underline
+            matrix.blit(getBackgroundSlotMachine(), leftPos +  10, topPos + 257, 195, 129,  52,  30); // Underline
+            matrix.blit(getBackgroundSlotMachine(), leftPos +  62, topPos + 257, 203, 129,  44,  30); // Underline
+            matrix.blit(getBackgroundSlotMachine(), leftPos + 106, topPos + 257, 203, 129,  44,  30); // Underline
+            matrix.blit(getBackgroundSlotMachine(), leftPos + 150, topPos + 257, 203, 129,  44,  30); // Underline
+            matrix.blit(getBackgroundSlotMachine(), leftPos + 194, topPos + 257, 203, 129,  52,  30); // Underline
 
             // ----- LEVER ----- //
             if(logic().scoreLives == 2){ // Lever Down
-                this.blit(matrix, leftPos + 261, topPos + 220, 197, 64, 22,  8); // Lever
-                this.blit(matrix, leftPos + 249, topPos + 224, 201,  9, 46, 46); // Knob
+                matrix.blit(getBackgroundSlotMachine(), leftPos + 261, topPos + 220, 197, 64, 22,  8); // Lever
+                matrix.blit(getBackgroundSlotMachine(), leftPos + 249, topPos + 224, 201,  9, 46, 46); // Knob
             } else {                     // Lever Up
-                this.blit(matrix, leftPos + 261, topPos + 142, 197, 68, 24, 60); // Lever (Lower Part)
-                this.blit(matrix, leftPos + 261, topPos + 100, 197, 68, 22, 42); // Lever (Upper Part)
-                this.blit(matrix, leftPos + 249, topPos +  60, 201,  9, 46, 46); // Knob
+                matrix.blit(getBackgroundSlotMachine(), leftPos + 261, topPos + 142, 197, 68, 24, 60); // Lever (Lower Part)
+                matrix.blit(getBackgroundSlotMachine(), leftPos + 261, topPos + 100, 197, 68, 22, 42); // Lever (Upper Part)
+                matrix.blit(getBackgroundSlotMachine(), leftPos + 249, topPos +  60, 201,  9, 46, 46); // Knob
             }
         }
 
@@ -364,20 +365,20 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 
         // ----- Buttons ----- //
         if(tableID == 1 || tableID == 2){
-            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
+            // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
             while (buttonSet.next()){
-                if(buttonSet.visible()      ){ blit(matrix, leftPos + buttonSet.pos().X, topPos + buttonSet.pos().Y, buttonSet.map().X,       buttonSet.map().Y,       buttonSet.sizeX(), buttonSet.sizeY()); }
-                if(buttonSet.isHighlighted()){ blit(matrix, leftPos + buttonSet.pos().X, topPos + buttonSet.pos().Y, buttonSet.highlight().X, buttonSet.highlight().Y, buttonSet.sizeX(), buttonSet.sizeY()); }
+                if(buttonSet.visible()      ){ matrix.blit(CasinoKeeper.TEXTURE_BUTTONS, leftPos + buttonSet.pos().X, topPos + buttonSet.pos().Y, buttonSet.map().X,       buttonSet.map().Y,       buttonSet.sizeX(), buttonSet.sizeY()); }
+                if(buttonSet.isHighlighted()){ matrix.blit(CasinoKeeper.TEXTURE_BUTTONS, leftPos + buttonSet.pos().X, topPos + buttonSet.pos().Y, buttonSet.highlight().X, buttonSet.highlight().Y, buttonSet.sizeX(), buttonSet.sizeY()); }
             }
             if(colour > 0){
-                blit(matrix, leftPos + 89, topPos + 240, 28, 242, 78, 14);
+                matrix.blit(CasinoKeeper.TEXTURE_BUTTONS, leftPos + 89, topPos + 240, 28, 242, 78, 14);
             }
         }
 
         // ----- Arcade Border ----- //
         if(tableID == 0) {
-            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_GROUND_ARCADE);
-            this.blit(matrix, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
+            // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_GROUND_ARCADE);
+            matrix.blit(CasinoKeeper.TEXTURE_GROUND_ARCADE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
             int shift2 = logic().turnstate == 2 || logic().turnstate == 3 ? 2 : 1;
             if(logic().turnstate != 5 && !menu.logic().pause) camera1 = (camera1 + shift2  ) % 256;
             if(logic().turnstate != 5 && !menu.logic().pause) camera0 = (camera0 + shift2*2) % 256;
@@ -385,9 +386,9 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 
         // ----- Multiplayer Status ----- //
         if((logic().turnstate == 2 || logic().turnstate == 3) && logic().isMultiplayer()){
-            RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_DICE);
-            for(int i = 0;        i < logic().getFirstFreePlayerSlot(); i++){ this.blit(matrix, leftPos+(tableID == 2 ? 340 : 245), topPos + 32 + 36*i,                    224, 32 + 32*i,                    32, 32); }
-            if(logic().activePlayer < logic().getFirstFreePlayerSlot()     ){ this.blit(matrix, leftPos+(tableID == 2 ? 340 : 245), topPos + 32 + 36*logic().activePlayer, 192, 32 + 32*logic().activePlayer, 32, 32); }
+            // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_DICE);
+            for(int i = 0;        i < logic().getFirstFreePlayerSlot(); i++){ matrix.blit(CasinoKeeper.TEXTURE_DICE, leftPos+(tableID == 2 ? 340 : 245), topPos + 32 + 36*i,                    224, 32 + 32*i,                    32, 32); }
+            if(logic().activePlayer < logic().getFirstFreePlayerSlot()     ){ matrix.blit(CasinoKeeper.TEXTURE_DICE, leftPos+(tableID == 2 ? 340 : 245), topPos + 32 + 36*logic().activePlayer, 192, 32 + 32*logic().activePlayer, 32, 32); }
         }
     }
 
@@ -625,26 +626,26 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
     //----------------------------------------SUPPORT---DRAW----------------------------------------//
 
     /** Draw a Background Texture on the field **/
-    protected void drawBackground(PoseStack matrix, ResourceLocation rl){
-        RenderSystem.setShaderTexture(0, rl);
-        this.blit(matrix, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
+    protected void drawBackground(GuiGraphics matrix, ResourceLocation rl){
+        // RenderSystem.setShaderTexture(0, rl);
+        matrix.blit(rl, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     /** Draw a Background Texture on the field and move it along the x-Axis **/
-    protected void drawBackground(PoseStack matrix, ResourceLocation rl, int offset){
-        RenderSystem.setShaderTexture(0, rl);
-        this.blit(matrix, leftPos + offset, topPos, 0, 0, this.imageWidth, this.imageHeight);
+    protected void drawBackground(GuiGraphics matrix, ResourceLocation rl, int offset){
+        // RenderSystem.setShaderTexture(0, rl);
+        matrix.blit(rl, leftPos + offset, topPos, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     /** Draw a Background Texture on the field and reset the shader to another texture afterwards **/
-    protected void drawBackground(PoseStack matrix, ResourceLocation rl, ResourceLocation rl2){
-        RenderSystem.setShaderTexture(0, rl);
-        this.blit(matrix, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
-        RenderSystem.setShaderTexture(0, rl2);
+    protected void drawBackground(GuiGraphics matrix, ResourceLocation rl, ResourceLocation rl2){
+        // RenderSystem.setShaderTexture(0, rl);
+        matrix.blit(rl, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
+        // RenderSystem.setShaderTexture(0, rl2);
     }
 
     /** Draws a timeout timer **/
-    protected void drawTimer(PoseStack matrix){
+    protected void drawTimer(GuiGraphics matrix){
         if(logic().turnstate == 2 || logic().turnstate == 3){
             if(Config.CONFIG.config_timeout.get() - logic().timeout > 0){
                 drawFontInvert(matrix, "" + (Config.CONFIG.config_timeout.get() - logic().timeout), tableID == 1 ? 238 : 336, 7);
@@ -653,61 +654,76 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
     }
 
     /** Draws a value and its name on the left side of the Table **/
-    protected void drawValueLeft(PoseStack matrix, String name, int value){
+    protected void drawValueLeft(GuiGraphics matrix, String name, int value){
         drawFontCenter(matrix,       name, 32, 7, 11119017);
         drawFontCenter(matrix, "" + value, 64, 7          );
     }
 
     /** Draws a value and its name on the left side of the Table **/
-    protected void drawValueRight(PoseStack matrix, String name, int value){
+    protected void drawValueRight(GuiGraphics matrix, String name, int value){
         drawFontCenter(matrix,       name, 224, 7, 11119017);
         drawFontCenter(matrix, "" + value, 192, 7          );
     }
 
     /** Draws String on x,y position with shadow **/
-    protected void drawFont(PoseStack matrix, String text, int x, int y){
+    protected void drawFont(GuiGraphics matrix, String text, int x, int y){
         drawFont(matrix, text, x, y, grayscale);
     }
 
     /** Draws String on x,y position with shadow and custom color **/
-    protected void drawFont(PoseStack matrix, String text, int x, int y, int color){
-        this.font.draw(matrix, text,  x+1, y+1, 0    );
-        this.font.draw(matrix, text,  x  , y  , color);
+    protected void drawFont(GuiGraphics matrix, String text, int x, int y, int color){
+        matrix.drawString(font,  text,  x+1, y+1, 0    );
+        matrix.drawString(font,  text,  x  , y  , color);
     }
 
     /** Draws String on x,y position with shadow **/
-    protected void drawFontInvert(PoseStack matrix, String text, int x, int y){
+    protected void drawFontInvert(GuiGraphics matrix, String text, int x, int y){
         drawFontInvert(matrix, text, x, y, grayscale);
     }
 
     /** Draws String on x,y position with shadow and custom color **/
-    protected void drawFontInvert(PoseStack matrix, String text, int x, int y, int color){
+    protected void drawFontInvert(GuiGraphics matrix, String text, int x, int y, int color){
         int w = this.font.width(text);
-        this.font.draw(matrix, text,  x+1 - w, y+1, 0    );
-        this.font.draw(matrix, text,  x   - w, y  , color);
+        matrix.drawString(font,  text,  x+1 - w, y+1, 0    );
+        matrix.drawString(font,  text,  x   - w, y  , color);
     }
 
     /** Draws String on x,y position with shadow **/
-    protected void drawFontCenter(PoseStack matrix, String text, int x, int y){
+    protected void drawFontCenter(GuiGraphics matrix, String text, int x, int y){
         drawFontCenter(matrix, text, x, y, grayscale);
     }
 
     /** Draws String on x,y position with shadow and custom color **/
-    protected void drawFontCenter(PoseStack matrix, String text, int x, int y, int color){
+    protected void drawFontCenter(GuiGraphics matrix, String text, int x, int y, int color){
         int w = this.font.width(text) / 2;
-        this.font.draw(matrix, text,  x+1 - w, y+1, 0    );
-        this.font.draw(matrix, text,  x   - w, y  , color);
+        matrix.drawString(font,  text,  x+1 - w, y+1, 0    );
+        matrix.drawString(font,  text,  x   - w, y  , color);
+    }
+
+    private ResourceLocation cardTexture(Card card){
+        if(card.hidden){
+            return getCardsTexture(true);
+        } else {
+            if(card.suit <= 1) return getCardsTexture(false);
+            if(card.suit >= 2) return getCardsTexture(true );
+        }
+        return getCardsTexture(false);
+    }
+
+    private ResourceLocation cardTexture(int color){
+        if(color <= 6) return getCardsTexture(true );
+        else           return getCardsTexture(false);
     }
 
     /** Draws a Card **/
-    public void drawCard(PoseStack matrix, int posX, int posY, Card card){
+    public void drawCard(GuiGraphics matrix, int posX, int posY, Card card){
         if(card.suit == -1) return;
-        if(card.hidden){
-            RenderSystem.setShaderTexture(0, getCardsTexture(true));
-        } else {
-            if(card.suit <= 1) RenderSystem.setShaderTexture(0, getCardsTexture(false));
-            if(card.suit >= 2) RenderSystem.setShaderTexture(0, getCardsTexture(true ));
-        }
+        // if(card.hidden){
+        //     RenderSystem.setShaderTexture(0, getCardsTexture(true));
+        // } else {
+        //     if(card.suit <= 1) RenderSystem.setShaderTexture(0, getCardsTexture(false));
+        //     if(card.suit >= 2) RenderSystem.setShaderTexture(0, getCardsTexture(true ));
+        // }
         int texX = card.suit == -1 || card.hidden ? 0 : card.number % 8;
         int texY = card.suit == -1 || card.hidden ? 4 : (card.suit % 2) * 2 + card.number / 8;
         if(Config.CONFIG.config_animated_cards.get() && !card.hidden){
@@ -717,53 +733,53 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
                 }
             }
         }
-        blit(matrix, leftPos + posX + card.shiftX, topPos + posY + card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
+        matrix.blit(cardTexture(card), leftPos + posX + card.shiftX, topPos + posY + card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
     }
 
     /** Draws the Backside of a Card (also used for highlighter) **/
-    public void drawCardBack(PoseStack matrix, int posX, int posY, int color){
-        if(color <= 6) RenderSystem.setShaderTexture(0, getCardsTexture(true ));
-        else           RenderSystem.setShaderTexture(0, getCardsTexture(false));
-        blit(matrix, leftPos + posX, topPos + posY, (color%7) * 32, 192, 32, 48);
+    public void drawCardBack(GuiGraphics matrix, int posX, int posY, int color){
+        // if(color <= 6) RenderSystem.setShaderTexture(0, getCardsTexture(true ));
+        // else           RenderSystem.setShaderTexture(0, getCardsTexture(false));
+        matrix.blit(cardTexture(color), leftPos + posX, topPos + posY, (color%7) * 32, 192, 32, 48);
     }
 
-    private void drawLetter(PoseStack matrix, char c, int posX, int posY){
-        if(c == 'a') blit(matrix, posX, posY,   0,   0, 32, 32);
-        if(c == 'b') blit(matrix, posX, posY,  32,   0, 32, 32);
-        if(c == 'c') blit(matrix, posX, posY,  64,   0, 32, 32);
-        if(c == 'd') blit(matrix, posX, posY,  96,   0, 32, 32);
-        if(c == 'e') blit(matrix, posX, posY, 128,   0, 32, 32);
-        if(c == 'f') blit(matrix, posX, posY, 160,   0, 32, 32);
-        if(c == 'g') blit(matrix, posX, posY, 192,   0, 32, 32);
-        if(c == 'h') blit(matrix, posX, posY, 224,   0, 32, 32);
-        if(c == 'i') blit(matrix, posX, posY,   0,  32, 32, 32);
-        if(c == 'j') blit(matrix, posX, posY,  32,  32, 32, 32);
-        if(c == 'k') blit(matrix, posX, posY,  64,  32, 32, 32);
-        if(c == 'l') blit(matrix, posX, posY,  96,  32, 32, 32);
-        if(c == 'm') blit(matrix, posX, posY, 128,  32, 32, 32);
-        if(c == 'n') blit(matrix, posX, posY, 160,  32, 32, 32);
-        if(c == 'o') blit(matrix, posX, posY, 192,  32, 32, 32);
-        if(c == 'p') blit(matrix, posX, posY, 224,  32, 32, 32);
-        if(c == 'q') blit(matrix, posX, posY,   0,  64, 32, 32);
-        if(c == 'r') blit(matrix, posX, posY,  32,  64, 32, 32);
-        if(c == 's') blit(matrix, posX, posY,  64,  64, 32, 32);
-        if(c == 't') blit(matrix, posX, posY,  96,  64, 32, 32);
-        if(c == 'u') blit(matrix, posX, posY, 128,  64, 32, 32);
-        if(c == 'v') blit(matrix, posX, posY, 160,  64, 32, 32);
-        if(c == 'w') blit(matrix, posX, posY, 192,  64, 32, 32);
-        if(c == 'x') blit(matrix, posX, posY, 224,  64, 32, 32);
-        if(c == 'y') blit(matrix, posX, posY,   0,  96, 32, 32);
-        if(c == 'z') blit(matrix, posX, posY,  32,  96, 32, 32);
-        if(c == '0') blit(matrix, posX, posY,  64,  96, 32, 32);
-        if(c == '1') blit(matrix, posX, posY,  96,  96, 32, 32);
-        if(c == '2') blit(matrix, posX, posY, 128,  96, 32, 32);
-        if(c == '3') blit(matrix, posX, posY, 160,  96, 32, 32);
-        if(c == '4') blit(matrix, posX, posY, 192,  96, 32, 32);
-        if(c == '5') blit(matrix, posX, posY, 224,  96, 32, 32);
-        if(c == '6') blit(matrix, posX, posY,   0, 128, 32, 32);
-        if(c == '7') blit(matrix, posX, posY,  32, 128, 32, 32);
-        if(c == '8') blit(matrix, posX, posY,  64, 128, 32, 32);
-        if(c == '9') blit(matrix, posX, posY,  96, 128, 32, 32);
+    private void drawLetter(GuiGraphics matrix, ResourceLocation loc, char c, int posX, int posY){
+        if(c == 'a') matrix.blit(loc, posX, posY,   0,   0, 32, 32);
+        if(c == 'b') matrix.blit(loc, posX, posY,  32,   0, 32, 32);
+        if(c == 'c') matrix.blit(loc, posX, posY,  64,   0, 32, 32);
+        if(c == 'd') matrix.blit(loc, posX, posY,  96,   0, 32, 32);
+        if(c == 'e') matrix.blit(loc, posX, posY, 128,   0, 32, 32);
+        if(c == 'f') matrix.blit(loc, posX, posY, 160,   0, 32, 32);
+        if(c == 'g') matrix.blit(loc, posX, posY, 192,   0, 32, 32);
+        if(c == 'h') matrix.blit(loc, posX, posY, 224,   0, 32, 32);
+        if(c == 'i') matrix.blit(loc, posX, posY,   0,  32, 32, 32);
+        if(c == 'j') matrix.blit(loc, posX, posY,  32,  32, 32, 32);
+        if(c == 'k') matrix.blit(loc, posX, posY,  64,  32, 32, 32);
+        if(c == 'l') matrix.blit(loc, posX, posY,  96,  32, 32, 32);
+        if(c == 'm') matrix.blit(loc, posX, posY, 128,  32, 32, 32);
+        if(c == 'n') matrix.blit(loc, posX, posY, 160,  32, 32, 32);
+        if(c == 'o') matrix.blit(loc, posX, posY, 192,  32, 32, 32);
+        if(c == 'p') matrix.blit(loc, posX, posY, 224,  32, 32, 32);
+        if(c == 'q') matrix.blit(loc, posX, posY,   0,  64, 32, 32);
+        if(c == 'r') matrix.blit(loc, posX, posY,  32,  64, 32, 32);
+        if(c == 's') matrix.blit(loc, posX, posY,  64,  64, 32, 32);
+        if(c == 't') matrix.blit(loc, posX, posY,  96,  64, 32, 32);
+        if(c == 'u') matrix.blit(loc, posX, posY, 128,  64, 32, 32);
+        if(c == 'v') matrix.blit(loc, posX, posY, 160,  64, 32, 32);
+        if(c == 'w') matrix.blit(loc, posX, posY, 192,  64, 32, 32);
+        if(c == 'x') matrix.blit(loc, posX, posY, 224,  64, 32, 32);
+        if(c == 'y') matrix.blit(loc, posX, posY,   0,  96, 32, 32);
+        if(c == 'z') matrix.blit(loc, posX, posY,  32,  96, 32, 32);
+        if(c == '0') matrix.blit(loc, posX, posY,  64,  96, 32, 32);
+        if(c == '1') matrix.blit(loc, posX, posY,  96,  96, 32, 32);
+        if(c == '2') matrix.blit(loc, posX, posY, 128,  96, 32, 32);
+        if(c == '3') matrix.blit(loc, posX, posY, 160,  96, 32, 32);
+        if(c == '4') matrix.blit(loc, posX, posY, 192,  96, 32, 32);
+        if(c == '5') matrix.blit(loc, posX, posY, 224,  96, 32, 32);
+        if(c == '6') matrix.blit(loc, posX, posY,   0, 128, 32, 32);
+        if(c == '7') matrix.blit(loc, posX, posY,  32, 128, 32, 32);
+        if(c == '8') matrix.blit(loc, posX, posY,  64, 128, 32, 32);
+        if(c == '9') matrix.blit(loc, posX, posY,  96, 128, 32, 32);
     }
 
     /** Draws Colored Card Table Background **/
@@ -808,88 +824,99 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
         return CasinoKeeper.TEXTURE_SLOTS_GRAY;
     }
 
+    private ResourceLocation getlogo(){
+        if(tableID == 0){
+            return CasinoKeeper.TEXTURE_FONT_ARCADE;
+            // sizeX = 16;
+        } else if(tableID == 1 || tableID == 2){
+            return CasinoKeeper.TEXTURE_FONT_CARDTABLE;
+            //sizeX = 32;
+        }
+        return CasinoKeeper.TEXTURE_FONT_CARDTABLE;
+    }
+
     /** Draws Logo from ItemModule **/
-    private void drawLogo(PoseStack matrix) {
+    private void drawLogo(GuiGraphics matrix) {
         int sizeX = 0;
         String[] logo = getGameName().split("_");
         if(tableID <= 2){
             if(tableID == 0){
-                RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_FONT_ARCADE);
+                // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_FONT_ARCADE);
                 sizeX = 16;
             } else if(tableID == 1 || tableID == 2){
-                RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_FONT_CARDTABLE);
+                // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_FONT_CARDTABLE);
                 sizeX = 32;
             }
 
             for(int i = 0; i < logo.length; i++){
                 for(int k = 0; k < logo[i].length(); k++){
-                    drawLetter(matrix, logo[i].charAt(k), leftPos + 128 - logo[i].length()*(sizeX/2) + sizeX*k, topPos + 32 + 32*i);
+                    drawLetter(matrix, getlogo(), logo[i].charAt(k), leftPos + 128 - logo[i].length()*(sizeX/2) + sizeX*k, topPos + 32 + 32*i);
                 }
             }
         }
     }
 
-    protected void drawMino(PoseStack matrix, int posX, int posY, int idX, int idY){
-        this.blit(matrix, leftPos + posX, topPos + posY, 24 * idX, 24 * idY, 24, 24);
+    protected void drawMino(GuiGraphics matrix, int posX, int posY, int idX, int idY){
+        matrix.blit(CasinoKeeper.TEXTURE_MINOS, leftPos + posX, topPos + posY, 24 * idX, 24 * idY, 24, 24);
     }
 
-    protected void drawMino(PoseStack matrix, int posX, int posY){
+    protected void drawMino(GuiGraphics matrix, int posX, int posY){
         drawMino(matrix, posX, posY, 0, 0);
     }
 
-    protected void drawMinoSmall(PoseStack matrix, int posX, int posY, int id, boolean alternate){
+    protected void drawMinoSmall(GuiGraphics matrix, int posX, int posY, int id, boolean alternate){
         if(alternate){
-            this.blit(matrix, leftPos + posX, topPos + posY, 240, 16 * id, 16, 16);
+            matrix.blit(CasinoKeeper.TEXTURE_MINOS, leftPos + posX, topPos + posY, 240, 16 * id, 16, 16);
         } else {
-            this.blit(matrix, leftPos + posX, topPos + posY, 16 * id, 240, 16, 16);
+            matrix.blit(CasinoKeeper.TEXTURE_MINOS, leftPos + posX, topPos + posY, 16 * id, 240, 16, 16);
         }
     }
 
-    protected void drawMinoSmall(PoseStack matrix, int posX, int posY){
+    protected void drawMinoSmall(GuiGraphics matrix, int posX, int posY){
         drawMinoSmall(matrix, posX, posY, 0, false);
     }
 
-    protected void drawDigi(PoseStack matrix, int posX, int posY, int idX, int idY){
-        this.blit(matrix, leftPos + posX, topPos + posY, 16 * idX, 16 + 16 * idY, 16, 16);
+    protected void drawDigi(GuiGraphics matrix, int posX, int posY, int idX, int idY){
+        matrix.blit(CasinoKeeper.TEXTURE_ARCADE, leftPos + posX, topPos + posY, 16 * idX, 16 + 16 * idY, 16, 16);
     }
 
-    protected void drawDigi(PoseStack matrix, int posX, int posY){
+    protected void drawDigi(GuiGraphics matrix, int posX, int posY){
         drawDigi(matrix, posX, posY, 0, 0);
     }
 
-    protected void drawDigiSmall(PoseStack matrix, int posX, int posY, int id){
-        this.blit(matrix, leftPos + posX    , topPos + posY    , 16 * id     , 16   , 6, 6);
-        this.blit(matrix, leftPos + posX + 6, topPos + posY    , 16 * id + 10, 16   , 6, 6);
-        this.blit(matrix, leftPos + posX    , topPos + posY + 6, 16 * id     , 16+10, 6, 6);
-        this.blit(matrix, leftPos + posX + 6, topPos + posY + 6, 16 * id + 10, 16+10, 6, 6);
+    protected void drawDigiSmall(GuiGraphics matrix, int posX, int posY, int id){
+        matrix.blit(CasinoKeeper.TEXTURE_ARCADE, leftPos + posX    , topPos + posY    , 16 * id     , 16   , 6, 6);
+        matrix.blit(CasinoKeeper.TEXTURE_ARCADE, leftPos + posX + 6, topPos + posY    , 16 * id + 10, 16   , 6, 6);
+        matrix.blit(CasinoKeeper.TEXTURE_ARCADE, leftPos + posX    , topPos + posY + 6, 16 * id     , 16+10, 6, 6);
+        matrix.blit(CasinoKeeper.TEXTURE_ARCADE, leftPos + posX + 6, topPos + posY + 6, 16 * id + 10, 16+10, 6, 6);
 
     }
 
-    protected void drawDigiSmall(PoseStack matrix, int posX, int posY){
+    protected void drawDigiSmall(GuiGraphics matrix, int posX, int posY){
         drawDigiSmall(matrix, posX, posY, 0);
     }
 
-    protected void drawDigiSymbol(PoseStack matrix, int posX, int posY, int id){
-        this.blit(matrix, leftPos + posX, topPos + posY, 16 * id, 0, 16, 16);
+    protected void drawDigiSymbol(GuiGraphics matrix, int posX, int posY, int id){
+        matrix.blit(CasinoKeeper.TEXTURE_ARCADE, leftPos + posX, topPos + posY, 16 * id, 0, 16, 16);
     }
 
-    protected void drawDigiSymbol(PoseStack matrix, int posX, int posY){
+    protected void drawDigiSymbol(GuiGraphics matrix, int posX, int posY){
         drawDigiSymbol(matrix, posX, posY, 0);
     }
 
-    protected void drawShip(PoseStack matrix, Ship ship, int shipID, int lookDirection, boolean animate){
+    protected void drawShip(GuiGraphics matrix, Ship ship, int shipID, int lookDirection, boolean animate){
         int frame = logic().turnstate < 4 && animate ? (logic().frame % 12) / 2 : 0;
         if(frame == 4) frame = 2;
         if(frame == 5) frame = 1;
         int direction = lookDirection == -1 ? ship.getLookDirection() : lookDirection;
-        this.blit(matrix, leftPos + 32 + ship.getPos().X, topPos + 8 + ship.getPos().Y, 64*(shipID%4) + 16*frame, 128 + direction*16 + (shipID/4)*64, 16, 16);
+        matrix.blit(CasinoKeeper.TEXTURE_ARCADE, leftPos + 32 + ship.getPos().X, topPos + 8 + ship.getPos().Y, 64*(shipID%4) + 16*frame, 128 + direction*16 + (shipID/4)*64, 16, 16);
     }
 
-    protected void drawShip(PoseStack matrix, Vector2 vec, int shipID){
+    protected void drawShip(GuiGraphics matrix, Vector2 vec, int shipID){
         int frame = logic().turnstate < 4 ? (logic().frame % 12) / 2 : 0;
         if(frame == 4) frame = 2;
         if(frame == 5) frame = 1;
-        this.blit(matrix, leftPos + 32 + vec.X*16, topPos + 8 + vec.Y*16, 64*(shipID%4) + 16*frame, 128 + (shipID/4)*64, 16, 16);
+        matrix.blit(CasinoKeeper.TEXTURE_ARCADE, leftPos + 32 + vec.X*16, topPos + 8 + vec.Y*16, 64*(shipID%4) + 16*frame, 128 + (shipID/4)*64, 16, 16);
     }
 
     private ResourceLocation getParallaxTexture(boolean lowTexture){
@@ -979,8 +1006,8 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 
     protected abstract void createGameButtons();
     protected abstract void interact(double mouseX, double mouseY, int mouseButton);
-    protected abstract void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY);
-    protected abstract void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY);
+    protected abstract void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY);
+    protected abstract void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY);
     protected abstract String getGameName();
 
 

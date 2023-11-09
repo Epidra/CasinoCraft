@@ -8,6 +8,7 @@ import mod.casinocraft.logic.card.LogicCardGray;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.ButtonMap;
 import mod.casinocraft.util.Card;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -63,7 +64,7 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         if(logic().turnstate == 2                     ){ drawFontCenter(matrix, "Waiting for Players",       128,  88); }
         if(logic().turnstate == 3 && !isActivePlayer()){ drawFontCenter(matrix, "...",                       128,  88); }
         if(logic().turnstate == 3 &&  isActivePlayer()){ drawFontCenter(matrix, "Choose an option ...",      128,  88); }
@@ -72,7 +73,7 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
         drawTimer(matrix);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         if(playerPos >  -2 && logic().turnstate == 2) playerPos = -2;
         if(playerPos == -2 && logic().turnstate == 3) playerPos = getPlayerPosition();
         drawCardBack(matrix,  48, 104, 7);
@@ -131,13 +132,13 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
 
     //----------------------------------------SUPPORT----------------------------------------//
 
-    private void drawCard2(PoseStack matrix, int posX, int posY, boolean sideways, int playerPos, int cardPos){
+    private void drawCard2(GuiGraphics matrix, int posX, int posY, boolean sideways, int playerPos, int cardPos){
         if(playerPos < 0) return;
         int i = 0;
         for(Card card : logic().getCards(cardPos)){
             if(card.suit != -1 && card.idletimer == 0){
                 boolean hidden = logic().turnstate > 3 ? false : playerPos != cardPos;
-                RenderSystem.setShaderTexture(0, getCardsTexture(hidden || card.suit >= 2));
+                // RenderSystem.setShaderTexture(0, getCardsTexture(hidden || card.suit >= 2));
                 int texX = card.suit == -1 || hidden ? cardPos+1 : card.number % 8;
                 int texY = card.suit == -1 || hidden ?         4 : (card.suit  % 2) * 2 + card.number / 8;
                 if(Config.CONFIG.config_animated_cards.get() && !hidden){
@@ -148,9 +149,9 @@ public class ScreenCardGray extends ScreenCasino {   // Hold'em Poker
                     }
                 }
                 if(sideways){
-                    blit(matrix, leftPos + posX + card.shiftX, topPos + posY - logic().getCards(cardPos).size()*12 + i*20 + card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
+                    matrix.blit(getCardsTexture(hidden || card.suit >= 2), leftPos + posX + card.shiftX, topPos + posY - logic().getCards(cardPos).size()*12 + i*20 + card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
                 } else {
-                    blit(matrix, leftPos + posX + card.shiftX - logic().getCards(cardPos).size()*16 + i*32, topPos + posY + card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
+                    matrix.blit(getCardsTexture(hidden || card.suit >= 2), leftPos + posX + card.shiftX - logic().getCards(cardPos).size()*16 + i*32, topPos + posY + card.shiftY, texX * 32, texY * 48, 32, 48-card.deathtimer);
                 }
             }
             i++;

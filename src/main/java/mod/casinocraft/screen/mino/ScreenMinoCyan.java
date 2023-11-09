@@ -6,6 +6,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoCyan;
 import mod.casinocraft.screen.ScreenCasino;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -63,12 +64,12 @@ public class ScreenMinoCyan extends ScreenCasino {   // Halma
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawValueLeft(matrix, "POINTS", logic().scorePoint);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
-        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
+        // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
         for(int y = 0; y < 9; y++) {
             for(int x = 0; x < 17; x++) {
                 if(logic().grid[x][y] == 0) drawMino(matrix, -76 + 24*x, 20 + 24*y, 9, 0);

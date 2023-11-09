@@ -6,6 +6,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoGreen;
 import mod.casinocraft.screen.ScreenCasino;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -68,17 +69,17 @@ public class ScreenMinoGreen extends ScreenCasino {   // Mystic Square
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
 
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
-        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MYSTICSQUARE);
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
+        // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MYSTICSQUARE);
         for(int y = 0; y < 4; y++) {
             for(int x = 0; x < 4; x++) {
                 int i = logic().grid[x][y] % 20;
                 if(i != -1) {
-                    this.blit(matrix, leftPos + 32 + 48*x, topPos + 32 + 48*y, (i % 4)*48, (i / 4)*48, 48, 48);
+                    matrix.blit(CasinoKeeper.TEXTURE_MYSTICSQUARE, leftPos + 32 + 48*x, topPos + 32 + 48*y, (i % 4)*48, (i / 4)*48, 48, 48);
                 }
             }
         }

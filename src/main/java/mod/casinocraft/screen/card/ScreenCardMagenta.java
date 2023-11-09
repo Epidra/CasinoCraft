@@ -6,6 +6,7 @@ import mod.casinocraft.logic.card.LogicCardMagenta;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.ButtonMap;
 import mod.lucky77.util.Vector2;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -63,12 +64,12 @@ public class ScreenCardMagenta extends ScreenCasino {   // Pyramid
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawValueLeft( matrix, "POINTS", logic().scorePoint);
         drawValueRight(matrix, "DRAWS",  logic().scoreLives);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         drawCard(matrix, 112,  20, logic().cards_field[ 0]); if(logic().selector.X ==  0) drawCardBack(matrix, 112,  20, 9);
 
         drawCard(matrix,  96,  40, logic().cards_field[ 1]); if(logic().selector.X ==  1) drawCardBack(matrix,  96,  40, 9);

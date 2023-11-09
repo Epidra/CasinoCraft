@@ -6,6 +6,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoLime;
 import mod.casinocraft.screen.ScreenCasino;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -67,16 +68,16 @@ public class ScreenMinoLime extends ScreenCasino {   // Simon
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawValueLeft(matrix, "POINTS", logic().scorePoint);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
-        RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SIMON);
-        this.blit(matrix, leftPos +  64, topPos +  64,   0, logic().alpha[0] > 1 ? 64 : 128, 64, 64);
-        this.blit(matrix, leftPos + 128, topPos +  64,  64, logic().alpha[1] > 1 ? 64 : 128, 64, 64);
-        this.blit(matrix, leftPos +  64, topPos + 128, 128, logic().alpha[2] > 1 ? 64 : 128, 64, 64);
-        this.blit(matrix, leftPos + 128, topPos + 128, 192, logic().alpha[3] > 1 ? 64 : 128, 64, 64);
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
+        // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_SIMON);
+        matrix.blit(CasinoKeeper.TEXTURE_SIMON, leftPos +  64, topPos +  64,   0, logic().alpha[0] > 1 ? 64 : 128, 64, 64);
+        matrix.blit(CasinoKeeper.TEXTURE_SIMON, leftPos + 128, topPos +  64,  64, logic().alpha[1] > 1 ? 64 : 128, 64, 64);
+        matrix.blit(CasinoKeeper.TEXTURE_SIMON, leftPos +  64, topPos + 128, 128, logic().alpha[2] > 1 ? 64 : 128, 64, 64);
+        matrix.blit(CasinoKeeper.TEXTURE_SIMON, leftPos + 128, topPos + 128, 192, logic().alpha[3] > 1 ? 64 : 128, 64, 64);
         RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MINOS);
         for(int i = 0; i < logic().color_player.size(); i++){
             drawMinoSmall(matrix,  16 + (i%2)*16, 24 + (i/2)*16, logic().color_player.get(i) + 1, false);

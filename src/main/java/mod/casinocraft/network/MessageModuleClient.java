@@ -46,7 +46,7 @@ public class MessageModuleClient {
     public static class Handler {
         public static void handle (final MessageModuleClient message, Supplier<NetworkEvent.Context> context) {
             context.get().enqueueWork(() -> {
-                BlockArcade.setModuleState(Minecraft.getInstance().player.level, message.pos);
+                BlockArcade.setModuleState(Minecraft.getInstance().player.level(), message.pos);
             });
             context.get().setPacketHandled(true);
         }

@@ -6,6 +6,7 @@ import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.mino.LogicMinoGray;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.ButtonMap;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -65,7 +66,7 @@ public class ScreenMinoGray extends ScreenCasino {   // Mino Flip
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawValueLeft(matrix, "POINTS", logic().scorePoint);
         if(logic().turnstate == 2){
             for(int z = 0; z < 5; z++){
@@ -77,7 +78,7 @@ public class ScreenMinoGray extends ScreenCasino {   // Mino Flip
         }
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         drawBackground(matrix, CasinoKeeper.TEXTURE_MINOFLIP, CasinoKeeper.TEXTURE_MINOS);
         for(int y = 0; y < 5; y++){
             for(int x = 0; x < 5; x++){

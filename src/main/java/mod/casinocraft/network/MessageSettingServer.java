@@ -50,7 +50,7 @@ public class MessageSettingServer {
     public static class Handler {
         public static void handle (final MessageSettingServer message, Supplier<NetworkEvent.Context> context) {
             context.get().enqueueWork(() ->{
-                BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().getLevel().getChunkAt(message.pos).getBlockEntity(message.pos);
+                BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().level().getChunkAt(message.pos).getBlockEntity(message.pos);
                 te.bettingLow                  = message.packetData[ 0];
                 te.bettingHigh                 = message.packetData[ 1];
                 te.rewardScore1                = message.packetData[ 2];
@@ -72,7 +72,7 @@ public class MessageSettingServer {
                 te.settingIndestructableBlock  = message.packetData[18] == 1;
                 te.settingAlternateColor       = message.packetData[19];
             });
-            CasinoPacketHandler.sendToChunk(new MessageSettingClient(message.pos, message.packetData), context.get().getSender().level.getChunkAt(message.pos));
+            CasinoPacketHandler.sendToChunk(new MessageSettingClient(message.pos, message.packetData), context.get().getSender().level().getChunkAt(message.pos));
             context.get().setPacketHandled(true);
         }
     }

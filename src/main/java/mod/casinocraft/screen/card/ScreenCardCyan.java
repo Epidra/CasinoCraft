@@ -6,6 +6,7 @@ import mod.casinocraft.logic.card.LogicCardCyan;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.ButtonMap;
 import mod.casinocraft.util.Card;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -65,11 +66,11 @@ public class ScreenCardCyan extends ScreenCasino {   // Spider
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawValueRight(matrix, "RESERVE", logic().cards_reserve.length - logic().reserve);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         int offset = tableID == 1 ? 16 : -32;
         for(int x = 0; x < 10; x++){
             for(int y = 0; y < logic().cards_field[x].size(); y++){

@@ -5,6 +5,7 @@ import mod.casinocraft.CasinoKeeper;
 import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.chip.LogicChipCyan;
 import mod.casinocraft.screen.ScreenCasino;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
@@ -56,13 +57,13 @@ public class ScreenChipCyan extends ScreenCasino {   // Columns
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
         drawFontInvert(matrix, "" + logic().scorePoint, 204, 16);
         drawFontInvert(matrix, "" + logic().scoreLives, 204, 36);
         drawFontInvert(matrix, "" + logic().scoreLevel, 204, 56);
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         drawBackground(matrix, CasinoKeeper.TEXTURE_COLUMNS, CasinoKeeper.TEXTURE_ARCADE);
         for(int y = 0; y < 15; y++){
             for(int x = 0; x < 6; x++){
@@ -88,7 +89,7 @@ public class ScreenChipCyan extends ScreenCasino {   // Columns
         return logic().inLine(x, y) && (logic().alpha/75)%2==0 ? logic().grid[x][y] + 8 : logic().grid[x][y];
     }
 
-    private void drawTetromino(PoseStack matrix, int mino0, int mino1, int mino2, int x, int y) {
+    private void drawTetromino(GuiGraphics matrix, int mino0, int mino1, int mino2, int x, int y) {
         drawDigiSymbol(matrix, x, y     , logic().turnstate >= 4 ? 8 : mino0);
         drawDigiSymbol(matrix, x, y + 16, logic().turnstate >= 4 ? 8 : mino1);
         drawDigiSymbol(matrix, x, y + 32, logic().turnstate >= 4 ? 8 : mino2);

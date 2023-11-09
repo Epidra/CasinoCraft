@@ -6,7 +6,9 @@ import mod.casinocraft.menu.MenuCasino;
 import mod.casinocraft.logic.chip.LogicChipPink;
 import mod.casinocraft.screen.ScreenCasino;
 import mod.casinocraft.util.Ship;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class ScreenChipPink extends ScreenCasino {   // Sokoban
@@ -57,17 +59,17 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
 
     //----------------------------------------DRAW----------------------------------------//
 
-    protected void drawForegroundLayer(PoseStack matrix, int mouseX, int mouseY){
+    protected void drawForegroundLayer(GuiGraphics matrix, int mouseX, int mouseY){
 
     }
 
-    protected void drawBackgroundLayer(PoseStack matrix, float partialTicks, int mouseX, int mouseY){
+    protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
         if(logic().turnstate == 2){
             drawBackground(matrix, CasinoKeeper.TEXTURE_SOKOBAN, CasinoKeeper.TEXTURE_FONT_ARCADE);
             for(int x = 0; x < 4; x++){
                 for(int y = 0; y < 5; y++){
                     int number = y * 4 + x + 1;
-                    drawNumber(matrix, leftPos+40 + 48 * x, topPos+14 + 34 * y, (number / 10), (number % 10), hasUnlocked(number), logic().mapID == number - 1);
+                    drawNumber(matrix, CasinoKeeper.TEXTURE_FONT_ARCADE, leftPos+40 + 48 * x, topPos+14 + 34 * y, (number / 10), (number % 10), hasUnlocked(number), logic().mapID == number - 1);
                 }
             }
         }
@@ -99,10 +101,10 @@ public class ScreenChipPink extends ScreenCasino {   // Sokoban
         } return false;
     }
 
-    private void drawNumber(PoseStack matrix, int x, int y, int left, int right, boolean colored, boolean highlighted){
+    private void drawNumber(GuiGraphics matrix, ResourceLocation loc, int x, int y, int left, int right, boolean colored, boolean highlighted){
         int vOffset = 160 + (colored ? 48 : 0) + (highlighted ? 24 : 0);
-        blit(matrix, x,    y, 16 * left,  vOffset, 16, 24);
-        blit(matrix, x+16, y, 16 * right, vOffset, 16, 24);
+        matrix.blit(loc, x,    y, 16 * left,  vOffset, 16, 24);
+        matrix.blit(loc, x+16, y, 16 * right, vOffset, 16, 24);
     }
 
 
