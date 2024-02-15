@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
     "group": "arcade_slot",
   "pattern": [
     "XDX",

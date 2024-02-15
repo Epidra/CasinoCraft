@@ -1,8 +1,0 @@
-{
-    "parent": "casinocraft:template/dice_base",
-    "textures": {
-        "inner":    "minecraft:block/black_concrete",
-        "outer":    "minecraft:block/orange_concrete",
-        "particle": "minecraft:block/orange_concrete"
-    }
-}
