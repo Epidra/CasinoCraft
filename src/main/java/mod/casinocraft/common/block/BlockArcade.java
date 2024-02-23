@@ -91,11 +91,26 @@ public class BlockArcade extends MachinaTall implements EntityBlock {
 		BlockState iblockstate = world.getBlockState(pos);
 		BlockEntityMachine tileentity = (BlockEntityMachine) world.getBlockEntity(pos);
 		if (tileentity != null){
+			if(tileentity.getItem(0).getItem() == Register.RULEBOOK_5_1.get()){ // Tetris
+				world.setBlock(pos,         iblockstate.setValue(                        MODULE, 4), 3);
+				world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, 4), 3);
+			} else
+			if(tileentity.getItem(0).getItem() == Register.RULEBOOK_5_2.get()){ // 2048
+				world.setBlock(pos,         iblockstate.setValue(                        MODULE, 7), 3);
+				world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, 7), 3);
+			} else
+			if(tileentity.getItem(0).getItem() == Register.RULEBOOK_6_1.get()){ // Snake
+				world.setBlock(pos,         iblockstate.setValue(                        MODULE, 14), 3);
+				world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, 14), 3);
+			} else
+			if(tileentity.getItem(0).getItem() == Register.RULEBOOK_6_2.get()){ // Sokoban
+				world.setBlock(pos,         iblockstate.setValue(                        MODULE, 9), 3);
+				world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, 9), 3);
+			} else
 			if(tileentity.getItem(0).isEmpty()){
 				world.setBlock(pos,         iblockstate.setValue(                        MODULE, 17), 3);
 				world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, 17), 3);
-			}
-			else {
+			} else {
 				world.setBlock(pos,         iblockstate.setValue(                        MODULE, 16), 3);
 				world.setBlock(pos.above(), iblockstate.setValue(OFFSET, false).setValue(MODULE, 16), 3);
 			}

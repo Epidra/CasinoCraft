@@ -32,10 +32,6 @@ public class Screen51 extends ScreenCasino {   //  Tetris
 		return (Logic51) menu.logic();
 	}
 	
-	protected String getGameName() {
-		return "tetris";
-	}
-	
 	protected void createGameButtons(){
 	
 	}
@@ -60,23 +56,9 @@ public class Screen51 extends ScreenCasino {   //  Tetris
 		drawFontInvert(matrix, "" + logic().scorePoint, 216, 16);
 		drawFontInvert(matrix, "" + logic().scoreLives, 216, 36);
 		drawFontInvert(matrix, "" + logic().scoreLevel, 216, 56);
-		
-		//
-		// // ---
-		//
-		// drawFontInvert(matrix, "" + logic().scorePoint, 204, 16);
-		// drawFontInvert(matrix, "" + logic().scoreLives, 204, 36);
-		// drawFontInvert(matrix, "" + logic().scoreLevel, 204, 56);
-		//
-		// // ---
-		//
-		// drawFontInvert(matrix, "" + logic().scorePoint, 204, 16);
-		// drawFontInvert(matrix, "" + logic().scoreLives, 204, 36);
-		// drawFontInvert(matrix, "" + logic().scoreLevel, 204, 56);
 	}
 	
 	protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
-		
 		if(logic().ruleLargeField()){
 			matrix.blit(Register.TEXTURE_TETRIS, leftPos, topPos, 0, 0, 156, 256);
 			matrix.blit(Register.TEXTURE_TETRIS, leftPos + 156, topPos, 156, 0, 100, logic().ruleHoldButton() ? 256 : 160);
@@ -85,10 +67,6 @@ public class Screen51 extends ScreenCasino {   //  Tetris
 			matrix.blit(Register.TEXTURE_COLUMNS, leftPos, topPos, 0, 0, 156, 256);
 			matrix.blit(Register.TEXTURE_COLUMNS, leftPos + 156, topPos, 156, 0, 100, logic().ruleHoldButton() ? 256 : 160);
 		}
-		
-		// drawBackground(matrix, logic().isLargeField() ? Register.TEXTURE_TETRIS : Register.TEXTURE_COLUMNS, Register.TEXTURE_ARCADE);
-		// drawBackground(matrix, logic().isLargeField() ? Register.TEXTURE_TETRIS : Register.TEXTURE_COLUMNS, Register.TEXTURE_ARCADE);
-		
 		if(logic().ruleLargeField()){
 			for(int y = 0; y < 20; y++){
 				for(int x = 0; x < 10; x++){
@@ -104,7 +82,6 @@ public class Screen51 extends ScreenCasino {   //  Tetris
 				}
 			}
 		}
-		
 		if(logic().ruleLargeField()){
 			if(logic().rulePieces() == 4){
 				drawDigiSmall(matrix, 32 + 12*logic().tetromino[0].X, 8 + 12*logic().tetromino[0].Y, logic().turnstate >= 4 ? 8 : logic().container_now[0]);
@@ -121,7 +98,6 @@ public class Screen51 extends ScreenCasino {   //  Tetris
 				drawDigiSmall(matrix, 32 + 12*logic().tetromino[0].X, 8 + 12*logic().tetromino[0].Y, logic().turnstate >= 4 ? 8 : logic().container_now[0]);
 				drawDigiSmall(matrix, 32 + 12*logic().tetromino[1].X, 8 + 12*logic().tetromino[1].Y, logic().turnstate >= 4 ? 8 : logic().container_now[0]);
 			}
-			
 		}
 		if(!logic().ruleLargeField()){
 			if(logic().rulePieces() == 4){
@@ -149,39 +125,6 @@ public class Screen51 extends ScreenCasino {   //  Tetris
 			if(logic().rulePieces() == 3) drawTrimino(matrix, logic().turnstate >= 4 ? -1 : logic().container_hold[0], logic().turnstate >= 4 ? -1 : logic().container_hold[1], logic().turnstate >= 4 ? -1 : logic().container_hold[2], 156+16+8, 164+6+2+16-8);
 			if(logic().rulePieces() == 2) drawDomino(matrix, logic().turnstate >= 4 ? -1 : logic().container_hold[0], logic().turnstate >= 4 ? -1 : logic().container_hold[1], 156+16+8, 164+6+2+16);
 		}
-		
-		
-		//
-		// // ---
-		//
-		// drawBackground(matrix, Register.TEXTURE_COLUMNS, Register.TEXTURE_ARCADE);
-		// for(int y = 0; y < 15; y++){
-		// 	for(int x = 0; x < 6; x++){
-		// 		if(logic().grid[x][y] != -1) drawDigiSymbol(matrix, 32 + 16*x, 8 + 16*y, logic().turnstate >= 4 ? 8 : tetroColor(x, y));
-		// 	}
-		// }
-		//
-		// drawDigiSymbol(matrix, 32 + 16*logic().tromino[0].X, 8 + 16*logic().tromino[0].Y, logic().turnstate >= 4 ? 8 : logic().container_current[0]);
-		// drawDigiSymbol(matrix, 32 + 16*logic().tromino[1].X, 8 + 16*logic().tromino[1].Y, logic().turnstate >= 4 ? 8 : logic().container_current[1]);
-		// drawDigiSymbol(matrix, 32 + 16*logic().tromino[2].X, 8 + 16*logic().tromino[2].Y, logic().turnstate >= 4 ? 8 : logic().container_current[2]);
-		//
-		// if((logic().turnstate >= 4 ?  8 : logic().container_next[0]) > -1) drawTetromino(matrix, logic().turnstate >= 4 ?  8 : logic().container_next[0], logic().turnstate >= 4 ?  8 : logic().container_next[1], logic().turnstate >= 4 ?  8 : logic().container_next[2], 168,  92);
-		// if((logic().turnstate >= 4 ? -1 : logic().container_hold[0]) > -1) drawTetromino(matrix, logic().turnstate >= 4 ? -1 : logic().container_hold[0], logic().turnstate >= 4 ? -1 : logic().container_hold[1], logic().turnstate >= 4 ? -1 : logic().container_hold[2], 168, 180);
-		//
-		// // ---
-		//
-		// drawBackground(matrix, Register.TEXTURE_MEANMINOS, Register.TEXTURE_ARCADE);
-		// for(int y = 0; y < 15; y++){
-		// 	for(int x = 0; x < 6; x++){
-		// 		if(logic().grid[x][y] != -1) drawDigiSymbol(matrix, 32 + 16*x, 8 + 16*y, logic().turnstate >= 4 ? 8 : tetroColor(x, y));
-		// 	}
-		// }
-		//
-		// drawDigiSymbol(matrix, 32 + 16*logic().domino[0].X, 8 + 16*logic().domino[0].Y, logic().turnstate >= 4 ? 8 : logic().container_current[0]);
-		// drawDigiSymbol(matrix, 32 + 16*logic().domino[1].X, 8 + 16*logic().domino[1].Y, logic().turnstate >= 4 ? 8 : logic().container_current[1]);
-		//
-		// if((logic().turnstate >= 4 ?  8 : logic().container_next[0]) > -1) drawTetromino(matrix, logic().turnstate >= 4 ?  8 : logic().container_next[0], logic().turnstate >= 4 ?  8 : logic().container_next[1], 168, 100);
-		// if((logic().turnstate >= 4 ? -1 : logic().container_hold[0]) > -1) drawTetromino(matrix, logic().turnstate >= 4 ? -1 : logic().container_hold[0], logic().turnstate >= 4 ? -1 : logic().container_hold[1], 168, 188);
 	}
 	
 	

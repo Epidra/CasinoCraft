@@ -1,6 +1,7 @@
 package mod.casinocraft.client.logic.other;
 
 import mod.casinocraft.client.logic.LogicModule;
+import mod.casinocraft.common.item.ItemRulebook;
 import mod.casinocraft.util.mapping.SoundMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
@@ -292,57 +293,9 @@ public class LogicSlotGame extends LogicModule {  //  Slot Machine
 	}
 	
 	private int moduleToInt(Item module){
-		// if(module == Register.MODULE_CARD_WHITE.get()     ) return  0;
-		// if(module == Register.MODULE_CARD_ORANGE.get()    ) return  1;
-		// if(module == Register.MODULE_CARD_MAGENTA.get()   ) return  2;
-		// if(module == Register.MODULE_CARD_LIGHT_BLUE.get()) return  3;
-		// if(module == Register.MODULE_CARD_YELLOW.get()    ) return  4;
-		// if(module == Register.MODULE_CARD_LIME.get()      ) return  5;
-		// if(module == Register.MODULE_CARD_PINK.get()      ) return  6;
-		// if(module == Register.MODULE_CARD_GRAY.get()      ) return  7;
-		// if(module == Register.MODULE_CARD_LIGHT_GRAY.get()) return  8;
-		// if(module == Register.MODULE_CARD_CYAN.get()      ) return  9;
-		// if(module == Register.MODULE_CARD_PURPLE.get()    ) return 10;
-		// if(module == Register.MODULE_CARD_BLUE.get()      ) return 11;
-		// if(module == Register.MODULE_CARD_BROWN.get()     ) return 12;
-		// if(module == Register.MODULE_CARD_GREEN.get()     ) return 13;
-		// if(module == Register.MODULE_CARD_RED.get()       ) return 14;
-		// if(module == Register.MODULE_CARD_BLACK.get()     ) return 15;
-		
-		// if(module == Register.MODULE_MINO_WHITE.get()     ) return 16;
-		// if(module == Register.MODULE_MINO_ORANGE.get()    ) return 17;
-		// if(module == Register.MODULE_MINO_MAGENTA.get()   ) return 18;
-		// if(module == Register.MODULE_MINO_LIGHT_BLUE.get()) return 19;
-		// if(module == Register.MODULE_MINO_YELLOW.get()    ) return 20;
-		// if(module == Register.MODULE_MINO_LIME.get()      ) return 21;
-		// if(module == Register.MODULE_MINO_PINK.get()      ) return 22;
-		// if(module == Register.MODULE_MINO_GRAY.get()      ) return 23;
-		// if(module == Register.MODULE_MINO_LIGHT_GRAY.get()) return 24;
-		// if(module == Register.MODULE_MINO_CYAN.get()      ) return 25;
-		// if(module == Register.MODULE_MINO_PURPLE.get()    ) return 26;
-		// if(module == Register.MODULE_MINO_BLUE.get()      ) return 27;
-		// if(module == Register.MODULE_MINO_BROWN.get()     ) return 28;
-		// if(module == Register.MODULE_MINO_GREEN.get()     ) return 29;
-		// if(module == Register.MODULE_MINO_RED.get()       ) return 30;
-		// if(module == Register.MODULE_MINO_BLACK.get()     ) return 31;
-		
-		// if(module == Register.MODULE_CHIP_WHITE.get()     ) return 32;
-		// if(module == Register.MODULE_CHIP_ORANGE.get()    ) return 33;
-		// if(module == Register.MODULE_CHIP_MAGENTA.get()   ) return 34;
-		// if(module == Register.MODULE_CHIP_LIGHT_BLUE.get()) return 35;
-		// if(module == Register.MODULE_CHIP_YELLOW.get()    ) return 36;
-		// if(module == Register.MODULE_CHIP_LIME.get()      ) return 37;
-		// if(module == Register.MODULE_CHIP_PINK.get()      ) return 38;
-		// if(module == Register.MODULE_CHIP_GRAY.get()      ) return 39;
-		// if(module == Register.MODULE_CHIP_LIGHT_GRAY.get()) return 40;
-		// if(module == Register.MODULE_CHIP_CYAN.get()      ) return 41;
-		// if(module == Register.MODULE_CHIP_PURPLE.get()    ) return 42;
-		// if(module == Register.MODULE_CHIP_BLUE.get()      ) return 43;
-		// if(module == Register.MODULE_CHIP_BROWN.get()     ) return 44;
-		// if(module == Register.MODULE_CHIP_GREEN.get()     ) return 45;
-		// if(module == Register.MODULE_CHIP_RED.get()       ) return 46;
-		// if(module == Register.MODULE_CHIP_BLACK.get()     ) return 47;
-		
+		if(module instanceof ItemRulebook){
+			return ((ItemRulebook) module).getModuleID();
+		}
 		return 0;
 	}
 	

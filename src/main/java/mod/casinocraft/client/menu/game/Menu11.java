@@ -34,7 +34,7 @@ public class Menu11 extends MenuCasino {  //  Roulette
 	
 	@Override
 	public int getID(){
-		return 17;
+		return 11;
 	}
 	
 	

@@ -31,10 +31,6 @@ public class ScreenDummy extends ScreenCasino {   //  Dummy
 		return menu.logic();
 	}
 	
-	protected String getGameName() {
-		return "";
-	}
-	
 	protected void createGameButtons(){
 	
 	}

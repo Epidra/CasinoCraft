@@ -14,14 +14,6 @@ import static mod.lucky77.util.KeyMap.*;
 
 public class Logic61 extends LogicModule {   //  Snake  :  PacMan
 	
-	// GAME MODE -- SNAKE
-	// RULE 1 -- Type of Coin Spawned
-	// RULE 2 -- Enemies and their behavior
-	// RULE 3 -- Add a Tail
-	// COLOR VARIATION -- Background Design
-	
-	// --------------------------------------------------
-	
 	public Ship octanom_head = new Ship(1, new Vector2(0, 0), new Vector2(0, 0));
 	public List<Ship> octanom_tail = new ArrayList<Ship>();
 	public int temp_player; // Player Input
@@ -119,7 +111,6 @@ public class Logic61 extends LogicModule {   //  Snake  :  PacMan
 	private void commandMove() {
 		if(octanom_head.getPos().matches(octanom_head.getNext())) {
 			Vector2 position = new Vector2(octanom_head.getPos());
-				// Updates Next()
 			if(temp_player == KEY_UP    && octanom_head.getNext().Y !=   0) { octanom_head.setInMotion( 0, -speed()); temp_auto = 1; temp_player = 0; }
 			else if(temp_player == KEY_UP    && octanom_head.getNext().Y ==   0) { octanom_head.setInMotion( 0,        0); temp_auto = 0; temp_player = 0; }
 			else if(temp_player == KEY_DOWN  && octanom_head.getNext().Y != 224) { octanom_head.setInMotion( 0,  speed()); temp_auto = 2; temp_player = 0; }
@@ -226,7 +217,7 @@ public class Logic61 extends LogicModule {   //  Snake  :  PacMan
 	}
 	
 	public int getID(){
-		return 18;
+		return 61;
 	}
 	
 	public String getName(){

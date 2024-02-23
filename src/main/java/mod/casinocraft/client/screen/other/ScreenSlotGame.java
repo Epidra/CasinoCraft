@@ -34,10 +34,6 @@ public class ScreenSlotGame extends ScreenCasino {   //  Slot Machine
 		return (LogicSlotGame) menu.logic();
 	}
 	
-	protected String getGameName() {
-		return "";
-	}
-	
 	protected void createGameButtons(){
 	
 	}

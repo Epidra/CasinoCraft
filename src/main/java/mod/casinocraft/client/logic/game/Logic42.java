@@ -11,35 +11,7 @@ import static mod.casinocraft.util.mapping.SoundMap.SOUND_CHIP;
 
 public class Logic42 extends LogicModule {   //  Ishido
 	
-	// GAME MODE -- ISHIDO
-	// RULE 1 -- ??
-	// RULE 2 -- ??
-	// RULE 3 -- ??
-	// COLOR VARIATION -- ??
-	
-	// --------------------------------------------------
-	
 	public List<Card> reserve = new ArrayList<Card>();
-	
-	//
-	// // ---
-	//
-	// public int[] alpha = new int[4];
-	// public List<Integer> color_simon  = new ArrayList<>();
-	// public List<Integer> color_player = new ArrayList<>();
-	// public int alpha_pos = 0;
-	// public boolean[] alpha_player = new boolean[4];
-	// public boolean result;
-	//
-	// // ---
-	//
-	// public boolean selectA = false;
-	// public boolean selectB = false;
-	//
-	// public Vector2 positionA = new Vector2(0, 0);
-	// public Vector2 positionB = new Vector2(0, 0);
-	//
-	// public int timer = 0;
 	
 	
 	
@@ -48,7 +20,7 @@ public class Logic42 extends LogicModule {   //  Ishido
 	// ---------- ---------- ---------- ----------  CONSTRUCTOR  ---------- ---------- ---------- ---------- //
 	
 	public Logic42(int tableID) {
-		super(tableID, /* 12, 8 */ 17, 9 );
+		super(tableID, 17, 9 );
 	}
 	
 	
@@ -72,7 +44,7 @@ public class Logic42 extends LogicModule {   //  Ishido
 				}
 			}
 		}
-				boolean[] number = new boolean[6];
+		boolean[] number = new boolean[6];
 		boolean[] suit = new boolean[6];
 		for(int i = 0; i < 6; i++){
 			number[i] = false;
@@ -96,73 +68,6 @@ public class Logic42 extends LogicModule {   //  Ishido
 			}
 		}
 		checkForGameOver();
-		
-		//
-		// // ---
-		//
-		// color_simon.clear();
-		// color_simon.add(RANDOM.nextInt(4));
-		// color_simon.add(RANDOM.nextInt(4));
-		// if(tableID == 2) color_simon.add(RANDOM.nextInt(4));
-		// if(tableID == 2) color_simon.add(RANDOM.nextInt(4));
-		// color_player.clear();
-		// alpha[0] = 0;
-		// alpha[1] = 0;
-		// alpha[2] = 0;
-		// alpha[3] = 0;
-		// alpha_pos = 0;
-		// result = false;
-		// scoreLevel = 1;
-		// alpha_player[0] = false;
-		// alpha_player[1] = false;
-		// alpha_player[2] = false;
-		// alpha_player[3] = false;
-		// turnstate = 3;
-		// alpha[color_simon.get(0)] = getAlpha();
-		//
-		// // ---
-		//
-		// scoreLevel = 1;
-		// scoreLives = 8;
-		// selectA = false;
-		// selectB = false;
-		// timer = 0;
-		// positionA.set(-1, -1);
-		// positionB.set(-1, -1);
-		// commandCreateGrid();
-	}
-	
-	public void restart(){
-		// scoreLevel++;
-		// scorePoint += color_simon.size();
-		// color_simon.add(RANDOM.nextInt(4));
-		// color_simon.add(RANDOM.nextInt(4));
-		// color_player.clear();
-		// alpha[0] = 0;
-		// alpha[1] = 0;
-		// alpha[2] = 0;
-		// alpha[3] = 0;
-		// alpha_pos = 0;
-		// alpha_player[0] = false;
-		// alpha_player[1] = false;
-		// alpha_player[2] = false;
-		// alpha_player[3] = false;
-		// turnstate = 3;
-		// result = false;
-		// alpha[color_simon.get(0)] = getAlpha();
-		
-		//
-		// // ---
-		//
-		// turnstate = 2;
-		// scoreLevel++;
-		// scoreLives += scoreLevel * 2;
-		// selectA = false;
-		// selectB = false;
-		// timer = 0;
-		// positionA.set(-1, -1);
-		// positionB.set(-1, -1);
-		// commandCreateGrid();
 	}
 	
 	
@@ -173,23 +78,6 @@ public class Logic42 extends LogicModule {   //  Ishido
 	
 	public void command(int action) {
 		place(action);
-		
-		//
-		// // ---
-		//
-		// color_player.add(action);
-		// alpha[action] = getAlpha();
-		// setJingle(SOUND_CHIP);
-		//
-		// // ---
-		//
-		// if(action == -1) {
-		// 	restart();
-		// } else if(action == -2) {
-		// 	turnstate = 4;
-		// } else {
-		// 	clickMino(action % 17, action / 17);
-		// }
 	}
 	
 	
@@ -199,78 +87,11 @@ public class Logic42 extends LogicModule {   //  Ishido
 	// ---------- ---------- ---------- ----------  UPDATE  ---------- ---------- ---------- ---------- //
 	
 	public void updateLogic() {
-		// for(int i = 0; i < 4; i++){
-		// 	if(alpha[i] > 0){
-		// 		alpha[i]--;
-		// 		if(alpha[i] <= 0) alpha[i] = 0;
-		// 	}
-		// }
-		// if(turnstate == 2){
-		// 	if(color_simon.size() == color_player.size()){
-		// 		if(alpha[0] == 0 && alpha[1] == 0 && alpha[2] == 0 && alpha[3] == 0){
-		// 			boolean match = true;
-		// 			for(int i = 0; i < color_player.size(); i++){
-		// 				if(color_player.get(i) != color_simon.get(i)){
-		// 					match = false;
-		// 				}
-		// 			}
-		// 			if(!match){
-		// 				turnstate = 4;
-		// 			} else {
-		// 				restart();
-		// 			}
-		// 		}
-		// 	}
-		// } else if(turnstate == 3){
-		// 	if(alpha[0] == 0 && alpha[1] == 0 && alpha[2] == 0 && alpha[3] == 0){
-		// 		alpha_pos++;
-		// 		if(alpha_pos == color_simon.size()){
-		// 			turnstate = 2;
-		// 		} else {
-		// 			alpha[color_simon.get(alpha_pos)] = getAlpha();
-		// 		}
-		// 	}
-		// }
-		
-		//
-		// // ---
-		//
-		// if(timer == -1){
-		// 	if(grid[positionA.X][positionA.Y] == grid[positionB.X][positionB.Y]){
-		// 		grid[positionA.X][positionA.Y] = -1;
-		// 		grid[positionB.X][positionB.Y] = -1;
-		// 	} else {
-		// 		scoreLives--;
-		// 	}
-		// 	boolean temp = false;
-		// 	for(int x = 0; x < 17; x++) {
-		// 		for(int y = 0; y < 9; y++) {
-		// 			if(grid[x][y] != -1) temp = true;
-		// 		}
-		// 	}
-		// 	if(!temp) {
-		// 		turnstate = 3;
-		// 		scorePoint += scoreLevel * 4;
-		// 	} else {
-		// 		if(scoreLives <= 0) {
-		// 			turnstate = 4;
-		// 			scorePoint /= 2;
-		// 		}
-		// 	}
-		// 	selectA = false;
-		// 	selectB = false;
-		// 	positionA.set(-1, -1);
-		// 	positionB.set(-1, -1);
-		// 	timer = 0;
-		// }
+	
 	}
 	
 	public void updateMotion() {
-		// if(timer > 0){
-		// 	timer -= 10;
-		// 	if(timer <= 0)
-		// 		timer = -1;
-		// }
+	
 	}
 	
 	
@@ -281,75 +102,11 @@ public class Logic42 extends LogicModule {   //  Ishido
 	
 	public void load2(CompoundTag compound){
 		reserve.addAll(loadCardList(compound, 0));
-		
-		//
-		// // ---
-		//
-		// alpha[0] = compound.getInt("alpha0");
-		// alpha[1] = compound.getInt("alpha1");
-		// alpha[2] = compound.getInt("alpha2");
-		// alpha[3] = compound.getInt("alpha3");
-		// {
-		// 	int[] i = compound.getIntArray("colorsimon");
-		// 	color_simon.clear();
-		// 	for(int x : i){
-		// 		color_simon.add(x);
-		// 	}
-		// }
-		// {
-		// 	int[] i = compound.getIntArray("colorplayer");
-		// 	color_player.clear();
-		// 	for(int x : i){
-		// 		color_player.add(x);
-		// 	}
-		// }
-		// alpha_pos = compound.getInt("alphapos");
-		// alpha_player[0] = compound.getBoolean("alphaplayer0");
-		// alpha_player[1] = compound.getBoolean("alphaplayer1");
-		// alpha_player[2] = compound.getBoolean("alphaplayer2");
-		// alpha_player[3] = compound.getBoolean("alphaplayer3");
-		// result = compound.getBoolean("result");
-		//
-		// // ---
-		//
-		// selectA = compound.getBoolean("selecta");
-		// selectB = compound.getBoolean("selectb");
-		// positionA.set(compound.getInt("positionax"), compound.getInt("positionay"));
-		// positionA.set(compound.getInt("positionbx"), compound.getInt("positionby"));
-		// timer = compound.getInt("timer");
 	}
 	
 	public CompoundTag save2(CompoundTag compound){
 		saveCardList(compound, 0, reserve);
 		return compound;
-		
-		//
-		// // ---
-		//
-		// compound.putInt("alpha0", alpha[0]);
-		// compound.putInt("alpha1", alpha[1]);
-		// compound.putInt("alpha2", alpha[2]);
-		// compound.putInt("alpha3", alpha[3]);
-		// compound.putIntArray("colorsimon",  color_simon);
-		// compound.putIntArray("colorplayer", color_player);
-		// compound.putInt("alphapos", alpha_pos);
-		// compound.putBoolean("alphaplayer0", alpha_player[0]);
-		// compound.putBoolean("alphaplayer1", alpha_player[1]);
-		// compound.putBoolean("alphaplayer2", alpha_player[2]);
-		// compound.putBoolean("alphaplayer3", alpha_player[3]);
-		// compound.putBoolean("result", result);
-		// return compound;
-		//
-		// // ---
-		//
-		// compound.putBoolean("selecta", selectA);
-		// compound.putBoolean("selectb", selectB);
-		// compound.putInt("positionax", positionA.X);
-		// compound.putInt("positionay", positionA.Y);
-		// compound.putInt("positionbx", positionB.X);
-		// compound.putInt("positionby", positionB.Y);
-		// compound.putInt("timer", timer);
-		// return compound;
 	}
 	
 	
@@ -385,13 +142,13 @@ public class Logic42 extends LogicModule {   //  Ishido
 				}
 			}
 		}
-			while(stack.size() > 1) {
+		while(stack.size() > 1) {
 			int r = RANDOM.nextInt(stack.size() - 1);
 			deck.add(stack.get(r));
 			stack.remove(r);
 		}
 		deck.add(stack.get(0));
-			return deck;
+		return deck;
 	}
 	
 	private int takeNextMino(){
@@ -440,58 +197,6 @@ public class Logic42 extends LogicModule {   //  Ishido
 		return noCon ? 0 : connections;
 	}
 	
-	public int getAlpha(){
-		return Math.max(10 - scoreLevel, 2);
-	}
-	
-	// private void clickMino(int x, int y) {
-	// 	if(!selectA) {
-	// 		if(grid[x][y] != -1) {
-	// 			selectA = true;
-	// 			positionA.set(x, y);
-	// 			setJingle(SOUND_CHIP);
-	// 		}
-	// 	} else if(!selectB) {
-	// 		if(grid[x][y] != -1 && !positionA.matches(x, y)) {
-	// 			selectB = true;
-	// 			positionB.set(x, y);
-	// 			timer = 200 - scoreLevel*10;
-	// 			setJingle(SOUND_CHIP);
-	// 		}
-	// 	}
-	// }
-	
-	// private void commandCreateGrid() {
-	// 	for(int x = 0; x < 17; x++) {
-	// 		for(int y = 0; y < 9; y++) {
-	// 			grid[x][y] = -1;
-	// 		}
-	// 	}
-	// 	int max = tableID == 1 ? 9*9-1 : 17*9-1;
-	// 	int filler = scoreLevel*4 < max ? scoreLevel*4 : max;
-	// 	int filler2 = filler;
-	// 		int[] color = new int[] {0,0,0,0,0,0,0,0};
-	// 	while(filler > 0) {
-	// 		int z = RANDOM.nextInt(8);
-	// 		color[z] += 2;
-	// 		filler -= 2;
-	// 	}
-	// 		while(filler2 > 0) {
-	// 		int x = RANDOM.nextInt(tableID == 1 ? 9 : 17) + (tableID == 1 ? 4 : 0);
-	// 		int y = RANDOM.nextInt(9);
-	// 		if(grid[x][y] == -1) {
-	// 			for(int i = 0; i < 8; i++) {
-	// 				if(color[i] > 0) {
-	// 					grid[x][y] = i;
-	// 					color[i]--;
-	// 					filler2--;
-	// 					break;
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-	
 	
 	
 	
@@ -507,7 +212,7 @@ public class Logic42 extends LogicModule {   //  Ishido
 	}
 	
 	public int getID(){
-		return 12;
+		return 42;
 	}
 	
 	public String getName(){

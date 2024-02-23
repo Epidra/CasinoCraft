@@ -34,7 +34,7 @@ public class MenuDummy extends MenuCasino {  //  -----
 	
 	@Override
 	public int getID(){
-		return 48;
+		return 99;
 	}
 	
 	

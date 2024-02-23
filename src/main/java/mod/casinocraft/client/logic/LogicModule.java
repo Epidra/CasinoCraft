@@ -40,9 +40,6 @@ public abstract class LogicModule extends Dummy {
 	
 	protected int timeoutMAX;
 	
-	// Rule Count - Array - each entry shows max number on rule for that position
-	// Rule
-	
 	
 	
 	
@@ -97,11 +94,6 @@ public abstract class LogicModule extends Dummy {
 				updateMotion();
 				updateLogic();
 			}
-		}
-		
-		if(this instanceof LogicDummy){
-			// scorePoint = RANDOM.nextInt(8);
-			// scoreLevel = RANDOM.nextInt(8);
 		}
 	}
 	
@@ -310,7 +302,27 @@ public abstract class LogicModule extends Dummy {
 	
 	// ---------- ---------- ---------- ----------  SUPPORT  ---------- ---------- ---------- ---------- //
 	
-	public void addScore(String name, int points) {
+	public void addScore(boolean alternateMode, String name, int points) {
+		if(alternateMode){
+			boolean addNewScore = true;
+			for(int i = 0; i < 20; i++) {
+				if(scoreName[i].matches(name)){
+					addNewScore = false;
+					if(scoreHigh[i] < points){
+						scoreHigh[i] = points;
+						scoreLast = i;
+					}
+				}
+			}
+			if(addNewScore){
+				addScore(name, points);
+			}
+		} else {
+			addScore(name, points);
+		}
+	}
+	
+	private void addScore(String name, int points){
 		int pos = 20;
 		for(int i = 19; i >= 0; i--) {
 			if(points > scoreHigh[i]) {
@@ -406,6 +418,7 @@ public abstract class LogicModule extends Dummy {
 	public void setupRuleSet(int[] values){
 		ruleSet = values;
 	}
+	
 	
 	
 	

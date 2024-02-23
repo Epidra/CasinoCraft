@@ -34,7 +34,7 @@ public class Menu32 extends MenuCasino {  //  Pyramid
 	
 	@Override
 	public int getID(){
-		return 16;
+		return 32;
 	}
 	
 	

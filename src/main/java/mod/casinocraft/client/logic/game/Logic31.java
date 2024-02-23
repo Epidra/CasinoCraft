@@ -14,38 +14,15 @@ import static mod.lucky77.util.KeyMap.KEY_ENTER;
 
 public class Logic31 extends LogicModule {   //  Solitaire
 	
-	// GAME MODE -- (KLONDIKE, SPIDER, FREECELL)
-	// RULE 1 -- Amount of Suits (1, 2, 3, 4)
-	// RULE 2 -- Holding Cell Type
-	// RULE 3 -- Stacking Rule
-	// COLOR VARIATION -- Card Design
-	
 	// --------------------------------------------------
 	
-	public List<Card>[] cards_field  = new ArrayList[8];
-	public List<Card>[] cards_finish = new ArrayList[4];
-	public Card[] cards_freecell     = new Card[4];
-	public int compress = 1;
-	public int timer = 0;
+	public List<Card>[] cards_field   = new ArrayList[8];
+	public List<Card>   cards_reserve = new ArrayList<Card>();
+	public List<Card>[] cards_finish  = new ArrayList[4];
 	
-	//
-	// // ---
-	//
-	// public List<Card>[] cards_field   = new ArrayList[10];
-	// public List<Card>[] cards_reserve = new ArrayList[5];
-	// public List<Card> cards_finish  = new ArrayList<Card>();
-	// public int compress;
-	// public int reserve;
-	//
-	// // ---
-	//
-	// public List<Card>[] cards_field   = new ArrayList[8];
-	// public List<Card>   cards_reserve = new ArrayList<Card>();
-	// public List<Card>   cards_stack   = new ArrayList<Card>();
-	// public List<Card>[] cards_finish  = new ArrayList[4];
-	//
-	// public int compress;
-	// public int timer;
+	public int compress = 1;
+	
+	public int timer = -1;
 	
 	
 	
@@ -72,139 +49,52 @@ public class Logic31 extends LogicModule {   //  Solitaire
 		cards_field[5] = new ArrayList<>();
 		cards_field[6] = new ArrayList<>();
 		cards_field[7] = new ArrayList<>();
-				cards_finish[0] = new ArrayList<>();
+		
+		cards_finish[0] = new ArrayList<>();
 		cards_finish[1] = new ArrayList<>();
 		cards_finish[2] = new ArrayList<>();
 		cards_finish[3] = new ArrayList<>();
-				List<Card> deck = shuffleDeck();
-				if(tableID == 2){
-			transferCards(cards_field[0], deck, 0, 7);
-			transferCards(cards_field[1], deck, 1, 7);
-			transferCards(cards_field[2], deck, 2, 7);
-			transferCards(cards_field[3], deck, 3, 7);
-			transferCards(cards_field[4], deck, 4, 6);
-			transferCards(cards_field[5], deck, 5, 6);
-			transferCards(cards_field[6], deck, 6, 6);
-			transferCards(cards_field[7], deck, 7, 6);
-		} else {
-			transferCards(cards_field[1], deck, 1, 8);
-			transferCards(cards_field[2], deck, 2, 8);
-			transferCards(cards_field[3], deck, 3, 8);
-			transferCards(cards_field[4], deck, 4, 7);
-			transferCards(cards_field[5], deck, 5, 7);
-			transferCards(cards_field[6], deck, 6, 7);
-			transferCards(cards_field[7], deck, 7, 7);
+		
+		List<Card> deck = shuffleDeck();
+		
+		int iStart = ruleSortingEven() || ruleSortingDescending() ? tableID == 1 ? 1 : 0 : 7;
+		int iEnd   = ruleSortingEven() || ruleSortingAscending() ? 8 : tableID == 1 ? 2 : 1;
+		int iReserve = (ruleReserveFreecell() || ruleReserveNone()) ? 0 : 7 * (ruleSuits() - 1);
+		while(deck.size() > iReserve){
+			for(int i = iStart; i < iEnd; i++){
+				if(deck.size() > iReserve){
+					cards_field[i].add(deck.get(0));
+					deck.remove(0);
+				}
+			}
+			if(ruleSortingDescending() && iEnd < 8) iEnd++;
+			if(ruleSortingAscending() && iStart > (tableID == 1 ? 1 : 0)) iStart--;
 		}
-				cards_freecell[0] = new Card(-1, -1);
-		cards_freecell[1] = new Card(-1, -1);
-		cards_freecell[2] = new Card(-1, -1);
-		cards_freecell[3] = new Card(-1, -1);
-				for(int x = 0; x < 8; x++){
+		
+		cards_reserve.clear();
+		cards_reserve.addAll(deck);
+		
+		selector = new Vector2(-1, -1);
+		compress = 2;
+		compress();
+		setJingle(SOUND_CARD_SHOVE);
+		
+		if(ruleReserveFreecell()){
+			cards_reserve.add(new Card(-1, -1));
+			cards_reserve.add(new Card(-1, -1));
+			cards_reserve.add(new Card(-1, -1));
+			cards_reserve.add(new Card(-1, -1));
+		}
+		
+		int z = tableID == 1 ? 32 : 0;
+		for(int x = 1; x < 8; x++){
 			int y = 0;
 			for(Card c : cards_field[x]){
-				c.setShift(0, -20*y, 60-10*y + x*4);
+				c.setShift(-32*x + z, 48 - (48 + 24*y), y*10 + x);
+				if(ruleReserveOnecard() && y < cards_field[x].size() - 1) c.hidden = true;
 				y++;
 			}
 		}
-				selector = new Vector2(-1, -1);
-				compress = 2;
-		timer = -1;
-		setJingle(SOUND_CARD_SHOVE);
-		
-		//
-		// // ---
-		//
-		// List<Card> deck = shuffleDeck();
-		//
-		// if(tableID == 2){
-		// 	reserve = 0;
-		//
-		// 	cards_field[0] = new ArrayList<>(); transferCards(cards_field[0], deck, 0, 6);
-		// 	cards_field[1] = new ArrayList<>(); transferCards(cards_field[1], deck, 0, 6);
-		// 	cards_field[2] = new ArrayList<>(); transferCards(cards_field[2], deck, 0, 6);
-		// 	cards_field[3] = new ArrayList<>(); transferCards(cards_field[3], deck, 0, 6);
-		// 	cards_field[4] = new ArrayList<>(); transferCards(cards_field[4], deck, 0, 5);
-		// 	cards_field[5] = new ArrayList<>(); transferCards(cards_field[5], deck, 0, 5);
-		// 	cards_field[6] = new ArrayList<>(); transferCards(cards_field[6], deck, 0, 5);
-		// 	cards_field[7] = new ArrayList<>(); transferCards(cards_field[7], deck, 0, 5);
-		// 	cards_field[8] = new ArrayList<>(); transferCards(cards_field[8], deck, 0, 5);
-		// 	cards_field[9] = new ArrayList<>(); transferCards(cards_field[9], deck, 0, 5);
-		//
-		// 	cards_reserve[0] = new ArrayList<>(); transferCards(cards_reserve[0], deck, 0, 10);
-		// 	cards_reserve[1] = new ArrayList<>(); transferCards(cards_reserve[1], deck, 0, 10);
-		// 	cards_reserve[2] = new ArrayList<>(); transferCards(cards_reserve[2], deck, 0, 10);
-		// 	cards_reserve[3] = new ArrayList<>(); transferCards(cards_reserve[3], deck, 0, 10);
-		// 	cards_reserve[4] = new ArrayList<>(); transferCards(cards_reserve[4], deck, 0, 10);
-		// } else {
-		// 	reserve = 2;
-		//
-		// 	cards_field[0] = new ArrayList<>(); transferCards(cards_field[0], deck, 0, 5);
-		// 	cards_field[1] = new ArrayList<>(); transferCards(cards_field[1], deck, 0, 5);
-		// 	cards_field[2] = new ArrayList<>(); transferCards(cards_field[2], deck, 0, 5);
-		// 	cards_field[3] = new ArrayList<>(); transferCards(cards_field[3], deck, 0, 4);
-		// 	cards_field[4] = new ArrayList<>(); transferCards(cards_field[4], deck, 0, 4);
-		// 	cards_field[5] = new ArrayList<>(); transferCards(cards_field[5], deck, 0, 4);
-		// 	cards_field[6] = new ArrayList<>(); transferCards(cards_field[6], deck, 0, 4);
-		// 	cards_field[7] = new ArrayList<>();
-		// 	cards_field[8] = new ArrayList<>();
-		// 	cards_field[9] = new ArrayList<>();
-		//
-		// 	cards_reserve[0] = new ArrayList<>();
-		// 	cards_reserve[1] = new ArrayList<>();
-		// 	cards_reserve[2] = new ArrayList<>(); transferCards(cards_reserve[2], deck, 0, 7);
-		// 	cards_reserve[3] = new ArrayList<>(); transferCards(cards_reserve[3], deck, 0, 7);
-		// 	cards_reserve[4] = new ArrayList<>(); transferCards(cards_reserve[4], deck, 0, 7);
-		// }
-		//
-		// selector = new Vector2(-1, -1);
-		// compress = 2;
-		// for(int x = 0; x < 10; x++){
-		// 	int y = 0;
-		// 	for(Card c : cards_field[x]){
-		// 		c.setShift(0, -24*y, 70-10*y + x*3);
-		// 		y++;
-		// 	}
-		// }
-		// setJingle(SOUND_CARD_SHOVE);
-		//
-		// // ---
-		//
-		// List<Card> deck = shuffleDeck();
-		//
-		// cards_field[0] = new ArrayList<>();
-		// cards_field[1] = new ArrayList<>(); transferCards(cards_field[1], deck, 0, 1);
-		// cards_field[2] = new ArrayList<>(); transferCards(cards_field[2], deck, 0, 2);
-		// cards_field[3] = new ArrayList<>(); transferCards(cards_field[3], deck, 0, 3);
-		// cards_field[4] = new ArrayList<>(); transferCards(cards_field[4], deck, 0, 4);
-		// cards_field[5] = new ArrayList<>(); transferCards(cards_field[5], deck, 0, 5);
-		// cards_field[6] = new ArrayList<>(); transferCards(cards_field[6], deck, 0, 6);
-		// cards_field[7] = new ArrayList<>(); transferCards(cards_field[7], deck, 0, 7);
-		//
-		// int z = tableID == 1 ? 32 : 0;
-		// for(int x = 1; x < 8; x++){
-		// 	int y = 0;
-		// 	for(Card c : cards_field[x]){
-		// 		c.setShift(-32*x + z, 16 - (48 + 24*y), y*10 + x);
-		// 		if(y < cards_field[x].size() - 1) c.hidden = true;
-		// 		y++;
-		// 	}
-		// }
-		//
-		// cards_reserve.clear();
-		// cards_reserve.addAll(deck);
-		// cards_stack.clear();
-		//
-		// scoreLives = 3;
-		//
-		// cards_finish[0] = new ArrayList<>();
-		// cards_finish[1] = new ArrayList<>();
-		// cards_finish[2] = new ArrayList<>();
-		// cards_finish[3] = new ArrayList<>();
-		//
-		// selector = new Vector2(-1, -1);
-		// compress = 4;
-		// timer = -1;
-		// setJingle(SOUND_CARD_SHOVE);
 	}
 	
 	
@@ -215,36 +105,19 @@ public class Logic31 extends LogicModule {   //  Solitaire
 	
 	public void command(int action) {
 		if(timer == -1){
-			if(action == -1) freeCell(0);
-			if(action == -2) freeCell(1);
-			if(action == -3) freeCell(2);
-			if(action == -4) freeCell(3);
+			if(action == -2 && ruleReserveOnecard() ) drawReserve();
+			if(action == -3 && ruleReserveOnecard() ) touchStack();
+			if(action == -1 && ruleReserveFreecell()) touchFreeCell(0);
+			if(action == -2 && ruleReserveFreecell()) touchFreeCell(1);
+			if(action == -3 && ruleReserveFreecell()) touchFreeCell(2);
+			if(action == -4 && ruleReserveFreecell()) touchFreeCell(3);
 			if(action == -5) touchFinish(0);
 			if(action == -6) touchFinish(1);
 			if(action == -7) touchFinish(2);
 			if(action == -8) touchFinish(3);
-			if(action == KEY_ENTER) timer = 1;
+			if(action == -9) activateAutoSort();
 			if(action >=  0){ touchField(action%8, action/8); }
 		}
-		
-		//
-		// // ---
-		//
-		// if(action == -1) drawReserve();
-		// if(action >=  0) touchField(action%10, action/10);
-		//
-		// // ---
-		//
-		// if(timer == -1){
-		// 	if(action == KEY_ENTER) timer = 1;
-		// 	if(action == -1) drawReserve();
-		// 	if(action == -2) touchStack();
-		// 	if(action == -5) touchFinish(0);
-		// 	if(action == -6) touchFinish(1);
-		// 	if(action == -7) touchFinish(2);
-		// 	if(action == -8) touchFinish(3);
-		// 	if(action >=  0) touchField(action%8, action/8);
-		// }
 	}
 	
 	
@@ -254,42 +127,26 @@ public class Logic31 extends LogicModule {   //  Solitaire
 	// ---------- ---------- ---------- ----------  UPDATE  ---------- ---------- ---------- ---------- //
 	
 	public void updateLogic() {
-		if(timer == 0){
+		if(timer > 0){
 			timer--;
-			boolean[] done = new boolean[4];
-			done[0] = done[1] = done[2] = done[3] = false;
-			for(int x1 = 0; x1 < 4; x1++){
-				if(cards_freecell[x1].suit != -1){
-					for(int x2 = 0; x2 < 4; x2++){
-						boolean copy = false;
-						if(cards_finish[ + x2].size() == 0) { if(cards_freecell[x1].number == 0){
-							if(!done[x2]){ copy = true; } }
-						} else { if((cards_freecell[x1].number - 1 == cards_finish[x2].get((cards_finish[ + x2].size()) - 1).number) && cards_finish[x2].get((cards_finish[ + x2].size()) - 1).suit == cards_freecell[x1].suit) {
-							if(!done[x2]){ copy = true; } }
-						}
-						if(copy){
-							cards_freecell[x1].setShift(0, 16, 0);
-							cards_finish[x2].add(cards_freecell[x1]);
-							cards_freecell[x1] = new Card(-1, -1);
-							selector.set(-1,  -1);
-							timer = 16;
-							done[x2] = true;
-						}
-					}
-				}
-			}
+		}
+		
+		// --- auto-move Cards to finish --- //
+		else if(timer == 0){
+			timer = -1;
+			boolean copy = false;
+			
+			// --- Move card to Finish Stack --- //
 			for(int x1 = 0; x1 < 8; x1++){
 				for(int x2 = 0; x2 < 4; x2++){
-					if(cards_field[x1].size() > 0) {
-						boolean copy = false;
-						if(cards_finish[ + x2].size() == 0) {
-							if(cards_field[x1].get(cards_field[x1].size() - 1).number == 0){
-								if(!done[x2]){ copy = true;
+					if(!copy){
+						if(cards_field[x1].size() > 0) {
+							if(cards_finish[x2].size() == 0) {
+								if(cards_field[x1].get(cards_field[x1].size() - 1).number == 0){
+									copy = true;
 								}
-							}
-						} else {
-							if((cards_field[x1].get(cards_field[x1].size() - 1).number - 1 == cards_finish[x2].get(cards_finish[x2].size() - 1).number) && cards_finish[x2].get(cards_finish[x2].size() - 1).suit == cards_field[x1].get(cards_field[x1].size() - 1).suit) {
-								if(!done[x2]){
+							} else {
+								if((cards_field[x1].get(cards_field[x1].size() - 1).number - 1 == cards_finish[x2].get(cards_finish[x2].size() - 1).number) && cards_finish[x2].get(cards_finish[x2].size() - 1).suit == cards_field[x1].get(cards_field[x1].size() - 1).suit) {
 									copy = true;
 								}
 							}
@@ -297,130 +154,28 @@ public class Logic31 extends LogicModule {   //  Solitaire
 						if(copy){
 							cards_field[x1].get(cards_field[x1].size() - 1).setShift(0, 16, 0);
 							cards_finish[x2].add(cards_field[x1].get(cards_field[x1].size() - 1));
-							cards_field[x1].remove(cards_finish[x1].size() - 1);
-							selector.set(-1,  -1);
-							timer = 16;
-							done[x2] = true;
+							cards_field[x1].remove(cards_field[x1].size() - 1);
+							timer = 12;
+							uncover();
+							scorePoint+=10;
 						}
 					}
 				}
 			}
+			
+			// --- Update Compression --- //
 			compress();
-		} else if(timer > 0){
-			timer--;
 		}
+		
+		// --- GameOver Condition --- //
 		if(turnstate == 2){
-			if(cards_finish[0].size() == 13 && cards_finish[1].size() == 13 && cards_finish[2].size() == 13 && cards_finish[3].size() == 13 && turnstate < 4) {
-				scorePoint = 100;
+			if(cards_finish[0].size() == 13
+					&& (cards_finish[1].size() == 13 || ruleSuits() <= 1)
+					&& (cards_finish[2].size() == 13 || ruleSuits() <= 2)
+					&& (cards_finish[3].size() == 13 || ruleSuits() <= 3)){
 				turnstate = 4;
 			}
 		}
-		
-		//
-		// // ---
-		//
-		// for(int x = 0; x < 10; x++){
-		// 	if(cards_field[x].size() > 0) for(Card c : cards_field[x]){
-		// 		c.update();
-		// 	}
-		// }
-		// if(cards_finish.size() == 8 && turnstate < 4) {
-		// 	scorePoint = 100;
-		// 	turnstate = 4;
-		// }
-		//
-		// // ---
-		//
-		// if(timer == 0){
-		// 	timer--;
-		// 	boolean[] done = new boolean[4];
-		// 	done[0] = done[1] = done[2] = done[3] = false;
-		// 	for(int x2 = 0; x2 < 4; x2++){
-		// 		if(cards_stack.size() > 0) {
-		// 			if(cards_finish[x2].size() == 0) {
-		// 				if(cards_stack.size() > 0 && cards_stack.get(cards_stack.size() - 1).number == 0){
-		// 					if(!done[x2]){
-		// 						cards_stack.get(cards_stack.size() - 1).setShift(0, 16, 0);
-		// 						cards_finish[x2].add(cards_stack.get(cards_stack.size() - 1));
-		// 						cards_stack.remove(cards_stack.size() - 1);
-		// 						selector.set(-1,  -1);
-		// 						uncover();
-		// 						timer = 16;
-		// 						scorePoint+=10;
-		// 						done[x2] = true;
-		// 					}
-		// 				}
-		// 			} else {
-		// 				if((cards_stack.get(cards_stack.size() - 1).number - 1 == cards_finish[x2].get(cards_finish[x2].size() - 1).number) && cards_finish[x2].get(cards_finish[x2].size() - 1).suit == cards_stack.get(cards_stack.size() - 1).suit) {
-		// 					if(!done[x2]){
-		// 						cards_stack.get(cards_stack.size() - 1).setShift(0, 16, 0);
-		// 						cards_finish[x2].add(cards_stack.get(cards_stack.size() - 1));
-		// 						cards_stack.remove(cards_stack.size() - 1);
-		// 						selector.set(-1, -1);
-		// 						uncover();
-		// 						timer = 16;
-		// 						scorePoint+=10;
-		// 						done[x2] = true;
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// 	for(int x1 = 0; x1 < 8; x1++){
-		// 		for(int x2 = 0; x2 < 4; x2++){
-		// 			if(cards_field[x1].size() > 0) {
-		// 				if(cards_finish[x2].size() == 0) {
-		// 					if(cards_field[x1].get(cards_field[x1].size() - 1).number == 0){
-		// 						if(!done[x2]){
-		// 							cards_field[x1].get(cards_field[x1].size() - 1).setShift(0, 16, 0);
-		// 							cards_finish[x2].add(cards_field[x1].get(cards_field[x1].size() - 1));
-		// 							cards_field[x1].remove(cards_field[x1].size() - 1);
-		// 							selector.set(-1,  -1);
-		// 							uncover();
-		// 							timer = 16;
-		// 							scorePoint+=10;
-		// 							done[x2] = true;
-		// 						}
-		// 					}
-		// 				} else {
-		// 					if((cards_field[x1].get(cards_field[x1].size() - 1).number - 1 == cards_finish[x2].get(cards_finish[x2].size() - 1).number) && cards_finish[x2].get(cards_finish[x2].size() - 1).suit == cards_field[x1].get(cards_field[x1].size() - 1).suit) {
-		// 						if(!done[x2]){
-		// 							cards_field[x1].get(cards_field[x1].size() - 1).setShift(0, 16, 0);
-		// 							cards_finish[x2].add(cards_field[x1].get(cards_field[x1].size() - 1));
-		// 							cards_field[x1].remove(cards_field[x1].size() - 1);
-		// 							selector.set(-1,  -1);
-		// 							uncover();
-		// 							timer = 16;
-		// 							scorePoint+=10;
-		// 							done[x2] = true;
-		// 						}
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// 	compress();
-		// } else if(timer > 0){
-		// 	timer--;
-		// }
-		// for(int x = 0; x < 8; x++){
-		// 	if(cards_field[x].size() > 0) for(Card c : cards_field[x]){
-		// 		c.update();
-		// 	}
-		// }
-		// if(cards_stack.size() > 0) for(Card c : cards_stack){
-		// 	c.update();
-		// }
-		// for(int x = 0; x < 4; x++){
-		// 	if(cards_finish[x].size() > 0) for(Card c : cards_finish[x]){
-		// 		c.update();
-		// 	}
-		// }
-		// if(turnstate == 2){
-		// 	if(cards_finish[0].size() == 13 && cards_finish[1].size() == 13 && cards_finish[2].size() == 13 && cards_finish[3].size() == 13 && turnstate < 4) {
-		// 		turnstate = 4;
-		// 	}
-		// }
 	}
 	
 	public void updateMotion() {
@@ -433,7 +188,9 @@ public class Logic31 extends LogicModule {   //  Solitaire
 			if(cards_finish[ + x].size() > 0) for(Card c : cards_finish[x]){
 				c.update();
 			}
-			cards_freecell[x].update();
+		}
+		for(Card c: cards_reserve) {
+			c.update();
 		}
 	}
 	
@@ -452,66 +209,16 @@ public class Logic31 extends LogicModule {   //  Solitaire
 		cards_field[5] = loadCardList(compound, 5);
 		cards_field[6] = loadCardList(compound, 6);
 		cards_field[7] = loadCardList(compound, 7);
-				cards_finish[0] = loadCardList(compound,  8);
+		cards_finish[0] = loadCardList(compound,  8);
 		cards_finish[1] = loadCardList(compound,  9);
 		cards_finish[2] = loadCardList(compound, 10);
 		cards_finish[3] = loadCardList(compound, 11);
-		cards_freecell  = loadCardArray(compound, 12);
+		cards_reserve.addAll(loadCardList(compound, 12));
 		compress        = compound.getInt("compress");
 		timer           = compound.getInt("timer");
-		
-		//
-		// // ---
-		//
-		// cards_field[0] = loadCardList(compound, 0);
-		// cards_field[1] = loadCardList(compound, 1);
-		// cards_field[2] = loadCardList(compound, 2);
-		// cards_field[3] = loadCardList(compound, 3);
-		// cards_field[4] = loadCardList(compound, 4);
-		// cards_field[5] = loadCardList(compound, 5);
-		// cards_field[6] = loadCardList(compound, 6);
-		// cards_field[7] = loadCardList(compound, 7);
-		// cards_field[8] = loadCardList(compound, 8);
-		// cards_field[9] = loadCardList(compound, 9);
-		//
-		// cards_reserve[0] = loadCardList(compound, 10);
-		// cards_reserve[1] = loadCardList(compound, 11);
-		// cards_reserve[2] = loadCardList(compound, 12);
-		// cards_reserve[3] = loadCardList(compound, 13);
-		// cards_reserve[4] = loadCardList(compound, 14);
-		//
-		// cards_finish.addAll(loadCardList(compound, 15));
-		// compress = compound.getInt("compress");
-		// reserve  = compound.getInt("reserve");
-		//
-		// // ---
-		//
-		// cards_field[0] = loadCardList(compound, 0);
-		// cards_field[1] = loadCardList(compound, 1);
-		// cards_field[2] = loadCardList(compound, 2);
-		// cards_field[3] = loadCardList(compound, 3);
-		// cards_field[4] = loadCardList(compound, 4);
-		// cards_field[5] = loadCardList(compound, 5);
-		// cards_field[6] = loadCardList(compound, 6);
-		// cards_field[7] = loadCardList(compound, 7);
-		//
-		// cards_finish[0] = loadCardList(compound,  8);
-		// cards_finish[1] = loadCardList(compound,  9);
-		// cards_finish[2] = loadCardList(compound, 10);
-		// cards_finish[3] = loadCardList(compound, 11);
-		//
-		// cards_reserve.addAll(loadCardList(compound, 12));
-		// cards_stack.addAll(  loadCardList(compound, 13));
-		// compress = compound.getInt("compress");
-		// timer    = compound.getInt("timer");
 	}
 	
 	public CompoundTag save2(CompoundTag compound){
-		// return compound;
-		
-		// // ---
-		//
-		
 		saveCardList(compound, 0, cards_field[0]);
 		saveCardList(compound, 1, cards_field[1]);
 		saveCardList(compound, 2, cards_field[2]);
@@ -520,62 +227,14 @@ public class Logic31 extends LogicModule {   //  Solitaire
 		saveCardList(compound, 5, cards_field[5]);
 		saveCardList(compound, 6, cards_field[6]);
 		saveCardList(compound, 7, cards_field[7]);
-				saveCardList(compound,  8, cards_finish[0]);
+		saveCardList(compound,  8, cards_finish[0]);
 		saveCardList(compound,  9, cards_finish[1]);
 		saveCardList(compound, 10, cards_finish[2]);
 		saveCardList(compound, 11, cards_finish[3]);
-				saveCardArray(compound, 12, cards_freecell);
+		saveCardList(compound, 12, cards_reserve);
 		compound.putInt("compress", compress);
 		compound.putInt("timer", timer);
 		return compound;
-		
-		//
-		// // ---
-		//
-		// saveCardList(compound, 0, cards_field[0]);
-		// saveCardList(compound, 1, cards_field[1]);
-		// saveCardList(compound, 2, cards_field[2]);
-		// saveCardList(compound, 3, cards_field[3]);
-		// saveCardList(compound, 4, cards_field[4]);
-		// saveCardList(compound, 5, cards_field[5]);
-		// saveCardList(compound, 6, cards_field[6]);
-		// saveCardList(compound, 7, cards_field[7]);
-		// saveCardList(compound, 8, cards_field[8]);
-		// saveCardList(compound, 9, cards_field[9]);
-		//
-		// saveCardList(compound, 10, cards_reserve[0]);
-		// saveCardList(compound, 11, cards_reserve[1]);
-		// saveCardList(compound, 12, cards_reserve[2]);
-		// saveCardList(compound, 13, cards_reserve[3]);
-		// saveCardList(compound, 14, cards_reserve[4]);
-		//
-		// saveCardList(compound, 15, cards_finish);
-		// compound.putInt("compress", compress);
-		// compound.putInt("reserve",  reserve);
-		// return compound;
-		//
-		// // ---
-		//
-		// saveCardList(compound, 0, cards_field[0]);
-		// saveCardList(compound, 1, cards_field[1]);
-		// saveCardList(compound, 2, cards_field[2]);
-		// saveCardList(compound, 3, cards_field[3]);
-		// saveCardList(compound, 4, cards_field[4]);
-		// saveCardList(compound, 5, cards_field[5]);
-		// saveCardList(compound, 6, cards_field[6]);
-		// saveCardList(compound, 7, cards_field[7]);
-		//
-		// saveCardList(compound,  8, cards_finish[0]);
-		// saveCardList(compound,  9, cards_finish[1]);
-		// saveCardList(compound, 10, cards_finish[2]);
-		// saveCardList(compound, 11, cards_finish[3]);
-		//
-		// saveCardList(compound, 12, cards_reserve);
-		// saveCardList(compound, 13, cards_stack  );
-		//
-		// compound.putInt("compress", compress);
-		// compound.putInt("timer",    timer);
-		// return compound;
 	}
 	
 	
@@ -584,14 +243,47 @@ public class Logic31 extends LogicModule {   //  Solitaire
 	
 	// ---------- ---------- ---------- ----------  SUPPORT  ---------- ---------- ---------- ---------- //
 	
-	private void transferCards(List<Card> cards, List<Card> deck, int position, int count){
-		for(int i = 0; i < count; i++){
-			cards.add(deck.get(0));
-			deck.remove(0);
-		}
-		setJingle(SOUND_CARD_PLACE);
+	public boolean ruleGameModeKlondike(){
+		return ruleSet[0] == 0;
 	}
-		private void transferCards(List<Card> cards_field2, List<Card> deck, int position, int count, int shiftX, int shiftY){
+	
+	public int ruleSuits(){
+		return ruleSet[1] + 1;
+	}
+	
+	public boolean ruleSortingAscending(){
+		return ruleSet[2] == 0;
+	}
+	
+	public boolean ruleSortingDescending(){
+		return ruleSet[2] == 1;
+	}
+	
+	public boolean ruleSortingEven(){
+		return ruleSet[2] == 2;
+	}
+	
+	public boolean ruleReserveNone(){
+		return ruleSet[3] == 0;
+	}
+	
+	public boolean ruleReserveFreecell(){
+		return ruleSet[3] == 1;
+	}
+	
+	public boolean ruleReserveOnecard(){
+		return ruleSet[3] == 2;
+	}
+	
+	public boolean ruleReserveonestack(){
+		return ruleSet[3] == 3;
+	}
+	
+	public int rulePlaceOnColor(){
+		return ruleSet[4];
+	}
+	
+	private void transferCards(List<Card> cards_field2, List<Card> deck, int position, int count, int shiftX, int shiftY){
 		for(int i = position; i < position + count; i++){
 			deck.get(position).setShift(shiftX, shiftY, 0);
 			cards_field2.add(deck.get(position));
@@ -599,57 +291,72 @@ public class Logic31 extends LogicModule {   //  Solitaire
 		}
 		setJingle(SOUND_CARD_PLACE);
 	}
-		private List<Card> shuffleDeck() {
+	
+	private List<Card> shuffleDeck() {
 		List<Card> stack = new ArrayList<Card>();
 		List<Card> deck  = new ArrayList<Card>();
-			for(int y = 0; y < 4; y++) {
+			for(int y = 1; y < ruleSuits()+1; y++) {
 			for(int x = 0; x < 13; x++) {
-				stack.add(new Card(x, y));
+				stack.add(new Card(x, y%4));
 			}
 		}
-			while(stack.size() > 1) {
+		while(stack.size() > 1) {
 			int r = RANDOM.nextInt(stack.size() - 1);
 			deck.add(stack.get(r));
 			stack.remove(r);
 		}
 		deck.add(stack.get(0));
-			return deck;
+		return deck;
 	}
-		private void freeCell(int cell) {
+	
+	private void touchFreeCell(int cell) {
 		if(selector.matches(-1, -1)) {
-			if(!cards_freecell[cell].equals(-1, -1)) {
+			if(!cards_reserve.get(cell).equals(-1, -1)) {
 				selector.set(cell, -2);
 			}
-		} else if(selector.Y >= 0) {
-			if(cards_freecell[cell].suit == -1) {
+		} else if(selector.Y >= 0) { // Field-to-Cell
+			if(cards_reserve.get(cell).suit == -1) {
 				if(selector.Y == cards_field[selector.X].size() - 1) {
 					cards_field[selector.X].get(cards_field[selector.X].size() - 1).setShift(0, 16, 0);
-					cards_freecell[cell].set(cards_field[selector.X].get(cards_field[selector.X].size() - 1));
+					cards_reserve.get(cell).set(cards_field[selector.X].get(cards_field[selector.X].size() - 1));
 					cards_field[selector.X].remove(cards_field[selector.X].size() - 1);
 					selector.set(-1, -1);
+					uncover();
+					scorePoint -= 1;
+					if(scorePoint < 0) scorePoint = 0;
 					setJingle(SOUND_CARD_PLACE);
 				}
 			}
 		}
 	}
-		private void touchFinish(int slot) {
+	
+	private void touchStack() {
+		selector.set(cards_reserve.size() - 1, -2);
+	}
+	
+	private void touchFinish(int slot) {
 		if(!selector.matches(-1, -1)) {
 			if(selector.Y == -2) { // Cell-to-Finish
 				boolean copy = false;
 				if(cards_finish[slot].size() == 0) {
-					if(cards_freecell[selector.X].number == 0){
+					if(cards_reserve.get(selector.X).number == 0){
 						copy = true;
 					}
 				} else {
-					if((cards_freecell[selector.X].number - 1 == cards_finish[slot].get(cards_finish[slot].size() - 1).number) && cards_finish[slot].get(cards_finish[slot].size() - 1).suit == cards_freecell[selector.X].suit) {
+					if((cards_reserve.get(selector.X).number - 1 == cards_finish[slot].get(cards_finish[slot].size() - 1).number) && cards_finish[slot].get(cards_finish[slot].size() - 1).suit == cards_reserve.get(selector.X).suit) {
 						copy = true;
 					}
 				}
 				if(copy){
-					cards_freecell[selector.X].setShift(0, 16, 0);
-					cards_finish[slot].add(cards_freecell[selector.X]);
-					cards_freecell[selector.X] = new Card(-1, -1);
+					cards_reserve.get(selector.X).setShift(0, 16, 0);
+					cards_finish[slot].add(cards_reserve.get(selector.X));
+					cards_reserve.remove(selector.X);
+					if(ruleReserveFreecell()){
+						cards_reserve.add(selector.X, new Card(-1, -1));
+					}
 					selector.set(-1,  -1);
+					uncover();
+					scorePoint+=10;
 					setJingle(SOUND_CARD_PLACE);
 				}
 			} else { // Field-to-Finish
@@ -669,6 +376,8 @@ public class Logic31 extends LogicModule {   //  Solitaire
 						cards_finish[slot].add(cards_field[selector.X].get(cards_field[selector.X].size() - 1));
 						cards_field[selector.X].remove(cards_field[selector.X].size() - 1);
 						selector.set(-1,  -1);
+						uncover();
+						scorePoint+=10;
 						setJingle(SOUND_CARD_PLACE);
 					}
 				}
@@ -677,55 +386,63 @@ public class Logic31 extends LogicModule {   //  Solitaire
 		compress();
 	}
 		private void touchField(int x, int y) {
-		int x2 = x;
-		int y2 = y;
 		if(selector.Y == -2) {
-			if(!moveStack(x, y)) {
+			if(!moveStack(x)) {
 				selector.set(-1,  -1);
 			}
 		} else
-		if(cards_field[x2].size() >= y2 - 1) {
+		if(cards_field[x].size() >= y - 1) {
 			if(selector.matches(-1,  -1)) {
-				y2 = cards_field[x2].size() <= y2 ? cards_field[x2].size() - 1 : y2;
-				float tempCard = cards_field[x2].get(y2).number;
-				float tempSuit = cards_field[x2].get(y2).suit;
-				for(int i = y2; i < cards_field[x2].size(); i++) {
-					if(i != cards_field[x2].size() - 1) {
-						if(((cards_field[x2].get(i).number - 1 != cards_field[x2].get(i+1).number) && !(cards_field[x2].get(i).number == 1 && cards_field[x2].get(i+1).number == 13)) || !differentColors(cards_field[x2].get(i).suit, cards_field[x2].get(i+1).suit)) {
+				y = cards_field[x].size() <= y ? cards_field[x].size() - 1 : y;
+				for(int i = y; i < cards_field[x].size(); i++) {
+					if(i != cards_field[x].size() - 1) {
+						if(((cards_field[x].get(i).number - 1 != cards_field[x].get(i+1).number) && !(cards_field[x].get(i).number == 1 && cards_field[x].get(i+1).number == 13)) || !compareColors(cards_field[x].get(i).suit, cards_field[x].get(i+1).suit)) {
 							return;
 						}
 					}
 				}
-				selector.set(x2, y2);
+				selector.set(x, y);
 			} else {
-				if(!moveStack(x, y)) {
+				if(!moveStack(x)) {
 					selector.set(-1, -1);
 				}
 			}
 		}
 		compress();
 	}
-		private boolean moveStack(int x, int y) {
-		int x2 = x;
-		int y2 = cards_field[x2].size() - 1;
+		private boolean moveStack(int x) {
+		int y = cards_field[x].size() - 1;
 		if(selector.Y != -2) { // Field-to-Field
-			if(cards_field[x2].size() == 0 || ((cards_field[selector.X].get(selector.Y).number + 1 == cards_field[x2].get(y2).number) && differentColors(cards_field[x2].get(y2).suit, cards_field[selector.X].get(selector.Y).suit))) {
-				transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
+			if(cards_field[x].size() == 0 || ((cards_field[selector.X].get(selector.Y).number + 1 == cards_field[x].get(y).number) && compareColors(cards_field[x].get(y).suit, cards_field[selector.X].get(selector.Y).suit))) {
+				transferCards(cards_field[x], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
 				selector.set(-1, -1);
+				uncover();
 				return true;
 			}
 		} else { // Cell-to-Field
-			if(cards_field[x2].size() == 0 || ((cards_freecell[selector.X].number + 1 == cards_field[x2].get(y2).number) && differentColors(cards_field[x2].get(y2).suit, cards_freecell[selector.X].suit))) {
-				cards_freecell[selector.X].setShift(0, 16, 0);
-				cards_field[x2].add(new Card(cards_freecell[selector.X]));
-				cards_freecell[selector.X].set(-1, -1);
-				selector.set(-1, -1);
-				return true;
+			if(ruleReserveFreecell()){
+				if(cards_field[x].size() == 0 || ((cards_reserve.get(selector.X).number + 1 == cards_field[x].get(y).number) && compareColors(cards_field[x].get(y).suit, cards_reserve.get(selector.X).suit))) {
+					cards_reserve.get(selector.X).setShift(0, 16, 0);
+					cards_field[x].add(new Card(cards_reserve.get(selector.X)));
+					cards_reserve.get(selector.X).set(-1, -1);
+					selector.set(-1, -1);
+					return true;
+				}
+			}
+			if(ruleReserveOnecard()){
+				if(cards_field[x].size() == 0 || ((cards_reserve.get(selector.X).number + 1 == cards_field[x].get(y).number) && compareColors(cards_field[x].get(y).suit, cards_reserve.get(selector.X).suit))) {
+					cards_reserve.get(selector.X).setShift(0, 16, 0);
+					cards_field[x].add(new Card(cards_reserve.get(selector.X)));
+					cards_reserve.remove(selector.X);
+					selector.set(-1, -1);
+					return true;
+				}
 			}
 		}
 		return false;
 	}
-		private void compress() {
+	
+	private void compress() {
 		int i = 0;
 		for(int x = 0; x < 8; x++) {
 			if(cards_field[x].size() > i) i = cards_field[x].size();
@@ -736,371 +453,41 @@ public class Logic31 extends LogicModule {   //  Solitaire
 			compress = 0;
 		}
 	}
-		private boolean differentColors(float a, float b) {
-		if(a == 0 || a == 1) if(b == 2 || b == 3) return true;
-		if(a == 2 || a == 3) return b == 0 || b == 1;
+	
+	private void uncover(){
+		for(int x = 0; x < 8; x++){
+			if(cards_field[x].size() > 0)
+				cards_field[x].get(cards_field[x].size() - 1).hidden = false;
+		}
+	}
+	
+	private void drawReserve() {
+		if(cards_reserve.size() > 0) {
+			cards_reserve.get(0).setShift(-32, 0, 0);
+			cards_reserve.add(cards_reserve.get(0));
+			cards_reserve.remove(0);
+			scorePoint -= 1;
+			if(scorePoint < 0) scorePoint = 0;
+			setJingle(SOUND_CARD_SHOVE);
+		}
+	}
+	
+	private boolean compareColors(float a, float b) {
+		if(rulePlaceOnColor() == 0){
+			return true;
+		} else if(rulePlaceOnColor() == 1){
+			if( (a <= 1 && b <= 1) || (a >= 2 && b >= 2) ) return true;
+		} else if(rulePlaceOnColor() == 2){
+			if( (a == 0 || a == 1) && (b == 2 || b == 3) ) return true;
+			if( (a == 2 || a == 3) && (b == 0 || b == 1) ) return true;
+		}
 		return false;
 	}
 	
-	//
-	// private void transferCards(List<Card> cards_field2, List<Card> deck, int position, int count){
-	// 	for(int i = position; i < position + count; i++){
-	// 		cards_field2.add(deck.get(position));
-	// 		deck.remove(position);
-	// 		setJingle(SOUND_CARD_PLACE);
-	// 	}
-	// }
-	//
-	// private void transferCards(List<Card> cards_field2, List<Card> deck, int position, int count, int shiftX, int shiftY){
-	// 	for(int i = position; i < position + count; i++){
-	// 		deck.get(position).setShift(shiftX, shiftY, 0);
-	// 		cards_field2.add(deck.get(position));
-	// 		deck.remove(position);
-	// 		setJingle(SOUND_CARD_PLACE);
-	// 	}
-	// }
-	//
-	// private List<Card> shuffleDeck() {
-	// 	List<Card> stack = new ArrayList<Card>();
-	// 	List<Card> deck  = new ArrayList<Card>();
-	//
-	// 	int plus = tableID == 2  ? 1 : 2;
-	// 	for(int y = 0; y < 4; y += plus) {
-	// 		for(int x = 0; x < 13; x++) {
-	// 			stack.add(new Card(x, y));
-	// 			stack.add(new Card(x, y));
-	// 		}
-	// 	}
-	//
-	// 	while(stack.size() > 1) {
-	// 		int r = RANDOM.nextInt(stack.size() - 1);
-	// 		deck.add(stack.get(r));
-	// 		stack.remove(r);
-	// 	}
-	// 	deck.add(stack.get(0));
-	//
-	// 	return deck;
-	// }
-	//
-	// private void drawReserve() {
-	// 	if(reserve < 5){
-	// 		for(int x = 0; x < (tableID == 1 ? 7 : 10); x++) {
-	// 			cards_reserve[reserve].get(x).setShift(0, 24, 0);
-	// 			cards_field[x].add(cards_reserve[reserve].get(x));
-	// 			setJingle(SOUND_CARD_SHOVE);
-	// 		}
-	// 		cards_reserve[reserve].clear();
-	// 		reserve++;
-	// 	}
-	// }
-	//
-	// private void touchField(int x, int y) {
-	// 	if(cards_field[x].size() >= y - 1) {
-	// 		if(selector.matches(-1, -1)) {
-	// 			int x2 = x;
-	// 			int y2 = cards_field[x].size() <= y ? cards_field[x].size()-1 : y;
-	// 			for(int i = y2; i < cards_field[x2].size(); i++) {
-	// 				if(i != cards_field[x2].size() - 1) {
-	// 					if((cards_field[x2].get(i).number - 1 != cards_field[x2].get(i + 1).number) && !(cards_field[x2].get(i).number == 1 && cards_field[x2].get(i + 1).number == 13)) {
-	// 						return;
-	// 					}
-	// 				}
-	// 			}
-	// 			selector.set(x2, y2);
-	// 		} else {
-	// 			if(!moveStack(x, y)) {
-	// 				selector.set(-1, -1);
-	// 			}
-	// 		}
-	// 	}
-	// 	compress();
-	// }
-	//
-	// private boolean moveStack(int x, int y) {
-	// 	int x2 = x;
-	// 	int y2 = cards_field[x2].size() - 1;
-	// 	if(cards_field[x2].size() == 0) {
-	// 		transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
-	// 		selector.set(-1, -1);
-	// 		clearRow(x2);
-	// 		setJingle(SOUND_CARD_PLACE);
-	// 		return true;
-	// 	} else {
-	// 		if(cards_field[selector.X].get(selector.Y).number + 1 == cards_field[x2].get(y2).number) {
-	// 			transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
-	// 			selector.set(-1, -1);
-	// 			clearRow(x2);
-	// 			setJingle(SOUND_CARD_PLACE);
-	// 			return true;
-	// 		}
-	// 	}
-	// 	return false;
-	// }
-	//
-	// private void clearRow(int row) {
-	// 	if(cards_field[row].size() >= 13) {
-	// 		for(int i = 0; i < cards_field[row].size(); i++) {
-	// 			if(cards_field[row].get(i).number == 12) {
-	// 				for(int j = 0; j < cards_field[row].size()-1; j++) {
-	// 					if(12 - j == 0 && cards_field[row].get(i + j).number == 13 && cards_field[row].get(i).suit == cards_field[row].get(i + j).suit) {
-	// 						cards_finish.add(cards_field[row].get(cards_field[row].size() - 1));
-	// 						for(int z = cards_field[row].size() - 13; z < cards_field[row].size() - 13; z++) cards_field[row].remove(z);
-	// 						return;
-	// 					}
-	// 					if(12 - j != cards_field[row].get(i + j).number || cards_field[row].get(i).suit != cards_field[row].get(i + j).suit) break;
-	//
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-	//
-	// private void compress() {
-	// 	int i = 0;
-	// 	for(int x = 0; x < 8; x++) {
-	// 		if(cards_field[x].size() > i) i = cards_field[x].size();
-	// 	}
-	// 	if(i > 8) {
-	// 		compress = i-5;
-	// 	} else {
-	// 		compress = 0;
-	// 	}
-	// }
-	//
-	// private void transferCards(List<Card> cards_field2, List<Card> deck, int position, int count){
-	// 	for(int i = position; i < position + count; i++){
-	// 		cards_field2.add(deck.get(position));
-	// 		deck.remove(position);
-	// 		setJingle(SOUND_CARD_PLACE);
-	// 	}
-	// }
-	//
-	// private void transferCards(List<Card> cards_field2, List<Card> deck, int position, int count, int shiftX, int shiftY){
-	// 	for(int i = position; i < position + count; i++){
-	// 		deck.get(position).setShift(shiftX, shiftY, 0);
-	// 		cards_field2.add(deck.get(position));
-	// 		deck.remove(position);
-	// 		setJingle(SOUND_CARD_PLACE);
-	// 	}
-	// }
-	//
-	// private List<Card> shuffleDeck() {
-	// 	List<Card> stack = new ArrayList<Card>();
-	// 	List<Card> deck  = new ArrayList<Card>();
-	//
-	// 	for(int y = 0; y < 4; y++) {
-	// 		for(int x = 0; x < 13; x++) {
-	// 			stack.add(new Card(x, y));
-	// 		}
-	// 	}
-	//
-	// 	while(stack.size() > 1) {
-	// 		int r = RANDOM.nextInt(stack.size() - 1);
-	// 		deck.add(stack.get(r));
-	// 		stack.remove(r);
-	// 	}
-	// 	deck.add(stack.get(0));
-	//
-	// 	return deck;
-	// }
-	//
-	// private void uncover(){
-	// 	for(int x = 0; x < 8; x++){
-	// 		if(cards_field[x].size() > 0)
-	// 			cards_field[x].get(cards_field[x].size() - 1).hidden = false;
-	// 	}
-	// }
-	//
-	// private void drawReserve() {
-	// 	if(cards_reserve.size() > 0) {
-	// 		cards_reserve.get(0).setShift(-32, 0, 0);
-	// 		cards_stack.add(cards_reserve.get(0));
-	// 		cards_reserve.remove(0);
-	// 		setJingle(SOUND_CARD_SHOVE);
-	// 	} else {
-	// 		if(scoreLives > 0){
-	// 			cards_reserve.addAll(cards_stack);
-	// 			cards_stack.clear();
-	// 			scorePoint -= 100;
-	// 			if(scorePoint < 0) scorePoint = 0;
-	// 			setJingle(SOUND_CARD_SHOVE);
-	// 		}
-	// 	}
-	// }
-	//
-	// private void touchStack() {
-	// 	selector.set(-2, -2);
-	// }
-	//
-	// private void touchFinish(int slot) {
-	// 	if(!selector.matches(-1, -1)) {
-	//
-	// 		// ----- Cell-to-Finish ----- //
-	// 		if(selector.Y == -2) {
-	// 			if(cards_stack.size() > 0){
-	// 				if(cards_finish[slot].size() == 0) {
-	// 					if(cards_stack.get(cards_stack.size() - 1).number == 0){
-	// 						cards_stack.get(cards_stack.size() - 1).setShift(0, 16, 0);
-	// 						cards_finish[slot].add(cards_stack.get(cards_stack.size() - 1));
-	// 						cards_stack.remove(cards_stack.size() - 1);
-	// 						selector.set(-1,  -1);
-	// 						uncover();
-	// 						scorePoint+=10;
-	// 						setJingle(SOUND_CARD_PLACE);
-	// 					}
-	// 				} else {
-	// 					if((cards_stack.get(cards_stack.size() - 1).number - 1 == cards_finish[slot].get(cards_finish[slot].size() - 1).number) && cards_finish[slot].get(cards_finish[slot].size() - 1).suit == cards_stack.get(cards_stack.size() - 1).suit) {
-	// 						cards_stack.get(cards_stack.size() - 1).setShift(0, 16, 0);
-	// 						cards_finish[slot].add(cards_stack.get(cards_stack.size() - 1));
-	// 						cards_stack.remove(cards_stack.size() - 1);
-	// 						selector.set(-1, -1);
-	// 						uncover();
-	// 						scorePoint+=10;
-	// 						setJingle(SOUND_CARD_PLACE);
-	// 					}
-	// 				}
-	// 			}
-	//
-	// 			// ----- Field-to-Finish ----- //
-	// 		} else {
-	// 			if(selector.Y == cards_field[selector.X].size() - 1) {
-	// 				if(cards_finish[slot].size() == 0) {
-	// 					if(cards_field[selector.X].get(selector.Y).number == 0){
-	// 						cards_field[selector.X].get(cards_field[selector.X].size() - 1).setShift(0, 16, 0);
-	// 						cards_finish[slot].add(cards_field[selector.X].get(cards_field[selector.X].size() - 1));
-	// 						cards_field[selector.X].remove(cards_field[selector.X].size() - 1);
-	// 						selector.set(-1,  -1);
-	// 						uncover();
-	// 						scorePoint+=10;
-	// 						setJingle(SOUND_CARD_PLACE);
-	// 					}
-	// 				} else {
-	// 					if((cards_field[selector.X].get(selector.Y).number - 1 == cards_finish[slot].get(cards_finish[slot].size() - 1).number) && cards_finish[slot].get(cards_finish[slot].size() - 1).suit == cards_field[selector.X].get(selector.Y).suit) {
-	// 						cards_field[selector.X].get(cards_field[selector.X].size() - 1).setShift(0, 16, 0);
-	// 						cards_finish[slot].add(cards_field[selector.X].get(cards_field[selector.X].size() - 1));
-	// 						cards_field[selector.X].remove(cards_field[selector.X].size() - 1);
-	// 						selector.set(-1,  -1);
-	// 						uncover();
-	// 						scorePoint+=10;
-	// 						setJingle(SOUND_CARD_PLACE);
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// 	compress();
-	// }
-	//
-	// private void touchField(int x, int y) {
-	// 	int x2 = x;
-	// 	int y2 = y;
-	// 	if(selector.Y == -2) {
-	// 		if(!moveStack(x, y)) {
-	// 			selector.set(-1,  -1);
-	// 			uncover();
-	// 		}
-	// 	} else
-	// 	if(cards_field[x2].size() >= y2 - 1) {
-	// 		if(selector.matches(-1,  -1)) {
-	// 			if(cards_field[x2].size() > 0){
-	// 				y2 = cards_field[x2].size() <= y2 ? cards_field[x2].size() - 1 : y2;
-	// 				for(int i = y2; i < cards_field[x2].size(); i++) {
-	// 					if(i != cards_field[x2].size() - 1) {
-	// 						if(((cards_field[x2].get(i).number - 1 != cards_field[x2].get(i + 1).number) && !(cards_field[x2].get(i).number == 1 && cards_field[x2].get(i + 1).number == 13)) || !differentColors(cards_field[x2].get(i).suit, cards_field[x2].get(i + 1).suit)) {
-	// 							return;
-	// 						}
-	// 					}
-	// 				}
-	// 				selector.set(x2, y2);
-	// 			}
-	// 		} else {
-	// 			if(!moveStack(x, y)) {
-	// 				selector.set(-1, -1);
-	// 				if(cards_field[x2].size() > 0){
-	// 					y2 = cards_field[x2].size() <= y2 ? cards_field[x2].size() - 1 : y2;
-	// 					for(int i = y2; i < cards_field[x2].size(); i++) {
-	// 						if(i != cards_field[x2].size() - 1) {
-	// 							if(((cards_field[x2].get(i).number - 1 != cards_field[x2].get(i + 1).number) && !(cards_field[x2].get(i).number == 1 && cards_field[x2].get(i + 1).number == 13)) || !differentColors(cards_field[x2].get(i).suit, cards_field[x2].get(i + 1).suit)) {
-	// 								return;
-	// 							}
-	// 						}
-	// 					}
-	// 					selector.set(x2, y2);
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// 	compress();
-	// }
-	//
-	// private boolean moveStack(int x, int y) {
-	// 	int x2 = x;
-	// 	int y2 = cards_field[x2].size() - 1;
-	//
-	// 	// ----- Field-to-Field ----- //
-	// 	if(selector.Y != -2) {
-	// 		if(cards_field[x2].size() == 0) {
-	// 			transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
-	// 			selector.set(-1, -1);
-	// 			uncover();
-	// 			setJingle(SOUND_CARD_PLACE);
-	// 			return true;
-	// 		} else {
-	// 			if((cards_field[selector.X].get(selector.Y).number + 1 == cards_field[x2].get(y2).number) && differentColors(cards_field[x2].get(y2).suit, cards_field[selector.X].get(selector.Y).suit)) {
-	// 				transferCards(cards_field[x2], cards_field[selector.X], selector.Y, cards_field[selector.X].size() - selector.Y, 0, 16);
-	// 				selector.set(-1, -1);
-	// 				uncover();
-	// 				setJingle(SOUND_CARD_PLACE);
-	// 				return true;
-	// 			}
-	// 		}
-	//
-	// 		// ----- Cell-to-Field ----- //
-	// 	} else {
-	// 		if(cards_stack.size() > 0){
-	// 			if(cards_field[x2].size() == 0) {
-	// 				cards_stack.get(cards_stack.size() - 1).setShift(0, 16, 0);
-	// 				cards_field[x2].add(cards_stack.get(cards_stack.size() - 1));
-	// 				cards_stack.remove(cards_stack.size() - 1);
-	// 				selector.set(-1, -1);
-	// 				uncover();
-	// 				scorePoint+=5;
-	// 				setJingle(SOUND_CARD_PLACE);
-	// 				return true;
-	// 			} else {
-	// 				if((cards_stack.get(cards_stack.size() - 1).number + 1 == cards_field[x2].get(y2).number) && differentColors(cards_field[x2].get(y2).suit, cards_stack.get(cards_stack.size() - 1).suit)) {
-	// 					cards_stack.get(cards_stack.size() - 1).setShift(0, 16, 0);
-	// 					cards_field[x2].add(cards_stack.get(cards_stack.size() - 1));
-	// 					cards_stack.remove(cards_stack.size() - 1);
-	// 					selector.set(-1, -1);
-	// 					uncover();
-	// 					scorePoint+=5;
-	// 					setJingle(SOUND_CARD_PLACE);
-	// 					return true;
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// 	return false;
-	// }
-	//
-	// private void compress() {
-	// 	int i = 0;
-	// 	for(int x = 0; x < 8; x++) {
-	// 		if(cards_field[x].size() > i) i = cards_field[x].size();
-	// 	}
-	// 	if(i > 6) {
-	// 		compress = i-3;
-	// 	} else {
-	// 		compress = 0;
-	// 	}
-	// }
-	//
-	// private boolean differentColors(float a, float b) {
-	// 	if(a == 0 || a == 1) if(b == 2 || b == 3) return true;
-	// 	if(a == 2 || a == 3) return b == 0 || b == 1;
-	// 	return false;
-	// }
+	private void activateAutoSort(){
+		timer = 0;
+		selector.set(-1, -1);
+	}
 	
 	
 	
@@ -1117,11 +504,11 @@ public class Logic31 extends LogicModule {   //  Solitaire
 	}
 	
 	public int getID(){
-		return 20;
+		return 31;
 	}
 	
 	public String getName(){
-		return "solitaire";
+		return "klondike";
 	}
 	
 	

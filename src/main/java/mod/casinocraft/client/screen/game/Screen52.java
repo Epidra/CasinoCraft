@@ -32,10 +32,6 @@ public class Screen52 extends ScreenCasino {   //  2048  :  Maysic Square
 		return (Logic52) menu.logic();
 	}
 	
-	protected String getGameName() {
-		return "2048";
-	}
-	
 	protected void createGameButtons(){
 	
 	}
@@ -75,19 +71,6 @@ public class Screen52 extends ScreenCasino {   //  2048  :  Maysic Square
 				}
 			}
 		}
-		
-		//
-		// // ---
-		//
-		// // RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_MYSTICSQUARE);
-		// for(int y = 0; y < 4; y++) {
-		// 	for(int x = 0; x < 4; x++) {
-		// 		int i = logic().grid[x][y] % 20;
-		// 		if(i != -1) {
-		// 			matrix.blit(Register.TEXTURE_MYSTICSQUARE, leftPos + 32 + 48*x, topPos + 32 + 48*y, (i % 4)*48, (i / 4)*48, 48, 48);
-		// 		}
-		// 	}
-		// }
 	}
 	
 	

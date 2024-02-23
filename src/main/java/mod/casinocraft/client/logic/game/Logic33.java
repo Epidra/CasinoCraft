@@ -11,12 +11,6 @@ import static mod.casinocraft.util.mapping.SoundMap.SOUND_CARD_PLACE;
 
 public class Logic33 extends LogicModule {   //  Mau Mau
 	
-	// GAME MODE -- MAUMAU
-	// RULE 1 -- ??
-	// RULE 2 -- ??
-	// RULE 3 -- ??
-	// COLOR VARIATION -- Card Design
-	
 	// --------------------------------------------------
 	
 	public List<Card> cardsP1 = new ArrayList<>();
@@ -276,7 +270,7 @@ public class Logic33 extends LogicModule {   //  Mau Mau
 	}
 	
 	public int getID(){
-		return 13;
+		return 33;
 	}
 	
 	public String getName(){

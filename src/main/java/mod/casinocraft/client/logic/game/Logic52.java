@@ -8,14 +8,6 @@ import static mod.lucky77.util.KeyMap.*;
 
 public class Logic52 extends LogicModule {   //  2048  :  Mystic Square
 	
-	// GAME   -- 2048  /  Mystic Square
-	// RULE 1 -- Undo Button  /  ---
-	// RULE 2 -- ?? / Points through Merge / Points per Turn
-	// RULE 3 -- ??
-	// RULE 4 -- ??
-	
-	// --------------------------------------------------
-	
 	public boolean canUndo = false;
 	public boolean placing = false;
 	public boolean timerActive = false;
@@ -92,27 +84,23 @@ public class Logic52 extends LogicModule {   //  2048  :  Mystic Square
 		if(action == KEY_ENTER) undoTurn();
 		if(action == KEY_UP || action == KEY_DOWN || action == KEY_LEFT || action == KEY_RIGHT){
 			if(ruleSet[1] == 0){
-				canUndo = true;
-				if(ruleSet[1] == 0){
-					canUndo = true;
-					undo[ 0] = grid[0][0];
-					undo[ 1] = grid[0][1];
-					undo[ 2] = grid[0][2];
-					undo[ 3] = grid[0][3];
-					undo[ 4] = grid[1][0];
-					undo[ 5] = grid[1][1];
-					undo[ 6] = grid[1][2];
-					undo[ 7] = grid[1][3];
-					undo[ 8] = grid[2][0];
-					undo[ 9] = grid[2][1];
-					undo[10] = grid[2][2];
-					undo[11] = grid[2][3];
-					undo[12] = grid[3][0];
-					undo[13] = grid[3][1];
-					undo[14] = grid[3][2];
-					undo[15] = grid[3][3];
-					undo[16] = scorePoint;
-				}
+				undo[ 0] = grid[0][0];
+				undo[ 1] = grid[0][1];
+				undo[ 2] = grid[0][2];
+				undo[ 3] = grid[0][3];
+				undo[ 4] = grid[1][0];
+				undo[ 5] = grid[1][1];
+				undo[ 6] = grid[1][2];
+				undo[ 7] = grid[1][3];
+				undo[ 8] = grid[2][0];
+				undo[ 9] = grid[2][1];
+				undo[10] = grid[2][2];
+				undo[11] = grid[2][3];
+				undo[12] = grid[3][0];
+				undo[13] = grid[3][1];
+				undo[14] = grid[3][2];
+				undo[15] = grid[3][3];
+				undo[16] = scorePoint;
 			}
 			canUndo = false;
 		}
@@ -237,17 +225,6 @@ public class Logic52 extends LogicModule {   //  2048  :  Mystic Square
 				}
 			}
 		}
-		
-		// setJingle(SOUND_CHIP);
-		// for(int x = 0; x < 4; x++) {
-		// 	for(int y = 0; y < 4; y++) {
-		// 		if((direction == 0 || direction == KEY_UP)    && y > 0) if(grid[x][y - 1] == -1) grid[x][y] += 20;
-		// 		if((direction == 1 || direction == KEY_DOWN)  && y < 3) if(grid[x][y + 1] == -1) grid[x][y] += 20;
-		// 		if((direction == 2 || direction == KEY_LEFT)  && x > 0) if(grid[x - 1][y] == -1) grid[x][y] += 20;
-		// 		if((direction == 3 || direction == KEY_RIGHT) && x < 3) if(grid[x + 1][y] == -1) grid[x][y] += 20;
-		// 	}
-		// }
-		// change(direction);
 	}
 	
 	private void change() {
@@ -321,17 +298,6 @@ public class Logic52 extends LogicModule {   //  2048  :  Mystic Square
 						grid[x][y] = 0;
 					}
 				}
-			}
-		}
-	}
-	
-	private void change(int direction) {
-		for(int x = 0; x < 4; x++) {
-			for(int y = 0; y < 4; y++) {
-				if((direction == 0 || direction == KEY_UP)    && grid[x][y] >= 20) { grid[x][y - 1] = grid[x][y] % 20; grid[x][y] = -1; }
-				if((direction == 1 || direction == KEY_DOWN)  && grid[x][y] >= 20) { grid[x][y + 1] = grid[x][y] % 20; grid[x][y] = -1; }
-				if((direction == 2 || direction == KEY_LEFT)  && grid[x][y] >= 20) { grid[x - 1][y] = grid[x][y] % 20; grid[x][y] = -1; }
-				if((direction == 3 || direction == KEY_RIGHT) && grid[x][y] >= 20) { grid[x + 1][y] = grid[x][y] % 20; grid[x][y] = -1; }
 			}
 		}
 	}
@@ -466,10 +432,6 @@ public class Logic52 extends LogicModule {   //  2048  :  Mystic Square
 	
 	
 	
-	
-	
-	
-	
 	// ---------- ---------- ---------- ----------  BASIC  ---------- ---------- ---------- ---------- //
 	
 	public boolean hasHighscore(){
@@ -481,7 +443,7 @@ public class Logic52 extends LogicModule {   //  2048  :  Mystic Square
 	}
 	
 	public int getID(){
-		return 10;
+		return 52;
 	}
 	
 	public String getName(){

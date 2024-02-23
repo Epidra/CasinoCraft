@@ -34,7 +34,7 @@ public class Menu52 extends MenuCasino {  //  2048  :  Mystic Square
 	
 	@Override
 	public int getID(){
-		return 10;
+		return 52;
 	}
 	
 	

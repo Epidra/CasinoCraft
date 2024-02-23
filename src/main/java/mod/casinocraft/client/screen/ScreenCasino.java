@@ -284,44 +284,29 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 		
 		// ----- Arcade Background (dummy) ----- //
 		if(tableID == 0 && (logic() instanceof LogicDummy)) {
-			Random RANDOM = new Random();
-			// RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_STATIC);
-			
 			matrix.blit(Register.TEXTURE_STATIC, leftPos + 32 + 0, topPos + 0, 32*6, 32*8, 32*6, 32*8);
-			
-			// for(int y = 0; y < 8; y++){
-			// 	for(int x = 0; x < 6; x++){
-			// 		matrix.blit(Register.TEXTURE_STATIC, leftPos + 32 + 32*x, topPos + 32*y, 32*logic().scoreLives, 32*logic().scorePoint, 32, 32);
-			// 	}
-			// }
-			// RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_GROUND_ARCADE);
 			matrix.blit(Register.TEXTURE_GROUND_ARCADE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
 		}
 		
 		// ----- Arcade Background (game) ----- //
 		if(tableID == 0 && !(logic() instanceof LogicDummy)) {
-			// RenderSystem.setShaderTexture(0, getParallaxTexture(true));
 			matrix.blit(getParallaxTexture(true), leftPos, topPos, 0, camera1, 256, 256);
-			// RenderSystem.setShaderTexture(0, getParallaxTexture(false));
 			matrix.blit(getParallaxTexture(false), leftPos, topPos, 0, camera0, 256, 256);
 		}
 		
 		// ----- Card Table Background (small) ----- //
 		if(tableID == 1){
-			// RenderSystem.setShaderTexture(0, getBackgroundCardTable());
 			matrix.blit(getBackgroundCardTable(), leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight); // Background
 		}
 		
 		// ----- Card Table Background (wide) ----- //
 		if(tableID == 2){
-			// RenderSystem.setShaderTexture(0, getBackgroundCardTable());
 			matrix.blit(getBackgroundCardTable(), leftPos -  96, topPos,  0, 0, this.imageWidth-32, this.imageHeight); // Background Left
 			matrix.blit(getBackgroundCardTable(), leftPos + 128, topPos, 32, 0, this.imageWidth-32, this.imageHeight); // Background Right
 		}
 		
 		// ----- Slot Machine Background ----- //
 		if(tableID == 3){
-			// RenderSystem.setShaderTexture(0, getBackgroundSlotMachine());
 			matrix.blit(getBackgroundSlotMachine(), leftPos +  31, topPos -   1,   0,   0, 194, 162); // Upper Part
 			matrix.blit(getBackgroundSlotMachine(), leftPos      , topPos + 163,   0, 162, 256,  94); // Lower Part
 			matrix.blit(getBackgroundSlotMachine(), leftPos + 256, topPos + 178, 224,  64,  32,  64); // Crank
@@ -367,7 +352,6 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 		
 		// ----- Buttons ----- //
 		if(tableID == 1 || tableID == 2){
-			// RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_BUTTONS);
 			while (buttonSet.next()){
 				if(buttonSet.isVisible()    ){ matrix.blit(Register.TEXTURE_BUTTONS, leftPos + buttonSet.pos().X, topPos + buttonSet.pos().Y, buttonSet.map().X,       buttonSet.map().Y,       buttonSet.sizeX(), buttonSet.sizeY()); }
 				if(buttonSet.isHighlighted()){ matrix.blit(Register.TEXTURE_BUTTONS, leftPos + buttonSet.pos().X, topPos + buttonSet.pos().Y, buttonSet.highlight().X, buttonSet.highlight().Y, buttonSet.sizeX(), buttonSet.sizeY()); }
@@ -379,7 +363,6 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 		
 		// ----- Arcade Border ----- //
 		if(tableID == 0) {
-			// RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_GROUND_ARCADE);
 			matrix.blit(Register.TEXTURE_GROUND_ARCADE, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
 			int shift2 = logic().turnstate == 2 || logic().turnstate == 3 ? 2 : 1;
 			if(logic().turnstate != 5 && !menu.logic().pause) camera1 = (camera1 + shift2  ) % 256;
@@ -388,7 +371,6 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 		
 		// ----- Multiplayer Status ----- //
 		if((logic().turnstate == 2 || logic().turnstate == 3) && logic().isMultiplayer()){
-			// RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_DICE);
 			for(int i = 0;        i < logic().getFirstFreePlayerSlot(); i++){ matrix.blit(Register.TEXTURE_DICE, leftPos+(tableID == 2 ? 340 : 245), topPos + 32 + 36*i,                    224, 32 + 32*i,                    32, 32); }
 			if(logic().activePlayer < logic().getFirstFreePlayerSlot()     ){ matrix.blit(Register.TEXTURE_DICE, leftPos+(tableID == 2 ? 340 : 245), topPos + 32 + 36*logic().activePlayer, 192, 32 + 32*logic().activePlayer, 32, 32); }
 		}
@@ -684,21 +666,17 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 	
 	/** Draw a Background Texture on the field **/
 	protected void drawBackground(GuiGraphics matrix, ResourceLocation rl){
-		// RenderSystem.setShaderTexture(0, rl);
 		matrix.blit(rl, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}
 	
 	/** Draw a Background Texture on the field and move it along the x-Axis **/
 	protected void drawBackground(GuiGraphics matrix, ResourceLocation rl, int offset){
-		// RenderSystem.setShaderTexture(0, rl);
 		matrix.blit(rl, leftPos + offset, topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}
 	
 	/** Draw a Background Texture on the field and reset the shader to another texture afterwards **/
 	protected void drawBackground(GuiGraphics matrix, ResourceLocation rl, ResourceLocation rl2){
-		// RenderSystem.setShaderTexture(0, rl);
 		matrix.blit(rl, leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
-		// RenderSystem.setShaderTexture(0, rl2);
 	}
 	
 	/** Draws a timeout timer **/
@@ -775,12 +753,6 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 	/** Draws a Card **/
 	public void drawCard(GuiGraphics matrix, int posX, int posY, Card card){
 		if(card.suit == -1) return;
-		// if(card.hidden){
-		//     RenderSystem.setShaderTexture(0, getCardsTexture(true));
-		// } else {
-		//     if(card.suit <= 1) RenderSystem.setShaderTexture(0, getCardsTexture(false));
-		//     if(card.suit >= 2) RenderSystem.setShaderTexture(0, getCardsTexture(true ));
-		// }
 		int texX = card.suit == -1 || card.hidden ? 0 : card.number % 8;
 		int texY = card.suit == -1 || card.hidden ? 4 : (card.suit % 2) * 2 + card.number / 8;
 		if(Configuration.CASINO.config_animated_cards.get() && !card.hidden){
@@ -795,8 +767,6 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 	
 	/** Draws the Backside of a Card (also used for highlighter) **/
 	public void drawCardBack(GuiGraphics matrix, int posX, int posY, int color){
-		// if(color <= 6) RenderSystem.setShaderTexture(0, getCardsTexture(true ));
-		// else           RenderSystem.setShaderTexture(0, getCardsTexture(false));
 		matrix.blit(cardTexture(color), leftPos + posX, topPos + posY, (color%7) * 32, 192, 32, 48);
 	}
 	
@@ -884,10 +854,8 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 	private ResourceLocation getlogo(){
 		if(tableID == 0){
 			return Register.TEXTURE_FONT_ARCADE;
-			// sizeX = 16;
 		} else if(tableID == 1 || tableID == 2){
 			return Register.TEXTURE_FONT_CARDTABLE;
-			//sizeX = 32;
 		}
 		return Register.TEXTURE_FONT_CARDTABLE;
 	}
@@ -898,10 +866,8 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 		String[] logo = logic().getName().split("_");
 		if(tableID <= 2){
 			if(tableID == 0){
-				// RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_FONT_ARCADE);
 				sizeX = 16;
 			} else if(tableID == 1 || tableID == 2){
-				// RenderSystem.setShaderTexture(0, CasinoKeeper.TEXTURE_FONT_CARDTABLE);
 				sizeX = 32;
 			}
 			

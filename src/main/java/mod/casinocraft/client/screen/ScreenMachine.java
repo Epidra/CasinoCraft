@@ -66,11 +66,10 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 	
 	private void createButtons(){
 		buttonSet.addButton(0, new Vector2(176 + 1 + 2 + 3, 2 - 2 + 4 + 5     ), new Vector2(208, 0      ), new Vector2(208, 16      ), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.hasKey() && this.page != 5                     , () -> this.commandSetPage(0)); // SYSTEM
-		buttonSet.addButton(1, new Vector2(176 + 1 + 2 + 3, 2 - 1 + 3 + 5 + 16), new Vector2(208, 0 +  32), new Vector2(208, 16 +  32), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.hasKey() && this.page != 5 && this.hasModule(), () -> this.commandSetPage(1)); // COLORS
-		buttonSet.addButton(2, new Vector2(176 + 1 + 2 + 3, 2 + 0 + 2 + 5 + 32), new Vector2(208, 0 +  64), new Vector2(208, 16 +  64), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.hasKey() && this.page != 5 && this.hasColoring(), () -> this.commandSetPage(2)); // TOKEN
-		buttonSet.addButton(3, new Vector2(176 + 1 + 2 + 3, 2 + 1 + 1 + 5 + 48), new Vector2(208, 0 +  96), new Vector2(208, 16 +  96), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.hasKey() && this.page != 5 && this.hasHighscore(), () -> this.commandSetPage(3)); // REWARD
-		buttonSet.addButton(4, new Vector2(176 + 1 + 2 + 3, 2 + 2 + 5 + 64    ), new Vector2(208, 0 + 128), new Vector2(208, 16 + 128), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.hasKey() && this.page != 5 && this.hasHighscore(), () -> this.commandSetPage(4)); // RULES
-		// buttonSet.addButton(5, new Vector2(176 + 1 + 2 + 3, 2 + 5 + 64+16 ), new Vector2(208, 0 + 160), new Vector2(208, 16 + 160), new Vector2(160, 192), new Vector2(48, 16), -1, () -> this.hasKey() && this.page != 5 && this.hasHighscore(), () -> this.commandSetPage(5)); // RULES
+		buttonSet.addButton(1, new Vector2(176 + 1 + 2 + 3, 2 - 1 + 3 + 5 + 16), new Vector2(208, 0 +  32), new Vector2(208, 16 +  32), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.hasKey() && this.page != 5 && this.hasModule(), () -> this.commandSetPage(1)); // RULES
+		buttonSet.addButton(2, new Vector2(176 + 1 + 2 + 3, 2 + 0 + 2 + 5 + 32), new Vector2(208, 0 +  64), new Vector2(208, 16 +  64), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.hasKey() && this.page != 5 && this.hasColoring(), () -> this.commandSetPage(2)); // COLORS
+		buttonSet.addButton(3, new Vector2(176 + 1 + 2 + 3, 2 + 1 + 1 + 5 + 48), new Vector2(208, 0 +  96), new Vector2(208, 16 +  96), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.hasKey() && this.page != 5                       , () -> this.commandSetPage(3)); // TOKEN
+		buttonSet.addButton(4, new Vector2(176 + 1 + 2 + 3, 2 + 2 + 5 + 64    ), new Vector2(208, 0 + 128), new Vector2(208, 16 + 128), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.hasKey() && this.page != 5 && this.hasHighscore(), () -> this.commandSetPage(4)); // REWARD
 		
 		// SETTING
 		buttonSet.addButton(6, pos_button_left_1, new Vector2(176, 112), new Vector2(192, 128), new Vector2(192, 0), new Vector2(16, 16), -1, () -> this.page == 0 && this.hasKey() && (Configuration.CASINO.config_creative_token.get() && isOP()), () -> this.commandToggleSettings(0)); // ???
@@ -124,10 +123,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 		buttonSet.addButton(41, new Vector2(pos_button_right_5.X - 4  - 16, pos_button_right_5.Y), new Vector2(176, 48), new Vector2(192, 32), new Vector2(192, 0), new Vector2(16, 16), 10, () -> this.page == 4, () -> this.commandChangeReward(-1, 2)); // ???
 		buttonSet.addButton(42, new Vector2(pos_button_right_5.X - 4      , pos_button_right_5.Y), new Vector2(176, 32), new Vector2(192, 48), new Vector2(192, 0), new Vector2(16, 16), 10, () -> this.page == 4, () -> this.commandChangeReward(+1, 2)); // ???
 		
-		// HIGHSCORE
-		// buttonSet.addButton(43, pos_button_left_5,  new Vector2(176, 16), new Vector2(192, 16), new Vector2(192, 0), new Vector2(16, 16), 10, () -> this.page == 5, () -> this.commandToggleSettings(0)); // ???
-		// buttonSet.addButton(44, pos_button_right_5, new Vector2(176, 16), new Vector2(192, 16), new Vector2(192, 0), new Vector2(16, 16), 10, () -> this.page == 5, () -> this.commandToggleSettings(0)); // ???
-		
 		//--
 		buttonSet.setToggle( 0, true);
 		buttonSet.setToggle( 6, menu.getSettingInfiniteToken());
@@ -138,15 +133,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 		buttonSet.setToggle(31, menu.getPrizeMode1());
 		buttonSet.setToggle(33, menu.getPrizeMode2());
 		buttonSet.setToggle(35, menu.getPrizeMode3());
-		
-		// buttonSet.addButton(POS_TOP_MIDDLE,        SCORE,                                               () -> logic().turnstate == 0 && logic().hasHighscore(),                         this::commandReset);    // Show Highscore
-		// buttonSet.addButton(POS_MID_MIDDLE,        FINISH,                                              () -> logic().turnstate == 5,                                                   this::commandReset);    // Show Highscore OR return to START
-		// buttonSet.addButton(POS_MID_MIDDLE,        BACK,                                                () -> logic().turnstate == 7,                                                   this::commandReset);    // Return to START
-		// buttonSet.addButton(POS_MID_MIDDLE,        START,                                               () -> logic().turnstate == 0 && hasBet(),                                       this::commandStart);    // Start MiniGame
-		// buttonSet.addButton(new Vector2( 56, 212), ARROW_DOWN_OFF, ARROW_DOWN_ON, 1, 32,                () -> logic().turnstate == 0 && menu.hasToken() && bet > menu.getBettingLow(),  this::commandBetDown);  // Lower Bet
-		// buttonSet.addButton(new Vector2(174, 212), ARROW_UP_OFF,   ARROW_UP_ON,   1, 32,                () -> logic().turnstate == 0 && menu.hasToken() && bet < menu.getBettingHigh(), this::commandBetUp);    // Raise Bet
-		// buttonSet.addButton(POS_MID_MIDDLE,        JOIN,                                                () -> logic().turnstate == 2 &&  logic().isMultiplayer() && !isCurrentPlayer(), this::commandJoinGame); // Join Multiplayer game
-		// buttonSet.addButton(new Vector2(tableID == 1 ? 240 : 336, 240), FORFEIT_OFF, FORFEIT_ON, 0, 96, () -> logic().turnstate == 2 && !logic().isMultiplayer(),                       this::commandForfeit);  // Forfeit
 	}
 	
 	
@@ -219,60 +205,7 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		buttonSet.interact(leftPos, topPos, mouseX, mouseY);
-		
-		// ----- STUFF ----- //
-		// ...
-		
-		// - Return - //
 		return false;
-		
-		// if (mouseButton == 0 && hasKey() && activeInput == 0){
-		//
-		// 	// ----- Page Header ----- //
-		// 	if(mouseRect(  2, -19, 56, 24, mouseX, mouseY)) {                     highlight(18); commandChangePage(0);   }
-		// 	if(mouseRect( 58, -19, 56, 24, mouseX, mouseY)) { if(menu.hasKey() ){ highlight(19); commandChangePage(1); } }
-		// 	if(mouseRect(114, -19, 56, 24, mouseX, mouseY)) { if(hasHighscore()){ highlight(20); commandChangePage(2); } }
-		//
-		// 	// ----- Page 1 - Settings ----- //
-		// 	if(page == 0){
-		// 		if(mouseRect(4, 10, 12, 12, mouseX, mouseY)) { commandToggleSettings(0); } // SETTING 1
-		// 		if(mouseRect(4, 23, 12, 12, mouseX, mouseY)) { commandToggleSettings(1); } // SETTING 2
-		// 		if(mouseRect(4, 36, 12, 12, mouseX, mouseY)) { commandToggleSettings(2); } // SETTING 3
-		// 		if(mouseRect(4, 49, 12, 12, mouseX, mouseY)) { commandToggleSettings(3); } // SETTING 4
-		// 		if(mouseRect(4, 63, 12, 12, mouseX, mouseY)) { commandResetGameState( ); } // SETTING RESET
-		// 		if(mouseRect(4, 76, 12, 12, mouseX, mouseY)) { commandToggleSettings(4); } // SETTING COLOR
-		// 	}
-		//
-		// 	// ----- Page 2 - Token ----- //
-		// 	if(  page == 1){
-		// 		if(mouseRect(  5, 11, 40, 20, mouseX, mouseY)) { highlight(14); commandTransfer(true, true ); } // TRANSFER IN
-		// 		if(mouseRect(122, 11, 40, 20, mouseX, mouseY)) { highlight(15); commandTransfer(true, false); } // TRANSFER OUT
-		// 	} if(page == 1 && menu.hasToken()){
-		// 		if(mouseRect(137, 53, 16, 16, mouseX, mouseY)) { highlight( 1); commandChangeBet(-1, false); } // MINIMUM LOWER
-		// 		if(mouseRect(155, 53, 16, 16, mouseX, mouseY)) { highlight( 2); commandChangeBet( 1, false); } // MINIMUM UPPER
-		// 		if(mouseRect(137, 71, 16, 16, mouseX, mouseY)) { highlight( 3); commandChangeBet(-1, true ); } // MAXIMUM LOWER
-		// 		if(mouseRect(155, 71, 16, 16, mouseX, mouseY)) { highlight( 4); commandChangeBet( 1, true ); } // MAXIMUM UPPER
-		// 	}
-		//
-		// 	// ----- Page 3 - Reward ----- //
-		// 	if(  page == 2){
-		// 		if(mouseRect(  5, 11, 40, 20, mouseX, mouseY)) { highlight(14); commandTransfer(false,  true); } // TRANSFER IN
-		// 		if(mouseRect(122, 11, 40, 20, mouseX, mouseY)) { highlight(15); commandTransfer(false, false); } // TRANSFER OUT
-		// 	} if(page == 2 && menu.hasReward()){
-		// 		if(mouseRect(137, 35, 16, 16, mouseX, mouseY)) { highlight( 5); commandChangeReward(-1, 0); } // REWARD 1 LOWER
-		// 		if(mouseRect(155, 35, 16, 16, mouseX, mouseY)) { highlight( 6); commandChangeReward( 1, 0); } // REWARD 1 UPPER
-		// 		if(mouseRect(137, 53, 16, 16, mouseX, mouseY)) { highlight( 7); commandChangeReward(-1, 1); } // REWARD 2 LOWER
-		// 		if(mouseRect(155, 53, 16, 16, mouseX, mouseY)) { highlight( 8); commandChangeReward( 1, 1); } // REWARD 2 UPPER
-		// 		if(mouseRect(137, 71, 16, 16, mouseX, mouseY)) { highlight( 9); commandChangeReward(-1, 2); } // REWARD 3 LOWER
-		// 		if(mouseRect(155, 71, 16, 16, mouseX, mouseY)) { highlight(10); commandChangeReward( 1, 2); } // REWARD 3 UPPER
-		// 		if(mouseRect( 23, 35, 16, 16, mouseX, mouseY)) { page = 3; input = ""; activeInput = 1;     } // SCORE 1 EDIT
-		// 		if(mouseRect( 23, 53, 16, 16, mouseX, mouseY)) { page = 3; input = ""; activeInput = 2;     } // SCORE 2 EDIT
-		// 		if(mouseRect( 23, 71, 16, 16, mouseX, mouseY)) { page = 3; input = ""; activeInput = 3;     } // SCORE 3 EDIT
-		// 		if(mouseRect(  5, 35, 16, 16, mouseX, mouseY)) { commandTogglePrize(0);                     } // PRIZE 1 TOGGLE
-		// 		if(mouseRect(  5, 53, 16, 16, mouseX, mouseY)) { commandTogglePrize(1);                     } // PRIZE 2 TOGGLE
-		// 		if(mouseRect(  5, 71, 16, 16, mouseX, mouseY)) { commandTogglePrize(2);                     } // PRIZE 3 TOGGLE
-		// 	}
-		// } return false;
 	}
 	
 	
@@ -291,11 +224,11 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 		}
 		
 		if(page == 0 && this.hasKey()){
-			drawFont(matrix, I18n.get("setting_0"), 27-2-4, 8-1+6);
-			drawFont(matrix, I18n.get("setting_1"), 27-2-4, 8-1+6+16);
-			drawFont(matrix, I18n.get("setting_2"), 27-2-4, 8-1+6+16+16);
-			drawFont(matrix, I18n.get("setting_3"), 27-2-4, 8-1+6+16+16+16);
-			drawFont(matrix, I18n.get("setting_4"), 27-2-4, 8-1+6+16+16+16+16);
+			drawFont(matrix, I18n.get("rule.casinocraft.setting_0"), 27-2-4, 8-1+6);
+			drawFont(matrix, I18n.get("rule.casinocraft.setting_1"), 27-2-4, 8-1+6+16);
+			drawFont(matrix, I18n.get("rule.casinocraft.setting_2"), 27-2-4, 8-1+6+16+16);
+			drawFont(matrix, I18n.get("rule.casinocraft.setting_3"), 27-2-4, 8-1+6+16+16+16);
+			drawFont(matrix, I18n.get("rule.casinocraft.setting_4"), 27-2-4, 8-1+6+16+16+16+16);
 		}
 		if(page == 1){
 			if(menu.tableID == 3){
@@ -303,28 +236,22 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 			} else if(!hasRules(0)){
 				drawFontCenter(matrix, "INCOMPATIBLE RULESET", 176/2, 8-1+6);
 			} else {
-				if(hasRules(0)) drawFontCenter(matrix, I18n.get("rulename_" + getModuleID() + "_0_" + getCurrentRule(0)), 176/2, 8-1+6);
-				if(hasRules(1)) drawFontCenter(matrix, I18n.get("rulename_" + getModuleID() + "_1_" + getCurrentRule(1)), 176/2, 8-1+6+16);
-				if(hasRules(2)) drawFontCenter(matrix, I18n.get("rulename_" + getModuleID() + "_2_" + getCurrentRule(2)), 176/2, 8-1+6+16+16);
-				if(hasRules(3)) drawFontCenter(matrix, I18n.get("rulename_" + getModuleID() + "_3_" + getCurrentRule(3)), 176/2, 8-1+6+16+16+16);
-				if(hasRules(4)) drawFontCenter(matrix, I18n.get("rulename_" + getModuleID() + "_4_" + getCurrentRule(4)), 176/2, 8-1+6+16+16+16+16);
+				if(hasRules(0)) drawFontCenter(matrix, I18n.get("rule.casinocraft.game_" + getModuleID() + "_0_" + getCurrentRule(0)), 176/2, 8-1+6);
+				if(hasRules(1)) drawFontCenter(matrix, I18n.get("rule.casinocraft.game_" + getModuleID() + "_1_" + getCurrentRule(1)), 176/2, 8-1+6+16);
+				if(hasRules(2)) drawFontCenter(matrix, I18n.get("rule.casinocraft.game_" + getModuleID() + "_2_" + getCurrentRule(2)), 176/2, 8-1+6+16+16);
+				if(hasRules(3)) drawFontCenter(matrix, I18n.get("rule.casinocraft.game_" + getModuleID() + "_3_" + getCurrentRule(3)), 176/2, 8-1+6+16+16+16);
+				if(hasRules(4)) drawFontCenter(matrix, I18n.get("rule.casinocraft.game_" + getModuleID() + "_4_" + getCurrentRule(4)), 176/2, 8-1+6+16+16+16+16);
 			}
 		}
 		if(page == 2){
-			if(menu.getSettingAlternateColor() == 0) drawFontCenter(matrix, I18n.get("rule_color_0"), 176/2, 8-1+6+16+16+16+16);
-			if(menu.getSettingAlternateColor() == 1) drawFontCenter(matrix, I18n.get("rule_color_1"), 176/2, 8-1+6+16+16+16+16);
-			if(menu.getSettingAlternateColor() == 2) drawFontCenter(matrix, I18n.get("rule_color_2"), 176/2, 8-1+6+16+16+16+16);
-			if(menu.getSettingAlternateColor() == 3) drawFontCenter(matrix, I18n.get("rule_color_3"), 176/2, 8-1+6+16+16+16+16);
-			if(menu.getSettingAlternateColor() == 4) drawFontCenter(matrix, I18n.get("rule_color_4"), 176/2, 8-1+6+16+16+16+16);
-			if(menu.getSettingAlternateColor() == 5) drawFontCenter(matrix, I18n.get("rule_color_5"), 176/2, 8-1+6+16+16+16+16);
+			if(menu.getSettingAlternateColor() == 0) drawFontCenter(matrix, I18n.get("rule.casinocraft.color_0"), 176/2, 8-1+6+16+16+16+16);
+			if(menu.getSettingAlternateColor() == 1) drawFontCenter(matrix, I18n.get("rule.casinocraft.color_1"), 176/2, 8-1+6+16+16+16+16);
+			if(menu.getSettingAlternateColor() == 2) drawFontCenter(matrix, I18n.get("rule.casinocraft.color_2"), 176/2, 8-1+6+16+16+16+16);
+			if(menu.getSettingAlternateColor() == 3) drawFontCenter(matrix, I18n.get("rule.casinocraft.color_3"), 176/2, 8-1+6+16+16+16+16);
+			if(menu.getSettingAlternateColor() == 4) drawFontCenter(matrix, I18n.get("rule.casinocraft.color_4"), 176/2, 8-1+6+16+16+16+16);
+			if(menu.getSettingAlternateColor() == 5) drawFontCenter(matrix, I18n.get("rule.casinocraft.color_5"), 176/2, 8-1+6+16+16+16+16);
 		}
 		if(page == 3){
-			
-			// 	String text = menu.getStorageToken() == 0 ? "EMPTY" : menu.getSettingInfiniteToken() ? "x(INFINITE)" : "x " + menu.getStorageToken();
-			// 	matrix.renderFakeItem(menu.getItemToken(),  51, 13         );
-			// 	matrix.drawString(font, text,                          69, 17, 16777215);
-			
-			// matrix.blit(GUI_TEXTURE, posX + pos_button_left_1.X + 64 + 4, posY + pos_button_left_1.Y - 6 + 6, 1, 179, 78, 20);
 			String text = menu.getStorageToken() == 0 ? "EMPTY" : menu.getSettingInfiniteToken() ? "x(INFINITE)" : "x " + menu.getStorageToken();
 			matrix.renderFakeItem(menu.getItemToken(),  3+64+4+4 -2, 4+2+3+2+4 +2       );
 			drawFontInvert(matrix, text, 3+64+4+4+78-4 -4+2, 4+2+3+2 +4  +4+2+4 );
@@ -336,22 +263,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 			
 			if(hasGambling()) drawFont(matrix, "MAX:", 176/2 - 19, 8-1+6+16+16+16+16);
 			if(hasGambling()) drawFontInvert(matrix, "" + menu.getBettingHigh(), 176/2 + 19, 8-1+6+16+16+16+16);
-			
-			// // ----- Page 2 - Token ----- //
-			// if(  page == 1){
-			// 	String text = menu.getStorageToken() == 0 ? "EMPTY" : menu.getSettingInfiniteToken() ? "x(INFINITE)" : "x " + menu.getStorageToken();
-			// 	matrix.renderFakeItem(menu.getItemToken(),  51, 13         );
-			// 	matrix.drawString(font, text,                          69, 17, 16777215);
-			// } if(page == 1 && menu.hasToken() && !hasGambling()){
-			// 	drawFontInvert(matrix, "AMOUNT",                     102, 57         );
-			// 	matrix.drawString(font, "" + menu.getBettingLow(),    108, 57, 16777215);
-			// } if(page == 1 && menu.hasToken() && hasGambling()){
-			// 	drawFontInvert(matrix, "MINIMUM",                    102, 57         );
-			// 	drawFontInvert(matrix, "MAXIMUM",                    102, 75         );
-			// 	matrix.drawString(font, "" + menu.getBettingLow(),    108, 57, 16777215);
-			// 	matrix.drawString(font, "" + menu.getBettingHigh(),   108, 75, 16777215);
-			// }
-			
 		}
 		if(page == 4){
 			
@@ -366,102 +277,13 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 			drawFontInvert(matrix, "" + menu.getPrizeCount1(), 176/2 + 40, 8-1+6+16+16);
 			drawFontInvert(matrix, "" + menu.getPrizeCount2(), 176/2 + 40, 8-1+6+16+16+16);
 			drawFontInvert(matrix, "" + menu.getPrizeCount3(), 176/2 + 40, 8-1+6+16+16+16+16);
-			
-			// // ----- Page 3 - Reward ----- //
-			// if(  page == 2){
-			// 	String text = menu.getStoragePrize() == 0 ? "EMPTY" : menu.getSettingInfinitePrize() ? "x(INFINITE)" : "x " + menu.getStoragePrize();
-			// 	matrix.renderFakeItem(menu.getItemPrize(), 51, 13         );
-			// 	matrix.drawString(font, text,                         69, 17, 16777215);
-			// } if(page == 2 && menu.hasReward()){
-			// 	matrix.drawString(font, "" + menu.getPrizeScore1(),   52, 39, 16777215);
-			// 	matrix.drawString(font, "" + menu.getPrizeScore2(),   52, 57, 16777215);
-			// 	matrix.drawString(font, "" + menu.getPrizeScore3(),   52, 75, 16777215);
-			// 	matrix.drawString(font, "" + menu.getPrizeCount1(),  108, 39, 16777215);
-			// 	matrix.drawString(font, "" + menu.getPrizeCount2(),  108, 57, 16777215);
-			// 	matrix.drawString(font, "" + menu.getPrizeCount3(),  108, 75, 16777215);
-			// }
-			
 		}
 		if(page == 5){
 			String text = input.length() == 0 ? "0" : input;
 			drawFontCenter(matrix, "INPUT NUMBER", 176/2, 8-1+6+16);
 			drawFontInvert(matrix, text, 176/2 + 19, 8-1+6+16+16);
 			drawFontCenter(matrix, "Press ENTER to Submit", 176/2, 8-1+6+16+16+16);
-			
-			
-			
-			// int w = this.font.width(text) / 2;
-			// drawFontCenter(matrix, "INPUT NUMBER",          88,   16         );
-			// drawFontCenter(matrix, "PRESS ENTER TO SUBMIT", 88,   32         );
-			// matrix.drawString(font,  text,                   88-w, 71, 16777215);
-			
-			// drawFont(matrix, "1.", 6, 8-2+6); drawFontInvert(matrix, "1000", 44, 8-2+6);
-			// drawFont(matrix, "2.", 6, 8-2+6+12); drawFontInvert(matrix, "750", 44, 8-2+6+12);
-			// drawFont(matrix, "3.", 6, 8-2+6+12+12); drawFontInvert(matrix, "500", 44, 8-2+6+12+12);
-			// drawFont(matrix, "4.", 6, 8-2+6+12+12+12); drawFontInvert(matrix, "250", 44, 8-2+6+12+12+12);
-			// drawFont(matrix, "5.", 6, 8-2+6+12+12+12+12); drawFontInvert(matrix, "0", 44, 8-2+6+12+12+12+12);
 		}
-		
-		
-		// if(page == 2 && (!menu.hasKey() || !hasHighscore()))   page = 0;
-		// if(page == 1 && (!menu.hasKey() || !menu.hasModule())) page = 0;
-		// blinking = (blinking + 1) % 32;
-		//
-		// // ----- Page 1 - Settings ----- //
-		// if(  page == 0 && !menu.hasKey()){
-		// 	drawFontCenter(matrix, "VISIT MODPAGE FOR INSTRUCTIONS", 88, 16);
-		// 	if(blinking / 16 == 1) drawFontCenter(matrix, "MISSING  KEY  ITEM  ",           88, 74);
-		// } if(page == 0 && menu.hasKey() && Configuration.CASINO.config_creative_token.get() && isOP()){
-		// 	drawFont(matrix,       "INFINITE TOKEN STORAGE",         18, 13);
-		// } if(page == 0 && menu.hasKey() && Configuration.CASINO.config_creative_reward.get() && isOP()){
-		// 	drawFont(matrix,       "INFINITE REWARD STORAGE",        18, 26);
-		// } if(page == 0 && menu.hasKey()){
-		// 	drawFont(matrix,       "DROP ITEMS ON BREAK",            18, 39);
-		// 	drawFont(matrix,       "INDESTRUCTABLE BLOCK",           18, 52);
-		// } if(page == 0 && menu.hasKey() && !menu.hasModule()){
-		// 	if(blinking / 16 == 1) drawFontCenter(matrix, "MISSING  MODULE  ITEM  ",        88, 74);
-		// } if(page == 0 && menu.hasKey() && menu.hasModule()){
-		// 	drawFont(matrix,       "RESET GAME",                     18, 66);
-		// 	drawFont(matrix,       "ALTERNATE COLOR VARIANT",        18, 79);
-		// }
-		//
-		// // ----- Page 2 - Token ----- //
-		// if(  page == 1){
-		// 	String text = menu.getStorageToken() == 0 ? "EMPTY" : menu.getSettingInfiniteToken() ? "x(INFINITE)" : "x " + menu.getStorageToken();
-		// 	matrix.renderFakeItem(menu.getItemToken(),  51, 13         );
-		// 	matrix.drawString(font, text,                          69, 17, 16777215);
-		// } if(page == 1 && menu.hasToken() && !hasGambling()){
-		// 	drawFontInvert(matrix, "AMOUNT",                     102, 57         );
-		// 	matrix.drawString(font, "" + menu.getBettingLow(),    108, 57, 16777215);
-		// } if(page == 1 && menu.hasToken() && hasGambling()){
-		// 	drawFontInvert(matrix, "MINIMUM",                    102, 57         );
-		// 	drawFontInvert(matrix, "MAXIMUM",                    102, 75         );
-		// 	matrix.drawString(font, "" + menu.getBettingLow(),    108, 57, 16777215);
-		// 	matrix.drawString(font, "" + menu.getBettingHigh(),   108, 75, 16777215);
-		// }
-		//
-		// // ----- Page 3 - Reward ----- //
-		// if(  page == 2){
-		// 	String text = menu.getStoragePrize() == 0 ? "EMPTY" : menu.getSettingInfinitePrize() ? "x(INFINITE)" : "x " + menu.getStoragePrize();
-		// 	matrix.renderFakeItem(menu.getItemPrize(), 51, 13         );
-		// 	matrix.drawString(font, text,                         69, 17, 16777215);
-		// } if(page == 2 && menu.hasReward()){
-		// 	matrix.drawString(font, "" + menu.getPrizeScore1(),   52, 39, 16777215);
-		// 	matrix.drawString(font, "" + menu.getPrizeScore2(),   52, 57, 16777215);
-		// 	matrix.drawString(font, "" + menu.getPrizeScore3(),   52, 75, 16777215);
-		// 	matrix.drawString(font, "" + menu.getPrizeCount1(),  108, 39, 16777215);
-		// 	matrix.drawString(font, "" + menu.getPrizeCount2(),  108, 57, 16777215);
-		// 	matrix.drawString(font, "" + menu.getPrizeCount3(),  108, 75, 16777215);
-		// }
-		//
-		// // ----- Page 4 - Input ----- //
-		// if(  page == 3){
-		// 	String text = input.length() == 0 ? "0" : input;
-		// 	int w = this.font.width(text) / 2;
-		// 	drawFontCenter(matrix, "INPUT NUMBER",          88,   16         );
-		// 	drawFontCenter(matrix, "PRESS ENTER TO SUBMIT", 88,   32         );
-		// 	matrix.drawString(font,  text,                   88-w, 71, 16777215);
-		// }
 	}
 	
 	
@@ -481,7 +303,7 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 		// ----- Background ----- //
 		matrix.blit(GUI_TEXTURE, posX,       posY,        0,   0, 176, 86); // Background 1
 		matrix.blit(GUI_TEXTURE, posX,       posY+86+2+2,        0,   86+2, 176, 90); // Background 2
-		matrix.blit(GUI_TEXTURE, posX -  56, posY - 0,        0, 200,  54,  28); // Slot 1
+		matrix.blit(GUI_TEXTURE, posX -  56, posY - 0,        0, 228,  54,  28); // Slot 1
 		matrix.blit(GUI_TEXTURE, posX -  56, posY + 29,  54, this.hasKey() ? 228 : 200,  54,  28); // Slot 2
 		matrix.blit(GUI_TEXTURE, posX -  56, posY + 58 + 0,  this.hasModule() ? 0 : 54, 200,  54,  28); // Slot 3
 		
@@ -580,10 +402,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 						matrix.blit(Register.TEXTURE_CARDS_5_NOIR,  leftPos+8 + 40, topPos + 16, 4 * 32, 3 * 48, 32, 48);
 						matrix.blit(Register.TEXTURE_CARDS_5_NOIR, leftPos +8+ 16, topPos + 16, 0 * 32, 4 * 48, 32, 48);
 					}
-					
-					
-					
-					
 				}
 				if(menu.tableID < 3 && getColoringType() == 1){ // Dice
 					matrix.blit(Register.TEXTURE_DICE, leftPos + 176/2 - 16 - 32 - 2, topPos + 8+2, 0 * 32, (menu.getSettingAlternateColor() + 1) * 32, 32, 32);
@@ -676,32 +494,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 			}
 			if(page == 5){
 				matrix.blit(GUI_TEXTURE, posX + 176/2-21, posY + pos_button_left_3.Y - 6 + 2, 110, 243, 42, 12);
-				
-				// matrix.blit(GUI_TEXTURE, posX + 4,          posY + 4, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42,       posY + 4, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42+42,    posY + 4, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42+42+42, posY + 4, 98, 202, 42, 12);
-				//
-				// matrix.blit(GUI_TEXTURE, posX + 4,          posY + 4 + 12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42,       posY + 4 + 12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42+42,    posY + 4 + 12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42+42+42, posY + 4 + 12, 98, 202, 42, 12);
-				//
-				// matrix.blit(GUI_TEXTURE, posX + 4,          posY + 4 + 12+12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42,       posY + 4 + 12+12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42+42,    posY + 4 + 12+12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42+42+42, posY + 4 + 12+12, 98, 202, 42, 12);
-				//
-				// matrix.blit(GUI_TEXTURE, posX + 4,          posY + 4 + 12+12+12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42,       posY + 4 + 12+12+12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42+42,    posY + 4 + 12+12+12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42+42+42, posY + 4 + 12+12+12, 98, 202, 42, 12);
-				//
-				// matrix.blit(GUI_TEXTURE, posX + 4,          posY + 4 + 12+12+12+12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42,       posY + 4 + 12+12+12+12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42+42,    posY + 4 + 12+12+12+12, 98, 202, 42, 12);
-				// matrix.blit(GUI_TEXTURE, posX + 4+42+42+42, posY + 4 + 12+12+12+12, 98, 202, 42, 12);
-				
 			}
 		}
 		
@@ -710,99 +502,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 			if(buttonSet.isVisible()    ){ matrix.blit(GUI_TEXTURE, leftPos + buttonSet.pos().X, topPos + buttonSet.pos().Y, buttonSet.map().X,       buttonSet.map().Y,       buttonSet.sizeX(), buttonSet.sizeY()); }
 			if(buttonSet.isHighlighted()){ matrix.blit(GUI_TEXTURE, leftPos + buttonSet.pos().X, topPos + buttonSet.pos().Y, buttonSet.highlight().X, buttonSet.highlight().Y, buttonSet.sizeX(), buttonSet.sizeY()); }
 		}
-		
-		// // ----- Background ----- //
-		// matrix.blit(GUI_TEXTURE, posX,       posY,        0,   0, 176, 178); // Background
-		// matrix.blit(GUI_TEXTURE, posX -  56, posY -  1,   0, 180,  54,  28); // Slot 1
-		// matrix.blit(GUI_TEXTURE, posX -  56, posY + 29,   0, 180,  54,  28); // Slot 2
-		// matrix.blit(GUI_TEXTURE, posX -  56, posY + 59,   0, 180,  54,  28); // Slot 3
-		// matrix.blit(GUI_TEXTURE, posX +   2, posY - 26, 200, 216,  56,  24); // Header 1
-		// matrix.blit(GUI_TEXTURE, posX +  60, posY - 26, 200, 216,  56,  24); // Header 2
-		// matrix.blit(GUI_TEXTURE, posX + 118, posY - 26, 200, 216,  56,  24); // Header 3
-		//
-		// // ----- Slots ----- //
-		// if(page < 3 && activeInput == 0                 ) matrix.blit(GUI_TEXTURE, posX - 56, posY -  1,   0, 208, 54, 28); // Slot 1
-		// if(page < 3 && menu.hasKey()                    ) matrix.blit(GUI_TEXTURE, posX - 56, posY + 29,  54, 208, 54, 28); // Slot 2
-		// if(page < 3 && menu.hasKey() && menu.hasModule()) matrix.blit(GUI_TEXTURE, posX - 56, posY + 59, 108, 208, 54, 28); // Slot 3
-		//
-		// // ----- Header ----- //
-		// if(page < 3 && menu.hasKey() && page == 0                    ) matrix.blit(GUI_TEXTURE, posX +   2, posY - 26, 200, highlightIndex == 18 ?  48 :  24, 56, 24); // Header 1
-		// if(page < 3 && menu.hasKey() && page != 0                    ) matrix.blit(GUI_TEXTURE, posX +   2, posY - 26, 200,                                0, 56, 24); // Header 1
-		// if(page < 3 && menu.hasKey() && page == 1 && menu.hasModule()) matrix.blit(GUI_TEXTURE, posX +  60, posY - 26, 200, highlightIndex == 19 ? 120 :  96, 56, 24); // Header 2
-		// if(page < 3 && menu.hasKey() && page != 1 && menu.hasModule()) matrix.blit(GUI_TEXTURE, posX +  60, posY - 26, 200,                               72, 56, 24); // Header 2
-		// if(page < 3 && menu.hasKey() && page == 2 && hasHighscore()  ) matrix.blit(GUI_TEXTURE, posX + 118, posY - 26, 200, highlightIndex == 20 ? 192 : 168, 56, 24); // Header 3
-		// if(page < 3 && menu.hasKey() && page != 2 && hasHighscore()  ) matrix.blit(GUI_TEXTURE, posX + 118, posY - 26, 200,                              144, 56, 24); // Header 3
-		//
-		// // ----- Page 1 - Settings ----- //
-		// if(  page == 0 && menu.hasKey()){
-		// 	matrix.blit(GUI_TEXTURE,  posX + 4, posY +  4, 188,                                        72, 12, 12); // Empty Button
-		// 	matrix.blit(GUI_TEXTURE,  posX + 4, posY + 17, 188,                                        72, 12, 12); // Empty Button
-		// 	matrix.blit(GUI_TEXTURE,  posX + 4, posY + 30, 188, menu.getSettingDropOnBreak()    ? 60 : 24, 12, 12); // Drop Items on Break
-		// 	matrix.blit(GUI_TEXTURE,  posX + 4, posY + 43, 188, menu.getSettingIndestructable() ? 60 : 24, 12, 12); // Indestructible Block
-		// } if(page == 0 && menu.hasKey() && Configuration.CASINO.config_creative_token.get() && isOP()){
-		// 	matrix.blit(GUI_TEXTURE,  posX + 4, posY +  4, 188, menu.getSettingInfiniteToken()  ? 60 : 24, 12, 12); // Infinite Tokens
-		// } if(page == 0 && menu.hasKey() && Configuration.CASINO.config_creative_reward.get() && isOP()){
-		// 	matrix.blit(GUI_TEXTURE,  posX + 4, posY + 17, 188, menu.getSettingInfinitePrize()  ? 60 : 24, 12, 12); // Infinite Rewards
-		// } if(page == 0 && menu.hasKey() && menu.hasModule()){
-		// 	matrix.blit(GUI_TEXTURE,  posX + 4, posY + 57, 188, hasReset ? 12 : 0,                         12, 12); // Reset MiniGame
-		// 	matrix.blit(GUI_TEXTURE,  posX + 4, posY + 70, 176, menu.getSettingAlternateColor() * 12,      12, 12); // Color Palette
-		// }
-		//
-		// // ----- Page 2 - Token ----- //
-		// if(  page == 1) {
-		// 	matrix.blit(GUI_TEXTURE, posX +  49, posY +  5,                               55, 187, 78, 20); // FIELD ITEMS
-		// 	matrix.blit(GUI_TEXTURE, posX +   5, posY +  5, highlightIndex == 14 ?  40 :   0, 236, 40, 20); // TOKEN IN
-		// 	matrix.blit(GUI_TEXTURE, posX + 131, posY +  5, highlightIndex == 15 ? 120 :  80, 236, 40, 20); // TOKEN OUT
-		// } if(page == 1 && menu.hasToken()){
-		// 	matrix.blit(GUI_TEXTURE, posX + 104, posY + 49,                              135, 181, 24, 12); // FIELD MINIMUM
-		// 	matrix.blit(GUI_TEXTURE, posX + 137, posY + 47, highlightIndex ==  1 ? 176 : 160, 240, 16, 16); // MINIMUM LOWER
-		// 	matrix.blit(GUI_TEXTURE, posX + 155, posY + 47, highlightIndex ==  2 ? 208 : 192, 240, 16, 16); // MINIMUM UPPER
-		// } if(page == 1 && menu.hasToken() && hasGambling()){
-		// 	matrix.blit(GUI_TEXTURE, posX + 104, posY + 67,                              135, 181, 24, 12); // FIELD MAXIMUM
-		// 	matrix.blit(GUI_TEXTURE, posX + 137, posY + 65, highlightIndex ==  3 ? 176 : 160, 240, 16, 16); // MAXIMUM LOWER
-		// 	matrix.blit(GUI_TEXTURE, posX + 155, posY + 65, highlightIndex ==  4 ? 208 : 192, 240, 16, 16); // MAXIMUM UPPER
-		// }
-		//
-		// // ----- Page 3 - Reward ----- //
-		// if(  page == 2){
-		// 	matrix.blit(GUI_TEXTURE, posX +  49, posY +  5,                               55, 187, 78, 20); // FIELD ITEMS
-		// 	matrix.blit(GUI_TEXTURE, posX +   5, posY +  5, highlightIndex == 14 ?  40 :   0, 236, 40, 20); // TOKEN IN
-		// 	matrix.blit(GUI_TEXTURE, posX + 131, posY +  5, highlightIndex == 15 ? 120 :  80, 236, 40, 20); // TOKEN OUT
-		// } if(page == 2 && menu.hasReward()){
-		// 	matrix.blit(GUI_TEXTURE, posX +  48, posY + 31,                              135, 195, 48, 12); // FIELD BIG 1
-		// 	matrix.blit(GUI_TEXTURE, posX +  48, posY + 49,                              135, 195, 48, 12); // FIELD BIG 2
-		// 	matrix.blit(GUI_TEXTURE, posX +  48, posY + 67,                              135, 195, 48, 12); // FIELD BIG 3
-		// 	matrix.blit(GUI_TEXTURE, posX + 104, posY + 31,                              135, 181, 24, 12); // FIELD SMALL 1
-		// 	matrix.blit(GUI_TEXTURE, posX + 104, posY + 49,                              135, 181, 24, 12); // FIELD SMALL 2
-		// 	matrix.blit(GUI_TEXTURE, posX + 104, posY + 67,                              135, 181, 24, 12); // FIELD SMALL 3
-		//
-		// 	matrix.blit(GUI_TEXTURE, posX + 137, posY + 29, highlightIndex ==  5 ? 176 : 160, 240, 16, 16); // REWARD 1 LOWER
-		// 	matrix.blit(GUI_TEXTURE, posX + 155, posY + 29, highlightIndex ==  6 ? 208 : 192, 240, 16, 16); // REWARD 1 UPPER
-		// 	matrix.blit(GUI_TEXTURE, posX + 137, posY + 47, highlightIndex ==  7 ? 176 : 160, 240, 16, 16); // REWARD 2 LOWER
-		// 	matrix.blit(GUI_TEXTURE, posX + 155, posY + 47, highlightIndex ==  8 ? 208 : 192, 240, 16, 16); // REWARD 2 UPPER
-		// 	matrix.blit(GUI_TEXTURE, posX + 137, posY + 65, highlightIndex ==  9 ? 176 : 160, 240, 16, 16); // REWARD 3 LOWER
-		// 	matrix.blit(GUI_TEXTURE, posX + 155, posY + 65, highlightIndex == 10 ? 208 : 192, 240, 16, 16); // REWARD 3 UPPER
-		// 	matrix.blit(GUI_TEXTURE, posX +  23, posY + 29, highlightIndex == 11 ? 240 : 224, 240, 16, 16); // SCORE 1 EDIT
-		// 	matrix.blit(GUI_TEXTURE, posX +  23, posY + 47, highlightIndex == 12 ? 240 : 224, 240, 16, 16); // SCORE 2 EDIT
-		// 	matrix.blit(GUI_TEXTURE, posX +  23, posY + 65, highlightIndex == 13 ? 240 : 224, 240, 16, 16); // SCORE 3 EDIT
-		// 	matrix.blit(GUI_TEXTURE, posX +   5, posY + 29, menu.getPrizeMode1() ? 178 : 162, 208, 16, 16); // PRIZE 1 MODE
-		// 	matrix.blit(GUI_TEXTURE, posX +   5, posY + 47, menu.getPrizeMode2() ? 178 : 162, 208, 16, 16); // PRIZE 2 MODE
-		// 	matrix.blit(GUI_TEXTURE, posX +   5, posY + 65, menu.getPrizeMode3() ? 178 : 162, 208, 16, 16); // PRIZE 3 MODE
-		// }
-		//
-		// // ----- Page 4 - Input ----- //
-		// if(page == 3){
-		// 	matrix.blit(GUI_TEXTURE, posX + 49, posY + 57, 55, 187, 78, 20); // FIELD INPUT
-		// }
-		//
-		// if(highlightTimer > 0){
-		// 	highlightTimer--;
-		// 	if(highlightTimer == 0){
-		// 		if(highlightIndex == 11 || highlightIndex == 12){
-		// 			commandTranferOFF();
-		// 		} highlightIndex = 0;
-		// 	}
-		// }
 	}
 	
 	
@@ -872,14 +571,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 		sendPacket();
 	}
 	
-	private void commandTranferOFF(){
-		menu.setTransferTokenIN(false);
-		menu.setTransferTokenOUT(false);
-		menu.setTransferPrizeIN(false);
-		menu.setTransferPrizeOUT(false);
-		sendPacket();
-	}
-	
 	/** ??? **/
 	public void commandToggleSettings(int settingID){
 		if(settingID == 0){ if(Configuration.CASINO.config_creative_token.get() && isOP()){  buttonSet.setToggle(6, menu.setSettingInfiniteToken( !menu.getSettingInfiniteToken()));          } }
@@ -888,24 +579,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 		if(settingID == 3){                                                 buttonSet.setToggle(9, menu.setSettingIndestructable(!menu.getSettingIndestructable()));           }
 		if(settingID == 4){                                                 buttonSet.setToggle(10, menu.setSettingAlternateScore(!menu.getSettingAlternateScore()));  }
 		sendPacket();
-	}
-	
-	/** ??? **/
-	public void commandChangePage(int index){
-		if(menu.getTransferTokenIN() || menu.getTransferTokenOUT() || menu.getTransferPrizeIN() || menu.getTransferPrizeOUT()){
-			menu.setTransferTokenIN(false);
-			menu.setTransferTokenOUT(false);
-			menu.setTransferPrizeIN(false);
-			menu.setTransferPrizeOUT(false);
-			sendPacket();
-		}
-		page = index;
-	}
-	
-	/** ??? **/
-	public void commandResetGameState(){
-		PacketHandler.sendToServer(new MessageStateServer(true, -2, menu.pos()));
-		hasReset = true;
 	}
 	
 	/** ??? **/
@@ -923,31 +596,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 		if(index == 2){ menu.setPrizeMode3(!menu.getPrizeMode3()); buttonSet.setToggle(35, menu.getPrizeMode3()); }
 		sendPacket();
 	}
-	
-	// public void commandSetPage1(){
-	// 	resetPages();
-	// 	this.page = 0;
-	// }
-	//
-	// public void commandSetPage2(){
-	// 	resetPages();
-	// 	this.page = 1;
-	// }
-	//
-	// public void commandSetPage3(){
-	// 	resetPages();
-	// 	this.page = 2;
-	// }
-	//
-	// public void commandSetPage4(){
-	// 	resetPages();
-	// 	this.page = 3;
-	// }
-	//
-	// public void commandSetPage5(){
-	// 	resetPages();
-	// 	this.page = 4;
-	// }
 	
 	public void commandSetPage(int id){
 		buttonSet.setToggle(0, id == 0);
@@ -984,8 +632,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 	
 	
 	
-	
-	
 	// ---------- ---------- ---------- ----------  SUPPORT  ---------- ---------- ---------- ---------- //
 	
 	/** Draws String on x,y position with shadow and custom color **/
@@ -1003,11 +649,6 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 	protected void drawFontCenter(GuiGraphics matrix, String text, int x, int y){
 		int w = this.font.width(text) / 2;
 		matrix.drawString(font, text,  x - w, y, 16777215);
-	}
-	
-	protected void highlight(int index){
-		highlightTimer = 10;
-		highlightIndex = index;
 	}
 	
 	private boolean isOP(){
@@ -1047,48 +688,11 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 	
 	private boolean hasHighscore(){
 		return menu.getModule() instanceof ItemRulebook && ((ItemRulebook) menu.getModule()).hasHighscore();
-		
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_MINO_LIME.get()      ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_MINO_LIGHT_GRAY.get()) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_MINO_LIGHT_BLUE.get()) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_MINO_GRAY.get()      ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_MINO_CYAN.get()      ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_MINO_BLUE.get()      ) return true;
-		
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CHIP_PINK.get()      ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CHIP_ORANGE.get()    ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CHIP_LIGHT_GRAY.get()) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CHIP_LIGHT_BLUE.get()) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CHIP_CYAN.get()      ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CHIP_BLUE.get()      ) return true;
-		
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CARD_PURPLE.get()    ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CARD_MAGENTA.get()   ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CARD_LIGHT_BLUE.get()) return true;
-		
-		// return false;
 	}
 	
 	private boolean hasGambling(){
 		return menu.getModule() instanceof ItemRulebook && ((ItemRulebook) menu.getModule()).hasGambling();
-		
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_MINO_YELLOW.get()) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_MINO_RED.get()   ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_MINO_PINK.get()  ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_MINO_ORANGE.get()) return true;
-		
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CARD_YELLOW.get()    ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CARD_WHITE.get()     ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CARD_RED.get()       ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CARD_ORANGE.get()    ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CARD_LIGHT_GRAY.get()) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CARD_GRAY.get()      ) return true;
-		// if(menu.getItems().get(1).getItem() == Register.MODULE_CARD_BLACK.get()     ) return true;
-		
-		// return false;
 	}
-	
-	
 	
 	protected boolean hasKey(){
 		return menu.hasKey();

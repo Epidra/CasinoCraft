@@ -34,7 +34,7 @@ public class Menu21 extends MenuCasino {  //  Black Jack  :  Baccarat
 	
 	@Override
 	public int getID(){
-		return 11;
+		return 21;
 	}
 	
 	

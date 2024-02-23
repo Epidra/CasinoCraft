@@ -118,19 +118,19 @@ public class Register {
 	public static final RegistryObject<Block> ARCADE_SLOT_BLACK      = registerBlock("arcade_slot_black",      () -> new BlockSlotMachine(Blocks.IRON_BLOCK, DyeColor.BLACK     ));
 	
 	// ----- Books ----- //
-	public static final RegistryObject<Item> RULEBOOK_1_1 = registerItem("rulebook_1_1", () -> new ItemRulebook(1, 11, false, new int[]{1         },  true, false,  1));  //  Roulette
-	public static final RegistryObject<Item> RULEBOOK_2_1 = registerItem("rulebook_2_1", () -> new ItemRulebook(5, 21, false, new int[]{1         },  true, false,  0));  //  BlackJack
-	public static final RegistryObject<Item> RULEBOOK_2_2 = registerItem("rulebook_2_2", () -> new ItemRulebook(5, 22, false, new int[]{1         },  true, false,  0));  //  Poker
-	public static final RegistryObject<Item> RULEBOOK_3_1 = registerItem("rulebook_3_1", () -> new ItemRulebook(3, 31, false, new int[]{1         }, false,  true,  0));  //  Solitaire
-	public static final RegistryObject<Item> RULEBOOK_3_2 = registerItem("rulebook_3_2", () -> new ItemRulebook(3, 31, false, new int[]{1         }, false,  true,  0));  //  Pyramid
-	public static final RegistryObject<Item> RULEBOOK_3_3 = registerItem("rulebook_3_3", () -> new ItemRulebook(3, 33, false, new int[]{1         }, false,  true,  0));  //  MauMau
-	public static final RegistryObject<Item> RULEBOOK_4_1 = registerItem("rulebook_4_1", () -> new ItemRulebook(4, 41, false, new int[]{1         }, false,  true, -1));  //  Minesweeper
-	public static final RegistryObject<Item> RULEBOOK_4_2 = registerItem("rulebook_4_2", () -> new ItemRulebook(4, 42, false, new int[]{1         }, false,  true, -1));  //  Ishido
-	public static final RegistryObject<Item> RULEBOOK_5_1 = registerItem("rulebook_5_1", () -> new ItemRulebook(2, 51,  true, new int[]{3, 2, 3, 2}, false,  true,  2));  //  Tetris
-	public static final RegistryObject<Item> RULEBOOK_5_2 = registerItem("rulebook_5_2", () -> new ItemRulebook(2, 52,  true, new int[]{2, 2      }, false,  true,  2));  //  2048
-	public static final RegistryObject<Item> RULEBOOK_6_1 = registerItem("rulebook_6_1", () -> new ItemRulebook(6, 61,  true, new int[]{1         }, false,  true,  2));  //  Snake
-	public static final RegistryObject<Item> RULEBOOK_6_2 = registerItem("rulebook_6_2", () -> new ItemRulebook(6, 62,  true, new int[]{1         }, false,  true,  2));  //  Sokoban
-	public static final RegistryObject<Item> RULEBOOK_7_0 = registerItem("rulebook_7_0", () -> new ItemRulebook(0, 70,  true, new int[]{1         }, false,  true,  3));  // Slot Machine
+	public static final RegistryObject<Item> RULEBOOK_1_1 = registerItem("rulebook_1_1", () -> new ItemRulebook(1, 11, false, new int[]{1            },  true, false,  1));  //  Roulette
+	public static final RegistryObject<Item> RULEBOOK_2_1 = registerItem("rulebook_2_1", () -> new ItemRulebook(5, 21, false, new int[]{1            },  true, false,  0));  //  BlackJack
+	public static final RegistryObject<Item> RULEBOOK_2_2 = registerItem("rulebook_2_2", () -> new ItemRulebook(5, 22, false, new int[]{1            },  true, false,  0));  //  Poker
+	public static final RegistryObject<Item> RULEBOOK_3_1 = registerItem("rulebook_3_1", () -> new ItemRulebook(3, 31, false, new int[]{1, 4, 3, 3, 2}, false,  true,  0));  //  Solitaire
+	public static final RegistryObject<Item> RULEBOOK_3_2 = registerItem("rulebook_3_2", () -> new ItemRulebook(3, 32, false, new int[]{2, 3, 5      }, false,  true,  0));  //  Pyramid
+	public static final RegistryObject<Item> RULEBOOK_3_3 = registerItem("rulebook_3_3", () -> new ItemRulebook(3, 33, false, new int[]{1            }, false,  true,  0));  //  MauMau
+	public static final RegistryObject<Item> RULEBOOK_4_1 = registerItem("rulebook_4_1", () -> new ItemRulebook(4, 41, false, new int[]{1            }, false,  true, -1));  //  Minesweeper
+	public static final RegistryObject<Item> RULEBOOK_4_2 = registerItem("rulebook_4_2", () -> new ItemRulebook(4, 42, false, new int[]{1            }, false,  true, -1));  //  Ishido
+	public static final RegistryObject<Item> RULEBOOK_5_1 = registerItem("rulebook_5_1", () -> new ItemRulebook(2, 51,  true, new int[]{3, 2, 3, 2   }, false,  true,  2));  //  Tetris
+	public static final RegistryObject<Item> RULEBOOK_5_2 = registerItem("rulebook_5_2", () -> new ItemRulebook(2, 52,  true, new int[]{1, 2         }, false,  true,  2));  //  2048
+	public static final RegistryObject<Item> RULEBOOK_6_1 = registerItem("rulebook_6_1", () -> new ItemRulebook(6, 61,  true, new int[]{1            }, false,  true,  2));  //  Snake
+	public static final RegistryObject<Item> RULEBOOK_6_2 = registerItem("rulebook_6_2", () -> new ItemRulebook(6, 62,  true, new int[]{1            }, false,  true,  2));  //  Sokoban
+	public static final RegistryObject<Item> RULEBOOK_7_0 = registerItem("rulebook_7_0", () -> new ItemRulebook(0, 70,  true, new int[]{1            }, false,  true,  3));  // Slot Machine
 	
 	
 	
@@ -145,8 +145,8 @@ public class Register {
 	public static final RegistryObject<SoundEvent> SOUND_PAUSE_ON            = SOUNDS.register("casinocraft.pause.on",       () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "casinocraft.pause.on"      )));
 	public static final RegistryObject<SoundEvent> SOUND_PAUSE_OFF           = SOUNDS.register("casinocraft.pause.off",      () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "casinocraft.pause.off"     )));
 	public static final RegistryObject<SoundEvent> SOUND_TETRIS              = SOUNDS.register("casinocraft.tetris",         () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "casinocraft.tetris"        )));
-	public static final RegistryObject<SoundEvent> SOUND_CARD_PLAC           = SOUNDS.register("casinocraft.card.place",     () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "casinocraft.card.place"    )));
-	public static final RegistryObject<SoundEvent> SOUND_CARD_SHOV           = SOUNDS.register("casinocraft.card.shove",     () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "casinocraft.card.shove"    )));
+	public static final RegistryObject<SoundEvent> SOUND_CARD_PLACE          = SOUNDS.register("casinocraft.card.place",     () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "casinocraft.card.place"    )));
+	public static final RegistryObject<SoundEvent> SOUND_CARD_SHOVE          = SOUNDS.register("casinocraft.card.shove",     () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "casinocraft.card.shove"    )));
 	public static final RegistryObject<SoundEvent> SOUND_ROULETTE            = SOUNDS.register("casinocraft.roulette",       () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "casinocraft.roulette"      )));
 	public static final RegistryObject<SoundEvent> SOUND_CHIP                = SOUNDS.register("casinocraft.chip",           () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "casinocraft.chip"          )));
 	public static final RegistryObject<SoundEvent> SOUND_DICE                = SOUNDS.register("casinocraft.dice",           () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MODID, "casinocraft.dice"          )));

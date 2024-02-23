@@ -34,7 +34,7 @@ public class Menu33 extends MenuCasino {  //  Mau Mau
 	
 	@Override
 	public int getID(){
-		return 13;
+		return 33;
 	}
 	
 	

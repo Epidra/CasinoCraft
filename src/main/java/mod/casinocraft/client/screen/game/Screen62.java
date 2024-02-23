@@ -34,10 +34,6 @@ public class Screen62 extends ScreenCasino {   //  Sokoban
 		return (Logic62) menu.logic();
 	}
 	
-	protected String getGameName() {
-		return "sokoban";
-	}
-	
 	protected void createGameButtons(){
 	
 	}

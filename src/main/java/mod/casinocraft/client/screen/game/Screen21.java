@@ -32,21 +32,11 @@ public class Screen21 extends ScreenCasino {   //  Black Jack  :  Baccarat
 		return (Logic21) menu.logic();
 	}
 	
-	protected String getGameName() {
-		return "black_jack";
-	}
-	
 	protected void createGameButtons(){
 		buttonSet.addButton(0, ButtonMap.POS_MID_LEFT,  ButtonMap.HIT, ButtonMap.HIT, ButtonMap.LIGHT_LARGE, ButtonMap.SIZE_LARGE, -1,    () -> isActivePlayer() && logic().turnstate == 2,                                          () -> action(0));
 		buttonSet.addButton(0, ButtonMap.POS_MID_RIGHT, ButtonMap.STAND, ButtonMap.STAND, ButtonMap.LIGHT_LARGE, ButtonMap.SIZE_LARGE, -1,  () -> isActivePlayer() && logic().turnstate == 2,                                          () -> action(1));
 		buttonSet.addButton(0, ButtonMap.POS_TOP_RIGHT, ButtonMap.SPLIT, ButtonMap.SPLIT, ButtonMap.LIGHT_LARGE, ButtonMap.SIZE_LARGE, -1,  () -> isActivePlayer() && logic().turnstate == 2 && canSplit(),                            () -> action(2));
 		buttonSet.addButton(0, ButtonMap.POS_TOP_LEFT,  ButtonMap.DOUBLE, ButtonMap.DOUBLE, ButtonMap.LIGHT_LARGE, ButtonMap.SIZE_LARGE, -1, () -> isActivePlayer() && logic().turnstate == 2 && menu.hasToken() && playerToken >= bet, () -> action(3));
-		
-		//
-		// // ---
-		//
-		// buttonSet.addButton(ButtonMap.POS_MID_LEFT,  ButtonMap.ANOTHER, () -> isActivePlayer() && logic().turnstate == 2, () -> action(0));
-		// buttonSet.addButton(ButtonMap.POS_MID_RIGHT, ButtonMap.WAIT,    () -> isActivePlayer() && logic().turnstate == 2, () -> action(1));
 	}
 	
 	
@@ -75,31 +65,12 @@ public class Screen21 extends ScreenCasino {   //  Black Jack  :  Baccarat
 			if(logic().turnstate >= 4) drawFontCenter(matrix, logic().hand, 128, 190);
 		}
 		if(logic().turnstate >= 3) drawFont(matrix, "DEALER:  " + logic().value_dealer, 24, 56);
-		
-		//
-		// // ---
-		//
-		// drawFont(matrix, "PLAYER:  " + logic().value_player, 24, 24);
-		// drawFont(matrix, "DEALER:  " + logic().value_dealer, 24, 40);
-		// if(logic().status    == 1                     ){ drawFontCenter(matrix, "Natural Draw!",          128, 176); }
-		// if(logic().turnstate == 2 &&  isActivePlayer()){ drawFontCenter(matrix, "Want another card ...?", 128, 192); }
-		// if(logic().turnstate == 2 && !isActivePlayer()){ drawFontCenter(matrix, "...",                    128, 192); }
-		// if(logic().turnstate == 3                     ){ drawFontCenter(matrix, "...",                    128, 192); }
-		// if(logic().turnstate >= 4                     ){ drawFontCenter(matrix, logic().hand,             128, 192); }
 	}
 	
 	protected void drawBackgroundLayer(GuiGraphics matrix, float partialTicks, int mouseX, int mouseY){
 		for(int z = 0; z < logic().cards_player1.size(); z++){ if(logic().cards_player1.get(z).idletimer == 0) drawCard(matrix,  24 + 16*z, 100 + 4*z, logic().cards_player1.get(z)); if(logic().split == 1) drawCardBack(matrix,  24 + 16*z, 100 + 4*z, 10); }
 		for(int z = 0; z < logic().cards_player2.size(); z++){ if(logic().cards_player2.get(z).idletimer == 0) drawCard(matrix, 144 + 16*z, 100 + 4*z, logic().cards_player2.get(z)); if(logic().split == 2) drawCardBack(matrix, 144 + 16*z, 100 + 4*z, 10); }
 		for(int z = 0; z < logic().cards_dealer.size();  z++){ if(logic().cards_dealer.get(z).idletimer  == 0) drawCard(matrix, 144 + 16*z,  24 + 4*z, logic().cards_dealer.get(z)); }
-		
-		//
-		// // ---
-		//
-		// if(logic().turnstate >= 2){
-		// 	for(int z = 0; z < logic().cards_player.size(); z++){ if(logic().cards_player.get(z).idletimer == 0) drawCard(matrix,  24 + 16*z, 80 + 4*z, logic().cards_player.get(z)); }
-		// 	for(int z = 0; z < logic().cards_dealer.size(); z++){ if(logic().cards_dealer.get(z).idletimer == 0) drawCard(matrix, 144 + 16*z, 24 + 4*z, logic().cards_dealer.get(z)); }
-		// }
 	}
 	
 	

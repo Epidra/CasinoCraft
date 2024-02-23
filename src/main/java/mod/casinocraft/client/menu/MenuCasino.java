@@ -27,7 +27,12 @@ public abstract class MenuCasino extends MenuBase {
 	// ---------- ---------- ---------- ----------  CONSTRUCTOR  ---------- ---------- ---------- ---------- //
 	
 	public MenuCasino(MenuType<?> type, int windowID, Inventory playerInventory, FriendlyByteBuf packetBuffer) {
-		super(type, windowID, playerInventory, BlockPos.of(packetBuffer.readLong()));
+		this(type, windowID, playerInventory, BlockPos.of(packetBuffer.readLong()));
+	}
+	
+	public MenuCasino(MenuType<?> type, int windowID, Inventory playerInventory, BlockPos pos) {
+		this(type, windowID, playerInventory, (BlockEntityMachine) playerInventory.player.getCommandSenderWorld().getBlockEntity(pos));
+		this.pos = pos;
 	}
 	
 	public MenuCasino(MenuType<?> type, int windowID, Inventory playerInventory, BlockEntityMachine board) {

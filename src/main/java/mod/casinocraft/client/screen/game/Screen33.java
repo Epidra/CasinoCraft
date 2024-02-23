@@ -35,18 +35,14 @@ public class Screen33 extends ScreenCasino {   //  Mau Mau
 		return (Logic33) menu.logic();
 	}
 	
-	protected String getGameName() {
-		return "mau_mau";
-	}
-	
 	protected void createGameButtons(){
 		buttonSet.addButton(0, ButtonMap.POS_BOT_MIDDLE, ButtonMap.DRAW, ButtonMap.DRAW, ButtonMap.LIGHT_LARGE, ButtonMap.SIZE_LARGE, -1, () -> isActivePlayer() && logic().turnstate == 3 && (logic().forcedAction == 0 || logic().forcedAction == 2), () -> action(-1));
 		buttonSet.addButton(0, ButtonMap.POS_BOT_MIDDLE, ButtonMap.WAIT, ButtonMap.WAIT, ButtonMap.LIGHT_LARGE, ButtonMap.SIZE_LARGE, -1, () -> isActivePlayer() && logic().turnstate == 3 &&  logic().forcedAction == 1,                               () -> action(-1));
-				buttonSet.addButton(0, new Vector2( 50, 237), ButtonMap.COLOR_RED, ButtonMap.COLOR_RED, ButtonMap.LIGHT_BASIC, ButtonMap.SIZE_BASIC, 10, () -> isActivePlayer() && logic().turnstate == 3 && logic().forcedAction == 3, () -> action(-5));
+		buttonSet.addButton(0, new Vector2( 50, 237), ButtonMap.COLOR_RED, ButtonMap.COLOR_RED, ButtonMap.LIGHT_BASIC, ButtonMap.SIZE_BASIC, 10, () -> isActivePlayer() && logic().turnstate == 3 && logic().forcedAction == 3, () -> action(-5));
 		buttonSet.addButton(0, new Vector2( 89, 237), ButtonMap.COLOR_YELLOW, ButtonMap.COLOR_YELLOW, ButtonMap.LIGHT_BASIC, ButtonMap.SIZE_BASIC, 10, () -> isActivePlayer() && logic().turnstate == 3 && logic().forcedAction == 3, () -> action(-4));
 		buttonSet.addButton(0, new Vector2(128, 237), ButtonMap.COLOR_BLUE,   ButtonMap.COLOR_BLUE, ButtonMap.LIGHT_BASIC, ButtonMap.SIZE_BASIC, 10, () -> isActivePlayer() && logic().turnstate == 3 && logic().forcedAction == 3, () -> action(-3));
 		buttonSet.addButton(0, new Vector2(167, 237), ButtonMap.COLOR_GREEN,  ButtonMap.COLOR_GREEN, ButtonMap.LIGHT_BASIC, ButtonMap.SIZE_BASIC, 10, () -> isActivePlayer() && logic().turnstate == 3 && logic().forcedAction == 3, () -> action(-2));
-				playerPos = -2;
+		playerPos = -2;
 	}
 	
 	
@@ -146,7 +142,6 @@ public class Screen33 extends ScreenCasino {   //  Mau Mau
 		for(Card card : logic().getCards(cardPos)){
 			if(card.suit != -1 && card.idletimer == 0){
 				boolean hidden = logic().turnstate > 3 ? false : playerPos != cardPos;
-				// RenderSystem.setShaderTexture(0, getCardsTexture(hidden || card.suit >= 2));
 				int texX = card.suit == -1 || hidden ? cardPos+1 : card.number % 8;
 				int texY = card.suit == -1 || hidden ?         4 : (card.suit  % 2) * 2 + card.number / 8;
 				if(Configuration.CASINO.config_animated_cards.get() && !hidden){

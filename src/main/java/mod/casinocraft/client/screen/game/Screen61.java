@@ -33,10 +33,6 @@ public class Screen61 extends ScreenCasino {   //  Snake  :  PacMan
 		return (Logic61) menu.logic();
 	}
 	
-	protected String getGameName() {
-		return "snake";
-	}
-	
 	protected void createGameButtons(){
 	
 	}

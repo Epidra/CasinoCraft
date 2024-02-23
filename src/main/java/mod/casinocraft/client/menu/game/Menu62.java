@@ -34,7 +34,7 @@ public class Menu62 extends MenuCasino {  //  Sokoban
 	
 	@Override
 	public int getID(){
-		return 19;
+		return 62;
 	}
 	
 	

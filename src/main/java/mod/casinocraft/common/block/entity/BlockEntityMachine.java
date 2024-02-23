@@ -65,65 +65,6 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 	private Item lastModule = Items.FLINT;
 	public DyeColor color;
 	public final int tableID;
-	// public final ContainerData casinoData = new ContainerData() {};
-	// 	public int get(int index) {
-	// 		switch(index) {
-	// 			case  0: return BlockEntityMachine.this.storageToken;
-	// 			case  1: return BlockEntityMachine.this.storageReward;
-	// 			case  2: return BlockEntityMachine.this.bettingLow;
-	// 			case  3: return BlockEntityMachine.this.bettingHigh;
-	// 			case  4: return BlockEntityMachine.this.rewardScore1;
-	// 			case  5: return BlockEntityMachine.this.rewardScore2;
-	// 			case  6: return BlockEntityMachine.this.rewardScore3;
-	// 			case  7: return BlockEntityMachine.this.rewardAmount1;
-	// 			case  8: return BlockEntityMachine.this.rewardAmount2;
-	// 			case  9: return BlockEntityMachine.this.rewardAmount3;
-	// 			case 10: return BlockEntityMachine.this.prizeMode1                 ? 1 : 0;
-	// 			case 11: return BlockEntityMachine.this.prizeMode2                 ? 1 : 0;
-	// 			case 12: return BlockEntityMachine.this.prizeMode3                 ? 1 : 0;
-	// 			case 13: return BlockEntityMachine.this.transferTokenIN            ? 1 : 0;
-	// 			case 14: return BlockEntityMachine.this.transferTokenOUT           ? 1 : 0;
-	// 			case 15: return BlockEntityMachine.this.transferRewardIN           ? 1 : 0;
-	// 			case 16: return BlockEntityMachine.this.transferRewardOUT          ? 1 : 0;
-	// 			case 17: return BlockEntityMachine.this.settingInfiniteToken       ? 1 : 0;
-	// 			case 18: return BlockEntityMachine.this.settingInfiniteReward      ? 1 : 0;
-	// 			case 19: return BlockEntityMachine.this.settingDropItemsOnBreak    ? 1 : 0;
-	// 			case 20: return BlockEntityMachine.this.settingIndestructableBlock ? 1 : 0;
-	// 			case 21: return BlockEntityMachine.this.settingAlternateColor;
-	// 			default:
-	// 				return 0;
-	// 		}
-	// 	}
-	// 	public void set(int index, int value) {
-	// 		switch(index) {
-	// 			case  0: BlockEntityMachine.this.storageToken               = value;      break;
-	// 			case  1: BlockEntityMachine.this.storageReward              = value;      break;
-	// 			case  2: BlockEntityMachine.this.bettingLow                 = value;      break;
-	// 			case  3: BlockEntityMachine.this.bettingHigh                = value;      break;
-	// 			case  4: BlockEntityMachine.this.rewardScore1               = value;      break;
-	// 			case  5: BlockEntityMachine.this.rewardScore2               = value;      break;
-	// 			case  6: BlockEntityMachine.this.rewardScore3               = value;      break;
-	// 			case  7: BlockEntityMachine.this.rewardAmount1              = value;      break;
-	// 			case  8: BlockEntityMachine.this.rewardAmount2              = value;      break;
-	// 			case  9: BlockEntityMachine.this.rewardAmount3              = value;      break;
-	// 			case 10: BlockEntityMachine.this.prizeMode1                 = value == 1; break;
-	// 			case 11: BlockEntityMachine.this.prizeMode2                 = value == 1; break;
-	// 			case 12: BlockEntityMachine.this.prizeMode3                 = value == 1; break;
-	// 			case 13: BlockEntityMachine.this.transferTokenIN            = value == 1; break;
-	// 			case 14: BlockEntityMachine.this.transferTokenOUT           = value == 1; break;
-	// 			case 15: BlockEntityMachine.this.transferRewardIN           = value == 1; break;
-	// 			case 16: BlockEntityMachine.this.transferRewardOUT          = value == 1; break;
-	// 			case 17: BlockEntityMachine.this.settingInfiniteToken       = value == 1; break;
-	// 			case 18: BlockEntityMachine.this.settingInfiniteReward      = value == 1; break;
-	// 			case 19: BlockEntityMachine.this.settingDropItemsOnBreak    = value == 1; break;
-	// 			case 20: BlockEntityMachine.this.settingIndestructableBlock = value == 1; break;
-	// 			case 21: BlockEntityMachine.this.settingAlternateColor      = value;      break;
-	// 		}
-	// 	}
-	// 	public int getCount() {
-	// 		return 19;
-	// 	}
-	// };
 	
 	
 	
@@ -370,6 +311,11 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 	
 	public void changeLogic(){
 		if(lastModule != getModule()){
+			settingRule1 = 0;
+			settingRule2 = 0;
+			settingRule3 = 0;
+			settingRule4 = 0;
+			settingRule5 = 0;
 			lastModule = getModule();
 			logic = setLogic();
 			if(!level.isClientSide()){
@@ -427,36 +373,10 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 	
 	private LogicModule setLogic(){
 		if(this instanceof BlockEntityArcade){
-			
-			// if(getModule() == Register.BOOK_RULE_BLACKJACK.get()) return new LogicBlackJack(tableID);
-			// if(getModule() == Register.BOOK_RULE_POKER.get()) return new LogicPoker(tableID);
-			// if(getModule() == Register.BOOK_RULE_ROULETTE.get()) return new LogicRoulette(tableID);
-			// if(getModule() == Register.BOOK_RULE_SOLITAIRE.get()) return new LogicSolitaire(tableID);
-			// if(getModule() == Register.BOOK_RULE_PYRAMID.get()) return new LogicPyramid(tableID);
-			// if(getModule() == Register.BOOK_RULE_MAUMAU.get()) return new LogicMauMau(tableID);
-			// if(getModule() == Register.BOOK_RULE_MINEFLIP.get()) return new LogicMinesweeper(tableID);
-			// if(getModule() == Register.BOOK_RULE_HALMA.get()) return new LogicIshido(tableID);
 			if(getModule() == Register.RULEBOOK_6_1.get()) return new Logic61(tableID);
 			if(getModule() == Register.RULEBOOK_5_1.get()) return new Logic51(tableID);
 			if(getModule() == Register.RULEBOOK_6_2.get()) return new Logic62(tableID);
 			if(getModule() == Register.RULEBOOK_5_2.get()) return new Logic52(tableID);
-			
-			// if(getModule() == Register.MODULE_CHIP_WHITE.get())      return new LogicChipWhite(    tableID);
-			// if(getModule() == Register.MODULE_CHIP_ORANGE.get())     return new LogicChipOrange(   tableID);
-			// if(getModule() == Register.MODULE_CHIP_MAGENTA.get())    return new LogicChipMagenta(  tableID);
-			// if(getModule() == Register.MODULE_CHIP_LIGHT_BLUE.get()) return new LogicChipLightBlue(tableID);
-			// if(getModule() == Register.MODULE_CHIP_YELLOW.get())     return new LogicChipYellow(   tableID);
-			// if(getModule() == Register.MODULE_CHIP_LIME.get())       return new LogicChipLime(     tableID);
-			// if(getModule() == Register.MODULE_CHIP_PINK.get())       return new LogicChipPink(     tableID);
-			// if(getModule() == Register.MODULE_CHIP_GRAY.get())       return new LogicChipGray(     tableID);
-			// if(getModule() == Register.MODULE_CHIP_LIGHT_GRAY.get()) return new LogicChipLightGray(tableID);
-			// if(getModule() == Register.MODULE_CHIP_CYAN.get())       return new LogicChipCyan(     tableID);
-			// if(getModule() == Register.MODULE_CHIP_PURPLE.get())     return new LogicChipPurple(   tableID);
-			// if(getModule() == Register.MODULE_CHIP_BLUE.get())       return new LogicChipBlue(     tableID);
-			// if(getModule() == Register.MODULE_CHIP_BROWN.get())      return new LogicChipBrown(    tableID);
-			// if(getModule() == Register.MODULE_CHIP_GREEN.get())      return new LogicChipGreen(    tableID);
-			// if(getModule() == Register.MODULE_CHIP_RED.get())        return new LogicChipRed(      tableID);
-			// if(getModule() == Register.MODULE_CHIP_BLACK.get())      return new LogicChipBlack(    tableID);
 		}
 		if(this instanceof BlockEntityCardTableBase || this instanceof BlockEntityCardTableWide){
 			
@@ -468,44 +388,6 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 			if(getModule() == Register.RULEBOOK_3_3.get()) return new Logic33(tableID);
 			if(getModule() == Register.RULEBOOK_4_1.get()) return new Logic41(tableID);
 			if(getModule() == Register.RULEBOOK_4_2.get()) return new Logic42(tableID);
-			// if(getModule() == Register.BOOK_RULE_SNAKE.get()) return new LogicSnake(tableID);
-			// if(getModule() == Register.BOOK_RULE_TETRIS.get()) return new LogicTetris(tableID);
-			// if(getModule() == Register.BOOK_RULE_SOKOBAN.get()) return new LogicSokoban(tableID);
-			// if(getModule() == Register.BOOK_RULE_2048.get()) return new Logic2048(tableID);
-			
-			// if(getModule() == Register.MODULE_CARD_WHITE.get())      return new LogicCardWhite(    tableID);
-			// if(getModule() == Register.MODULE_CARD_ORANGE.get())     return new LogicCardOrange(   tableID);
-			// if(getModule() == Register.MODULE_CARD_MAGENTA.get())    return new LogicCardMagenta(  tableID);
-			// if(getModule() == Register.MODULE_CARD_LIGHT_BLUE.get()) return new LogicCardLightBlue(tableID);
-			// if(getModule() == Register.MODULE_CARD_YELLOW.get())     return new LogicCardYellow(   tableID);
-			// if(getModule() == Register.MODULE_CARD_LIME.get())       return new LogicCardLime(     tableID);
-			// if(getModule() == Register.MODULE_CARD_PINK.get())       return new LogicCardPink(     tableID);
-			// if(getModule() == Register.MODULE_CARD_GRAY.get())       return new LogicCardGray(     tableID);
-			// if(getModule() == Register.MODULE_CARD_LIGHT_GRAY.get()) return new LogicCardLightGray(tableID);
-			// if(getModule() == Register.MODULE_CARD_CYAN.get())       return new LogicCardCyan(     tableID);
-			// if(getModule() == Register.MODULE_CARD_PURPLE.get())     return new LogicCardPurple(   tableID);
-			// if(getModule() == Register.MODULE_CARD_BLUE.get())       return new LogicCardBlue(     tableID);
-			// if(getModule() == Register.MODULE_CARD_BROWN.get())      return new LogicCardBrown(    tableID);
-			// if(getModule() == Register.MODULE_CARD_GREEN.get())      return new LogicCardGreen(    tableID);
-			// if(getModule() == Register.MODULE_CARD_RED.get())        return new LogicCardRed(      tableID);
-			// if(getModule() == Register.MODULE_CARD_BLACK.get())      return new LogicCardBlack(    tableID);
-			
-			// if(getModule() == Register.MODULE_MINO_WHITE.get())      return new LogicMinoWhite(    tableID);
-			// if(getModule() == Register.MODULE_MINO_ORANGE.get())     return new LogicMinoOrange(   tableID);
-			// if(getModule() == Register.MODULE_MINO_MAGENTA.get())    return new LogicMinoMagenta(  tableID);
-			// if(getModule() == Register.MODULE_MINO_LIGHT_BLUE.get()) return new LogicMinoLightBlue(tableID);
-			// if(getModule() == Register.MODULE_MINO_YELLOW.get())     return new LogicMinoYellow(   tableID);
-			// if(getModule() == Register.MODULE_MINO_LIME.get())       return new LogicMinoLime(     tableID);
-			// if(getModule() == Register.MODULE_MINO_PINK.get())       return new LogicMinoPink(     tableID);
-			// if(getModule() == Register.MODULE_MINO_GRAY.get())       return new LogicMinoGray(     tableID);
-			// if(getModule() == Register.MODULE_MINO_LIGHT_GRAY.get()) return new LogicMinoLightGray(tableID);
-			// if(getModule() == Register.MODULE_MINO_CYAN.get())       return new LogicMinoCyan(     tableID);
-			// if(getModule() == Register.MODULE_MINO_PURPLE.get())     return new LogicMinoPurple(   tableID);
-			// if(getModule() == Register.MODULE_MINO_BLUE.get())       return new LogicMinoBlue(     tableID);
-			// if(getModule() == Register.MODULE_MINO_BROWN.get())      return new LogicMinoBrown(    tableID);
-			// if(getModule() == Register.MODULE_MINO_GREEN.get())      return new LogicMinoGreen(    tableID);
-			// if(getModule() == Register.MODULE_MINO_RED.get())        return new LogicMinoRed(      tableID);
-			// if(getModule() == Register.MODULE_MINO_BLACK.get())      return new LogicMinoBlack(    tableID);
 		}
 		if(this instanceof BlockEntitySlotMachine){
 			return new LogicSlotGame(tableID, getModule());
@@ -523,8 +405,8 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 	private SoundEvent getSound(int index){
 		switch(index){
 			case  0: default:
-				// case  1: return Register.SOUND_CARD_PLACE.get();
-				// case  2: return Register.SOUND_CARD_SHOVE.get();
+			case  1: return Register.SOUND_CARD_PLACE.get();
+			case  2: return Register.SOUND_CARD_SHOVE.get();
 			case  3: return Register.SOUND_CHIP.get();
 			case  4: return Register.SOUND_DICE.get();
 			case  5: return Register.SOUND_IMPACT.get();
@@ -542,11 +424,6 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 		int[] values = new int[]{settingRule1, settingRule2, settingRule3, settingRule4, settingRule5};
 		logic.setupRuleSet(values);
 	}
-	
-	// @Override
-	// public ContainerData getIntArray() {
-	// 	return casinoData;
-	// }
 	
 	
 	

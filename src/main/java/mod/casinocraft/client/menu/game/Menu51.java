@@ -34,7 +34,7 @@ public class Menu51 extends MenuCasino {  //  Tetris
 	
 	@Override
 	public int getID(){
-		return 21;
+		return 51;
 	}
 	
 	

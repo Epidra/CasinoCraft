@@ -34,7 +34,7 @@ public class Menu41 extends MenuCasino {  //  Minesweeper
 	
 	@Override
 	public int getID(){
-		return 14;
+		return 41;
 	}
 	
 	

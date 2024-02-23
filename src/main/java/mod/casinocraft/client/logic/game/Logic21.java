@@ -12,14 +12,6 @@ import static mod.casinocraft.util.mapping.SoundMap.SOUND_REWARD;
 
 public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 	
-	// GAME MODE -- BlackJack, Baccarat
-	// RULE 1 -- Cards in Hand (1, 2, 3, 4, 5)
-	// RULE 2 -- Can Add Cards (1, 2, 3, 4, 5)
-	// RULE 3 -- ??
-	// COLOR VARIATION -- Card Design
-	
-	// --------------------------------------------------
-	
 	public List<Card> cards_player1 = new ArrayList<Card>();
 	public List<Card> cards_player2 = new ArrayList<Card>();
 	public List<Card> cards_dealer = new ArrayList<Card>();
@@ -27,17 +19,6 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 	public int value_player2 = 0;
 	public int value_dealer = 0;
 	public int split = 0; // 0 - no split, 1 - left cards, 2 - right cards
-	
-	//
-	// // ---
-	//
-	// public List<Card> cards_player = new ArrayList<Card>();
-	// public List<Card> cards_dealer = new ArrayList<Card>();
-	//
-	// public int value_player = 0;
-	// public int value_dealer = 0;
-	//
-	// public int status = 0;
 	
 	
 	
@@ -59,8 +40,8 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 		cards_player1.clear();
 		cards_player2.clear();
 		cards_dealer.clear();
-				split = 0;
-				cards_player1.add(new Card(RANDOM, -32,   0,  8, false));
+		split = 0;
+		cards_player1.add(new Card(RANDOM, -32,   0,  8, false));
 		cards_player1.add(new Card(RANDOM, -48,   0, 32, false));
 		cards_dealer.add( new Card(RANDOM,   0, -48,  8, false));
 		cards_dealer.add( new Card(RANDOM,   0, -48, 32, true));
@@ -72,48 +53,6 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 			result();
 			cards_dealer.get(1).hidden = false;
 		}
-		
-		//
-		// // ---
-		//
-		// cards_player.clear();
-		// cards_dealer.clear();
-		// value_player = 0;
-		// value_dealer = 0;
-		// status = 0;
-		//
-		// cards_player.add(new Card(RANDOM));
-		// cards_player.add(new Card(RANDOM));
-		// cards_dealer.add(new Card(RANDOM));
-		// cards_dealer.add(new Card(RANDOM));
-		//
-		// cards_player.get(0).setShift(-32,   0,  8);
-		// cards_player.get(1).setShift(-48,   0, 32);
-		// cards_dealer.get(0).setShift(  0, -48,  8);
-		// cards_dealer.get(1).setShift(  0, -48, 32);
-		//
-		// for(Card card : cards_player) {
-		// 	if(card.number <= 9) {
-		// 		value_player += card.number + 1;
-		// 	}
-		// }
-		//
-		// for(Card card : cards_dealer){
-		// 	if(card.number <= 9){
-		// 		value_dealer += card.number + 1;
-		// 	}
-		// }
-		//
-		// value_player %= 10;
-		// value_dealer %= 10;
-		//
-		// if(value_player >= 8 || value_dealer >= 8){
-		// 	status = 1;
-		// 	result();
-		// } else {
-		// 	status = 2;
-		// }
-		// setJingle(SOUND_CARD_SHOVE);
 	}
 	
 	
@@ -146,7 +85,7 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 				}
 			}
 		}
-				// ----- Stand ----- //
+		// ----- Stand ----- //
 		if(action == 1){
 			if(split == 1){
 				split = 2;
@@ -155,7 +94,7 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 				cards_dealer.get(1).hidden = false;
 			}
 		}
-				// ----- Split ----- //
+		// ----- Split ----- //
 		if(action == 2){
 			split = 1;
 			int cardX = cards_player1.get(1).number;
@@ -164,11 +103,11 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 			cards_player1.add(new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), -48, 0,  0, false));
 			cards_player2.add(new Card(cardX, cardY, -32, 0,   8, false));
 			cards_player2.add(new Card(RANDOM.nextInt(13), RANDOM.nextInt(4), -48, 0,   0, false));
-					value_player1 = Add_Card(cards_player1, 0, 0, true);
+			value_player1 = Add_Card(cards_player1, 0, 0, true);
 			value_player2 = Add_Card(cards_player2, 0, 0, true);
-					setJingle(SOUND_CARD_SHOVE);
+			setJingle(SOUND_CARD_SHOVE);
 		}
-				// ----- Double Down ----- //
+		// ----- Double Down ----- //
 		if(action == 3){
 			if(split < 2){
 				value_player1 = Add_Card(cards_player1, -48, 0, false);
@@ -188,12 +127,6 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 				}
 			}
 		}
-		
-		//
-		// // ---
-		//
-		// if(action == 0) addCard(true);  // HIT
-		// if(action == 1) addCard(false); // STAND
 	}
 	
 	
@@ -218,12 +151,6 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 		if(cards_player1.size() > 0) for (Card card : cards_player1) { card.update(); }
 		if(cards_player2.size() > 0) for (Card card : cards_player2) { card.update(); }
 		if(cards_dealer .size() > 0) for (Card card : cards_dealer)  { card.update(); }
-		
-		//
-		// // ---
-		//
-		// if(cards_player.size() > 0) for (Card card : cards_player) { card.update(); }
-		// if(cards_dealer.size() > 0) for (Card card : cards_dealer) { card.update(); }
 	}
 	
 	
@@ -240,15 +167,6 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 		value_player2 = compound.getInt("valueplayer2");
 		value_dealer  = compound.getInt("valuedealer");
 		split         = compound.getInt("split");
-		
-		//
-		// // ---
-		//
-		// cards_player = loadCardList(compound, 0);
-		// cards_dealer = loadCardList(compound, 1);
-		// value_player = compound.getInt("valueplayer");
-		// value_dealer = compound.getInt("valuedealer");
-		// status = compound.getInt("status");
 	}
 	
 	public CompoundTag save2(CompoundTag compound){
@@ -260,16 +178,6 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 		compound.putInt("valuedealer", value_dealer);
 		compound.putInt("split", split);
 		return compound;
-		
-		//
-		// // ---
-		//
-		// saveCardList(compound, 0, cards_player);
-		// saveCardList(compound, 1, cards_player);
-		// compound.putInt("valueplayer", value_player);
-		// compound.putInt("valuedealer", value_dealer);
-		// compound.putInt("status", status);
-		// return compound;
 	}
 	
 	
@@ -303,15 +211,6 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 		if(reward[0] >= 2){
 			jingle = SOUND_REWARD;
 		}
-		
-		// turnstate = 4;
-		// if(status == 2) status = 3;
-		// if(value_dealer <  value_player){ hand = "The Player Wins!"; reward[0] = 2; }
-		// if(value_dealer >  value_player){ hand = "The House Wins!";  reward[0] = 0; }
-		// if(value_dealer == value_player){ hand = "DRAW!";            reward[0] = 1; }
-		// if(reward[0] >= 2){
-		// 	jingle = SOUND_REWARD;
-		// }
 	}
 	
 	private int Add_Card(List<Card> cards, int shiftX, int shiftY, boolean noCard) {
@@ -341,33 +240,6 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 		return value;
 	}
 	
-	// private void addCard(boolean player){
-	// 	if(player) {
-	// 		value_player = 0;
-	// 		cards_player.add(new Card(RANDOM, -48, 0));
-	// 		for(Card card : cards_player){
-	// 			if(card.number <= 9){
-	// 				value_player += card.number + 1;
-	// 			}
-	// 		}
-	// 		value_player %= 10;
-	// 	}
-	// 		boolean temp_draw = false;
-	// 		if(cards_player.size() == 2 || value_dealer <= 3) { temp_draw = true; } else if(value_dealer == 4 && value_player <= 7) { temp_draw = true; } else if(value_dealer == 5 && value_player >= 4 && value_player <= 7) { temp_draw = true; } else if(value_dealer == 6 && value_player >= 6 && value_player <= 7) { temp_draw = true; }
-	// 		if(temp_draw){
-	// 		value_dealer = 0;
-	// 		cards_dealer.add(new Card(RANDOM, -48, 0));
-	// 		for(Card card : cards_dealer) {
-	// 			if(card.number <= 9) {
-	// 				value_dealer += card.number + 1;
-	// 			}
-	// 		}
-	// 		value_dealer %= 10;
-	// 	}
-	// 	setJingle(SOUND_CARD_PLACE);
-	// 	result();
-	// }
-	
 	
 	
 	
@@ -383,7 +255,7 @@ public class Logic21 extends LogicModule {   //  Black Jack  :  Baccarat
 	}
 	
 	public int getID(){
-		return 11;
+		return 21;
 	}
 	
 	public String getName(){

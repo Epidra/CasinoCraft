@@ -61,15 +61,9 @@ public abstract class MenuMachine extends MenuCasino {
 				
 				slot.onQuickCraft(itemstack1, itemstack);
 			} else if (index != 1 && index != 0) {
-				//if (this.canSmelt(itemstack1)) {
 				if (!this.moveItemStackTo(itemstack1, 0, 3, false)) {
 					return ItemStack.EMPTY;
 				}
-				//} else if (this.isFuel(itemstack1)) {
-				//    if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
-				//        return ItemStack.EMPTY;
-				//    }
-				//} else
 				if (index >= 3 && index < 30) {
 					if (!this.moveItemStackTo(itemstack1, 30, 39, false)) {
 						return ItemStack.EMPTY;

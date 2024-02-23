@@ -34,7 +34,7 @@ public class Menu31 extends MenuCasino {  //  Solitaire
 	
 	@Override
 	public int getID(){
-		return 20;
+		return 31;
 	}
 	
 	

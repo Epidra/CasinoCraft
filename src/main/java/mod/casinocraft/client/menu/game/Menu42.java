@@ -34,7 +34,7 @@ public class Menu42 extends MenuCasino {  //  Ishido
 	
 	@Override
 	public int getID(){
-		return 12;
+		return 42;
 	}
 	
 	

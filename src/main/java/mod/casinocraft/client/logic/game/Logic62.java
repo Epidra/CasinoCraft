@@ -14,14 +14,6 @@ import static mod.lucky77.util.KeyMap.*;
 
 public class Logic62 extends LogicModule {   //  Sokoban
 	
-	// GAME MODE -- SOKOBAN
-	// RULE 1 -- ??
-	// RULE 2 -- ??
-	// RULE 3 -- ??
-	// COLOR VARIATION -- Background Design
-	
-	// --------------------------------------------------
-	
 	public Ship octanom = new Ship(1, new Vector2(16 * 15, 16 * 15), new Vector2(16 * 15, 16 * 15));
 	public List<Ship> crate = new ArrayList<Ship>();
 	public List<Ship> cross = new ArrayList<Ship>();
@@ -227,7 +219,7 @@ public class Logic62 extends LogicModule {   //  Sokoban
 	}
 	
 	public int getID(){
-		return 19;
+		return 62;
 	}
 	
 	public String getName(){

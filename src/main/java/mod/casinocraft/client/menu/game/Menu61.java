@@ -34,7 +34,7 @@ public class Menu61 extends MenuCasino {  //  Snake  :  PacMan
 	
 	@Override
 	public int getID(){
-		return 18;
+		return 61;
 	}
 	
 	
