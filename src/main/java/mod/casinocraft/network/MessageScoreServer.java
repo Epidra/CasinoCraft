@@ -55,7 +55,7 @@ public class MessageScoreServer {
         public static void handle (final MessageScoreServer message, Supplier<NetworkEvent.Context> context) {
             BlockEntityMachine te = (BlockEntityMachine) context.get().getSender().getLevel().getChunkAt(message.pos).getBlockEntity(message.pos);
             context.get().enqueueWork(() ->{
-                te.logic.addScore(message.names, message.points);
+                te.logic.addScore(te.settingAlternateScore, message.names, message.points);
                 te.logic.resetPlayers();
             });
             CasinoPacketHandler.sendToChunk(new MessageScoreClient(message.names, message.points, message.pos), context.get().getSender().level.getChunkAt(message.pos));

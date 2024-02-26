@@ -18,12 +18,12 @@ public class MenuCardTable extends MenuMachine {
 
     /** Default Constructor **/
     public MenuCardTable(int windowID, Inventory playerInventory, BlockEntityMachine board) {
-        super(CasinoKeeper.CONTAINER_CARDTABLE.get(), windowID, playerInventory, board);
+        super(CasinoKeeper.MENU_CARDTABLE.get(), windowID, playerInventory, board);
     }
 
     /** Forge Registry Constructor **/
     public MenuCardTable(int windowID, Inventory playerInventory, FriendlyByteBuf packetBuffer) {
-        super(CasinoKeeper.CONTAINER_CARDTABLE.get(), windowID, playerInventory, packetBuffer);
+        super(CasinoKeeper.MENU_CARDTABLE.get(), windowID, playerInventory, packetBuffer);
     }
 
 

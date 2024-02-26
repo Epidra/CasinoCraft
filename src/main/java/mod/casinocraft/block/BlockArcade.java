@@ -157,22 +157,6 @@ public class BlockArcade extends MachinaTall implements EntityBlock {
     }
 
     private static int itemToInt(Item item){
-        if(item == CasinoKeeper.MODULE_CHIP_BLACK.get())      return  0;
-        if(item == CasinoKeeper.MODULE_CHIP_RED.get())        return  1;
-        if(item == CasinoKeeper.MODULE_CHIP_GREEN.get())      return  2;
-        if(item == CasinoKeeper.MODULE_CHIP_BROWN.get())      return  3;
-        if(item == CasinoKeeper.MODULE_CHIP_BLUE.get())       return  4;
-        if(item == CasinoKeeper.MODULE_CHIP_PURPLE.get())     return  5;
-        if(item == CasinoKeeper.MODULE_CHIP_CYAN.get())       return  6;
-        if(item == CasinoKeeper.MODULE_CHIP_LIGHT_GRAY.get()) return  7;
-        if(item == CasinoKeeper.MODULE_CHIP_GRAY.get())       return  8;
-        if(item == CasinoKeeper.MODULE_CHIP_PINK.get())       return  9;
-        if(item == CasinoKeeper.MODULE_CHIP_LIME.get())       return 10;
-        if(item == CasinoKeeper.MODULE_CHIP_YELLOW.get())     return 11;
-        if(item == CasinoKeeper.MODULE_CHIP_LIGHT_BLUE.get()) return 12;
-        if(item == CasinoKeeper.MODULE_CHIP_MAGENTA.get())    return 13;
-        if(item == CasinoKeeper.MODULE_CHIP_ORANGE.get())     return 14;
-        if(item == CasinoKeeper.MODULE_CHIP_WHITE.get())      return 15;
         return 16;
     }
 

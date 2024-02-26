@@ -18,12 +18,12 @@ public class MenuSlotMachine extends MenuMachine {
 
     /** Default Constructor **/
     public MenuSlotMachine(int windowID, Inventory playerInventory, BlockEntityMachine board) {
-        super(CasinoKeeper.CONTAINER_SLOTMACHINE.get(), windowID, playerInventory, board);
+        super(CasinoKeeper.MENU_SLOTMACHINE.get(), windowID, playerInventory, board);
     }
 
     /** Forge Registry Constructor **/
     public MenuSlotMachine(int windowID, Inventory playerInventory, FriendlyByteBuf packetBuffer) {
-        super(CasinoKeeper.CONTAINER_SLOTMACHINE.get(), windowID, playerInventory, packetBuffer);
+        super(CasinoKeeper.MENU_SLOTMACHINE.get(), windowID, playerInventory, packetBuffer);
     }
 
 

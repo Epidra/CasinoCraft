@@ -41,9 +41,9 @@ public abstract class MenuMachine extends MenuBase {
     //----------------------------------------SUPPORT----------------------------------------//
 
     protected void createInventory(BlockEntityBase tile, Inventory playerInventory){
-        this.addSlot(new Slot(tile, 0, -24, 11)); // Key Card
+        this.addSlot(new Slot(tile, 0, -24, 12)); // Key Card
         this.addSlot(new Slot(tile, 1, -24, 41)); // Game Module
-        this.addSlot(new Slot(tile, 2, -24, 71)); // Token IN/OUT
+        this.addSlot(new Slot(tile, 2, -24, 70)); // Token IN/OUT
         addPlayerSlots(playerInventory,  8, 74);
     }
 

@@ -18,12 +18,12 @@ public class MenuDummy extends MenuCasino {
 
     /** Default Constructor **/
     public MenuDummy(int windowID, Inventory playerInventory, BlockEntityMachine board) {
-        super(CasinoKeeper.CONTAINER_DUMMY.get(), windowID, playerInventory, board);
+        super(CasinoKeeper.MENU_DUMMY.get(), windowID, playerInventory, board);
     }
 
     /** Forge Registry Constructor **/
     public MenuDummy(int windowID, Inventory playerInventory, FriendlyByteBuf packetBuffer) {
-        super(CasinoKeeper.CONTAINER_DUMMY.get(), windowID, playerInventory, packetBuffer);
+        super(CasinoKeeper.MENU_DUMMY.get(), windowID, playerInventory, packetBuffer);
     }
 
 

@@ -67,23 +67,6 @@
     "casinocraft:arcade_slot_purple",
     "casinocraft:arcade_slot_red",
     "casinocraft:arcade_slot_white",
-    "casinocraft:arcade_slot_yellow",
-
-    "casinocraft:dice_basic_black",
-    "casinocraft:dice_basic_blue",
-    "casinocraft:dice_basic_brown",
-    "casinocraft:dice_basic_cyan",
-    "casinocraft:dice_basic_gray",
-    "casinocraft:dice_basic_green",
-    "casinocraft:dice_basic_light_blue",
-    "casinocraft:dice_basic_light_gray",
-    "casinocraft:dice_basic_lime",
-    "casinocraft:dice_basic_magenta",
-    "casinocraft:dice_basic_orange",
-    "casinocraft:dice_basic_pink",
-    "casinocraft:dice_basic_purple",
-    "casinocraft:dice_basic_red",
-    "casinocraft:dice_basic_white",
-    "casinocraft:dice_basic_yellow"
+    "casinocraft:arcade_slot_yellow"
   ]
 }

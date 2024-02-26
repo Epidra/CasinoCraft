@@ -70,7 +70,14 @@ public class MessageSettingServer {
                 te.settingInfiniteReward       = message.packetData[16] == 1;
                 te.settingDropItemsOnBreak     = message.packetData[17] == 1;
                 te.settingIndestructableBlock  = message.packetData[18] == 1;
-                te.settingAlternateColor       = message.packetData[19];
+                te.settingAlternateScore       = message.packetData[19] == 1;
+                te.settingAlternateColor       = message.packetData[20];
+                te.settingRule1 = message.packetData[21];
+                te.settingRule2 = message.packetData[22];
+                te.settingRule3 = message.packetData[23];
+                te.settingRule4 = message.packetData[24];
+                te.settingRule5 = message.packetData[25];
+                te.sendRulesToLogic();
             });
             CasinoPacketHandler.sendToChunk(new MessageSettingClient(message.pos, message.packetData), context.get().getSender().level.getChunkAt(message.pos));
             context.get().setPacketHandled(true);

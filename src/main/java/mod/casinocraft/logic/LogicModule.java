@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class LogicModule extends Dummy {
-
+    
     public final Random RANDOM = new Random();
     public int scorePoint = -1;
     public int scoreLevel = -1;
@@ -34,34 +34,36 @@ public abstract class LogicModule extends Dummy {
     public int activePlayer = 0;
     public int timeout = 0;
     public int jingle = 0;
-
+    
+    protected int[] ruleSet = new int[]{0, 0, 0, 0, 0};
+    
     protected int timeoutMAX;
-
-
-
-
-
-    //----------------------------------------CONSTRUCTOR----------------------------------------//
-
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  CONSTRUCTOR  ---------- ---------- ---------- ---------- //
+    
     /** Constructor without Grid **/
     public LogicModule(int table){
         this(table, 1, 1);
     }
-
+    
     /** Default Constructor **/
     public LogicModule(int tableID, int gridX, int gridY){
         this.tableID = tableID;
         if(hasHighscore()) setupHighscore();
         grid = new int[gridX][gridY];
-        timeoutMAX = Config.CONFIG.config_timeout.get();
+        timeoutMAX = Config.CASINO.config_timeout.get();
     }
-
-
-
-
-
-    //----------------------------------------START----------------------------------------//
-
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  START  ---------- ---------- ---------- ---------- //
+    
     public void start(int seed){
         RANDOM.setSeed(seed);
         pause = false;
@@ -77,29 +79,31 @@ public abstract class LogicModule extends Dummy {
         if(tableID < 3) resetGrid();
         start2();
     }
-
-
-
-
-
-    //----------------------------------------UPDATE----------------------------------------//
-
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  UPDATE  ---------- ---------- ---------- ---------- //
+    
     public void update(){
-        if(!pause){
-            frame = (frame + 1) % 48;
-            updateMotion();
-            updateLogic();
+        if(turnstate > 1 && turnstate < 6){
+            if(!pause){
+                frame = (frame + 1) % 48;
+                updateMotion();
+                updateLogic();
+            }
         }
     }
-
-
-
-
-
-    //----------------------------------------SAVE/LOAD----------------------------------------//
-
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  SAVE / LOAD  ---------- ---------- ---------- ---------- //
+    
     public void load(CompoundTag compound){
-
+        
         // ----- Basic ----- //
         int[] baseValues = compound.getIntArray("basevalues");
         turnstate  = baseValues[0];
@@ -116,7 +120,7 @@ public abstract class LogicModule extends Dummy {
         currentPlayer[3] = compound.getString("currentplayer3");
         currentPlayer[4] = compound.getString("currentplayer4");
         currentPlayer[5] = compound.getString("currentplayer5");
-
+        
         // ----- Grid ----- //
         int[] array = compound.getIntArray("grid");
         for(int y = 0; y < grid[0].length; y++){
@@ -124,7 +128,7 @@ public abstract class LogicModule extends Dummy {
                 grid[x][y] = y*grid.length + x >= array.length ? 0 : array[y*grid.length + x];
             }
         }
-
+        
         // ----- Highscore ----- //
         if(hasHighscore()){
             for(int i = 0; i < 20; i++) {
@@ -132,15 +136,15 @@ public abstract class LogicModule extends Dummy {
                 scoreName[i] = compound.getString("name" + i);
             }
         }
-
+        
         // ----- Game-specific Load ----- //
         if(turnstate >= 2 && turnstate <= 5){
             load2(compound);
         }
     }
-
+    
     public CompoundTag save(CompoundTag compound){
-
+        
         // ----- Basic ----- //
         compound.putIntArray("basevalues", new int[]{
                 turnstate,
@@ -159,7 +163,7 @@ public abstract class LogicModule extends Dummy {
         compound.putString("currentplayer3", currentPlayer[3]);
         compound.putString("currentplayer4", currentPlayer[4]);
         compound.putString("currentplayer5", currentPlayer[5]);
-
+        
         // ----- Grid ----- //
         int[] array = new int[grid.length * grid[0].length];
         for(int y = 0; y < grid[0].length; y++){
@@ -168,7 +172,7 @@ public abstract class LogicModule extends Dummy {
             }
         }
         compound.putIntArray("grid", array);
-
+        
         // ----- Highscore ----- //
         if(hasHighscore()){
             for(int i = 0; i < 20; i++) {
@@ -176,21 +180,21 @@ public abstract class LogicModule extends Dummy {
                 compound.putString("name" + i, scoreName[i]);
             }
         }
-
+        
         // ----- Game-specific Save ----- //
         if(turnstate >= 2 && turnstate <= 5){
             save2(compound);
         }
-
+        
         return compound;
     }
-
-
-
-
-
-    //----------------------------------------LOAD_EXTRA----------------------------------------//
-
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  LOAD - EXTRA  ---------- ---------- ---------- ---------- //
+    
     protected Card[] loadCardArray(CompoundTag compound, int index){
         int[] array = compound.getIntArray("cardstack" + index);
         Card[] cards = new Card[array.length / 3];
@@ -199,7 +203,7 @@ public abstract class LogicModule extends Dummy {
         }
         return cards;
     }
-
+    
     protected List<Card> loadCardList(CompoundTag compound, int index){
         int[] array = compound.getIntArray("cardstack" + index);
         List<Card> cards = new ArrayList<Card>();
@@ -208,7 +212,7 @@ public abstract class LogicModule extends Dummy {
         }
         return cards;
     }
-
+    
     protected Dice[] loadDice(CompoundTag compound){
         int[] array = compound.getIntArray("diceset");
         Dice[] dice = new Dice[array.length / 2];
@@ -217,12 +221,12 @@ public abstract class LogicModule extends Dummy {
         }
         return dice;
     }
-
+    
     protected Ship loadEntity(CompoundTag compound, int index){
         int[] array = compound.getIntArray("entity" + index);
         return new Ship(array[0], new Vector2(array[1], array[2]), new Vector2(array[3], array[4]), new Vector2(array[5], array[6]));
     }
-
+    
     protected List<Ship> loadEntityList(CompoundTag compound, int index){
         int[] array = compound.getIntArray("entitylist" + index);
         List<Ship> list = new ArrayList<Ship>();
@@ -231,13 +235,13 @@ public abstract class LogicModule extends Dummy {
         }
         return list;
     }
-
-
-
-
-
-    //----------------------------------------SAVE_EXTRA----------------------------------------//
-
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  SAVE - EXTRA  ---------- ---------- ---------- ---------- //
+    
     protected CompoundTag saveCardArray(CompoundTag compound, int index, Card[] cards){
         int[] array = new int[cards.length * 3];
         for(int pos = 0; pos < cards.length; pos++){
@@ -248,7 +252,7 @@ public abstract class LogicModule extends Dummy {
         compound.putIntArray("cardstack" + index, array);
         return compound;
     }
-
+    
     protected CompoundTag saveCardList(CompoundTag compound, int index, List<Card> cards){
         int[] array = new int[cards.size() * 3];
         for(int pos = 0; pos < cards.size(); pos++){
@@ -259,7 +263,7 @@ public abstract class LogicModule extends Dummy {
         compound.putIntArray("cardstack" + index, array);
         return compound;
     }
-
+    
     protected CompoundTag saveDice(CompoundTag compound, Dice[] dice){
         int[] array = new int[dice.length * 2];
         for(int pos = 0; pos < dice.length; pos++){
@@ -269,13 +273,13 @@ public abstract class LogicModule extends Dummy {
         compound.putIntArray("diceset", array);
         return compound;
     }
-
+    
     protected CompoundTag saveEntity(CompoundTag compound, int index, Ship ent){
         int[] array = new int[]{ent.ai, ent.getPos().X, ent.getPos().Y, ent.getNext().X, ent.getNext().Y, ent.getVel().X, ent.getVel().Y};
         compound.putIntArray("entity" + index, array);
         return compound;
     }
-
+    
     protected CompoundTag saveEntityList(CompoundTag compound, int index, List<Ship> list){
         int[] array = new int[list.size() * 7];
         for(int pos = 0; pos < list.size(); pos++){
@@ -290,14 +294,34 @@ public abstract class LogicModule extends Dummy {
         compound.putIntArray("entitylist" + index, array);
         return compound;
     }
-
-
-
-
-
-    //----------------------------------------HIGHSCORE----------------------------------------//
-
-    public void addScore(String name, int points) {
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  SUPPORT  ---------- ---------- ---------- ---------- //
+    
+    public void addScore(boolean alternateMode, String name, int points) {
+        if(alternateMode){
+            boolean addNewScore = true;
+            for(int i = 0; i < 20; i++) {
+                if(scoreName[i].matches(name)){
+                    addNewScore = false;
+                    if(scoreHigh[i] < points){
+                        scoreHigh[i] = points;
+                        scoreLast = i;
+                    }
+                }
+            }
+            if(addNewScore){
+                addScore(name, points);
+            }
+        } else {
+            addScore(name, points);
+        }
+    }
+    
+    private void addScore(String name, int points){
         int pos = 20;
         for(int i = 19; i >= 0; i--) {
             if(points > scoreHigh[i]) {
@@ -319,7 +343,7 @@ public abstract class LogicModule extends Dummy {
         }
         scoreLast = pos;
     }
-
+    
     private void setupHighscore() {
         scoreLast = 20;
         for(int i = 19; i >= 0; i--) {
@@ -327,13 +351,7 @@ public abstract class LogicModule extends Dummy {
             scoreName[i] = "--------";
         }
     }
-
-
-
-
-
-    //----------------------------------------SUPPORT----------------------------------------//
-
+    
     protected void resetGrid(){
         for(int i = 0; i < grid.length; i++){
             for(int j = 0; j < grid[0].length; j++){
@@ -341,7 +359,7 @@ public abstract class LogicModule extends Dummy {
             }
         }
     }
-
+    
     public void addPlayer(String newPlayer){
         for(int i = 0; i < 6; i++){
             if(currentPlayer[i].matches("void")){
@@ -350,7 +368,7 @@ public abstract class LogicModule extends Dummy {
             }
         }
     }
-
+    
     public boolean hasFreePlayerSlots(){
         if(isMultiplayer()){
             for(int i = 0; i < (tableID == 1 ? 4 : 6); i++){
@@ -363,7 +381,7 @@ public abstract class LogicModule extends Dummy {
         }
         return false;
     }
-
+    
     public int getFirstFreePlayerSlot(){
         if(isMultiplayer()){
             for(int i = 0; i < (tableID == 1 ? 4 : 6); i++){
@@ -376,7 +394,7 @@ public abstract class LogicModule extends Dummy {
         }
         return 6;
     }
-
+    
     public void removePlayer(String oldPlayer){
         for(int i = 0; i < 6; i++){
             if(currentPlayer[i].matches(oldPlayer)){
@@ -385,33 +403,39 @@ public abstract class LogicModule extends Dummy {
             }
         }
     }
-
+    
     public void resetPlayers(){
         for(int i = 0; i < 6; i++){
             currentPlayer[i] = "void";
         }
     }
-
+    
     protected void setJingle(int i){
         jingle = i;
     }
-
-
-
-
-    //----------------------------------------ABSTRACT----------------------------------------//
-
+    
+    public void setupRuleSet(int[] values){
+        ruleSet = values;
+    }
+    
+    
+    
+    
+    
+    // ---------- ---------- ---------- ----------  ABSTRACT  ---------- ---------- ---------- ---------- //
+    
     public abstract void command(int action);
     public abstract void updateMotion();
     public abstract void updateLogic();
     public abstract void start2();
     public abstract void load2(CompoundTag compound);
     public abstract CompoundTag save2(CompoundTag compound);
-
+    
     public abstract boolean hasHighscore();
     public abstract boolean isMultiplayer();
     public abstract int getID();
-
-
-
+    public abstract String getName();
+    
+    
+    
 }

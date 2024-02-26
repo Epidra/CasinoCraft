@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "casinocraft:rulebook_1_1",
+      "casinocraft:rulebook_2_1",
+      "casinocraft:rulebook_2_2",
+      "casinocraft:rulebook_3_1",
+      "casinocraft:rulebook_3_2",
+      "casinocraft:rulebook_3_3",
+      "casinocraft:rulebook_4_1",
+      "casinocraft:rulebook_4_2",
+      "casinocraft:rulebook_5_1",
+      "casinocraft:rulebook_5_2",
+      "casinocraft:rulebook_6_1",
+      "casinocraft:rulebook_6_2",
+      "casinocraft:rulebook_7_0"
+    ]
+  },
+  "criteria": {
+    "has_paper": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["minecraft:book"]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_paper"
+    ]
+  ]
+}

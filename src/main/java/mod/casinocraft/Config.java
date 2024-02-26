@@ -6,7 +6,7 @@ public class Config {
 
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
-    public static final ConfigMachine CONFIG = new ConfigMachine(BUILDER, "config");
+    public static final ConfigMachine CASINO = new ConfigMachine(BUILDER, "config");
 
 
 

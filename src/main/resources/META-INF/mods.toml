@@ -1,10 +1,10 @@
 modLoader="javafml"
-loaderVersion="[45,)" #mandatory
+loaderVersion="[43,)" #mandatory
 license="All rights reserved"
 issueTrackerURL="https://github.com/Epidra/CasinoCraft/issues"
 [[mods]]
 modId="casinocraft"
-version="19.0"
+version="20.0"
 displayName="CasinoCraft"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/casinocraft"
 logoFile="logo.png"
@@ -18,12 +18,12 @@ Then you're at the right place.
 [[dependencies.casinocraft]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.4,1.20)"
+    versionRange="[1.19.2,1.20)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.casinocraft]]
     modId="lucky77"
     mandatory=true
-    versionRange="[2.0,)"
+    versionRange="[3.0,)"
     ordering="NONE"
     side="BOTH"

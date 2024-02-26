@@ -18,12 +18,12 @@ public class MenuArcade extends MenuMachine {
 
     /** Default Constructor **/
     public MenuArcade(int windowID, Inventory playerInventory, BlockEntityMachine board) {
-        super(CasinoKeeper.CONTAINER_ARCADE.get(), windowID, playerInventory, board);
+        super(CasinoKeeper.MENU_ARCADE.get(), windowID, playerInventory, board);
     }
 
     /** Forge Registry Constructor **/
     public MenuArcade(int windowID, Inventory playerInventory, FriendlyByteBuf packetBuffer) {
-        super(CasinoKeeper.CONTAINER_ARCADE.get(), windowID, playerInventory, packetBuffer);
+        super(CasinoKeeper.MENU_ARCADE.get(), windowID, playerInventory, packetBuffer);
     }
 
 

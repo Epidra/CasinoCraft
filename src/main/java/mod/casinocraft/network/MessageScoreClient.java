@@ -55,7 +55,7 @@ public class MessageScoreClient {
         public static void handle (final MessageScoreClient message, Supplier<NetworkEvent.Context> context) {
             BlockEntityMachine te = (BlockEntityMachine) Minecraft.getInstance().level.getBlockEntity(message.pos);
             context.get().enqueueWork(() ->{
-                te.logic.addScore(message.names, message.points);
+                te.logic.addScore(te.settingAlternateScore, message.names, message.points);
                 te.logic.resetPlayers();
             });
             context.get().setPacketHandled(true);

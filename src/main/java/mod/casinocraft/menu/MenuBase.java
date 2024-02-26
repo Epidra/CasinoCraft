@@ -7,6 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -49,7 +50,7 @@ public abstract class MenuBase extends mod.lucky77.menu.MenuBase {
 
 
     //----------------------------------------GET/SET----------------------------------------//
-
+    
     public int       getStorageToken(){          return data.get( 0  );       }
     public int       getStoragePrize(){          return data.get( 1  );       }
     public int       getBettingLow(){            return data.get( 2  );       }
@@ -74,10 +75,18 @@ public abstract class MenuBase extends mod.lucky77.menu.MenuBase {
     public boolean   getSettingInfinitePrize(){  return data.get(18  ) == 1;  }
     public boolean   getSettingDropOnBreak(){    return data.get(19  ) == 1;  }
     public boolean   getSettingIndestructable(){ return data.get(20  ) == 1;  }
-    public int       getSettingAlternateColor(){ return data.get(21  );       }
+    public boolean   getSettingAlternateScore(){ return data.get(21  ) == 1;  }
+    public int       getSettingAlternateColor(){
+        return data.get(22  );
+    }
+    public int       getSettingRule_1(){ return data.get(23  );       }
+    public int       getSettingRule_2(){ return data.get(24  );       }
+    public int       getSettingRule_3(){ return data.get(25  );       }
+    public int       getSettingRule_4(){ return data.get(26  );       }
+    public int       getSettingRule_5(){ return data.get(27  );       }
     public ItemStack getItemToken(){             return container.getItem(3); }
     public ItemStack getItemPrize(){             return container.getItem(4); }
-
+    
     public void setStorageToken(int value){              data.set( 0, value        ); }
     public void setStoragePrize(int value){              data.set( 1, value        ); }
     public void setBettingLow(int value){                data.set( 2, value        ); }
@@ -95,19 +104,31 @@ public abstract class MenuBase extends mod.lucky77.menu.MenuBase {
     public void setTransferTokenOUT(boolean value){      data.set(14, value ? 1 : 0); }
     public void setTransferPrizeIN(boolean value){       data.set(15, value ? 1 : 0); }
     public void setTransferPrizeOUT(boolean value){      data.set(16, value ? 1 : 0); }
-    public void setSettingInfiniteToken(boolean value){  data.set(17, value ? 1 : 0); }
-    public void setSettingInfinitePrize(boolean value){  data.set(18, value ? 1 : 0); }
-    public void setSettingDropOnBreak(boolean value){    data.set(19, value ? 1 : 0); }
-    public void setSettingIndestructable(boolean value){ data.set(20, value ? 1 : 0); }
-    public void setSettingAlternateColor(int value){     data.set(21, value); }
+    public boolean setSettingInfiniteToken(boolean value){  data.set(17, value ? 1 : 0); return data.get(17) == 1; }
+    public boolean setSettingInfinitePrize(boolean value){  data.set(18, value ? 1 : 0); return data.get(18) == 1; }
+    public boolean setSettingDropOnBreak(boolean value){    data.set(19, value ? 1 : 0); return data.get(19) == 1; }
+    public boolean setSettingIndestructable(boolean value){ data.set(20, value ? 1 : 0); return data.get(20) == 1; }
+    public boolean setSettingAlternateScore(boolean value){ data.set(21, value ? 1 : 0); return data.get(21) == 1; }
+    public void setSettingAlternateColor(int value){
+        data.set(22, value);
+    }
+    public void setSettingRule_1(int value){     data.set(23, value); }
+    public void setSettingRule_2(int value){     data.set(24, value); }
+    public void setSettingRule_3(int value){     data.set(25, value); }
+    public void setSettingRule_4(int value){     data.set(26, value); }
+    public void setSettingRule_5(int value){     data.set(27, value); }
     public void setItemToken(ItemStack itemStack){       container.setItem(3, itemStack); }
     public void setItemPrize(ItemStack itemStack){       container.setItem(4, itemStack); }
-
+    
     public boolean   hasKey(){       return !this.container.getItem(0).isEmpty(); }
     public boolean   hasModule(){    return !this.container.getItem(1).isEmpty(); }
     public boolean   hasToken(){     return data.get( 0) > 0; }
     public boolean   hasReward(){    return data.get( 1) > 0; }
-
+    
+    public Item getModule(){
+        return getItems().get(1).getItem();
+    }
+    
     public BlockPos  pos(){ return pos; }
     public Level world(){
         return this.level;
@@ -118,9 +139,9 @@ public abstract class MenuBase extends mod.lucky77.menu.MenuBase {
     public int       turnstate(){
         return logic().turnstate;
     }
-
+    
     public abstract int getID();
-
+    
     public String getCurrentPlayer(int index){
         return logic().currentPlayer[index];
     }
