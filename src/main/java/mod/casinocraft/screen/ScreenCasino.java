@@ -12,7 +12,7 @@ import mod.casinocraft.system.CasinoPacketHandler;
 import mod.casinocraft.util.Card;
 import mod.casinocraft.util.Ship;
 import mod.lucky77.screen.ScreenBase;
-import mod.lucky77.system.SystemInventory;
+import mod.lucky77.system.SystemPlayer;
 import mod.lucky77.util.button.ButtonSet;
 import mod.lucky77.util.Vector2;
 import net.minecraft.core.NonNullList;
@@ -529,7 +529,7 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
     /** Collects the bet from the Player **/
     protected void collectBet(){
         if(menu.hasToken()){
-            SystemInventory.decreaseInventory(inventory, menu.getItemToken(), bet);
+            SystemPlayer.decreaseInventory(inventory, menu.getItemToken(), bet);
             {
                 int i = 0;
                 ItemStack itemStack = ItemStack.EMPTY;

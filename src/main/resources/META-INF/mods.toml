@@ -4,7 +4,7 @@ license="All rights reserved"
 issueTrackerURL="https://github.com/Epidra/CasinoCraft/issues"
 [[mods]]
 modId="casinocraft"
-version="20.0"
+version="21.0"
 displayName="CasinoCraft"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/casinocraft"
 logoFile="logo.png"
@@ -24,6 +24,6 @@ Then you're at the right place.
 [[dependencies.casinocraft]]
     modId="lucky77"
     mandatory=true
-    versionRange="[3.0,)"
+    versionRange="[4.0,)"
     ordering="NONE"
     side="BOTH"
