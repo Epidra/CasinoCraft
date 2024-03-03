@@ -165,6 +165,7 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 				BE.storageToken += BE.getTokenIO().getCount();
 				BE.inventory.set(2, ItemStack.EMPTY);
 			}
+			BE.transferTokenIN = false;
 		} else if(BE.transferTokenOUT) {
 			if(BE.storageToken > 0 && (BE.isTokenBET(BE.getTokenIO()) || BE.getTokenIO().isEmpty())) {
 				if(BE.getTokenIO().isEmpty()) {
@@ -180,6 +181,7 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 					BE.setTokenBET(ItemStack.EMPTY);
 				}
 			}
+			BE.transferTokenOUT = false;
 		}
 		// Reward Transfer
 		else if(BE.transferRewardIN) {
@@ -190,6 +192,7 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 				BE.storageReward+=count;
 				if(BE.inventory.get(2).getCount() <= 0) BE.inventory.set(2, new ItemStack(Blocks.AIR));
 			}
+			BE.transferRewardIN = false;
 		} else if(BE.transferRewardOUT) {
 			if(BE.storageReward > 0 && (BE.isTokenREW(BE.inventory.get(2)) || BE.inventory.get(2).isEmpty())) {
 				if(BE.inventory.get(2).isEmpty()) {
@@ -205,6 +208,7 @@ public abstract class BlockEntityMachine extends BlockEntityBase<LogicModule> {
 					BE.setTokenREW(new ItemStack(Blocks.AIR));
 				}
 			}
+			BE.transferRewardOUT = false;
 		}
 		BE.setChanged();
 		if(BE.logic.jingle > 0){

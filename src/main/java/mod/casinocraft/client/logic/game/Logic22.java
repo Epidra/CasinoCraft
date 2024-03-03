@@ -14,6 +14,11 @@ public class Logic22 extends LogicModule {   //  Poker
 	private int ticker = 0;
 	private int movestate = 0;
 	
+	// Bug Report #30:
+	// Leaving the table while the timer goes out when waiting for people to join causes the table to freeze,
+	// it takes your item as well. My friend tried to gamble more than one currency in the table as well,
+	// but it always defaults back to one.
+	
 	
 	
 	

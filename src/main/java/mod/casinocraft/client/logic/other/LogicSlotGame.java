@@ -27,6 +27,17 @@ public class LogicSlotGame extends LogicModule {  //  Slot Machine
 	private final float speedMAX = 16.0f;
 	private int pullTimer = 0;
 	
+	// Bug Report #33:
+	// as it says the times 15 from the green doesn't work
+	
+	// Bug Report #27:
+	// If you use a slot machine, you can abuse the system, by spamming space bar the instant the game allows you to.
+	// If you do this, you will get 3 hearts in a row every single time, which allows you to drain the machine of rewards insanely fast.
+	// It makes it so you can't really gamble with it, as you win every time if you use this.
+	// Which most people will use this to win all the rewards, as its gambling and not for fun.
+	//
+	//Also, if you break the machine/table, while the betting items are still in the machine/table, it deletes all of them except one.
+	
 	
 	
 	
@@ -85,7 +96,7 @@ public class LogicSlotGame extends LogicModule {  //  Slot Machine
 	public void command(int action) {
 		if(action == 0){ // ENTER
 			if(scoreLevel < 5){
-				setJingle(SoundMap.SOUND_TETRIS);
+				setJingle(SoundMap.SOUND_PAUSE_OFF);
 				scoreLevel++;
 				lights[1] = scoreLevel >= 2 ? 1 : 0;
 				lights[2] = scoreLevel >= 3 ? 1 : 0;
@@ -110,6 +121,15 @@ public class LogicSlotGame extends LogicModule {  //  Slot Machine
 				setJingle(SoundMap.SOUND_PAUSE_ON);
 			}
 		}
+		if(action == 10){
+			wheelPos[0] = scoreLast;
+		}
+		if(action == 20){
+			wheelPos[1] = scoreLast;
+		}
+		if(action == 30){
+			wheelPos[2] = scoreLast;
+		}
 	}
 	
 	
@@ -119,7 +139,7 @@ public class LogicSlotGame extends LogicModule {  //  Slot Machine
 	// ---------- ---------- ---------- ----------  UPDATE  ---------- ---------- ---------- ---------- //
 	
 	public void updateLogic() {
-		if(wheelSTOP == -1 && speed[2] >= speedMAX / 4){
+		if(wheelSTOP == -1 && speed[2] >= speedMAX * 0.75f){
 			wheelSTOP = 0;
 		}
 		if(wheelSTOP == 3 && turnstate == 3){
@@ -314,7 +334,7 @@ public class LogicSlotGame extends LogicModule {  //  Slot Machine
 	}
 	
 	public int getID(){
-		return 49;
+		return 70;
 	}
 	
 	public String getName(){

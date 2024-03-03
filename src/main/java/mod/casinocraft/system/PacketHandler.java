@@ -41,6 +41,8 @@ public class PacketHandler {
 		INSTANCE.registerMessage(disc++, MessageStartServer.class,     MessageStartServer::encode,     MessageStartServer::decode,     MessageStartServer.Handler::handle);
 		INSTANCE.registerMessage(disc++, MessageStateClient.class,     MessageStateClient::encode,     MessageStateClient::decode,     MessageStateClient.Handler::handle);
 		INSTANCE.registerMessage(disc++, MessageStateServer.class,     MessageStateServer::encode,     MessageStateServer::decode,     MessageStateServer.Handler::handle);
+		INSTANCE.registerMessage(disc++, MessageSlotsClient.class,     MessageSlotsClient::encode,     MessageSlotsClient::decode,     MessageSlotsClient.Handler::handle);
+		INSTANCE.registerMessage(disc++, MessageSlotsServer.class,     MessageSlotsServer::encode,     MessageSlotsServer::decode,     MessageSlotsServer.Handler::handle);
 		INSTANCE.registerMessage(disc++, MessageInventoryClient.class, MessageInventoryClient::encode, MessageInventoryClient::decode, MessageInventoryClient.Handler::handle);
 		INSTANCE.registerMessage(disc++, MessageInventoryServer.class, MessageInventoryServer::encode, MessageInventoryServer::decode, MessageInventoryServer.Handler::handle);
 	}

@@ -97,8 +97,8 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 		buttonSet.addButton(22, pos_button_right_5, new Vector2(176, 80), new Vector2(192, 80), new Vector2(192, 0), new Vector2(16, 16), 10, () -> this.page == 2, () -> this.commandChangeColor(+1)); // ???
 		
 		// TOKEN
-		buttonSet.addButton(23, pos_button_left_1, new Vector2(208, 192), new Vector2(208, 208), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.page == 3 && this.canTakeIN(true), () -> this.commandTransfer(true, true)); // ???
-		buttonSet.addButton(24, pos_button_left_2, new Vector2(208, 160), new Vector2(208, 176), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.page == 3 && this.canTakeOUT(true), () -> this.commandTransfer(true, false)); // ???
+		buttonSet.addButton(23, pos_button_left_1, new Vector2(208, 192), new Vector2(208, 208), new Vector2(208, 240), new Vector2(48, 16), 10, () -> this.page == 3 && this.canTakeIN(true), () -> this.commandTransfer(true, true)); // ???
+		buttonSet.addButton(24, pos_button_left_2, new Vector2(208, 160), new Vector2(208, 176), new Vector2(208, 240), new Vector2(48, 16), 10, () -> this.page == 3 && this.canTakeOUT(true), () -> this.commandTransfer(true, false)); // ???
 		
 		buttonSet.addButton(25, new Vector2(pos_button_left_4.X  + 32, pos_button_left_4.Y), new Vector2(176, 48), new Vector2(192, 32), new Vector2(192, 0), new Vector2(16, 16), 10, () -> this.page == 3,                       () -> this.commandChangeBet(-1, false)); // ???
 		buttonSet.addButton(26, new Vector2(pos_button_right_4.X - 32, pos_button_left_4.Y), new Vector2(176, 32), new Vector2(192, 48), new Vector2(192, 0), new Vector2(16, 16), 10, () -> this.page == 3,                       () -> this.commandChangeBet(+1, false)); // ???
@@ -106,8 +106,8 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 		buttonSet.addButton(28, new Vector2(pos_button_right_5.X - 32 ,pos_button_left_5.Y), new Vector2(176, 32), new Vector2(192, 48), new Vector2(192, 0), new Vector2(16, 16), 10, () -> this.page == 3 && this.hasGambling(), () -> this.commandChangeBet(+1, true)); // ???
 		
 		// REWARD
-		buttonSet.addButton(29, pos_button_left_1, new Vector2(208, 192), new Vector2(208, 208), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.page == 4 && this.canTakeIN(false), () -> this.commandTransfer(false, true)); // ???
-		buttonSet.addButton(30, pos_button_left_2, new Vector2(208, 160), new Vector2(208, 176), new Vector2(208, 240), new Vector2(48, 16), -1, () -> this.page == 4 && this.canTakeOUT(false), () -> this.commandTransfer(false, false)); // ???
+		buttonSet.addButton(29, pos_button_left_1, new Vector2(208, 192), new Vector2(208, 208), new Vector2(208, 240), new Vector2(48, 16), 10, () -> this.page == 4 && this.canTakeIN(false), () -> this.commandTransfer(false, true)); // ???
+		buttonSet.addButton(30, pos_button_left_2, new Vector2(208, 160), new Vector2(208, 176), new Vector2(208, 240), new Vector2(48, 16), 10, () -> this.page == 4 && this.canTakeOUT(false), () -> this.commandTransfer(false, false)); // ???
 		
 		buttonSet.addButton(31, new Vector2(pos_button_left_3.X + 4      , pos_button_left_3.Y), new Vector2(176, 160), new Vector2(192, 144), new Vector2(192, 0), new Vector2(16, 16), -1, () -> this.page == 4, () -> this.commandTogglePrize(0)); // ???
 		buttonSet.addButton(32, new Vector2(pos_button_left_3.X + 4  + 16, pos_button_left_3.Y), new Vector2(176, 96), new Vector2(192, 96), new Vector2(192, 0), new Vector2(16, 16), 10, () -> this.page == 4, () -> { page = 5; input = ""; activeInput = 1; }); // ???
@@ -736,17 +736,17 @@ public class ScreenMachine extends ScreenBase<MenuMachine> {
 	
 	protected boolean canTakeIN(boolean isTokenStorage){
 		if(isTokenStorage){
-			return !menu.getItems().get(2).isEmpty() && (menu.getItemToken() == menu.getItems().get(2) || menu.getItemToken().isEmpty());
+			return !menu.getItems().get(2).isEmpty() && (menu.getItemToken().getItem() == menu.getItems().get(2).getItem() || menu.getItemToken().isEmpty());
 		} else {
-			return !menu.getItems().get(2).isEmpty() && (menu.getItemPrize() == menu.getItems().get(2) || menu.getItemPrize().isEmpty());
+			return !menu.getItems().get(2).isEmpty() && (menu.getItemPrize().getItem() == menu.getItems().get(2).getItem() || menu.getItemPrize().isEmpty());
 		}
 	}
 	
 	protected boolean canTakeOUT(boolean isTokenStorage){
 		if(isTokenStorage){
-			return (menu.getItems().get(2).isEmpty() || menu.getItemToken() == menu.getItems().get(2)) && !menu.getItemToken().isEmpty();
+			return (menu.getItems().get(2).isEmpty() || menu.getItemToken().getItem() == menu.getItems().get(2).getItem()) && !menu.getItemToken().isEmpty();
 		} else {
-			return (menu.getItems().get(2).isEmpty() || menu.getItemPrize() == menu.getItems().get(2)) && !menu.getItemPrize().isEmpty();
+			return (menu.getItems().get(2).isEmpty() || menu.getItemPrize().isEmpty() == menu.getItems().get(2).isEmpty()) && !menu.getItemPrize().isEmpty();
 		}
 	}
 	

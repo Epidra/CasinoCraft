@@ -21,6 +21,9 @@ public class Logic61 extends LogicModule {   //  Snake  :  PacMan
 	public Vector2 point = new Vector2(0, 0);
 	public boolean active_move_tail;
 	
+	// RuleSet: Set Wall as GameOver
+	// Rules: Wall Stops Movement  -  Deadly Outside Wall  -  Walls allow looping
+	
 	
 	
 	

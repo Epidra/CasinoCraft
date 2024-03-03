@@ -5,6 +5,7 @@ import mod.casinocraft.Configuration;
 import mod.casinocraft.Register;
 import mod.casinocraft.client.logic.LogicModule;
 import mod.casinocraft.client.logic.other.LogicDummy;
+import mod.casinocraft.client.logic.other.LogicSlotGame;
 import mod.casinocraft.client.menu.MenuCasino;
 import mod.casinocraft.client.network.*;
 import mod.casinocraft.system.PacketHandler;
@@ -139,7 +140,10 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 		if(tableID == 3 && logic().scoreLives > 0){ // Slot Machine Special Handling
 			if(logic().turnstate == 0 && keyCode == KEY_ENTER) { commandStart(); } // Collect Token and start game (Arcade Version) / FROM: Start Screen
 			if(logic().turnstate == 5 && keyCode == KEY_ENTER) { commandReset(); } // Collect Token and start game (Arcade Version) / FROM: Highscore Screen
-			if(keyCode == KEY_SPACE){ action(1); }
+			if(keyCode == KEY_SPACE){
+				// action(1);
+				PacketHandler.sendToServer(new MessageSlotsServer(((LogicSlotGame)logic()).wheelPos[0], ((LogicSlotGame)logic()).wheelPos[1], ((LogicSlotGame)logic()).wheelPos[2], menu.pos()));
+			}
 			if(logic().turnstate == 2){
 				if(keyCode == KEY_ENTER && logic().scoreLevel < 5){ if(playerToken >= bet){ collectBet(); playerToken = -1; action(0); } }
 			}
