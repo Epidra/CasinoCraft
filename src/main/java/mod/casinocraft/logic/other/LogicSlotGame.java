@@ -85,7 +85,7 @@ public class LogicSlotGame extends LogicModule {  //  Slot Machine
     public void command(int action) {
         if(action == 0){ // ENTER
             if(scoreLevel < 5){
-                setJingle(SoundMap.SOUND_TETRIS);
+                setJingle(SoundMap.SOUND_PAUSE_OFF);
                 scoreLevel++;
                 lights[1] = scoreLevel >= 2 ? 1 : 0;
                 lights[2] = scoreLevel >= 3 ? 1 : 0;
@@ -110,6 +110,15 @@ public class LogicSlotGame extends LogicModule {  //  Slot Machine
                 setJingle(SoundMap.SOUND_PAUSE_ON);
             }
         }
+        if(action == 10){
+            wheelPos[0] = scoreLast;
+        }
+        if(action == 20){
+            wheelPos[1] = scoreLast;
+        }
+        if(action == 30){
+            wheelPos[2] = scoreLast;
+        }
     }
     
     
@@ -119,7 +128,7 @@ public class LogicSlotGame extends LogicModule {  //  Slot Machine
     // ---------- ---------- ---------- ----------  UPDATE  ---------- ---------- ---------- ---------- //
     
     public void updateLogic() {
-        if(wheelSTOP == -1 && speed[2] >= speedMAX / 4){
+        if(wheelSTOP == -1 && speed[2] >= speedMAX * 0.75f){
             wheelSTOP = 0;
         }
         if(wheelSTOP == 3 && turnstate == 3){
@@ -314,7 +323,7 @@ public class LogicSlotGame extends LogicModule {  //  Slot Machine
     }
     
     public int getID(){
-        return 49;
+        return 70;
     }
     
     public String getName(){

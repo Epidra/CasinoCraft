@@ -35,7 +35,7 @@
   "block.casinocraft.arcade_base_white": "White Arcade Cabinet",
   "block.casinocraft.arcade_base_orange": "Orange Arcade Cabinet",
   "block.casinocraft.arcade_base_magenta": "Magenta Arcade Cabinet",
-  "block.casinocraft.arcade_base_light_blue": "Ligh Blue Arcade Cabinet",
+  "block.casinocraft.arcade_base_light_blue": "Light Blue Arcade Cabinet",
   "block.casinocraft.arcade_base_yellow": "Yellow Arcade Cabinet",
   "block.casinocraft.arcade_base_lime": "Lime Arcade Cabinet",
   "block.casinocraft.arcade_base_pink": "Pink Arcade Cabinet",
@@ -95,7 +95,7 @@
   "rule.casinocraft.setting_0": "INFINITE TOKEN STORAGE",
   "rule.casinocraft.setting_1": "INFINITE REWARD STORAGE",
   "rule.casinocraft.setting_2": "DROP ITEMS ON BREAK",
-  "rule.casinocraft.setting_3": "INDESTRUCTABLE BLOCK",
+  "rule.casinocraft.setting_3": "INDESTRUCTIBLE BLOCK",
   "rule.casinocraft.setting_4": "ONE SCORE ENTRY PER USER",
 
   "rule.casinocraft.game_11_0_0": "Roulette",
@@ -176,7 +176,7 @@
   "book.casinocraft.head_22_0": "Content",
   "book.casinocraft.page_22_0": "1. Gameplay",
   "book.casinocraft.head_22_1": "Gameplay",
-  "book.casinocraft.page_22_1": "You start with 5 Cards in Hand. Your Goal is to switch out your cards and try to get a winning hand. You can set the cards you want to keep with the HOLD buttons, all other will be replaced once you click DRAW. In the next step your cards gets rearranged to greate a winning hand. Payout depends on how good your hand is.",
+  "book.casinocraft.page_22_1": "You start with 5 Cards in Hand. Your Goal is to switch out your cards and try to get a winning hand. You can set the cards you want to keep with the HOLD buttons, all other will be replaced once you click DRAW. In the next step your cards gets rearranged to create a winning hand. Payout depends on how good your hand is.",
 
   "book.casinocraft.head_31_0": "Content",
   "book.casinocraft.page_31_0": "1.  Gameplay/b/b2.  Rules/b2.1.  Suits/b2.2.  Sorting/b2.3.  Reserve Cards/b2.4.  Placement",
@@ -207,12 +207,12 @@
   "book.casinocraft.head_33_0": "Content",
   "book.casinocraft.page_33_0": "1. Gameplay",
   "book.casinocraft.head_33_1": "Gameplay",
-  "book.casinocraft.page_33_1": "The MiniGame is played by placing a card from hand that is either the same suit or the same value than the card on the pile in the middle. If you cannot place a card you have to DRAW another card. The MiniGame is overwhen a player has no cards left in hand.",
+  "book.casinocraft.page_33_1": "The MiniGame is played by placing a card from hand that is either the same suit or the same value than the card on the pile in the middle. If you cannot place a card you have to DRAW another card. The MiniGame is over when a player has no cards left in hand.",
 
   "book.casinocraft.head_41_0": "Content",
   "book.casinocraft.page_41_0": "1. Gameplay",
   "book.casinocraft.head_41_1": "Gameplay",
-  "book.casinocraft.page_41_1": "A certain amount of bombs are placed on the field and then covered by grey stones. Your goal is to click on the stones to uncover all free tiles. Uncover a bomb and the game is over. The numbers under some stones will tell you how many bombs are around the specific tile. Right-clicking marks a stone with a flag. They do nothing but can help the player remember bombs could be hidden./b/bOnce only the bombs are left the player choose another round, filling the field with even more bombs, or ending the game./b/bLosing the game by uncorering a bombs will cut your score in half.",
+  "book.casinocraft.page_41_1": "A certain amount of bombs are placed on the field and then covered by grey stones. Your goal is to click on the stones to uncover all free tiles. Uncover a bomb and the game is over. The numbers under some stones will tell you how many bombs are around the specific tile. Right-clicking marks a stone with a flag. They do nothing but can help the player remember bombs could be hidden./b/bOnce only the bombs are left the player choose another round, filling the field with even more bombs, or ending the game./b/bLosing the game by uncovering a bombs will cut your score in half.",
 
   "book.casinocraft.head_42_0": "Content",
   "book.casinocraft.page_42_0": "1. Gameplay",
@@ -246,7 +246,7 @@
   "book.casinocraft.head_61_0": "Content",
   "book.casinocraft.page_61_0": "1. Gameplay",
   "book.casinocraft.head_61_1": "Gameplay",
-  "book.casinocraft.page_61_1": "Press the arrow keys to move the ship in that direction. It stops moving when it hits a wall or itself. You gein points by moving over the little sparkles. Each time you do that it adds 1 part to your tail. The MiniGame ends when you hit your tail.",
+  "book.casinocraft.page_61_1": "Press the arrow keys to move the ship in that direction. It stops moving when it hits a wall or itself. You gain points by moving over the little sparkles. Each time you do that it adds 1 part to your tail. The MiniGame ends when you hit your tail.",
 
   "book.casinocraft.head_62_0": "Content",
   "book.casinocraft.page_62_0": "1. Gameplay",
