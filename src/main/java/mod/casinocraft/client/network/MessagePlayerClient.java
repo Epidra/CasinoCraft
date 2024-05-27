@@ -1,5 +1,6 @@
 package mod.casinocraft.client.network;
 
+import mod.lucky77.util.system.SystemPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.Item;
@@ -54,35 +55,36 @@ public class MessagePlayerClient {
 			
 			if(message.amount < 0){
 				context.get().enqueueWork(() -> {
-					int i = 0;
-					ItemStack itemStack = ItemStack.EMPTY;
-					Predicate<ItemStack> p_195408_1_ = Predicate.isEqual(message.stack);
-					int count = -message.amount;
-					
-					for(int j = 0; j < Minecraft.getInstance().player.getInventory().getContainerSize(); ++j) {
-						ItemStack itemstack = Minecraft.getInstance().player.getInventory().getItem(j);
-						if (!itemstack.isEmpty() && p_195408_1_.test(itemstack)) {
-							int k = count <= 0 ? itemstack.getCount() : Math.min(count - i, itemstack.getCount());
-							i += k;
-							if (count != 0) {
-								itemstack.shrink(k);
-								if (itemstack.isEmpty()) {
-									Minecraft.getInstance().player.getInventory().setItem(j, ItemStack.EMPTY);
-								}
-							}
-						}
-					}
-					
-					if (!itemStack.isEmpty() && p_195408_1_.test(itemStack)) {
-						int l = count <= 0 ? itemStack.getCount() : Math.min(count - i, itemStack.getCount());
-						i += l;
-						if (count != 0) {
-							itemStack.shrink(l);
-							if (itemStack.isEmpty()) {
-								itemStack = ItemStack.EMPTY;
-							}
-						}
-					}
+					SystemPlayer.decreaseInventory(Minecraft.getInstance().player.getInventory(), message.stack, -message.amount);
+					// int i = 0;
+					// ItemStack itemStack = ItemStack.EMPTY;
+					// Predicate<ItemStack> p_195408_1_ = Predicate.isEqual(message.stack);
+					// int count = -message.amount;
+					//
+					// for(int j = 0; j < Minecraft.getInstance().player.getInventory().getContainerSize(); ++j) {
+					// 	ItemStack itemstack = Minecraft.getInstance().player.getInventory().getItem(j);
+					// 	if (!itemstack.isEmpty() && p_195408_1_.test(itemstack)) {
+					// 		int k = count <= 0 ? itemstack.getCount() : Math.min(count - i, itemstack.getCount());
+					// 		i += k;
+					// 		if (count != 0) {
+					// 			itemstack.shrink(k);
+					// 			if (itemstack.isEmpty()) {
+					// 				Minecraft.getInstance().player.getInventory().setItem(j, ItemStack.EMPTY);
+					// 			}
+					// 		}
+					// 	}
+					// }
+					//
+					// if (!itemStack.isEmpty() && p_195408_1_.test(itemStack)) {
+					// 	int l = count <= 0 ? itemStack.getCount() : Math.min(count - i, itemStack.getCount());
+					// 	i += l;
+					// 	if (count != 0) {
+					// 		itemStack.shrink(l);
+					// 		if (itemStack.isEmpty()) {
+					// 			itemStack = ItemStack.EMPTY;
+					// 		}
+					// 	}
+					// }
 				});
 			} else {
 				context.get().enqueueWork(() -> {

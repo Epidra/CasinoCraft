@@ -524,36 +524,68 @@ public abstract class ScreenCasino extends ScreenBase<MenuCasino> {
 		}
 	}
 	
+	private boolean decreaseInventory(Inventory inv, ItemStack item, int amount){
+		boolean decreased = false;
+		int leftAmount = amount;
+		if(item.isEmpty() || amount <= 0){
+			return false;
+		}
+		for(int j = 0; j < inv.getContainerSize(); ++j) {
+			if(leftAmount > 0){
+				ItemStack itemstack = inv.getItem(j);
+				if (item.getItem() == itemstack.getItem()) {
+					decreased = true;
+					int count = itemstack.getCount();
+					if(leftAmount - count >= 0){
+						inv.setItem(j, ItemStack.EMPTY);
+						leftAmount -= count;
+					} else {
+						itemstack.shrink(leftAmount);
+						if(itemstack.isEmpty()){
+							inv.setItem(j, ItemStack.EMPTY);
+						}
+						leftAmount = 0;
+					}
+				}
+			}
+		}
+		return decreased;
+	}
+	
 	/** Collects the bet from the Player **/
 	protected void collectBet(){
 		if(menu.hasToken()){
-			SystemPlayer.decreaseInventory(inventory, menu.getItemToken(), bet);
-			{
-				int i = 0;
-				ItemStack itemStack = ItemStack.EMPTY;
-				Predicate<ItemStack> stack = Predicate.isEqual(menu.getItemToken());
-				int count = bet;
-				
-				for(int j = 0; j < inventory.getContainerSize(); ++j) {
-					ItemStack itemstack = inventory.getItem(j);
-					if (!itemstack.isEmpty() && stack.test(itemstack)) {
-						int k = count <= 0 ? itemstack.getCount() : Math.min(count - i, itemstack.getCount());
-						i += k;
-						if (count != 0) {
-							itemstack.shrink(k);
-							if (itemstack.isEmpty()) {
-								inventory.setItem(j, ItemStack.EMPTY);
-							}
-						}
-					}
-				}
-				
-				if (!itemStack.isEmpty() && stack.test(itemStack)) {
-					int l = count <= 0 ? itemStack.getCount() : Math.min(count - i, itemStack.getCount());
-					if (count != 0) { itemStack.shrink(l); }
-				}
-			}
+			
+			// changes items on client side
+			decreaseInventory(inventory, menu.getItemToken(), bet);
 			PacketHandler.sendToServer(new MessagePlayerServer(menu.getItemToken().getItem(), -bet));
+			
+			{
+				// int i = 0;
+				// ItemStack itemStack = ItemStack.EMPTY;
+				// Predicate<ItemStack> stack = Predicate.isEqual(menu.getItemToken());
+				// int count = bet;
+				//
+				// for(int j = 0; j < inventory.getContainerSize(); ++j) {
+				// 	ItemStack itemstack = inventory.getItem(j);
+				// 	if (!itemstack.isEmpty() && stack.test(itemstack)) {
+				// 		int k = count <= 0 ? itemstack.getCount() : Math.min(count - i, itemstack.getCount());
+				// 		i += k;
+				// 		if (count != 0) {
+				// 			itemstack.shrink(k);
+				// 			if (itemstack.isEmpty()) {
+				// 				inventory.setItem(j, ItemStack.EMPTY);
+				// 			}
+				// 		}
+				// 	}
+				// }
+				//
+				// if (!itemStack.isEmpty() && stack.test(itemStack)) {
+				// 	int l = count <= 0 ? itemStack.getCount() : Math.min(count - i, itemStack.getCount());
+				// 	if (count != 0) { itemStack.shrink(l); }
+				// }
+			}
+			
 			if(!menu.getSettingInfiniteToken()) {
 				menu.setStorageToken(menu.getStorageToken() + bet);
 				sendMessageBlock();
