@@ -1,7 +1,0 @@
-{
-    "parent": "casinocraft:template/arcade_slot_lower",
-    "textures": {
-        "box": "minecraft:block/orange_shulker_box",
-        "particle": "minecraft:block/orange_shulker_box"
-    }
-}
