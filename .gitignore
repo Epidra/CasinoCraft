@@ -1,4 +1,4 @@
-# eclipse
+# Workspaces for "Ecplise"
 bin
 *.launch
 .settings
@@ -6,21 +6,26 @@ bin
 .classpath
 .project
 
-# idea
+
+
+# Workspaces for "Intellij Idea"
 out
 *.ipr
 *.iws
 *.iml
 .idea
 
-# gradle
+
+
+# Workspaces for "Gradle"
 build
 .gradle
 
-# other
+
+
+# Other user-generated Folders
 eclipse
 run
 runs
 run-data
-
 repo

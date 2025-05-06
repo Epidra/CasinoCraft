@@ -18,8 +18,14 @@ tasks.named('wrapper', Wrapper).configure {
 version = mod_version
 group = mod_group_id
 
+// Declares where to get its sources from
 repositories {
+    // ... from the local Maven repository
     mavenLocal()
+    // ... from the local folder 'libs'
+    flatDir {
+        dir 'libs'
+    }
 }
 
 base {
