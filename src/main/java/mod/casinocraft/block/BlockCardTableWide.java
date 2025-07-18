@@ -54,10 +54,13 @@ public class BlockCardTableWide extends MachinaWide implements EntityBlock {
 
     public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
         boolean isPrimary = state.getValue(OFFSET);
-        BlockEntityMachine tile = (BlockEntityMachine) world.getBlockEntity(getTilePosition(pos, isPrimary, state.getValue(FACING)));
-        if(tile != null && tile.settingDropItemsOnBreak) {
-            tile.setItem(3, new ItemStack(tile.getItem(3).getItem(), tile.storageToken));
-            tile.setItem(4, new ItemStack(tile.getItem(4).getItem(), tile.storageToken));
+        BlockEntity tile = world.getBlockEntity(getTilePosition(pos, isPrimary, state.getValue(FACING)));
+        if (tile != null && BlockEntityMachine.class.isAssignableFrom(tile.getClass())) {
+            BlockEntityMachine tileEntity = (BlockEntityMachine) tile;
+            if (tileEntity.settingDropItemsOnBreak) {
+                tileEntity.setItem(3, new ItemStack(tileEntity.getItem(3).getItem(), tileEntity.storageToken));
+                tileEntity.setItem(4, new ItemStack(tileEntity.getItem(4).getItem(), tileEntity.storageToken));
+            }
         }
         super.onRemove(state, world, pos, newState, isMoving);
     }
@@ -115,10 +118,13 @@ public class BlockCardTableWide extends MachinaWide implements EntityBlock {
 
     public float getDestroyProgress(BlockState state, Player player, BlockGetter worldIn, BlockPos pos) {
         final BlockPos pos2 = getTilePosition(pos, state.getValue(OFFSET), state.getValue(FACING));
-        BlockEntityMachine tileEntity = (BlockEntityMachine) worldIn.getBlockEntity(pos2);
-        boolean unbreakable = tileEntity.settingIndestructableBlock;
         float f = state.getDestroySpeed(worldIn, pos);
-        if(unbreakable) f *= 1000;
+        BlockEntity tile = worldIn.getBlockEntity(pos2);
+        if (tile != null && BlockEntityMachine.class.isAssignableFrom(tile.getClass())) {
+            BlockEntityMachine tileEntity = (BlockEntityMachine) tile;
+            boolean unbreakable = tileEntity.settingIndestructableBlock;
+            if(unbreakable) f *= 1000;
+        }
         if (f == -1.0F) {
             return 0.0F;
         } else {
@@ -129,8 +135,10 @@ public class BlockCardTableWide extends MachinaWide implements EntityBlock {
 
     public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion){
         final BlockPos pos2 = getTilePosition(pos, state.getValue(OFFSET), state.getValue(FACING));
-        BlockEntityMachine tileEntity = (BlockEntityMachine) world.getBlockEntity(pos2);
-        boolean unbreakable = tileEntity.settingIndestructableBlock;
+        BlockEntity tile = world.getBlockEntity(pos2);
+        boolean unbreakable = tile !=null
+                && BlockEntityMachine.class.isAssignableFrom(tile.getClass())
+                && ((BlockEntityMachine)tile).settingIndestructableBlock;
         return this.asBlock().getExplosionResistance() * (unbreakable ? 1000 : 1);
     }
 
